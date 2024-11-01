@@ -1708,7 +1708,7 @@ NextToken(interp, parsePtr, valuePtr)
 {
     register char *p;
     char *endPtr;
-    const char *var;
+    CONST86 char *var;
     int result;
 
     p = parsePtr->nextPtr;

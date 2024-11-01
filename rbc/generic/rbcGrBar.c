@@ -492,7 +492,7 @@ StringToBarMode(clientData, interp, tkwin, string, widgRec, offset)
  *
  * ----------------------------------------------------------------------
  */
-static char *
+static CONST86 char *
 BarModeToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin; /* Not used. */

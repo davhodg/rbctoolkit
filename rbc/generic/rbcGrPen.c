@@ -130,7 +130,7 @@ NameOfColor(colorPtr)
  *
  *----------------------------------------------------------------------
  */
-static char *
+static CONST86 char *
 ColorToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin; /* Not used. */
@@ -206,7 +206,7 @@ StringToPen(clientData, interp, tkwin, string, widgRec, offset)
  *
  *----------------------------------------------------------------------
  */
-static char *
+static CONST86 char *
 PenToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin; /* Not used. */

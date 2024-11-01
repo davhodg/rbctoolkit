@@ -505,7 +505,7 @@ int Rbc_CatromParametricSpline (Point2D *origPts,
 int Rbc_StringToFlag (ClientData clientData,
                                   Tcl_Interp *interp, Tk_Window tkwin, char *string, char *widgRec,
                                   int flags);
-char *Rbc_FlagToString (ClientData clientData,
+CONST86 char *Rbc_FlagToString (ClientData clientData,
                                     Tk_Window tkwin, char *string, int offset, Tcl_FreeProc **freeProc);
 
 void Rbc_InitHexTable (char *table);

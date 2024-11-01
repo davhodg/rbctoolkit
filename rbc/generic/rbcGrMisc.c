@@ -154,7 +154,7 @@ StringToPoint(clientData, interp, tkwin, string, widgRec, offset)
  *
  *----------------------------------------------------------------------
  */
-static char *
+static CONST86 char *
 PointToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin; /* Not used. */
@@ -368,7 +368,7 @@ NameOfColor(colorPtr)
  *
  *----------------------------------------------------------------------
  */
-static char *
+static CONST86 char *
 ColorPairToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin; /* Not used. */

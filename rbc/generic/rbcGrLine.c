@@ -994,7 +994,7 @@ error:
  *
  *----------------------------------------------------------------------
  */
-static char *
+static CONST86 char *
 PatternToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin;
@@ -1196,7 +1196,7 @@ or the name of a bitmap", (char *)NULL);
  *
  *----------------------------------------------------------------------
  */
-static char *
+static CONST86 char *
 SymbolToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin;
@@ -1304,7 +1304,7 @@ linear, step, natural, or quadratic", (char *)NULL);
  *
  *----------------------------------------------------------------------
  */
-static char *
+static CONST86 char *
 SmoothToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin; /* Not used. */
@@ -1410,7 +1410,7 @@ NameOfPenDir(penDir)
  *
  *----------------------------------------------------------------------
  */
-static char *
+static CONST86 char *
 PenDirToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin; /* Not used. */

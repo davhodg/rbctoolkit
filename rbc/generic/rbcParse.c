@@ -325,7 +325,7 @@ copy:
             continue;
         } else if (c == '$') {
             int length;
-            const char *value;
+            CONST86 char *value;
 
             value = Tcl_ParseVar(interp, src - 1, (CONST86 char**)termPtr);
             if (value == NULL) {

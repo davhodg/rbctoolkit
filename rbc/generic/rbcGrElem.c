@@ -459,7 +459,7 @@ StringToData(clientData, interp, tkwin, string, widgRec, offset)
  *
  *----------------------------------------------------------------------
  */
-static char *
+static CONST86 char *
 DataToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Type of axis vector to print */
     Tk_Window tkwin; /* Not used. */
@@ -582,7 +582,7 @@ StringToDataPairs(clientData, interp, tkwin, string, widgRec, offset)
  *
  *----------------------------------------------------------------------
  */
-static char *
+static CONST86 char *
 DataPairsToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin; /* Not used. */
@@ -684,7 +684,7 @@ StringToAlong(clientData, interp, tkwin, string, widgRec, offset)
  *
  *----------------------------------------------------------------------
  */
-static char *
+static CONST86 char *
 AlongToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin; /* Not used. */
@@ -830,7 +830,7 @@ Rbc_StringToStyles(clientData, interp, tkwin, string, widgRec, offset)
  *
  *----------------------------------------------------------------------
  */
-char *
+CONST86 char *
 Rbc_StylesToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin; /* Not used. */

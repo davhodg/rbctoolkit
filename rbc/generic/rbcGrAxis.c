@@ -457,7 +457,7 @@ StringToAxis(clientData, interp, tkwin, string, widgRec, offset)
  *      TODO: Side Effects
  *----------------------------------------------------------------------
  */
-static char *
+static CONST86 char *
 AxisToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin; /* Not used. */
@@ -540,7 +540,7 @@ StringToFormat(clientData, interp, tkwin, string, widgRec, offset)
  *
  *----------------------------------------------------------------------
  */
-static char *
+static CONST86 char *
 FormatToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin; /* Not used. */
@@ -609,7 +609,7 @@ StringToLimit(clientData, interp, tkwin, string, widgRec, offset)
  *
  * ----------------------------------------------------------------------
  */
-static char *
+static CONST86 char *
 LimitToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Either LMIN or LMAX */
     Tk_Window tkwin; /* Not used. */
@@ -724,7 +724,7 @@ StringToTicks(clientData, interp, tkwin, string, widgRec, offset)
  *
  * ----------------------------------------------------------------------
  */
-static char *
+static CONST86 char *
 TicksToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin; /* Not used. */
@@ -833,7 +833,7 @@ StringToLoose(clientData, interp, tkwin, string, widgRec, offset)
  *
  *----------------------------------------------------------------------
  */
-static char *
+static CONST86 char *
 LooseToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin; /* Not used. */
