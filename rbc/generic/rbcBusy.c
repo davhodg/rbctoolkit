@@ -64,7 +64,7 @@ typedef struct {
 #endif
 
 static Tk_ConfigSpec configSpecs[] = {
-    {TK_CONFIG_CURSOR, "-cursor", "busyCursor", "BusyCursor", DEF_BUSY_CURSOR, Tk_Offset(Busy, cursor), TK_CONFIG_NULL_OK},
+    {TK_CONFIG_CURSOR, "-cursor", "busyCursor", "BusyCursor", DEF_BUSY_CURSOR, offsetof(Busy, cursor), TK_CONFIG_NULL_OK},
     {TK_CONFIG_END, NULL, NULL, NULL, NULL, 0, 0}
 };
 

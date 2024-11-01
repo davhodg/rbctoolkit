@@ -55,12 +55,12 @@ struct CrosshairsStruct {
 #define DEF_HAIRS_POSITION	(char *)NULL
 
 static Tk_ConfigSpec configSpecs[] = {
-    {TK_CONFIG_COLOR, "-color", "color", "Color", DEF_HAIRS_FOREGROUND, Tk_Offset(Crosshairs, colorPtr), TK_CONFIG_COLOR_ONLY},
-    {TK_CONFIG_COLOR, "-color", "color", "Color", DEF_HAIRS_FG_MONO, Tk_Offset(Crosshairs, colorPtr), TK_CONFIG_MONO_ONLY},
-    {TK_CONFIG_CUSTOM, "-dashes", "dashes", "Dashes", DEF_HAIRS_DASHES, Tk_Offset(Crosshairs, dashes), TK_CONFIG_NULL_OK, &rbcDashesOption},
-    {TK_CONFIG_BOOLEAN, "-hide", "hide", "Hide", DEF_HAIRS_HIDE, Tk_Offset(Crosshairs, hidden), TK_CONFIG_DONT_SET_DEFAULT},
-    {TK_CONFIG_CUSTOM, "-linewidth", "lineWidth", "Linewidth", DEF_HAIRS_LINE_WIDTH, Tk_Offset(Crosshairs, lineWidth), TK_CONFIG_DONT_SET_DEFAULT, &rbcDistanceOption},
-    {TK_CONFIG_CUSTOM, "-position", "position", "Position", DEF_HAIRS_POSITION, Tk_Offset(Crosshairs, hotSpot), 0, &rbcPointOption},
+    {TK_CONFIG_COLOR, "-color", "color", "Color", DEF_HAIRS_FOREGROUND, offsetof(Crosshairs, colorPtr), TK_CONFIG_COLOR_ONLY},
+    {TK_CONFIG_COLOR, "-color", "color", "Color", DEF_HAIRS_FG_MONO, offsetof(Crosshairs, colorPtr), TK_CONFIG_MONO_ONLY},
+    {TK_CONFIG_CUSTOM, "-dashes", "dashes", "Dashes", DEF_HAIRS_DASHES, offsetof(Crosshairs, dashes), TK_CONFIG_NULL_OK, &rbcDashesOption},
+    {TK_CONFIG_BOOLEAN, "-hide", "hide", "Hide", DEF_HAIRS_HIDE, offsetof(Crosshairs, hidden), TK_CONFIG_DONT_SET_DEFAULT},
+    {TK_CONFIG_CUSTOM, "-linewidth", "lineWidth", "Linewidth", DEF_HAIRS_LINE_WIDTH, offsetof(Crosshairs, lineWidth), TK_CONFIG_DONT_SET_DEFAULT, &rbcDistanceOption},
+    {TK_CONFIG_CUSTOM, "-position", "position", "Position", DEF_HAIRS_POSITION, offsetof(Crosshairs, hotSpot), 0, &rbcPointOption},
     {TK_CONFIG_END, NULL, NULL, NULL, NULL, 0, 0}
 };
 

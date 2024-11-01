@@ -254,10 +254,10 @@ Rbc_ColorImageToPhoto(interp, src, photo)
     dest.pitch = sizeof(Pix32) * width;
     dest.width = width;
     dest.height = height;
-    dest.offset[0] = Tk_Offset(Pix32, Red);
-    dest.offset[1] = Tk_Offset(Pix32, Green);
-    dest.offset[2] = Tk_Offset(Pix32, Blue);
-    dest.offset[3] = Tk_Offset(Pix32, Alpha);
+    dest.offset[0] = offsetof(Pix32, Red);
+    dest.offset[1] = offsetof(Pix32, Green);
+    dest.offset[2] = offsetof(Pix32, Blue);
+    dest.offset[3] = offsetof(Pix32, Alpha);
     dest.pixelPtr = (unsigned char *)Rbc_ColorImageBits(src);
     Tk_PhotoSetSize(photo, width, height);
     Tk_PhotoPutBlock(photo, &dest, 0, 0, width, height);

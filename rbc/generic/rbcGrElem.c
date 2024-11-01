@@ -1797,11 +1797,11 @@ CgetOp(graphPtr, interp, argc, argv)
 
 static Tk_ConfigSpec closestSpecs[] = {
     {TK_CONFIG_CUSTOM, "-halo", (char *)NULL, (char *)NULL,
-        (char *)NULL, Tk_Offset(ClosestSearch, halo), 0, &rbcDistanceOption},
+        (char *)NULL, offsetof(ClosestSearch, halo), 0, &rbcDistanceOption},
     {TK_CONFIG_BOOLEAN, "-interpolate", (char *)NULL, (char *)NULL,
-     (char *)NULL, Tk_Offset(ClosestSearch, mode), 0 },
+     (char *)NULL, offsetof(ClosestSearch, mode), 0 },
     {TK_CONFIG_CUSTOM, "-along", (char *)NULL, (char *)NULL,
-     (char *)NULL, Tk_Offset(ClosestSearch, along), 0, &alongOption},
+     (char *)NULL, offsetof(ClosestSearch, along), 0, &alongOption},
     {TK_CONFIG_END, (char *)NULL, (char *)NULL, (char *)NULL,
      (char *)NULL, 0, 0}
 };

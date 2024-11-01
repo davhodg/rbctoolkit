@@ -30,16 +30,16 @@ extern Tk_CustomOption rbcAnyYAxisOption;
 #define DEF_GRID_POSITION	(char *)NULL
 
 static Tk_ConfigSpec configSpecs[] = {
-    {TK_CONFIG_COLOR, "-color", "color", "Color", DEF_GRID_FOREGROUND, Tk_Offset(Grid, colorPtr), TK_CONFIG_COLOR_ONLY | ALL_GRAPHS},
-    {TK_CONFIG_COLOR, "-color", "color", "color", DEF_GRID_FG_MONO, Tk_Offset(Grid, colorPtr), TK_CONFIG_MONO_ONLY | ALL_GRAPHS},
-    {TK_CONFIG_CUSTOM, "-dashes", "dashes", "Dashes", DEF_GRID_DASHES, Tk_Offset(Grid, dashes), TK_CONFIG_NULL_OK | ALL_GRAPHS, &rbcDashesOption},
-    {TK_CONFIG_BOOLEAN, "-hide", "hide", "Hide", DEF_GRID_HIDE_BARCHART, Tk_Offset(Grid, hidden), BARCHART},
-    {TK_CONFIG_BOOLEAN, "-hide", "hide", "Hide", DEF_GRID_HIDE_GRAPH, Tk_Offset(Grid, hidden), GRAPH | STRIPCHART},
-    {TK_CONFIG_CUSTOM, "-linewidth", "lineWidth", "Linewidth", DEF_GRID_LINE_WIDTH, Tk_Offset(Grid, lineWidth), TK_CONFIG_DONT_SET_DEFAULT | ALL_GRAPHS, &rbcDistanceOption},
-    {TK_CONFIG_CUSTOM, "-mapx", "mapX", "MapX", DEF_GRID_MAP_X_GRAPH, Tk_Offset(Grid, axes.x), GRAPH | STRIPCHART, &rbcAnyXAxisOption},
-    {TK_CONFIG_CUSTOM, "-mapx", "mapX", "MapX", DEF_GRID_MAP_X_BARCHART, Tk_Offset(Grid, axes.x), BARCHART, &rbcAnyXAxisOption},
-    {TK_CONFIG_CUSTOM, "-mapy", "mapY", "MapY", DEF_GRID_MAP_Y, Tk_Offset(Grid, axes.y), ALL_GRAPHS, &rbcAnyYAxisOption},
-    {TK_CONFIG_BOOLEAN, "-minor", "minor", "Minor", DEF_GRID_MINOR, Tk_Offset(Grid, minorGrid), TK_CONFIG_DONT_SET_DEFAULT | ALL_GRAPHS},
+    {TK_CONFIG_COLOR, "-color", "color", "Color", DEF_GRID_FOREGROUND, offsetof(Grid, colorPtr), TK_CONFIG_COLOR_ONLY | ALL_GRAPHS},
+    {TK_CONFIG_COLOR, "-color", "color", "color", DEF_GRID_FG_MONO, offsetof(Grid, colorPtr), TK_CONFIG_MONO_ONLY | ALL_GRAPHS},
+    {TK_CONFIG_CUSTOM, "-dashes", "dashes", "Dashes", DEF_GRID_DASHES, offsetof(Grid, dashes), TK_CONFIG_NULL_OK | ALL_GRAPHS, &rbcDashesOption},
+    {TK_CONFIG_BOOLEAN, "-hide", "hide", "Hide", DEF_GRID_HIDE_BARCHART, offsetof(Grid, hidden), BARCHART},
+    {TK_CONFIG_BOOLEAN, "-hide", "hide", "Hide", DEF_GRID_HIDE_GRAPH, offsetof(Grid, hidden), GRAPH | STRIPCHART},
+    {TK_CONFIG_CUSTOM, "-linewidth", "lineWidth", "Linewidth", DEF_GRID_LINE_WIDTH, offsetof(Grid, lineWidth), TK_CONFIG_DONT_SET_DEFAULT | ALL_GRAPHS, &rbcDistanceOption},
+    {TK_CONFIG_CUSTOM, "-mapx", "mapX", "MapX", DEF_GRID_MAP_X_GRAPH, offsetof(Grid, axes.x), GRAPH | STRIPCHART, &rbcAnyXAxisOption},
+    {TK_CONFIG_CUSTOM, "-mapx", "mapX", "MapX", DEF_GRID_MAP_X_BARCHART, offsetof(Grid, axes.x), BARCHART, &rbcAnyXAxisOption},
+    {TK_CONFIG_CUSTOM, "-mapy", "mapY", "MapY", DEF_GRID_MAP_Y, offsetof(Grid, axes.y), ALL_GRAPHS, &rbcAnyYAxisOption},
+    {TK_CONFIG_BOOLEAN, "-minor", "minor", "Minor", DEF_GRID_MINOR, offsetof(Grid, minorGrid), TK_CONFIG_DONT_SET_DEFAULT | ALL_GRAPHS},
     {TK_CONFIG_END, NULL, NULL, NULL, NULL, 0, 0}
 };
 
