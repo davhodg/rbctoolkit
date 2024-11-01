@@ -549,7 +549,7 @@ Rbc_Assert(testExpr, fileName, lineNumber)
  *--------------------------------------------------------------
  */
 void
-Rbc_Panic TCL_VARARGS_DEF(char *, arg1)
+Rbc_Panic (char *arg1, ...)
 {
     va_list argList;
     char *format;
@@ -577,7 +577,7 @@ Rbc_Panic TCL_VARARGS_DEF(char *, arg1)
  *--------------------------------------------------------------
  */
 void
-Rbc_DStringAppendElements TCL_VARARGS_DEF(Tcl_DString *, arg1)
+Rbc_DStringAppendElements (Tcl_DString *arg1, ...)
 {
     va_list argList;
     Tcl_DString *dsPtr;

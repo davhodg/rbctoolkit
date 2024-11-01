@@ -552,7 +552,7 @@ Tk_OptionPrintProc Rbc_EnumToString;
 
 int Rbc_ConfigModified (Tcl_Interp *, Tk_ConfigSpec *, ...);
 
-void Rbc_DStringAppendElements TCL_VARARGS(Tcl_DString *, args);
+void Rbc_DStringAppendElements (Tcl_DString *args, ...);
 
 void Rbc_MakeTransparentWindowExist (Tk_Window tkwin,
         Window parent, int isBusy);

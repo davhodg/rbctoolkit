@@ -494,7 +494,7 @@ Rbc_FreeSwitches(specs, record, needFlags)
  *
  *----------------------------------------------------------------------
  */
-int Rbc_SwitchChanged TCL_VARARGS_DEF(Rbc_SwitchSpec *, arg1)
+int Rbc_SwitchChanged (Rbc_SwitchSpec *arg1, ...)
 {
     va_list argList;
     Rbc_SwitchSpec *specs;

@@ -141,7 +141,7 @@ Rbc_ScratchBufferFromToken(tokenPtr)
  *--------------------------------------------------------------
  */
 void
-Rbc_AppendToPostScript TCL_VARARGS_DEF(PsToken, arg1)
+Rbc_AppendToPostScript (PsToken arg1, ...)
 {
     va_list argList;
     struct PsTokenStruct *tokenPtr;
@@ -173,7 +173,7 @@ Rbc_AppendToPostScript TCL_VARARGS_DEF(PsToken, arg1)
  *--------------------------------------------------------------
  */
 void
-Rbc_FormatToPostScript TCL_VARARGS_DEF(PsToken, arg1)
+Rbc_FormatToPostScript (PsToken arg1, ...)
 {
     va_list argList;
     struct PsTokenStruct *tokenPtr;

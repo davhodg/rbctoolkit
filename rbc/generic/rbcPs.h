@@ -54,9 +54,9 @@ void Rbc_ReleasePsToken (PsToken psToken);
 char *Rbc_PostScriptFromToken (PsToken psToken);
 char *Rbc_ScratchBufferFromToken (PsToken psToken);
 
-void Rbc_AppendToPostScript TCL_VARARGS(PsToken, psToken);
+void Rbc_AppendToPostScript (PsToken psToken, ...);
 
-void Rbc_FormatToPostScript TCL_VARARGS(PsToken, psToken);
+void Rbc_FormatToPostScript (PsToken psToken, ...);
 
 void Rbc_Draw3DRectangleToPostScript (PsToken psToken,
         Tk_3DBorder border, double x, double y, int width, int height,
