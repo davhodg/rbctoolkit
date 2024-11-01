@@ -43,8 +43,8 @@ static int buttonMasks[] = {
 */
 
 static Tk_EventProc BindProc;
-static void DoEvent _ANSI_ARGS_((struct Rbc_BindTableStruct *bindPtr, XEvent *eventPtr, ClientData item, ClientData context));
-static void PickCurrentItem _ANSI_ARGS_((struct Rbc_BindTableStruct *bindPtr, XEvent *eventPtr));
+static void DoEvent (struct Rbc_BindTableStruct *bindPtr, XEvent *eventPtr, ClientData item, ClientData context);
+static void PickCurrentItem (struct Rbc_BindTableStruct *bindPtr, XEvent *eventPtr);
 
 /*
  * How to make drag&drop work?

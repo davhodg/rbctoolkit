@@ -29,14 +29,14 @@ Tk_CustomOption rbcLinePenOption = {
     StringToPen, PenToString, (ClientData)&rbcLineElementUid
 };
 
-static char *NameOfColor _ANSI_ARGS_((XColor *colorPtr));
-static Pen *NameToPen _ANSI_ARGS_((Graph *graphPtr, char *name));
-static int CgetOp _ANSI_ARGS_((Tcl_Interp *interp, Graph *graphPtr, int argc, char *argv[]));
-static int ConfigureOp _ANSI_ARGS_((Tcl_Interp *interp, Graph *graphPtr, int argc, char *argv[]));
-static int CreateOp _ANSI_ARGS_((Tcl_Interp *interp, Graph *graphPtr, int argc, char **argv));
-static int DeleteOp _ANSI_ARGS_((Tcl_Interp *interp, Graph *graphPtr, int argc, char **argv));
-static int NamesOp _ANSI_ARGS_((Tcl_Interp *interp, Graph *graphPtr, int argc, char **argv));
-static int TypeOp _ANSI_ARGS_((Tcl_Interp *interp, Graph *graphPtr, int argc, char **argv));
+static char *NameOfColor (XColor *colorPtr);
+static Pen *NameToPen (Graph *graphPtr, char *name);
+static int CgetOp (Tcl_Interp *interp, Graph *graphPtr, int argc, char *argv[]);
+static int ConfigureOp (Tcl_Interp *interp, Graph *graphPtr, int argc, char *argv[]);
+static int CreateOp (Tcl_Interp *interp, Graph *graphPtr, int argc, char **argv);
+static int DeleteOp (Tcl_Interp *interp, Graph *graphPtr, int argc, char **argv);
+static int NamesOp (Tcl_Interp *interp, Graph *graphPtr, int argc, char **argv);
+static int TypeOp (Tcl_Interp *interp, Graph *graphPtr, int argc, char **argv);
 
 /*
  *----------------------------------------------------------------------

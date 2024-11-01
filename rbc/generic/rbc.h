@@ -33,11 +33,11 @@
 
 typedef char *Rbc_Uid;
 
-EXTERN Rbc_Uid Rbc_GetUid _ANSI_ARGS_((char *string));
-EXTERN void Rbc_FreeUid _ANSI_ARGS_((Rbc_Uid uid));
-EXTERN Rbc_Uid Rbc_FindUid _ANSI_ARGS_((char *string));
+EXTERN Rbc_Uid Rbc_GetUid (char *string);
+EXTERN void Rbc_FreeUid (Rbc_Uid uid);
+EXTERN Rbc_Uid Rbc_FindUid (char *string);
 
-EXTERN int Rbc_Init _ANSI_ARGS_ ((Tcl_Interp *interp));
+EXTERN int Rbc_Init (Tcl_Interp *interp);
 
 /*
  * Function prototypes for stub initialization. Note this is 

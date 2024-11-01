@@ -14,7 +14,7 @@
 #include <errno.h>
 #include <math.h>
 
-typedef int (GenericMathProc) _ANSI_ARGS_(ANYARGS); /*** how to get rid of this ansi_args here? */
+typedef int (GenericMathProc) ANYARGS; /*** how to get rid of this ansi_args here? */
 
 /*
  *	Contains information about math functions that can be called
@@ -40,10 +40,10 @@ typedef struct {
 #define TclParseQuotes Rbc_ParseQuotes
 #define TclExpandParseValue Rbc_ExpandParseValue
 
-int TclParseBraces _ANSI_ARGS_((Tcl_Interp *interp, char *string, char **termPtr, ParseValue * pvPtr));
-int TclParseNestedCmd _ANSI_ARGS_((Tcl_Interp *interp, char *string, int flags, char **termPtr, ParseValue * pvPtr));
-int TclParseQuotes _ANSI_ARGS_((Tcl_Interp *interp, char *string, int termChar, int flags, char **termPtr, ParseValue * pvPtr));
-void TclExpandParseValue _ANSI_ARGS_((ParseValue * pvPtr, int needed));
+int TclParseBraces (Tcl_Interp *interp, char *string, char **termPtr, ParseValue * pvPtr);
+int TclParseNestedCmd (Tcl_Interp *interp, char *string, int flags, char **termPtr, ParseValue * pvPtr);
+int TclParseQuotes (Tcl_Interp *interp, char *string, int termChar, int flags, char **termPtr, ParseValue * pvPtr);
+void TclExpandParseValue (ParseValue * pvPtr, int needed);
 
 #ifdef DBL_MAX
 #   define IS_INF(v) (((v) > DBL_MAX) || ((v) < -DBL_MAX))
@@ -68,37 +68,37 @@ static int precTable[] = {
     14, 14, 14, 14 /* UNARY_MINUS, OLD_UNARY_PLUS, NOT, OLD_BIT_NOT */
 };
 
-static void   InstallIndexProc   _ANSI_ARGS_((Tcl_HashTable *tablePtr, char *string, Rbc_VectorIndexProc *procPtr));
-static int    First              _ANSI_ARGS_((VectorObject *vPtr));
-static int    Next               _ANSI_ARGS_((VectorObject *vPtr, int current));
-static double Mean               _ANSI_ARGS_((Rbc_Vector *vecPtr));
-static double Sum                _ANSI_ARGS_((Rbc_Vector *vecPtr));
-static double Product            _ANSI_ARGS_((Rbc_Vector *vecPtr));
-static double Fabs               _ANSI_ARGS_((double value));
-static double AvgDeviation       _ANSI_ARGS_((Rbc_Vector *vecPtr));
-static double Kurtosis           _ANSI_ARGS_((Rbc_Vector *vecPtr));
-static double Length             _ANSI_ARGS_((Rbc_Vector *vecPtr));
-static double Median             _ANSI_ARGS_((Rbc_Vector *vecPtr));
-static int    Norm               _ANSI_ARGS_((Rbc_Vector *vecPtr));
-static double Nonzeros           _ANSI_ARGS_((Rbc_Vector *vecPtr));
-static double Q1                 _ANSI_ARGS_((Rbc_Vector *vecPtr));
-static double Q3                 _ANSI_ARGS_((Rbc_Vector *vecPtr));
-static double Round              _ANSI_ARGS_((double value));
-static double StdDeviation       _ANSI_ARGS_((Rbc_Vector *vecPtr));
-static double Skew               _ANSI_ARGS_((Rbc_Vector *vecPtr));
-static int    Sort               _ANSI_ARGS_((VectorObject *vPtr));
-static double Sum                _ANSI_ARGS_((Rbc_Vector *vecPtr));
-static double Variance           _ANSI_ARGS_((Rbc_Vector *vecPtr));
-static int    EvaluateExpression _ANSI_ARGS_((Tcl_Interp *interp, char *string, Value *valuePtr));
-static int    NextValue          _ANSI_ARGS_((Tcl_Interp *interp, ParseInfo *parsePtr, int prec, Value *valuePtr));
-static void   MathError          _ANSI_ARGS_((Tcl_Interp *interp, double value));
-static int    NextToken          _ANSI_ARGS_((Tcl_Interp *interp, ParseInfo *parsePtr, Value *valuePtr));
-static double Fmod               _ANSI_ARGS_((double x, double y));
-static int    ParseString        _ANSI_ARGS_((Tcl_Interp *interp, CONST char *string, Value *valuePtr));
-static int    ParseMathFunction  _ANSI_ARGS_((Tcl_Interp *interp, char *start, ParseInfo *parsePtr, Value *valuePtr));
-static int    ComponentFunc      _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, VectorObject *vPtr));
-static int    ScalarFunc         _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, VectorObject *vPtr));
-static int    VectorFunc         _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, VectorObject *vPtr));
+static void   InstallIndexProc   (Tcl_HashTable *tablePtr, char *string, Rbc_VectorIndexProc *procPtr);
+static int    First              (VectorObject *vPtr);
+static int    Next               (VectorObject *vPtr, int current);
+static double Mean               (Rbc_Vector *vecPtr);
+static double Sum                (Rbc_Vector *vecPtr);
+static double Product            (Rbc_Vector *vecPtr);
+static double Fabs               (double value);
+static double AvgDeviation       (Rbc_Vector *vecPtr);
+static double Kurtosis           (Rbc_Vector *vecPtr);
+static double Length             (Rbc_Vector *vecPtr);
+static double Median             (Rbc_Vector *vecPtr);
+static int    Norm               (Rbc_Vector *vecPtr);
+static double Nonzeros           (Rbc_Vector *vecPtr);
+static double Q1                 (Rbc_Vector *vecPtr);
+static double Q3                 (Rbc_Vector *vecPtr);
+static double Round              (double value);
+static double StdDeviation       (Rbc_Vector *vecPtr);
+static double Skew               (Rbc_Vector *vecPtr);
+static int    Sort               (VectorObject *vPtr);
+static double Sum                (Rbc_Vector *vecPtr);
+static double Variance           (Rbc_Vector *vecPtr);
+static int    EvaluateExpression (Tcl_Interp *interp, char *string, Value *valuePtr);
+static int    NextValue          (Tcl_Interp *interp, ParseInfo *parsePtr, int prec, Value *valuePtr);
+static void   MathError          (Tcl_Interp *interp, double value);
+static int    NextToken          (Tcl_Interp *interp, ParseInfo *parsePtr, Value *valuePtr);
+static double Fmod               (double x, double y);
+static int    ParseString        (Tcl_Interp *interp, CONST char *string, Value *valuePtr);
+static int    ParseMathFunction  (Tcl_Interp *interp, char *start, ParseInfo *parsePtr, Value *valuePtr);
+static int    ComponentFunc      (ClientData clientData, Tcl_Interp *interp, VectorObject *vPtr);
+static int    ScalarFunc         (ClientData clientData, Tcl_Interp *interp, VectorObject *vPtr);
+static int    VectorFunc         (ClientData clientData, Tcl_Interp *interp, VectorObject *vPtr);
 
 static MathFunction mathFunctions[] = {
     {"abs", (GenericMathProc *) ComponentFunc, (ClientData)Fabs},

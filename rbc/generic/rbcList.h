@@ -34,7 +34,7 @@ struct Rbc_ListNodeStruct {
     } key;			/* MUST BE LAST FIELD IN RECORD!! */
 };
 
-typedef int (Rbc_ListCompareProc) _ANSI_ARGS_((Rbc_ListNode *node1Ptr, Rbc_ListNode *node2Ptr));
+typedef int (Rbc_ListCompareProc) (Rbc_ListNode *node1Ptr, Rbc_ListNode *node2Ptr);
 
 /*
  * A Rbc_List is a doubly chained list structure.
@@ -46,30 +46,30 @@ struct Rbc_ListStruct {
     int type;			/* Type of keys in list. */
 };
 
-void Rbc_ListInit _ANSI_ARGS_((Rbc_List list, int type));
-void Rbc_ListReset _ANSI_ARGS_((Rbc_List list));
-Rbc_List Rbc_ListCreate _ANSI_ARGS_((int type));
-void Rbc_ListDestroy _ANSI_ARGS_((Rbc_List list));
-Rbc_ListNode Rbc_ListCreateNode _ANSI_ARGS_((Rbc_List list,
-        CONST char *key));
-void Rbc_ListDeleteNode _ANSI_ARGS_((Rbc_ListNode node));
+void Rbc_ListInit (Rbc_List list, int type);
+void Rbc_ListReset (Rbc_List list);
+Rbc_List Rbc_ListCreate (int type);
+void Rbc_ListDestroy (Rbc_List list);
+Rbc_ListNode Rbc_ListCreateNode (Rbc_List list,
+        CONST char *key);
+void Rbc_ListDeleteNode (Rbc_ListNode node);
 
-Rbc_ListNode Rbc_ListAppend _ANSI_ARGS_((Rbc_List list, CONST char *key,
-                                        ClientData clientData));
-Rbc_ListNode Rbc_ListPrepend _ANSI_ARGS_((Rbc_List list, CONST char *key,
-        ClientData clientData));
-void Rbc_ListLinkAfter _ANSI_ARGS_((Rbc_List list, Rbc_ListNode node,
-                                    Rbc_ListNode afterNode));
-void Rbc_ListLinkBefore _ANSI_ARGS_((Rbc_List list, Rbc_ListNode node,
-                                     Rbc_ListNode beforeNode));
-void Rbc_ListUnlinkNode _ANSI_ARGS_((Rbc_ListNode node));
-Rbc_ListNode Rbc_ListGetNode _ANSI_ARGS_((Rbc_List list,
-        CONST char *key));
-void Rb_ListDeleteNodeByKey _ANSI_ARGS_((Rbc_List list,
-        CONST char *key));
-Rbc_ListNode Rbc_ListGetNthNode _ANSI_ARGS_((Rbc_List list,
-        int position, int direction));
-void Rbc_ListSort _ANSI_ARGS_((Rbc_List list, Rbc_ListCompareProc * proc));
+Rbc_ListNode Rbc_ListAppend (Rbc_List list, CONST char *key,
+                                        ClientData clientData);
+Rbc_ListNode Rbc_ListPrepend (Rbc_List list, CONST char *key,
+        ClientData clientData);
+void Rbc_ListLinkAfter (Rbc_List list, Rbc_ListNode node,
+                                    Rbc_ListNode afterNode);
+void Rbc_ListLinkBefore (Rbc_List list, Rbc_ListNode node,
+                                     Rbc_ListNode beforeNode);
+void Rbc_ListUnlinkNode (Rbc_ListNode node);
+Rbc_ListNode Rbc_ListGetNode (Rbc_List list,
+        CONST char *key);
+void Rb_ListDeleteNodeByKey (Rbc_List list,
+        CONST char *key);
+Rbc_ListNode Rbc_ListGetNthNode (Rbc_List list,
+        int position, int direction);
+void Rbc_ListSort (Rbc_List list, Rbc_ListCompareProc * proc);
 
 #define Rbc_ListGetLength(list) \
 	(((list) == NULL) ? 0 : ((struct Rbc_ListStruct *)list)->nNodes)

@@ -38,28 +38,28 @@ static int counter;
 
 static Rbc_VectorChangedProc VectorChangedProc;
 
-static int GetPenStyle _ANSI_ARGS_((Graph *graphPtr, char *string, Rbc_Uid type, PenStyle *stylePtr));
-static void SyncElemVector _ANSI_ARGS_((ElemVector *vPtr));
-static void FindRange _ANSI_ARGS_((ElemVector *vPtr));
-static void FreeDataVector _ANSI_ARGS_((ElemVector *vPtr));
-static int EvalExprList _ANSI_ARGS_((Tcl_Interp *interp, char *list, int *nElemPtr, double **arrayPtr));
-static int GetIndex _ANSI_ARGS_((Tcl_Interp *interp, Element *elemPtr, char *string, int *indexPtr));
-static int NameToElement _ANSI_ARGS_((Graph *graphPtr, char *name, Element **elemPtrPtr));
-static int CreateElement _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv, Rbc_Uid classUid));
-static void DestroyElement _ANSI_ARGS_((Graph *graphPtr, Element *elemPtr));
-static int RebuildDisplayList _ANSI_ARGS_((Graph *graphPtr, char *newList));
+static int GetPenStyle (Graph *graphPtr, char *string, Rbc_Uid type, PenStyle *stylePtr);
+static void SyncElemVector (ElemVector *vPtr);
+static void FindRange (ElemVector *vPtr);
+static void FreeDataVector (ElemVector *vPtr);
+static int EvalExprList (Tcl_Interp *interp, char *list, int *nElemPtr, double **arrayPtr);
+static int GetIndex (Tcl_Interp *interp, Element *elemPtr, char *string, int *indexPtr);
+static int NameToElement (Graph *graphPtr, char *name, Element **elemPtrPtr);
+static int CreateElement (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv, Rbc_Uid classUid);
+static void DestroyElement (Graph *graphPtr, Element *elemPtr);
+static int RebuildDisplayList (Graph *graphPtr, char *newList);
 
-static int ActivateOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
-static int BindOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
-static int CreateOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv, Rbc_Uid type));
-static int ConfigureOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char *argv[]));
-static int DeactivateOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
-static int DeleteOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
-static int ExistsOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
-static int GetOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char *argv[]));
-static int NamesOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
-static int ShowOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
-static int TypeOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
+static int ActivateOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static int BindOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static int CreateOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv, Rbc_Uid type);
+static int ConfigureOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char *argv[]);
+static int DeactivateOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static int DeleteOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static int ExistsOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static int GetOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char *argv[]);
+static int NamesOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static int ShowOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static int TypeOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
 
 /*
  * ----------------------------------------------------------------------

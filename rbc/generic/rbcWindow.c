@@ -382,7 +382,7 @@ typedef struct TkDisplayStruct {
 				/* First in list of chunks of free resource
 				 * identifiers, or NULL if there are no free
 				 * resources. */
-    XID(*defaultAllocProc) _ANSI_ARGS_((Display *display));
+    XID(*defaultAllocProc) (Display *display);
 				/* Default resource allocator for display. */
     struct TkIdStack *windowStackPtr;
 				/* First in list of chunks of window
@@ -494,8 +494,8 @@ struct TkWindowStruct {
     TkWindowPrivate *privatePtr;
 };
 
-static void DoConfigureNotify _ANSI_ARGS_((Tk_FakeWin *winPtr));
-static void UnlinkWindow _ANSI_ARGS_((TkWindow *winPtr));
+static void DoConfigureNotify (Tk_FakeWin *winPtr);
+static void UnlinkWindow (TkWindow *winPtr);
 
 #ifdef WIN32
 /*

@@ -144,7 +144,7 @@
  *
  * ----------------------------------------------------------------------
  */
-typedef int (*Rbc_Op) _ANSI_ARGS_(ANYARGS);
+typedef int (*Rbc_Op) ANYARGS;
 
 /*
  * ----------------------------------------------------------------------
@@ -179,19 +179,19 @@ typedef enum {
 #define RBC_OP_LINEAR_SEARCH	1
 #define RBC_OP_BINARY_SEARCH	0
 
-Rbc_Op Rbc_GetOp _ANSI_ARGS_((Tcl_Interp *interp, int nSpecs,
-                              Rbc_OpSpec *specArr, int operPos, int argc, char **argv, int flags));
+Rbc_Op Rbc_GetOp (Tcl_Interp *interp, int nSpecs,
+                              Rbc_OpSpec *specArr, int operPos, int argc, char **argv, int flags);
 
-Rbc_Op Rbc_GetOpFromObj _ANSI_ARGS_((Tcl_Interp *interp,
+Rbc_Op Rbc_GetOpFromObj (Tcl_Interp *interp,
                                      int nSpecs, Rbc_OpSpec *specArr, int operPos, int objc,
-                                     Tcl_Obj *CONST *objv, int flags));
+                                     Tcl_Obj *CONST *objv, int flags);
 
-void Rbc_Draw3DRectangle _ANSI_ARGS_((Tk_Window tkwin, Drawable drawable,
+void Rbc_Draw3DRectangle (Tk_Window tkwin, Drawable drawable,
                                       Tk_3DBorder border, int x, int y, int width, int height,
-                                      int borderWidth, int relief));
-void Rbc_Fill3DRectangle _ANSI_ARGS_((Tk_Window tkwin, Drawable drawable,
+                                      int borderWidth, int relief);
+void Rbc_Fill3DRectangle (Tk_Window tkwin, Drawable drawable,
                                       Tk_3DBorder border, int x, int y, int width, int height,
-                                      int borderWidth, int relief));
+                                      int borderWidth, int relief);
 
 #ifdef notdef
 #define Rbc_Fill3DRectangle	Tk_Fill3DRectangle
@@ -285,7 +285,7 @@ typedef char *DestroyData;
 #define NO_FLAGS			0
 #define Rbc_FindPhoto(interp, name)	Tk_FindPhoto(interp, name)
 
-typedef int (QSortCompareProc) _ANSI_ARGS_((const void *, const void *));
+typedef int (QSortCompareProc) (const void *, const void *);
 
 /*
  * ----------------------------------------------------------------------
@@ -347,8 +347,8 @@ typedef struct {
 
 #define LineIsDashed(d) ((d).values[0] != 0)
 
-void Rbc_SetDashes _ANSI_ARGS_((Display *display, GC gc, Rbc_Dashes *dashesPtr));
-Rbc_Dashes *Rbc_GetDashes _ANSI_ARGS_((GC gc));
+void Rbc_SetDashes (Display *display, GC gc, Rbc_Dashes *dashesPtr);
+Rbc_Dashes *Rbc_GetDashes (GC gc);
 
 /*
  * -------------------------------------------------------------------
@@ -451,7 +451,7 @@ typedef struct {
 #define COLOR_DEFAULT		(XColor *)1
 #define COLOR_ALLOW_DEFAULTS	1
 
-void Rbc_FreeColorPair _ANSI_ARGS_((ColorPair *pairPtr));
+void Rbc_FreeColorPair (ColorPair *pairPtr);
 
 #define STATE_NORMAL	0
 #define STATE_ACTIVE	(1<<0)
@@ -483,142 +483,142 @@ void Rbc_FreeColorPair _ANSI_ARGS_((ColorPair *pairPtr));
 #define XNOSTDHDRS 	1
 #endif
 
-char *Rbc_Itoa _ANSI_ARGS_((int value));
-char *Rbc_Utoa _ANSI_ARGS_((unsigned int value));
-char *Rbc_Dtoa _ANSI_ARGS_((Tcl_Interp *interp, double value));
+char *Rbc_Itoa (int value);
+char *Rbc_Utoa (unsigned int value);
+char *Rbc_Dtoa (Tcl_Interp *interp, double value);
 
 
-int Rbc_NaturalSpline _ANSI_ARGS_((Point2D *origPts, int nOrigPts,
-                                   Point2D *intpPts, int nIntpPts));
+int Rbc_NaturalSpline (Point2D *origPts, int nOrigPts,
+                                   Point2D *intpPts, int nIntpPts);
 
-int Rbc_QuadraticSpline _ANSI_ARGS_((Point2D *origPts, int nOrigPts,
-                                     Point2D *intpPts, int nIntpPts));
+int Rbc_QuadraticSpline (Point2D *origPts, int nOrigPts,
+                                     Point2D *intpPts, int nIntpPts);
 
-int Rbc_SimplifyLine _ANSI_ARGS_((Point2D *origPts, int low, int high,
-                                  double tolerance, int indices[]));
+int Rbc_SimplifyLine (Point2D *origPts, int low, int high,
+                                  double tolerance, int indices[]);
 
-int Rbc_NaturalParametricSpline _ANSI_ARGS_((Point2D *origPts,
+int Rbc_NaturalParametricSpline (Point2D *origPts,
         int nOrigPts, Extents2D *extsPtr, int isClosed, Point2D *intpPts,
-        int nIntpPts));
+        int nIntpPts);
 
-int Rbc_CatromParametricSpline _ANSI_ARGS_((Point2D *origPts,
-        int nOrigPts, Point2D *intpPts, int nIntpPts));
+int Rbc_CatromParametricSpline (Point2D *origPts,
+        int nOrigPts, Point2D *intpPts, int nIntpPts);
 
-int Rbc_StringToFlag _ANSI_ARGS_((ClientData clientData,
+int Rbc_StringToFlag (ClientData clientData,
                                   Tcl_Interp *interp, Tk_Window tkwin, char *string, char *widgRec,
-                                  int flags));
-char *Rbc_FlagToString _ANSI_ARGS_((ClientData clientData,
-                                    Tk_Window tkwin, char *string, int offset, Tcl_FreeProc **freeProc));
+                                  int flags);
+char *Rbc_FlagToString (ClientData clientData,
+                                    Tk_Window tkwin, char *string, int offset, Tcl_FreeProc **freeProc);
 
-void Rbc_InitHexTable _ANSI_ARGS_((char *table));
+void Rbc_InitHexTable (char *table);
 
-GC Rbc_GetPrivateGC _ANSI_ARGS_((Tk_Window tkwin, unsigned long gcMask,
-                                 XGCValues *valuePtr));
+GC Rbc_GetPrivateGC (Tk_Window tkwin, unsigned long gcMask,
+                                 XGCValues *valuePtr);
 
-GC Rbc_GetPrivateGCFromDrawable _ANSI_ARGS_((Display *display,
-        Drawable drawable, unsigned long gcMask, XGCValues *valuePtr));
+GC Rbc_GetPrivateGCFromDrawable (Display *display,
+        Drawable drawable, unsigned long gcMask, XGCValues *valuePtr);
 
-void Rbc_FreePrivateGC _ANSI_ARGS_((Display *display, GC gc));
+void Rbc_FreePrivateGC (Display *display, GC gc);
 
-Tk_Window Rbc_FindChild _ANSI_ARGS_((Tk_Window parent, char *name));
+Tk_Window Rbc_FindChild (Tk_Window parent, char *name);
 
-Tk_Window Rbc_FirstChild _ANSI_ARGS_((Tk_Window parent));
+Tk_Window Rbc_FirstChild (Tk_Window parent);
 
-Tk_Window Rbc_NextChild _ANSI_ARGS_((Tk_Window tkwin));
+Tk_Window Rbc_NextChild (Tk_Window tkwin);
 
-void Rbc_RelinkWindow _ANSI_ARGS_((Tk_Window tkwin, Tk_Window newParent,
-                                   int x, int y));
+void Rbc_RelinkWindow (Tk_Window tkwin, Tk_Window newParent,
+                                   int x, int y);
 
-Tk_Window Rbc_Toplevel _ANSI_ARGS_((Tk_Window tkwin));
+Tk_Window Rbc_Toplevel (Tk_Window tkwin);
 
-int Rbc_GetPixels _ANSI_ARGS_((Tcl_Interp *interp, Tk_Window tkwin,
-                               char *string, int check, int *valuePtr));
-int Rbc_GetPosition _ANSI_ARGS_((Tcl_Interp *interp, char *string,
-                                 int *indexPtr));
+int Rbc_GetPixels (Tcl_Interp *interp, Tk_Window tkwin,
+                               char *string, int check, int *valuePtr);
+int Rbc_GetPosition (Tcl_Interp *interp, char *string,
+                                 int *indexPtr);
 
-char *Rbc_NameOfFill _ANSI_ARGS_((int fill));
+char *Rbc_NameOfFill (int fill);
 
-int Rbc_GetXY _ANSI_ARGS_((Tcl_Interp *interp, Tk_Window tkwin,
-                           char *string, int *x, int *y));
+int Rbc_GetXY (Tcl_Interp *interp, Tk_Window tkwin,
+                           char *string, int *x, int *y);
 
-Point2D Rbc_GetProjection _ANSI_ARGS_((int x, int y, Point2D *p,
-                                       Point2D *q));
+Point2D Rbc_GetProjection (int x, int y, Point2D *p,
+                                       Point2D *q);
 
-void Rbc_DrawArrow _ANSI_ARGS_((Display *display, Drawable drawable,
-                                GC gc, int x, int y, int arrowHeight, int orientation));
+void Rbc_DrawArrow (Display *display, Drawable drawable,
+                                GC gc, int x, int y, int arrowHeight, int orientation);
 
 Tk_OptionParseProc Rbc_StringToEnum;
 Tk_OptionPrintProc Rbc_EnumToString;
 
-int Rbc_ConfigModified _ANSI_ARGS_((Tcl_Interp *, Tk_ConfigSpec *, ...));
+int Rbc_ConfigModified (Tcl_Interp *, Tk_ConfigSpec *, ...);
 
-void Rbc_DStringAppendElements _ANSI_ARGS_(TCL_VARARGS(Tcl_DString *, args));
+void Rbc_DStringAppendElements TCL_VARARGS(Tcl_DString *, args);
 
-void Rbc_MakeTransparentWindowExist _ANSI_ARGS_((Tk_Window tkwin,
-        Window parent, int isBusy));
+void Rbc_MakeTransparentWindowExist (Tk_Window tkwin,
+        Window parent, int isBusy);
 
-Window Rbc_GetParent _ANSI_ARGS_((Display *display, Window tkwin));
+Window Rbc_GetParent (Display *display, Window tkwin);
 
-void Rbc_GetBoundingBox _ANSI_ARGS_((int width, int height,
-                                     double theta, double *widthPtr, double *heightPtr, Point2D *points));
+void Rbc_GetBoundingBox (int width, int height,
+                                     double theta, double *widthPtr, double *heightPtr, Point2D *points);
 
-void Rbc_InitEpsCanvasItem _ANSI_ARGS_((Tcl_Interp *interp));
+void Rbc_InitEpsCanvasItem (Tcl_Interp *interp);
 
-void Rbc_TranslateAnchor _ANSI_ARGS_((int x, int y, int width,
-                                      int height, Tk_Anchor anchor, int *transXPtr, int *transYPtr));
+void Rbc_TranslateAnchor (int x, int y, int width,
+                                      int height, Tk_Anchor anchor, int *transXPtr, int *transYPtr);
 
-Point2D Rbc_TranslatePoint _ANSI_ARGS_((Point2D *pointPtr, int width,
-                                        int height, Tk_Anchor anchor));
+Point2D Rbc_TranslatePoint (Point2D *pointPtr, int width,
+                                        int height, Tk_Anchor anchor);
 
-int Rbc_ConfigureWidgetComponent _ANSI_ARGS_((Tcl_Interp *interp,
+int Rbc_ConfigureWidgetComponent (Tcl_Interp *interp,
         Tk_Window tkwin, char *name, char *class, Tk_ConfigSpec *specs,
-        int argc, char **argv, char *widgRec, int flags));
+        int argc, char **argv, char *widgRec, int flags);
 
-int Rbc_MaxRequestSize _ANSI_ARGS_((Display *display,
-                                    unsigned int elemSize));
+int Rbc_MaxRequestSize (Display *display,
+                                    unsigned int elemSize);
 
-Window Rbc_GetRealWindowId _ANSI_ARGS_((Tk_Window tkwin));
-int Rbc_RootX _ANSI_ARGS_((Tk_Window tkwin));
-int Rbc_RootY _ANSI_ARGS_((Tk_Window tkwin));
-void Rbc_RootCoordinates _ANSI_ARGS_((Tk_Window tkwin, int x, int y,
-                                      int *rootXPtr, int *rootYPtr));
-void Rbc_MapToplevel _ANSI_ARGS_((Tk_Window tkwin));
-void Rbc_UnmapToplevel _ANSI_ARGS_((Tk_Window tkwin));
-void Rbc_RaiseToplevel _ANSI_ARGS_((Tk_Window tkwin));
-void Rbc_LowerToplevel _ANSI_ARGS_((Tk_Window tkwin));
-void Rbc_ResizeToplevel _ANSI_ARGS_((Tk_Window tkwin,
-                                     int width, int height));
-void Rbc_MoveToplevel _ANSI_ARGS_((Tk_Window tkwin, int x, int y));
-void Rbc_MoveResizeToplevel _ANSI_ARGS_((Tk_Window tkwin,
-                                        int x, int y, int width, int height));
-ClientData Rbc_GetWindowInstanceData _ANSI_ARGS_((Tk_Window tkwin));
+Window Rbc_GetRealWindowId (Tk_Window tkwin);
+int Rbc_RootX (Tk_Window tkwin);
+int Rbc_RootY (Tk_Window tkwin);
+void Rbc_RootCoordinates (Tk_Window tkwin, int x, int y,
+                                      int *rootXPtr, int *rootYPtr);
+void Rbc_MapToplevel (Tk_Window tkwin);
+void Rbc_UnmapToplevel (Tk_Window tkwin);
+void Rbc_RaiseToplevel (Tk_Window tkwin);
+void Rbc_LowerToplevel (Tk_Window tkwin);
+void Rbc_ResizeToplevel (Tk_Window tkwin,
+                                     int width, int height);
+void Rbc_MoveToplevel (Tk_Window tkwin, int x, int y);
+void Rbc_MoveResizeToplevel (Tk_Window tkwin,
+                                        int x, int y, int width, int height);
+ClientData Rbc_GetWindowInstanceData (Tk_Window tkwin);
 
-void Rbc_SetWindowInstanceData _ANSI_ARGS_((Tk_Window tkwin,
-        ClientData instanceData));
+void Rbc_SetWindowInstanceData (Tk_Window tkwin,
+        ClientData instanceData);
 
-void Rbc_DeleteWindowInstanceData _ANSI_ARGS_((Tk_Window tkwin));
+void Rbc_DeleteWindowInstanceData (Tk_Window tkwin);
 
-int Rbc_AdjustViewport _ANSI_ARGS_((int offset, int worldSize,
-                                    int windowSize, int scrollUnits, int scrollMode));
+int Rbc_AdjustViewport (int offset, int worldSize,
+                                    int windowSize, int scrollUnits, int scrollMode);
 
-int Rbc_GetScrollInfo _ANSI_ARGS_((Tcl_Interp *interp, int argc,
+int Rbc_GetScrollInfo (Tcl_Interp *interp, int argc,
                                    char **argv, int *offsetPtr, int worldSize, int windowSize,
-                                   int scrollUnits, int scrollMode));
+                                   int scrollUnits, int scrollMode);
 
-int Rbc_GetScrollInfoFromObj _ANSI_ARGS_((Tcl_Interp *interp, int objc,
+int Rbc_GetScrollInfoFromObj (Tcl_Interp *interp, int objc,
         Tcl_Obj *CONST *objv, int *offsetPtr, int worldSize, int windowSize,
-        int scrollUnits, int scrollMode));
+        int scrollUnits, int scrollMode);
 
-void Rbc_UpdateScrollbar _ANSI_ARGS_((Tcl_Interp *interp,
-                                      char *scrollCmd, double firstFract, double lastFract));
+void Rbc_UpdateScrollbar (Tcl_Interp *interp,
+                                      char *scrollCmd, double firstFract, double lastFract);
 
-int Rbc_ReparentWindow _ANSI_ARGS_((Display *display, Window window,
-                                    Window newParent, int x, int y));
+int Rbc_ReparentWindow (Display *display, Window window,
+                                    Window newParent, int x, int y);
 
 #if defined(HAVE_JPEGLIB_H) || defined(HAVE_IJL_H)
 #define HAVE_JPEG 1
-int Rbc_JPEGToPhoto _ANSI_ARGS_((Tcl_Interp *interp, char *fileName,
-                                 Tk_PhotoHandle photo));
+int Rbc_JPEGToPhoto (Tcl_Interp *interp, char *fileName,
+                                 Tk_PhotoHandle photo);
 #endif /* HAVE_JPEGLIB_H || HAVE_IJL_H */
 
 #define Rbc_SetBooleanResult(i, b) \
@@ -663,8 +663,8 @@ Tcl_AppInitProc Rbc_WinopInit;
 Tcl_AppInitProc Rbc_SplineInit;
 #endif
 
-char *RbcStrdup _ANSI_ARGS_((CONST char *ptr));
-void *RbcCalloc _ANSI_ARGS_((unsigned int nElem, size_t size));
+char *RbcStrdup (CONST char *ptr);
+void *RbcCalloc (unsigned int nElem, size_t size);
 
 #ifdef WIN32
 #include "rbcWin.h"

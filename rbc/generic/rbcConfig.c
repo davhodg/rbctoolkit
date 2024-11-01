@@ -15,22 +15,22 @@
 
 #include "rbcTile.h"
 
-static int StringToFill _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, char *string, char *widgRec, int flags));
-static char *FillToString _ANSI_ARGS_((ClientData clientData, Tk_Window tkwin, char *widgRec, int offset, Tcl_FreeProc **freeProcPtr));
+static int StringToFill (ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, char *string, char *widgRec, int flags);
+static char *FillToString (ClientData clientData, Tk_Window tkwin, char *widgRec, int offset, Tcl_FreeProc **freeProcPtr);
 
 Tk_CustomOption rbcFillOption = {
     StringToFill, FillToString, (ClientData)0
 };
 
-static int StringToPad _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, char *string, char *widgRec, int offset));
-static char *PadToString _ANSI_ARGS_((ClientData clientData, Tk_Window tkwin, char *widgRec, int offset, Tcl_FreeProc **freeProcPtr));
+static int StringToPad (ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, char *string, char *widgRec, int offset);
+static char *PadToString (ClientData clientData, Tk_Window tkwin, char *widgRec, int offset, Tcl_FreeProc **freeProcPtr);
 
 Tk_CustomOption rbcPadOption = {
     StringToPad, PadToString, (ClientData)0
 };
 
-static int StringToDistance _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, char *string, char *widgRec, int flags));
-static char *DistanceToString _ANSI_ARGS_((ClientData clientData, Tk_Window tkwin, char *widgRec, int offset, Tcl_FreeProc **freeProcPtr));
+static int StringToDistance (ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, char *string, char *widgRec, int flags);
+static char *DistanceToString (ClientData clientData, Tk_Window tkwin, char *widgRec, int offset, Tcl_FreeProc **freeProcPtr);
 
 Tk_CustomOption rbcDistanceOption = {
     StringToDistance, DistanceToString, (ClientData)PIXELS_NONNEGATIVE
@@ -44,8 +44,8 @@ Tk_CustomOption rbcAnyDistanceOption = {
     StringToDistance, DistanceToString, (ClientData)PIXELS_ANY
 };
 
-static int StringToCount _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, char *string, char *widgRec, int flags));
-static char *CountToString _ANSI_ARGS_((ClientData clientData, Tk_Window tkwin, char *widgRec, int offset, Tcl_FreeProc **freeProcPtr));
+static int StringToCount (ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, char *string, char *widgRec, int flags);
+static char *CountToString (ClientData clientData, Tk_Window tkwin, char *widgRec, int offset, Tcl_FreeProc **freeProcPtr);
 
 Tk_CustomOption rbcCountOption = {
     StringToCount, CountToString, (ClientData)COUNT_NONNEGATIVE
@@ -55,49 +55,49 @@ Tk_CustomOption rbcPositiveCountOption = {
     StringToCount, CountToString, (ClientData)COUNT_POSITIVE
 };
 
-static int StringToDashes _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, char *string, char *widgRec, int flags));
-static char *DashesToString _ANSI_ARGS_((ClientData clientData, Tk_Window tkwin, char *widgRec, int offset, Tcl_FreeProc **freeProcPtr));
+static int StringToDashes (ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, char *string, char *widgRec, int flags);
+static char *DashesToString (ClientData clientData, Tk_Window tkwin, char *widgRec, int offset, Tcl_FreeProc **freeProcPtr);
 
 Tk_CustomOption rbcDashesOption = {
     StringToDashes, DashesToString, (ClientData)0
 };
 
-static int StringToShadow _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, char *string, char *widgRec, int flags));
-static char *ShadowToString _ANSI_ARGS_((ClientData clientData, Tk_Window tkwin, char *widgRec, int offset, Tcl_FreeProc **freeProcPtr));
+static int StringToShadow (ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, char *string, char *widgRec, int flags);
+static char *ShadowToString (ClientData clientData, Tk_Window tkwin, char *widgRec, int offset, Tcl_FreeProc **freeProcPtr);
 
 Tk_CustomOption rbcShadowOption = {
     StringToShadow, ShadowToString, (ClientData)0
 };
 
-static int StringToUid _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, char *string, char *widgRec, int flags));
-static char *UidToString _ANSI_ARGS_((ClientData clientData, Tk_Window tkwin, char *widgRec, int offset, Tcl_FreeProc **));
+static int StringToUid (ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, char *string, char *widgRec, int flags);
+static char *UidToString (ClientData clientData, Tk_Window tkwin, char *widgRec, int offset, Tcl_FreeProc **);
 
 Tk_CustomOption rbcUidOption = {
     StringToUid, UidToString, (ClientData)0
 };
 
-static int StringToState _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, char *string, char *widgRec, int flags));
-static char *StateToString _ANSI_ARGS_((ClientData clientData, Tk_Window tkwin, char *widgRec, int offset, Tcl_FreeProc **freeProcPtr));
+static int StringToState (ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, char *string, char *widgRec, int flags);
+static char *StateToString (ClientData clientData, Tk_Window tkwin, char *widgRec, int offset, Tcl_FreeProc **freeProcPtr);
 
 Tk_CustomOption rbcStateOption = {
     StringToState, StateToString, (ClientData)0
 };
 
-static int StringToList _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, char *string, char *widgRec, int flags));
-static char *ListToString _ANSI_ARGS_((ClientData clientData, Tk_Window tkwin, char *widgRec, int offset, Tcl_FreeProc **freeProcPtr));
+static int StringToList (ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, char *string, char *widgRec, int flags);
+static char *ListToString (ClientData clientData, Tk_Window tkwin, char *widgRec, int offset, Tcl_FreeProc **freeProcPtr);
 
 Tk_CustomOption rbcListOption = {
     StringToList, ListToString, (ClientData)0
 };
 
-static int StringToTile _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, char *value, char *widgRec, int flags));
-static char *TileToString _ANSI_ARGS_((ClientData clientData, Tk_Window tkwin, char *widgRec, int offset, Tcl_FreeProc **freeProcPtr));
+static int StringToTile (ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, char *value, char *widgRec, int flags);
+static char *TileToString (ClientData clientData, Tk_Window tkwin, char *widgRec, int offset, Tcl_FreeProc **freeProcPtr);
 
 Tk_CustomOption rbcTileOption = {
     StringToTile, TileToString, (ClientData)0
 };
 
-static int GetInt _ANSI_ARGS_((Tcl_Interp *interp, char *string, int check, int *valuePtr));
+static int GetInt (Tcl_Interp *interp, char *string, int check, int *valuePtr);
 
 static Tk_ConfigSpec *	Rbc_GetCachedSpecs(Tcl_Interp *interp,
 			    const Tk_ConfigSpec *staticSpecs);

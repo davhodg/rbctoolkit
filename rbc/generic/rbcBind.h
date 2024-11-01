@@ -15,8 +15,8 @@
 #include "rbcList.h"
 
 typedef struct Rbc_BindTableStruct *Rbc_BindTable;
-typedef ClientData (Rbc_BindPickProc) _ANSI_ARGS_((ClientData clientData, int x, int y, ClientData *contextPtr));
-typedef void (Rbc_BindTagProc) _ANSI_ARGS_((Rbc_BindTable bindTable, ClientData object, ClientData context, Rbc_List list));
+typedef ClientData (Rbc_BindPickProc) (ClientData clientData, int x, int y, ClientData *contextPtr);
+typedef void (Rbc_BindTagProc) (Rbc_BindTable bindTable, ClientData object, ClientData context, Rbc_List list);
 
 /*
  *  Binding structure information:
@@ -60,13 +60,13 @@ typedef struct Rbc_BindTableStruct {
     Rbc_BindTagProc *tagProc; /* Routine to report tags picked items. */
 } Rbc_BindTableStruct;
 
-void Rbc_DestroyBindingTable _ANSI_ARGS_((Rbc_BindTable table));
-Rbc_BindTable Rbc_CreateBindingTable _ANSI_ARGS_((Tcl_Interp *interp, Tk_Window tkwin, ClientData clientData, Rbc_BindPickProc *pickProc, Rbc_BindTagProc *tagProc));
-int Rbc_ConfigureBindings _ANSI_ARGS_((Tcl_Interp *interp, Rbc_BindTable table, ClientData item, int argc, char **argv));
-int Rbc_ConfigureBindingsFromObj _ANSI_ARGS_((Tcl_Interp *interp, Rbc_BindTable table, ClientData item, int objc, Tcl_Obj *CONST *objv));
-void Rbc_PickCurrentItem _ANSI_ARGS_((Rbc_BindTable table));
-void Rbc_DeleteBindings _ANSI_ARGS_((Rbc_BindTable table, ClientData object));
-void Rbc_MoveBindingTable _ANSI_ARGS_((Rbc_BindTable table, Tk_Window tkwin));
+void Rbc_DestroyBindingTable (Rbc_BindTable table);
+Rbc_BindTable Rbc_CreateBindingTable (Tcl_Interp *interp, Tk_Window tkwin, ClientData clientData, Rbc_BindPickProc *pickProc, Rbc_BindTagProc *tagProc);
+int Rbc_ConfigureBindings (Tcl_Interp *interp, Rbc_BindTable table, ClientData item, int argc, char **argv);
+int Rbc_ConfigureBindingsFromObj (Tcl_Interp *interp, Rbc_BindTable table, ClientData item, int objc, Tcl_Obj *CONST *objv);
+void Rbc_PickCurrentItem (Rbc_BindTable table);
+void Rbc_DeleteBindings (Rbc_BindTable table, ClientData object);
+void Rbc_MoveBindingTable (Rbc_BindTable table, Tk_Window tkwin);
 
 #define Rbc_SetFocusItem(bindPtr, object, context) \
     ((bindPtr)->focusItem = (ClientData)(object),\

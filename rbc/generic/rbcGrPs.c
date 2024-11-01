@@ -100,26 +100,26 @@ static Tk_ConfigSpec configSpecs[] = {
 };
 
 /* TODO: These do not belong here */
-extern void Rbc_MarkersToPostScript _ANSI_ARGS_((Graph *graphPtr, PsToken psToken, int under));
-extern void Rbc_ElementsToPostScript _ANSI_ARGS_((Graph *graphPtr, PsToken psToken));
-extern void Rbc_ActiveElementsToPostScript _ANSI_ARGS_((Graph *graphPtr, PsToken psToken));
-extern void Rbc_LegendToPostScript _ANSI_ARGS_((Legend *legendPtr, PsToken psToken));
-extern void Rbc_GridToPostScript _ANSI_ARGS_((Graph *graphPtr, PsToken psToken));
-extern void Rbc_AxesToPostScript _ANSI_ARGS_((Graph *graphPtr, PsToken psToken));
-extern void Rbc_AxisLimitsToPostScript _ANSI_ARGS_((Graph *graphPtr, PsToken psToken));
+extern void Rbc_MarkersToPostScript (Graph *graphPtr, PsToken psToken, int under);
+extern void Rbc_ElementsToPostScript (Graph *graphPtr, PsToken psToken);
+extern void Rbc_ActiveElementsToPostScript (Graph *graphPtr, PsToken psToken);
+extern void Rbc_LegendToPostScript (Legend *legendPtr, PsToken psToken);
+extern void Rbc_GridToPostScript (Graph *graphPtr, PsToken psToken);
+extern void Rbc_AxesToPostScript (Graph *graphPtr, PsToken psToken);
+extern void Rbc_AxisLimitsToPostScript (Graph *graphPtr, PsToken psToken);
 
-static char *NameOfColorMode _ANSI_ARGS_((PsColorMode colorMode));
-static int CgetOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char *argv[]));
-static int ConfigureOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
-static int OutputOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
-static int ComputeBoundingBox _ANSI_ARGS_((Graph *graphPtr, PostScript *psPtr));
-static void PreviewImage _ANSI_ARGS_((Graph *graphPtr, PsToken psToken));
-static int PostScriptPreamble _ANSI_ARGS_((Graph *graphPtr, char *fileName, PsToken psToken));
-static void MarginsToPostScript _ANSI_ARGS_((Graph *graphPtr, PsToken psToken));
-static int GraphToPostScript _ANSI_ARGS_((Graph *graphPtr, char *ident, PsToken psToken));
+static char *NameOfColorMode (PsColorMode colorMode);
+static int CgetOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char *argv[]);
+static int ConfigureOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static int OutputOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static int ComputeBoundingBox (Graph *graphPtr, PostScript *psPtr);
+static void PreviewImage (Graph *graphPtr, PsToken psToken);
+static int PostScriptPreamble (Graph *graphPtr, char *fileName, PsToken psToken);
+static void MarginsToPostScript (Graph *graphPtr, PsToken psToken);
+static int GraphToPostScript (Graph *graphPtr, char *ident, PsToken psToken);
 
 #ifdef WIN32
-static int CreateWindowsEPS _ANSI_ARGS_((Graph *graphPtr, PsToken psToken, FILE *f));
+static int CreateWindowsEPS (Graph *graphPtr, PsToken psToken, FILE *f);
 #endif
 
 /*

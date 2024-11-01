@@ -24,17 +24,17 @@
 	(LEGEND_RIGHT | LEGEND_LEFT | LEGEND_BOTTOM | LEGEND_TOP)
 #define LEGEND_IN_PLOT  (LEGEND_PLOT | LEGEND_XY)
 
-int Rbc_CreateLegend _ANSI_ARGS_((Graph *graphPtr));
-void Rbc_DestroyLegend _ANSI_ARGS_((Graph *graphPtr));
-void Rbc_DrawLegend _ANSI_ARGS_((Legend *legendPtr, Drawable drawable));
-void Rbc_MapLegend _ANSI_ARGS_((Legend *legendPtr, int width, int height));
-int Rbc_LegendOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
-int Rbc_LegendSite _ANSI_ARGS_((Legend *legendPtr));
-int Rbc_LegendWidth _ANSI_ARGS_((Legend *legendPtr));
-int Rbc_LegendHeight _ANSI_ARGS_((Legend *legendPtr));
-int Rbc_LegendIsHidden _ANSI_ARGS_((Legend *legendPtr));
-int Rbc_LegendIsRaised _ANSI_ARGS_((Legend *legendPtr));
-int Rbc_LegendX _ANSI_ARGS_((Legend *legendPtr));
-int Rbc_LegendY _ANSI_ARGS_((Legend *legendPtr));
-void Rbc_LegendRemoveElement _ANSI_ARGS_((Legend *legendPtr, Element *elemPtr));
+int Rbc_CreateLegend (Graph *graphPtr);
+void Rbc_DestroyLegend (Graph *graphPtr);
+void Rbc_DrawLegend (Legend *legendPtr, Drawable drawable);
+void Rbc_MapLegend (Legend *legendPtr, int width, int height);
+int Rbc_LegendOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+int Rbc_LegendSite (Legend *legendPtr);
+int Rbc_LegendWidth (Legend *legendPtr);
+int Rbc_LegendHeight (Legend *legendPtr);
+int Rbc_LegendIsHidden (Legend *legendPtr);
+int Rbc_LegendIsRaised (Legend *legendPtr);
+int Rbc_LegendX (Legend *legendPtr);
+int Rbc_LegendY (Legend *legendPtr);
+void Rbc_LegendRemoveElement (Legend *legendPtr, Element *elemPtr);
 #endif /* _RBCGRLEGEND */

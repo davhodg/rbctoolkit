@@ -171,21 +171,21 @@ extern double rbcNaN;
  * ----------------------------------------------------------------------
  */
 #ifdef NEED_DECL_STRDUP
-char *strdup _ANSI_ARGS_((CONST char *s));
+char *strdup (CONST char *s);
 #endif /* NEED_DECL_STRDUP */
 
 /*
 #ifndef HAVE_STRTOLOWER
-extern void strtolower _ANSI_ARGS_((char *s));
+extern void strtolower (char *s);
 #endif HAVE_STRTOLOWER */
 
 #ifdef NEED_DECL_DRAND48
-double drand48 _ANSI_ARGS_((void));
-void srand48 _ANSI_ARGS_((long seed));
+double drand48 (void);
+void srand48 (long seed);
 #endif /* NEED_DECL_DRAND48 */
 
 #ifdef NEED_DECL_STRCASECMP
-int strcasecmp _ANSI_ARGS_((CONST char *s1, CONST char *s2));
+int strcasecmp (CONST char *s1, CONST char *s2);
 #endif /* NEED_DECL_STRCASECMP */
 
 #endif /* _RBCMATH */

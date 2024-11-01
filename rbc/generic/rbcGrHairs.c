@@ -64,13 +64,13 @@ static Tk_ConfigSpec configSpecs[] = {
     {TK_CONFIG_END, NULL, NULL, NULL, NULL, 0, 0}
 };
 
-static void TurnOffHairs _ANSI_ARGS_((Tk_Window tkwin, Crosshairs *chPtr));
-static void TurnOnHairs _ANSI_ARGS_((Graph *graphPtr, Crosshairs *chPtr));
-static int CgetOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
-static int ConfigureOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
-static int OnOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
-static int OffOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
-static int ToggleOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
+static void TurnOffHairs (Tk_Window tkwin, Crosshairs *chPtr);
+static void TurnOnHairs (Graph *graphPtr, Crosshairs *chPtr);
+static int CgetOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static int ConfigureOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static int OnOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static int OffOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static int ToggleOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
 
 /*
  *----------------------------------------------------------------------

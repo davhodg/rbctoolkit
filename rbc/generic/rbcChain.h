@@ -38,7 +38,7 @@ struct Rbc_ChainLinkStruct {
     ClientData clientData; /* Pointer to the data object */
 };
 
-typedef int (Rbc_ChainCompareProc) _ANSI_ARGS_((Rbc_ChainLink **l1PtrPtr,  Rbc_ChainLink **l2PtrPtr));
+typedef int (Rbc_ChainCompareProc) (Rbc_ChainLink **l1PtrPtr,  Rbc_ChainLink **l2PtrPtr);
 
 /*
  * A Rbc_Chain is a doubly chained list structure.
@@ -50,19 +50,19 @@ typedef struct {
     int nLinks; /* Number of elements in chain */
 } Rbc_Chain;
 
-void Rbc_ChainInit _ANSI_ARGS_((Rbc_Chain * chainPtr));
-Rbc_Chain *Rbc_ChainCreate _ANSI_ARGS_(());
-void Rbc_ChainDestroy _ANSI_ARGS_((Rbc_Chain * chainPtr));
-Rbc_ChainLink *Rbc_ChainNewLink _ANSI_ARGS_((void));
-Rbc_ChainLink *Rbc_ChainAllocLink _ANSI_ARGS_((unsigned int size));
-Rbc_ChainLink *Rbc_ChainAppend _ANSI_ARGS_((Rbc_Chain * chainPtr, ClientData clientData));
-Rbc_ChainLink *Rbc_ChainPrepend _ANSI_ARGS_((Rbc_Chain * chainPtr, ClientData clientData));
-void Rbc_ChainReset _ANSI_ARGS_((Rbc_Chain * chainPtr));
-void Rbc_ChainLinkAfter _ANSI_ARGS_((Rbc_Chain * chainPtr, Rbc_ChainLink * linkPtr, Rbc_ChainLink * afterLinkPtr));
-void Rbc_ChainLinkBefore _ANSI_ARGS_((Rbc_Chain * chainPtr, Rbc_ChainLink * linkPtr, Rbc_ChainLink * beforeLinkPtr));
-void Rbc_ChainUnlinkLink _ANSI_ARGS_((Rbc_Chain * chainPtr, Rbc_ChainLink * linkPtr));
-void Rbc_ChainDeleteLink _ANSI_ARGS_((Rbc_Chain * chainPtr, Rbc_ChainLink * linkPtr));
-Rbc_ChainLink *Rbc_ChainGetNthLink _ANSI_ARGS_((Rbc_Chain * chainPtr, int n));
-void Rbc_ChainSort _ANSI_ARGS_((Rbc_Chain * chainPtr, Rbc_ChainCompareProc * proc));
+void Rbc_ChainInit (Rbc_Chain * chainPtr);
+Rbc_Chain *Rbc_ChainCreate ();
+void Rbc_ChainDestroy (Rbc_Chain * chainPtr);
+Rbc_ChainLink *Rbc_ChainNewLink (void);
+Rbc_ChainLink *Rbc_ChainAllocLink (unsigned int size);
+Rbc_ChainLink *Rbc_ChainAppend (Rbc_Chain * chainPtr, ClientData clientData);
+Rbc_ChainLink *Rbc_ChainPrepend (Rbc_Chain * chainPtr, ClientData clientData);
+void Rbc_ChainReset (Rbc_Chain * chainPtr);
+void Rbc_ChainLinkAfter (Rbc_Chain * chainPtr, Rbc_ChainLink * linkPtr, Rbc_ChainLink * afterLinkPtr);
+void Rbc_ChainLinkBefore (Rbc_Chain * chainPtr, Rbc_ChainLink * linkPtr, Rbc_ChainLink * beforeLinkPtr);
+void Rbc_ChainUnlinkLink (Rbc_Chain * chainPtr, Rbc_ChainLink * linkPtr);
+void Rbc_ChainDeleteLink (Rbc_Chain * chainPtr, Rbc_ChainLink * linkPtr);
+Rbc_ChainLink *Rbc_ChainGetNthLink (Rbc_Chain * chainPtr, int n);
+void Rbc_ChainSort (Rbc_Chain * chainPtr, Rbc_ChainCompareProc * proc);
 
 #endif /* _RBCCHAIN */

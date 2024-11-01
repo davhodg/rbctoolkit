@@ -53,27 +53,27 @@ typedef struct {
     long int gm2[33][33][33];	/* Variance */
 } ColorImageStatistics;
 
-static void ZoomImageVertically _ANSI_ARGS_((Rbc_ColorImage src, Rbc_ColorImage dest, ResampleFilter *filterPtr));
-static void ZoomImageHorizontally _ANSI_ARGS_((Rbc_ColorImage src, Rbc_ColorImage dest, ResampleFilter *filterPtr));
-static void ShearY _ANSI_ARGS_((Rbc_ColorImage src, Rbc_ColorImage dest, int y, int offset, double frac, Pix32 bgColor));
-static void ShearX _ANSI_ARGS_((Rbc_ColorImage src, Rbc_ColorImage dest, int x, int offset, double frac, Pix32 bgColor));
-static Rbc_ColorImage Rotate45 _ANSI_ARGS_((Rbc_ColorImage src, double theta, Pix32 bgColor));
-static Rbc_ColorImage CopyColorImage _ANSI_ARGS_((Rbc_ColorImage src));
-static Rbc_ColorImage Rotate90 _ANSI_ARGS_((Rbc_ColorImage src));
-static Rbc_ColorImage Rotate180 _ANSI_ARGS_((Rbc_ColorImage src));
-static Rbc_ColorImage Rotate270 _ANSI_ARGS_((Rbc_ColorImage src));
-static ColorImageStatistics *GetColorImageStatistics _ANSI_ARGS_((Rbc_ColorImage image));
-static void M3d _ANSI_ARGS_((ColorImageStatistics *s));
-static INLINE long int Volume _ANSI_ARGS_((Cube *cubePtr, long int m[33][33][33]));
-static long int Bottom _ANSI_ARGS_((Cube *cubePtr, unsigned char dir, long int m[33][33][33]));
-static long int Top _ANSI_ARGS_((Cube *cubePtr, unsigned char dir, int pos, long int m[33][33][33]));
-static double Variance _ANSI_ARGS_((Cube *cubePtr, ColorImageStatistics *s));
-static double Maximize _ANSI_ARGS_((Cube *cubePtr, unsigned char dir, int first, int last, int *cut, long int rWhole, long int gWhole, long int bWhole, long int wWhole, ColorImageStatistics *s));
-static int Cut _ANSI_ARGS_((Cube *set1, Cube *set2, ColorImageStatistics *s));
-static int SplitColorSpace _ANSI_ARGS_((ColorImageStatistics *s, Cube *cubes, int nColors));
-static void Mark _ANSI_ARGS_((Cube *cubePtr, int label, unsigned int tag[33][33][33]));
-static unsigned int *CreateColorLookupTable _ANSI_ARGS_((ColorImageStatistics *s, Cube *cubes, int nColors));
-static void MapColors _ANSI_ARGS_((Rbc_ColorImage src, Rbc_ColorImage dest, unsigned int lut[33][33][33]));
+static void ZoomImageVertically (Rbc_ColorImage src, Rbc_ColorImage dest, ResampleFilter *filterPtr);
+static void ZoomImageHorizontally (Rbc_ColorImage src, Rbc_ColorImage dest, ResampleFilter *filterPtr);
+static void ShearY (Rbc_ColorImage src, Rbc_ColorImage dest, int y, int offset, double frac, Pix32 bgColor);
+static void ShearX (Rbc_ColorImage src, Rbc_ColorImage dest, int x, int offset, double frac, Pix32 bgColor);
+static Rbc_ColorImage Rotate45 (Rbc_ColorImage src, double theta, Pix32 bgColor);
+static Rbc_ColorImage CopyColorImage (Rbc_ColorImage src);
+static Rbc_ColorImage Rotate90 (Rbc_ColorImage src);
+static Rbc_ColorImage Rotate180 (Rbc_ColorImage src);
+static Rbc_ColorImage Rotate270 (Rbc_ColorImage src);
+static ColorImageStatistics *GetColorImageStatistics (Rbc_ColorImage image);
+static void M3d (ColorImageStatistics *s);
+static INLINE long int Volume (Cube *cubePtr, long int m[33][33][33]);
+static long int Bottom (Cube *cubePtr, unsigned char dir, long int m[33][33][33]);
+static long int Top (Cube *cubePtr, unsigned char dir, int pos, long int m[33][33][33]);
+static double Variance (Cube *cubePtr, ColorImageStatistics *s);
+static double Maximize (Cube *cubePtr, unsigned char dir, int first, int last, int *cut, long int rWhole, long int gWhole, long int bWhole, long int wWhole, ColorImageStatistics *s);
+static int Cut (Cube *set1, Cube *set2, ColorImageStatistics *s);
+static int SplitColorSpace (ColorImageStatistics *s, Cube *cubes, int nColors);
+static void Mark (Cube *cubePtr, int label, unsigned int tag[33][33][33]);
+static unsigned int *CreateColorLookupTable (ColorImageStatistics *s, Cube *cubes, int nColors);
+static void MapColors (Rbc_ColorImage src, Rbc_ColorImage dest, unsigned int lut[33][33][33]);
 
 ResampleFilter *rbcBoxFilterPtr; /* The ubiquitous box filter */
 
@@ -696,7 +696,7 @@ BesselFilter(x)
     double x;
 {
 #ifdef NEED_DECL_J1
-    double j1 _ANSI_ARGS_((double value));
+    double j1 (double value);
 #endif
     /*
      * See Pratt "Digital Image Processing" p. 97 for Bessel functions

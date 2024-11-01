@@ -15,8 +15,8 @@
 
 #include "rbcSwitch.h"
 
-static Rbc_SwitchSpec *FindSwitchSpec _ANSI_ARGS_((Tcl_Interp *interp, Rbc_SwitchSpec *specs, char *name, int needFlags, int hateFlags));
-static int DoSwitch _ANSI_ARGS_((Tcl_Interp *interp, Rbc_SwitchSpec *specPtr, char *string, ClientData record));
+static Rbc_SwitchSpec *FindSwitchSpec (Tcl_Interp *interp, Rbc_SwitchSpec *specs, char *name, int needFlags, int hateFlags);
+static int DoSwitch (Tcl_Interp *interp, Rbc_SwitchSpec *specPtr, char *string, ClientData record);
 
 /*
  *--------------------------------------------------------------

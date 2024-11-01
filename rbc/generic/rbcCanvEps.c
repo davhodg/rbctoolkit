@@ -234,26 +234,26 @@ static Tk_ConfigSpec configSpecs[] = {
  * Prototypes for procedures defined in this file:
  */
 
-static char *SkipBlanks _ANSI_ARGS_((EpsParseInfo *piPtr));
-static int ReadPsLine _ANSI_ARGS_((EpsParseInfo *piPtr));
-static unsigned char ReverseBits _ANSI_ARGS_((register unsigned char byte));
-static int GetHexValue _ANSI_ARGS_((EpsParseInfo *piPtr, unsigned char *bytePtr));
-static void ReadEPSI _ANSI_ARGS_((EpsItem *epsPtr, EpsParseInfo *piPtr));
-static int OpenEpsFile _ANSI_ARGS_((Tcl_Interp *interp, EpsItem *epsPtr));
-static void CloseEpsFile _ANSI_ARGS_((EpsItem *epsPtr));
-static void ImageChangedProc _ANSI_ARGS_((ClientData clientData, int x, int y, int width, int height, int imgWidth, int imgHeight));
-static int EpsCoords _ANSI_ARGS_((Tcl_Interp *interp, Tk_Canvas canvas, Tk_Item * itemPtr, int argc, char **argv));
-static int EpsToArea _ANSI_ARGS_((Tk_Canvas canvas, Tk_Item * itemPtr, double *rectPtr));
-static double EpsToPoint _ANSI_ARGS_((Tk_Canvas canvas, Tk_Item * itemPtr, double *coordPtr));
-static void ComputeEpsBbox _ANSI_ARGS_((Tk_Canvas canvas, EpsItem *imgPtr));
-static int ConfigureEps _ANSI_ARGS_((Tcl_Interp *interp, Tk_Canvas canvas, Tk_Item * itemPtr, int argc, char **argv, int flags));
-static int CreateEps _ANSI_ARGS_((Tcl_Interp *interp, Tk_Canvas canvas, struct Tk_Item * itemPtr, int argc, char **argv));
-static void DeleteEps _ANSI_ARGS_((Tk_Canvas canvas, Tk_Item * itemPtr, Display *display));
-static void DisplayEps _ANSI_ARGS_((Tk_Canvas canvas, Tk_Item * itemPtr, Display *display, Drawable dst, int x, int y, int width, int height));
-static void ScaleEps _ANSI_ARGS_((Tk_Canvas canvas, Tk_Item * itemPtr, double originX, double originY, double scaleX, double scaleY));
-static void TranslateEps _ANSI_ARGS_((Tk_Canvas canvas, Tk_Item * itemPtr, double deltaX, double deltaY));
-static int EpsToPostScript _ANSI_ARGS_((Tcl_Interp *interp, Tk_Canvas canvas, Tk_Item * itemPtr, int prepass));
-static int ReadPostScript _ANSI_ARGS_((Tcl_Interp *interp, EpsItem *epsPtr));
+static char *SkipBlanks (EpsParseInfo *piPtr);
+static int ReadPsLine (EpsParseInfo *piPtr);
+static unsigned char ReverseBits (register unsigned char byte);
+static int GetHexValue (EpsParseInfo *piPtr, unsigned char *bytePtr);
+static void ReadEPSI (EpsItem *epsPtr, EpsParseInfo *piPtr);
+static int OpenEpsFile (Tcl_Interp *interp, EpsItem *epsPtr);
+static void CloseEpsFile (EpsItem *epsPtr);
+static void ImageChangedProc (ClientData clientData, int x, int y, int width, int height, int imgWidth, int imgHeight);
+static int EpsCoords (Tcl_Interp *interp, Tk_Canvas canvas, Tk_Item * itemPtr, int argc, char **argv);
+static int EpsToArea (Tk_Canvas canvas, Tk_Item * itemPtr, double *rectPtr);
+static double EpsToPoint (Tk_Canvas canvas, Tk_Item * itemPtr, double *coordPtr);
+static void ComputeEpsBbox (Tk_Canvas canvas, EpsItem *imgPtr);
+static int ConfigureEps (Tcl_Interp *interp, Tk_Canvas canvas, Tk_Item * itemPtr, int argc, char **argv, int flags);
+static int CreateEps (Tcl_Interp *interp, Tk_Canvas canvas, struct Tk_Item * itemPtr, int argc, char **argv);
+static void DeleteEps (Tk_Canvas canvas, Tk_Item * itemPtr, Display *display);
+static void DisplayEps (Tk_Canvas canvas, Tk_Item * itemPtr, Display *display, Drawable dst, int x, int y, int width, int height);
+static void ScaleEps (Tk_Canvas canvas, Tk_Item * itemPtr, double originX, double originY, double scaleX, double scaleY);
+static void TranslateEps (Tk_Canvas canvas, Tk_Item * itemPtr, double deltaX, double deltaY);
+static int EpsToPostScript (Tcl_Interp *interp, Tk_Canvas canvas, Tk_Item * itemPtr, int prepass);
+static int ReadPostScript (Tcl_Interp *interp, EpsItem *epsPtr);
 
 /*
  *----------------------------------------------------------------------

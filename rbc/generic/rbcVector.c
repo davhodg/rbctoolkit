@@ -44,24 +44,24 @@ enum cmdIdx {
     variableIdx
 };
 
-static int                VectorObjCmd           _ANSI_ARGS_((ClientData dataPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]));
-static int                VectorInstanceCmd      _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]));
-static int                VectorCreateObjCmd     _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]));
-static int                VectorDestroyObjCmd    _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]));
-static int                VectorExprObjCmd       _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]));
-static int                VectorNamesObjCmd      _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]));
-static void               VectorInterpDeleteProc _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp));
-static void               VectorInstDeleteProc   _ANSI_ARGS_((ClientData clientData));
-static void               VectorNotifyClients    _ANSI_ARGS_((ClientData clientData));
-static void               VectorFlushCache       _ANSI_ARGS_((VectorObject *vPtr));
-static char * 			  VectorVarTrace         _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, char *part1, char *part2, int flags));
-static char *             BuildQualifiedName     _ANSI_ARGS_((Tcl_Interp *interp, const char *name, Tcl_DString *fullName));
-static int                ParseQualifiedName     _ANSI_ARGS_((Tcl_Interp *interp, const char *qualName, Tcl_Namespace **nsPtrPtr, const char **namePtrPtr));
-static char *             GetQualifiedName       _ANSI_ARGS_((Tcl_Namespace *nsPtr, const char *name, Tcl_DString *resultPtr));
-static VectorObject *     GetVectorObject        _ANSI_ARGS_((VectorInterpData *dataPtr, const char *name, int flags));
-static VectorObject *     FindVectorInNamespace  _ANSI_ARGS_((VectorInterpData *dataPtr, Tcl_Namespace *nsPtr, const char *vecName));
-static void               DeleteCommand          _ANSI_ARGS_((VectorObject *vPtr));
-static void 			  UnmapVariable          _ANSI_ARGS_((VectorObject *vPtr));
+static int                VectorObjCmd           (ClientData dataPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]);
+static int                VectorInstanceCmd      (ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]);
+static int                VectorCreateObjCmd     (ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]);
+static int                VectorDestroyObjCmd    (ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]);
+static int                VectorExprObjCmd       (ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]);
+static int                VectorNamesObjCmd      (ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]);
+static void               VectorInterpDeleteProc (ClientData clientData, Tcl_Interp *interp);
+static void               VectorInstDeleteProc   (ClientData clientData);
+static void               VectorNotifyClients    (ClientData clientData);
+static void               VectorFlushCache       (VectorObject *vPtr);
+static char * 			  VectorVarTrace         (ClientData clientData, Tcl_Interp *interp, char *part1, char *part2, int flags);
+static char *             BuildQualifiedName     (Tcl_Interp *interp, const char *name, Tcl_DString *fullName);
+static int                ParseQualifiedName     (Tcl_Interp *interp, const char *qualName, Tcl_Namespace **nsPtrPtr, const char **namePtrPtr);
+static char *             GetQualifiedName       (Tcl_Namespace *nsPtr, const char *name, Tcl_DString *resultPtr);
+static VectorObject *     GetVectorObject        (VectorInterpData *dataPtr, const char *name, int flags);
+static VectorObject *     FindVectorInNamespace  (VectorInterpData *dataPtr, Tcl_Namespace *nsPtr, const char *vecName);
+static void               DeleteCommand          (VectorObject *vPtr);
+static void 			  UnmapVariable          (VectorObject *vPtr);
 
 double rbcNaN;
 

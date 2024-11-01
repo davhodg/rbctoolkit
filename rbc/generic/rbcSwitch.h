@@ -19,11 +19,11 @@
 #define Rbc_Offset(type, field) ((int) ((char *) &((type *) 0)->field))
 #endif
 
-typedef int (Rbc_SwitchParseProc) _ANSI_ARGS_((ClientData clientData,
+typedef int (Rbc_SwitchParseProc) (ClientData clientData,
         Tcl_Interp *interp, char *switchName, char *value, char *record,
-        int offset));
+        int offset);
 
-typedef void (Rbc_SwitchFreeProc) _ANSI_ARGS_((char *ptr));
+typedef void (Rbc_SwitchFreeProc) (char *ptr);
 
 typedef struct {
     Rbc_SwitchParseProc *parseProc;	/* Procedure to parse a switch value
@@ -78,9 +78,9 @@ typedef struct {
 #define RBC_SWITCH_SPECIFIED		(1<<4)
 #define RBC_SWITCH_USER_BIT		(1<<8)
 
-int Rbc_ProcessSwitches _ANSI_ARGS_((Tcl_Interp *interp, Rbc_SwitchSpec *specs, int argc, char **argv, char *record, int flags));
-void Rbc_FreeSwitches _ANSI_ARGS_((Rbc_SwitchSpec *specs, char *record, int flags));
-int Rbc_SwitchChanged _ANSI_ARGS_(TCL_VARARGS(Rbc_SwitchSpec *, specs));
-int Rbc_ProcessObjSwitches _ANSI_ARGS_((Tcl_Interp *interp, Rbc_SwitchSpec *specPtr, int objc, Tcl_Obj *CONST *objv, char *record, int flags));
+int Rbc_ProcessSwitches (Tcl_Interp *interp, Rbc_SwitchSpec *specs, int argc, char **argv, char *record, int flags);
+void Rbc_FreeSwitches (Rbc_SwitchSpec *specs, char *record, int flags);
+int Rbc_SwitchChanged TCL_VARARGS(Rbc_SwitchSpec *, specs);
+int Rbc_ProcessObjSwitches (Tcl_Interp *interp, Rbc_SwitchSpec *specPtr, int objc, Tcl_Obj *CONST *objv, char *record, int flags);
 
 #endif /* _RBCSWITCH */

@@ -205,9 +205,9 @@ typedef enum {
                                * Rbc_FreeVectorId) */
 } Rbc_VectorNotify;
 
-typedef void (Rbc_VectorChangedProc) _ANSI_ARGS_((Tcl_Interp *interp, ClientData clientData, Rbc_VectorNotify notify));
+typedef void (Rbc_VectorChangedProc) (Tcl_Interp *interp, ClientData clientData, Rbc_VectorNotify notify);
 
-typedef double (Rbc_VectorIndexProc) _ANSI_ARGS_((Rbc_Vector * vecPtr));
+typedef double (Rbc_VectorIndexProc) (Rbc_Vector * vecPtr);
 
 /*
  *	A vector can be shared by several clients.  Each client
@@ -280,7 +280,7 @@ struct ParseValueStruct {
 	             * output buffer. */
     char *end; /* Address of the last usable character
 	            * in the buffer. */
-    void (*expandProc)_ANSI_ARGS_((ParseValue *pvPtr, int needed)); /* Procedure to call when space runs out;
+    void (*expandProc) (ParseValue *pvPtr, int needed); /* Procedure to call when space runs out;
                                                                      * it will make more space. */
     ClientData clientData; /* Arbitrary information for use of
                             * expandProc. */
@@ -310,72 +310,72 @@ typedef struct {
 } ParseInfo;
 
 /* Vector Operators Definitions (rbcVector.c) */
-void               Rbc_VectorFlushCache     _ANSI_ARGS_((VectorObject *vPtr));
-VectorObject *     Rbc_VectorParseElement   _ANSI_ARGS_((Tcl_Interp *interp, VectorInterpData *dataPtr, const char *start, char **endPtr, int flags));
-int  	           Rbc_VectorChangeLength   _ANSI_ARGS_((VectorObject *vPtr, int length));
-void               Rbc_VectorUpdateClients  _ANSI_ARGS_((VectorObject *vPtr));
-int                Rbc_VectorMapVariable    _ANSI_ARGS_((Tcl_Interp *interp, VectorObject *vPtr, const char *name));
-VectorObject *     Rbc_VectorCreate         _ANSI_ARGS_((VectorInterpData *dataPtr, const char *vecName, const char *cmdName, const char *varName, int *newPtr));
-int                Rbc_VectorGetIndex       _ANSI_ARGS_((Tcl_Interp *interp, VectorObject *vPtr, const char *string, int *indexPtr, int flags, Rbc_VectorIndexProc **procPtrPtr));
-int                Rbc_GetDouble            _ANSI_ARGS_((Tcl_Interp *interp, Tcl_Obj *objPtr, double *valuePtr));
-void 		       Rbc_VectorFree		    _ANSI_ARGS_((VectorObject *vPtr));
-int 		       Rbc_VectorGetIndexRange  _ANSI_ARGS_((Tcl_Interp *interp, VectorObject *vPtr, const char *string, int flags, Rbc_VectorIndexProc **procPtrPtr));
-int                Rbc_VectorDuplicate      _ANSI_ARGS_((VectorObject *destPtr, VectorObject *srcPtr));
-Tcl_Obj *          Rbc_GetValues            _ANSI_ARGS_((VectorObject *vPtr, int first, int last));
-void               Rbc_ReplicateValue       _ANSI_ARGS_((VectorObject *vPtr, int first, int last, double value));
-int                Rbc_VectorLookupName     _ANSI_ARGS_((VectorInterpData *dataPtr, char *vecName, VectorObject **vPtrPtr));
-int                Rbc_VectorReset          _ANSI_ARGS_((VectorObject *vPtr, double *valueArr, int length, int size, Tcl_FreeProc *freeProc));
-void               Rbc_VectorUpdateRange    _ANSI_ARGS_((VectorObject *vPtr));
-VectorObject *     Rbc_VectorNew            _ANSI_ARGS_((VectorInterpData *dataPtr));
-VectorInterpData * Rbc_VectorGetInterpData  _ANSI_ARGS_((Tcl_Interp *interp));
-int                Rbc_VectorNotifyPending  _ANSI_ARGS_((Rbc_VectorId clientId));
-void               Rbc_FreeVectorId         _ANSI_ARGS_((Rbc_VectorId clientId));
-int                Rbc_GetVectorById        _ANSI_ARGS_((Tcl_Interp *interp, Rbc_VectorId clientId, Rbc_Vector **vecPtrPtr));
-int                Rbc_VectorExists2        _ANSI_ARGS_((Tcl_Interp *interp, char *vecName));
-Rbc_VectorId       Rbc_AllocVectorId        _ANSI_ARGS_((Tcl_Interp *interp, char *vecName));
-void               Rbc_SetVectorChangedProc _ANSI_ARGS_((Rbc_VectorId clientId, Rbc_VectorChangedProc * proc, ClientData clientData));
-char *             Rbc_NameOfVectorId       _ANSI_ARGS_((Rbc_VectorId clientId));
-int                Rbc_GetVector            _ANSI_ARGS_((Tcl_Interp *interp, char *vecName, Rbc_Vector **vecPtrPtr));
-int                Rbc_CreateVector         _ANSI_ARGS_((Tcl_Interp *interp, char *vecName, int size, Rbc_Vector ** vecPtrPtr));
-int                Rbc_ResizeVector         _ANSI_ARGS_((Rbc_Vector *vecPtr, int nValues));
-char *             Rbc_NameOfVector         _ANSI_ARGS_((Rbc_Vector *vecPtr));
-int                Rbc_ResetVector          _ANSI_ARGS_((Rbc_Vector *vecPtr, double *dataArr, int nValues, int arraySize, Tcl_FreeProc *freeProc));
-int                Rbc_VectorReset          _ANSI_ARGS_((VectorObject *vPtr, double *dataArr, int nValues, int arraySize, Tcl_FreeProc *freeProc));
+void               Rbc_VectorFlushCache     (VectorObject *vPtr);
+VectorObject *     Rbc_VectorParseElement   (Tcl_Interp *interp, VectorInterpData *dataPtr, const char *start, char **endPtr, int flags);
+int  	           Rbc_VectorChangeLength   (VectorObject *vPtr, int length);
+void               Rbc_VectorUpdateClients  (VectorObject *vPtr);
+int                Rbc_VectorMapVariable    (Tcl_Interp *interp, VectorObject *vPtr, const char *name);
+VectorObject *     Rbc_VectorCreate         (VectorInterpData *dataPtr, const char *vecName, const char *cmdName, const char *varName, int *newPtr);
+int                Rbc_VectorGetIndex       (Tcl_Interp *interp, VectorObject *vPtr, const char *string, int *indexPtr, int flags, Rbc_VectorIndexProc **procPtrPtr);
+int                Rbc_GetDouble            (Tcl_Interp *interp, Tcl_Obj *objPtr, double *valuePtr);
+void 		       Rbc_VectorFree		    (VectorObject *vPtr);
+int 		       Rbc_VectorGetIndexRange  (Tcl_Interp *interp, VectorObject *vPtr, const char *string, int flags, Rbc_VectorIndexProc **procPtrPtr);
+int                Rbc_VectorDuplicate      (VectorObject *destPtr, VectorObject *srcPtr);
+Tcl_Obj *          Rbc_GetValues            (VectorObject *vPtr, int first, int last);
+void               Rbc_ReplicateValue       (VectorObject *vPtr, int first, int last, double value);
+int                Rbc_VectorLookupName     (VectorInterpData *dataPtr, char *vecName, VectorObject **vPtrPtr);
+int                Rbc_VectorReset          (VectorObject *vPtr, double *valueArr, int length, int size, Tcl_FreeProc *freeProc);
+void               Rbc_VectorUpdateRange    (VectorObject *vPtr);
+VectorObject *     Rbc_VectorNew            (VectorInterpData *dataPtr);
+VectorInterpData * Rbc_VectorGetInterpData  (Tcl_Interp *interp);
+int                Rbc_VectorNotifyPending  (Rbc_VectorId clientId);
+void               Rbc_FreeVectorId         (Rbc_VectorId clientId);
+int                Rbc_GetVectorById        (Tcl_Interp *interp, Rbc_VectorId clientId, Rbc_Vector **vecPtrPtr);
+int                Rbc_VectorExists2        (Tcl_Interp *interp, char *vecName);
+Rbc_VectorId       Rbc_AllocVectorId        (Tcl_Interp *interp, char *vecName);
+void               Rbc_SetVectorChangedProc (Rbc_VectorId clientId, Rbc_VectorChangedProc * proc, ClientData clientData);
+char *             Rbc_NameOfVectorId       (Rbc_VectorId clientId);
+int                Rbc_GetVector            (Tcl_Interp *interp, char *vecName, Rbc_Vector **vecPtrPtr);
+int                Rbc_CreateVector         (Tcl_Interp *interp, char *vecName, int size, Rbc_Vector ** vecPtrPtr);
+int                Rbc_ResizeVector         (Rbc_Vector *vecPtr, int nValues);
+char *             Rbc_NameOfVector         (Rbc_Vector *vecPtr);
+int                Rbc_ResetVector          (Rbc_Vector *vecPtr, double *dataArr, int nValues, int arraySize, Tcl_FreeProc *freeProc);
+int                Rbc_VectorReset          (VectorObject *vPtr, double *dataArr, int nValues, int arraySize, Tcl_FreeProc *freeProc);
 
 /* Instance Functions Definitions (rbcVecObjCmd.c) */
-int Rbc_AppendOp    _ANSI_ARGS_((VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]));
-int Rbc_ArithOp     _ANSI_ARGS_((VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]));
-int Rbc_BinreadOp   _ANSI_ARGS_((VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]));
-int Rbc_ClearOp     _ANSI_ARGS_((VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]));
-int Rbc_DeleteOp    _ANSI_ARGS_((VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]));
-int Rbc_DupOp       _ANSI_ARGS_((VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]));
-int Rbc_ExprOp      _ANSI_ARGS_((VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]));
-int Rbc_IndexOp     _ANSI_ARGS_((VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]));
-int Rbc_LengthOp    _ANSI_ARGS_((VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]));
-int Rbc_MergeOp     _ANSI_ARGS_((VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]));
-int Rbc_NormalizeOp _ANSI_ARGS_((VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]));
-int Rbc_OffsetOp    _ANSI_ARGS_((VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]));
-int Rbc_RandomOp    _ANSI_ARGS_((VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]));
-int Rbc_PopulateOp  _ANSI_ARGS_((VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]));
-int Rbc_RangeOp     _ANSI_ARGS_((VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]));
-int Rbc_SearchOp    _ANSI_ARGS_((VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]));
-int Rbc_SeqOp       _ANSI_ARGS_((VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]));
-int Rbc_SetOp       _ANSI_ARGS_((VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]));
-int Rbc_SortOp      _ANSI_ARGS_((VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]));
-int Rbc_SplitOp     _ANSI_ARGS_((VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]));
-int Rbc_VariableOp  _ANSI_ARGS_((VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]));
-double drand48 _ANSI_ARGS_((void));
+int Rbc_AppendOp    (VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]);
+int Rbc_ArithOp     (VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]);
+int Rbc_BinreadOp   (VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]);
+int Rbc_ClearOp     (VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]);
+int Rbc_DeleteOp    (VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]);
+int Rbc_DupOp       (VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]);
+int Rbc_ExprOp      (VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]);
+int Rbc_IndexOp     (VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]);
+int Rbc_LengthOp    (VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]);
+int Rbc_MergeOp     (VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]);
+int Rbc_NormalizeOp (VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]);
+int Rbc_OffsetOp    (VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]);
+int Rbc_RandomOp    (VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]);
+int Rbc_PopulateOp  (VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]);
+int Rbc_RangeOp     (VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]);
+int Rbc_SearchOp    (VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]);
+int Rbc_SeqOp       (VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]);
+int Rbc_SetOp       (VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]);
+int Rbc_SortOp      (VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]);
+int Rbc_SplitOp     (VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]);
+int Rbc_VariableOp  (VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]);
+double drand48 (void);
 
 /* Vector Math Definitions (rbcVecMath.c) */
-typedef double (ComponentProc) _ANSI_ARGS_((double value));
-typedef int (VectorProc)       _ANSI_ARGS_((VectorObject *vPtr));
-typedef double (ScalarProc)    _ANSI_ARGS_((VectorObject *vPtr));
+typedef double (ComponentProc) (double value);
+typedef int (VectorProc)       (VectorObject *vPtr);
+typedef double (ScalarProc)    (VectorObject *vPtr);
 
-double Rbc_VecMin                      _ANSI_ARGS_((Rbc_Vector *vecPtr));
-double Rbc_VecMax                      _ANSI_ARGS_((Rbc_Vector *vecPtr));
-int    Rbc_ExprVector                  _ANSI_ARGS_((Tcl_Interp *interp, char *string, Rbc_Vector *vecPtr));
-void   Rbc_VectorInstallMathFunctions  _ANSI_ARGS_((Tcl_HashTable *tablePtr));
-void   Rbc_VectorInstallSpecialIndices _ANSI_ARGS_((Tcl_HashTable *tablePtr));
-int *  Rbc_VectorSortIndex             _ANSI_ARGS_((VectorObject **vPtrPtr, int nVectors));
+double Rbc_VecMin                      (Rbc_Vector *vecPtr);
+double Rbc_VecMax                      (Rbc_Vector *vecPtr);
+int    Rbc_ExprVector                  (Tcl_Interp *interp, char *string, Rbc_Vector *vecPtr);
+void   Rbc_VectorInstallMathFunctions  (Tcl_HashTable *tablePtr);
+void   Rbc_VectorInstallSpecialIndices (Tcl_HashTable *tablePtr);
+int *  Rbc_VectorSortIndex             (VectorObject **vPtrPtr, int nVectors);
 
 #endif /* _RBCVECTOR */

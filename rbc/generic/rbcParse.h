@@ -172,7 +172,7 @@ struct ParseValueStruct {
 	 * output buffer. */
     char *end; /* Address of the last usable character
 	 * in the buffer. */
-    void (*expandProc)_ANSI_ARGS_((ParseValue *pvPtr, int needed));
+    void (*expandProc) (ParseValue *pvPtr, int needed);
     /* Procedure to call when space runs out;
      * it will make more space. */
     ClientData clientData; /* Arbitrary information for use of
@@ -427,10 +427,10 @@ typedef struct {
 #define TclParseNestedCmd   Rbc_ParseNestedCmd
 #define TclParseQuotes Rbc_ParseQuotes
 
-void Rbc_ExpandParseValue _ANSI_ARGS_((ParseValue *parsePtr, int needed));
-int  Rbc_ParseNestedCmd   _ANSI_ARGS_((Tcl_Interp *interp, char *string, int flags, char **termPtr, ParseValue *parsePtr));
-int  Rbc_ParseBraces      _ANSI_ARGS_((Tcl_Interp *interp, char *string, char **termPtr, ParseValue *parsePtr));
-int  Rbc_ParseQuotes      _ANSI_ARGS_((Tcl_Interp *interp, char *string, int termChar, int flags, char **termPtr, ParseValue *parsePtr));
+void Rbc_ExpandParseValue (ParseValue *parsePtr, int needed);
+int  Rbc_ParseNestedCmd   (Tcl_Interp *interp, char *string, int flags, char **termPtr, ParseValue *parsePtr);
+int  Rbc_ParseBraces      (Tcl_Interp *interp, char *string, char **termPtr, ParseValue *parsePtr);
+int  Rbc_ParseQuotes      (Tcl_Interp *interp, char *string, int termChar, int flags, char **termPtr, ParseValue *parsePtr);
 
 
 #endif /* _RBCPARSE */

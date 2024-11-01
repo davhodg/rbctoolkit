@@ -341,18 +341,18 @@ static ElementToPostScriptProc NormalBarToPostScript;
 static ElementSymbolToPostScriptProc SymbolToPostScript;
 static ElementMapProc MapBar;
 
-static int Round _ANSI_ARGS_((register double x));
-static char *NameOfBarMode _ANSI_ARGS_((BarMode mode));
-static void ClearPalette _ANSI_ARGS_((Rbc_Chain *palette));
-static void InitPen _ANSI_ARGS_((BarPen *penPtr));
-static void CheckStacks _ANSI_ARGS_((Graph *graphPtr, Axis2D *pairPtr, double *minPtr, double *maxPtr));
-static void MergePens _ANSI_ARGS_((Bar *barPtr, PenStyle **dataToStyle));
-static void MapActiveBars _ANSI_ARGS_((Bar *barPtr));
-static void ResetBar _ANSI_ARGS_((Bar *barPtr));
-static void DrawBarSegments _ANSI_ARGS_((Graph *graphPtr, Drawable drawable, BarPen *penPtr, XRectangle *rectangles, int nRects));
-static void DrawBarValues _ANSI_ARGS_((Graph *graphPtr, Drawable drawable, Bar *barPtr, BarPen *penPtr, XRectangle *rectangles, int nRects, int *rectToData));
-static void SegmentsToPostScript _ANSI_ARGS_((Graph *graphPtr, PsToken psToken, BarPen *penPtr, register XRectangle *rectPtr, int nRects));
-static void BarValuesToPostScript _ANSI_ARGS_((Graph *graphPtr, PsToken psToken, Bar *barPtr, BarPen *penPtr, XRectangle *rectangles, int nRects, int *rectToData));
+static int Round (register double x);
+static char *NameOfBarMode (BarMode mode);
+static void ClearPalette (Rbc_Chain *palette);
+static void InitPen (BarPen *penPtr);
+static void CheckStacks (Graph *graphPtr, Axis2D *pairPtr, double *minPtr, double *maxPtr);
+static void MergePens (Bar *barPtr, PenStyle **dataToStyle);
+static void MapActiveBars (Bar *barPtr);
+static void ResetBar (Bar *barPtr);
+static void DrawBarSegments (Graph *graphPtr, Drawable drawable, BarPen *penPtr, XRectangle *rectangles, int nRects);
+static void DrawBarValues (Graph *graphPtr, Drawable drawable, Bar *barPtr, BarPen *penPtr, XRectangle *rectangles, int nRects, int *rectToData);
+static void SegmentsToPostScript (Graph *graphPtr, PsToken psToken, BarPen *penPtr, register XRectangle *rectPtr, int nRects);
+static void BarValuesToPostScript (Graph *graphPtr, PsToken psToken, Bar *barPtr, BarPen *penPtr, XRectangle *rectangles, int nRects, int *rectToData);
 
 /*
  *----------------------------------------------------------------------

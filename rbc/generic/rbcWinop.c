@@ -21,25 +21,25 @@
 
 static Tcl_CmdProc WinopCmd;
 
-static int GetRealizedWindow _ANSI_ARGS_((Tcl_Interp *interp, char *string, Tk_Window *tkwinPtr));
-static Window StringToWindow _ANSI_ARGS_((Tcl_Interp *interp, char *string));
-static int LowerOp _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, int argc, char **argv));
-static int RaiseOp _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, int argc, char **argv));
-static int MapOp _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, int argc, char **argv));
-static int MoveOp _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, int argc, char **argv));
-static int UnmapOp _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, int argc, char **argv));
-static int ChangesOp _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, int argc, char **argv));
-static int QueryOp _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, int argc, char **argv));
-static int WarpToOp _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, int argc, char **argv));
-static int ConvolveOp _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, int argc, char **argv));
-static int QuantizeOp _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, int argc, char **argv));
-static int ReadJPEGOp _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, int argc, char **argv));
-static int GradientOp _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, int argc, char **argv));
-static int ResampleOp _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, int argc, char **argv));
-static int RotateOp _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, int argc, char **argv));
-static int SnapOp _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, int argc, char **argv));
-static int SubsampleOp _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, int argc, char **argv));
-static int ImageOp _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, int argc, char **argv));
+static int GetRealizedWindow (Tcl_Interp *interp, char *string, Tk_Window *tkwinPtr);
+static Window StringToWindow (Tcl_Interp *interp, char *string);
+static int LowerOp (ClientData clientData, Tcl_Interp *interp, int argc, char **argv);
+static int RaiseOp (ClientData clientData, Tcl_Interp *interp, int argc, char **argv);
+static int MapOp (ClientData clientData, Tcl_Interp *interp, int argc, char **argv);
+static int MoveOp (ClientData clientData, Tcl_Interp *interp, int argc, char **argv);
+static int UnmapOp (ClientData clientData, Tcl_Interp *interp, int argc, char **argv);
+static int ChangesOp (ClientData clientData, Tcl_Interp *interp, int argc, char **argv);
+static int QueryOp (ClientData clientData, Tcl_Interp *interp, int argc, char **argv);
+static int WarpToOp (ClientData clientData, Tcl_Interp *interp, int argc, char **argv);
+static int ConvolveOp (ClientData clientData, Tcl_Interp *interp, int argc, char **argv);
+static int QuantizeOp (ClientData clientData, Tcl_Interp *interp, int argc, char **argv);
+static int ReadJPEGOp (ClientData clientData, Tcl_Interp *interp, int argc, char **argv);
+static int GradientOp (ClientData clientData, Tcl_Interp *interp, int argc, char **argv);
+static int ResampleOp (ClientData clientData, Tcl_Interp *interp, int argc, char **argv);
+static int RotateOp (ClientData clientData, Tcl_Interp *interp, int argc, char **argv);
+static int SnapOp (ClientData clientData, Tcl_Interp *interp, int argc, char **argv);
+static int SubsampleOp (ClientData clientData, Tcl_Interp *interp, int argc, char **argv);
+static int ImageOp (ClientData clientData, Tcl_Interp *interp, int argc, char **argv);
 
 /*
  *--------------------------------------------------------------

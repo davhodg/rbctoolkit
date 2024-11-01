@@ -142,7 +142,7 @@ typedef struct ColorImage {
  *
  *----------------------------------------------------------------------
  */
-typedef double (ResampleFilterProc) _ANSI_ARGS_((double value));
+typedef double (ResampleFilterProc) (double value);
 
 /*
  *----------------------------------------------------------------------
@@ -181,107 +181,107 @@ typedef struct {
 
 /* Prototypes of image routines */
 
-void Rbc_ColorImageToGreyscale _ANSI_ARGS_((Rbc_ColorImage image));
+void Rbc_ColorImageToGreyscale (Rbc_ColorImage image);
 
-void Rbc_ColorImageToPhoto _ANSI_ARGS_((Tcl_Interp *interp, Rbc_ColorImage image,
-                                        Tk_PhotoHandle photo));
+void Rbc_ColorImageToPhoto (Tcl_Interp *interp, Rbc_ColorImage image,
+                                        Tk_PhotoHandle photo);
 
-Pixmap Rbc_ColorImageToPixmap _ANSI_ARGS_((Tcl_Interp *interp,
-        Tk_Window tkwin, Rbc_ColorImage image, ColorTable *colorTablePtr));
+Pixmap Rbc_ColorImageToPixmap (Tcl_Interp *interp,
+        Tk_Window tkwin, Rbc_ColorImage image, ColorTable *colorTablePtr);
 
-Rbc_ColorImage Rbc_ConvolveColorImage _ANSI_ARGS_((
-            Rbc_ColorImage srcImage, Filter2D *filter));
+Rbc_ColorImage Rbc_ConvolveColorImage (
+            Rbc_ColorImage srcImage, Filter2D *filter);
 
-Rbc_ColorImage Rbc_CreateColorImage _ANSI_ARGS_((int width,int height));
+Rbc_ColorImage Rbc_CreateColorImage (int width,int height);
 
-Rbc_ColorImage Rbc_DrawableToColorImage _ANSI_ARGS_((Tk_Window tkwin,
+Rbc_ColorImage Rbc_DrawableToColorImage (Tk_Window tkwin,
         Drawable drawable, int x, int y, int width, int height,
-        double inputGamma));
+        double inputGamma);
 
-int Rbc_GetResampleFilter _ANSI_ARGS_((Tcl_Interp *interp,
-                                       char *filterName, ResampleFilter **filterPtrPtr));
+int Rbc_GetResampleFilter (Tcl_Interp *interp,
+                                       char *filterName, ResampleFilter **filterPtrPtr);
 
-void Rbc_FreeColorImage _ANSI_ARGS_((Rbc_ColorImage image));
+void Rbc_FreeColorImage (Rbc_ColorImage image);
 
 #if HAVE_JPEG
-Rbc_ColorImage Rbc_JPEGToColorImage _ANSI_ARGS_((Tcl_Interp *interp,
-        char *fileName));
+Rbc_ColorImage Rbc_JPEGToColorImage (Tcl_Interp *interp,
+        char *fileName);
 #endif
 
-Rbc_ColorImage Rbc_PhotoToColorImage _ANSI_ARGS_((
-            Tk_PhotoHandle photo));
+Rbc_ColorImage Rbc_PhotoToColorImage (
+            Tk_PhotoHandle photo);
 
-Rbc_ColorImage Rbc_PhotoRegionToColorImage _ANSI_ARGS_((
-            Tk_PhotoHandle photo, int x, int y, int width, int height));
+Rbc_ColorImage Rbc_PhotoRegionToColorImage (
+            Tk_PhotoHandle photo, int x, int y, int width, int height);
 
-int Rbc_QuantizeColorImage _ANSI_ARGS_((Rbc_ColorImage src,
-                                        Rbc_ColorImage dest, int nColors));
+int Rbc_QuantizeColorImage (Rbc_ColorImage src,
+                                        Rbc_ColorImage dest, int nColors);
 
-Rbc_ColorImage Rbc_ResampleColorImage _ANSI_ARGS_((Rbc_ColorImage image,
+Rbc_ColorImage Rbc_ResampleColorImage (Rbc_ColorImage image,
         int destWidth, int destHeight, ResampleFilter *horzFilterPtr,
-        ResampleFilter *vertFilterPtr));
+        ResampleFilter *vertFilterPtr);
 
-void Rbc_ResamplePhoto _ANSI_ARGS_((Tcl_Interp *interp, Tk_PhotoHandle srcPhoto,
+void Rbc_ResamplePhoto (Tcl_Interp *interp, Tk_PhotoHandle srcPhoto,
                                     int x, int y, int width, int height, Tk_PhotoHandle destPhoto,
-                                    ResampleFilter *horzFilterPtr, ResampleFilter *vertFilterPtr));
+                                    ResampleFilter *horzFilterPtr, ResampleFilter *vertFilterPtr);
 
-Rbc_ColorImage Rbc_ResizeColorImage _ANSI_ARGS_((Rbc_ColorImage src,
-        int x, int y, int width, int height, int destWidth, int destHeight));
+Rbc_ColorImage Rbc_ResizeColorImage (Rbc_ColorImage src,
+        int x, int y, int width, int height, int destWidth, int destHeight);
 
-Rbc_ColorImage Rbc_ResizeColorSubimage _ANSI_ARGS_((Rbc_ColorImage src,
-        int x, int y, int width, int height, int destWidth, int destHeight));
+Rbc_ColorImage Rbc_ResizeColorSubimage (Rbc_ColorImage src,
+        int x, int y, int width, int height, int destWidth, int destHeight);
 
-Rbc_ColorImage Rbc_RotateColorImage _ANSI_ARGS_((Rbc_ColorImage image,
-        double theta));
+Rbc_ColorImage Rbc_RotateColorImage (Rbc_ColorImage image,
+        double theta);
 
-void Rbc_ResizePhoto _ANSI_ARGS_((Tcl_Interp *interp, Tk_PhotoHandle srcPhoto, int x, int y,
-                                  int width, int height, Tk_PhotoHandle destPhoto));
+void Rbc_ResizePhoto (Tcl_Interp *interp, Tk_PhotoHandle srcPhoto, int x, int y,
+                                  int width, int height, Tk_PhotoHandle destPhoto);
 
-int Rbc_SnapPhoto _ANSI_ARGS_((Tcl_Interp *interp, Tk_Window tkwin,
+int Rbc_SnapPhoto (Tcl_Interp *interp, Tk_Window tkwin,
                                Drawable drawable, int x, int y, int width, int height, int destWidth,
-                               int destHeight, char *photoName, double inputGamma));
+                               int destHeight, char *photoName, double inputGamma);
 
-Region2D *Rbc_SetRegion _ANSI_ARGS_((int x, int y, int width,
-                                     int height, Region2D *regionPtr));
+Region2D *Rbc_SetRegion (int x, int y, int width,
+                                     int height, Region2D *regionPtr);
 
-ColorTable Rbc_CreateColorTable _ANSI_ARGS_((Tk_Window tkwin));
+ColorTable Rbc_CreateColorTable (Tk_Window tkwin);
 
-ColorTable Rbc_DirectColorTable _ANSI_ARGS_((Tcl_Interp *interp,
-        Tk_Window tkwin, Rbc_ColorImage image));
+ColorTable Rbc_DirectColorTable (Tcl_Interp *interp,
+        Tk_Window tkwin, Rbc_ColorImage image);
 
-ColorTable Rbc_PseudoColorTable _ANSI_ARGS_((Tcl_Interp *interp,
-        Tk_Window tkwin, Rbc_ColorImage image));
+ColorTable Rbc_PseudoColorTable (Tcl_Interp *interp,
+        Tk_Window tkwin, Rbc_ColorImage image);
 
-void Rbc_FreeColorTable _ANSI_ARGS_((ColorTable colorTable));
+void Rbc_FreeColorTable (ColorTable colorTable);
 
 /* Missing routines from the Tk photo C API */
 
-int Tk_ImageIsDeleted _ANSI_ARGS_((Tk_Image tkImage));
-Tk_ImageMaster Tk_ImageGetMaster _ANSI_ARGS_((Tk_Image tkImage));
-Tk_ImageType *Tk_ImageGetType _ANSI_ARGS_((Tk_Image tkImage));
-Pixmap Tk_ImageGetPhotoPixmap _ANSI_ARGS_((Tk_Image photoImage));
-GC Tk_ImageGetPhotoGC _ANSI_ARGS_((Tk_Image photoImage));
+int Tk_ImageIsDeleted (Tk_Image tkImage);
+Tk_ImageMaster Tk_ImageGetMaster (Tk_Image tkImage);
+Tk_ImageType *Tk_ImageGetType (Tk_Image tkImage);
+Pixmap Tk_ImageGetPhotoPixmap (Tk_Image photoImage);
+GC Tk_ImageGetPhotoGC (Tk_Image photoImage);
 
-char *Rbc_NameOfImage _ANSI_ARGS_((Tk_Image tkImage));
-Tk_Image Rbc_CreateTemporaryImage _ANSI_ARGS_((Tcl_Interp *interp,
-        Tk_Window tkwin, ClientData clientData));
-int Rbc_DestroyTemporaryImage _ANSI_ARGS_((Tcl_Interp *interp,
-        Tk_Image tkImage));
+char *Rbc_NameOfImage (Tk_Image tkImage);
+Tk_Image Rbc_CreateTemporaryImage (Tcl_Interp *interp,
+        Tk_Window tkwin, ClientData clientData);
+int Rbc_DestroyTemporaryImage (Tcl_Interp *interp,
+        Tk_Image tkImage);
 
-GC Rbc_GetBitmapGC _ANSI_ARGS_((Tk_Window tkwin));
-Pixmap Rbc_PhotoImageMask _ANSI_ARGS_((Tk_Window tkwin,
-                                       Tk_PhotoImageBlock src));
+GC Rbc_GetBitmapGC (Tk_Window tkwin);
+Pixmap Rbc_PhotoImageMask (Tk_Window tkwin,
+                                       Tk_PhotoImageBlock src);
 
-Pixmap Rbc_RotateBitmap _ANSI_ARGS_((Tk_Window tkwin, Pixmap bitmap,
-                                     int width, int height, double theta, int *widthPtr, int *heightPtr));
+Pixmap Rbc_RotateBitmap (Tk_Window tkwin, Pixmap bitmap,
+                                     int width, int height, double theta, int *widthPtr, int *heightPtr);
 
-Pixmap Rbc_ScaleBitmap _ANSI_ARGS_((Tk_Window tkwin, Pixmap srcBitmap,
-                                    int srcWidth, int srcHeight, int scaledWidth, int scaledHeight));
+Pixmap Rbc_ScaleBitmap (Tk_Window tkwin, Pixmap srcBitmap,
+                                    int srcWidth, int srcHeight, int scaledWidth, int scaledHeight);
 
-Pixmap Rbc_ScaleRotateBitmapRegion _ANSI_ARGS_((Tk_Window tkwin,
+Pixmap Rbc_ScaleRotateBitmapRegion (Tk_Window tkwin,
         Pixmap srcBitmap, unsigned int srcWidth, unsigned int srcHeight,
         int regionX, int regionY, unsigned int regionWidth,
         unsigned int regionHeight, unsigned int virtWidth,
-        unsigned int virtHeight, double theta));
+        unsigned int virtHeight, double theta);
 
 #endif /* _RBCIMAGE */

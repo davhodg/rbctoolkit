@@ -207,11 +207,11 @@ EXTERN void Rbc_EmulateXWarpPointer(Display *display, Window srcWindow,
                                     Window destWindow, int srcX, int srcY, unsigned int srcWidth,
                                     unsigned int srcHeight, int destX, int destY);
 
-extern unsigned char *Rbc_GetBitmapData _ANSI_ARGS_((Display *display,
-        Pixmap bitmap, int width, int height, int *pitchPtr));
+extern unsigned char *Rbc_GetBitmapData (Display *display,
+        Pixmap bitmap, int width, int height, int *pitchPtr);
 
-extern HPALETTE Rbc_GetSystemPalette _ANSI_ARGS_(());
+extern HPALETTE Rbc_GetSystemPalette ();
 
-extern HPEN Rbc_GCToPen _ANSI_ARGS_((HDC dc, GC gc));
+extern HPEN Rbc_GCToPen (HDC dc, GC gc);
 
 #endif /*_RBCWIN*/

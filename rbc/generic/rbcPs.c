@@ -19,11 +19,11 @@
 #define PS_MAXPATH	1500	/* Maximum number of components in a PostScript
                              * (level 1) path. */
 
-static void XColorToPostScript _ANSI_ARGS_((struct PsTokenStruct *tokenPtr, XColor *colorPtr));
-INLINE static unsigned char ReverseBits _ANSI_ARGS_((register unsigned char byte));
-INLINE static void ByteToHex _ANSI_ARGS_((register unsigned char byte, char *string));
-static char *NameOfAtom _ANSI_ARGS_((Tk_Window tkwin, Atom atom));
-static void TextLayoutToPostScript _ANSI_ARGS_((struct PsTokenStruct *tokenPtr, int x, int y, TextLayout *textPtr));
+static void XColorToPostScript (struct PsTokenStruct *tokenPtr, XColor *colorPtr);
+INLINE static unsigned char ReverseBits (register unsigned char byte);
+INLINE static void ByteToHex (register unsigned char byte, char *string);
+static char *NameOfAtom (Tk_Window tkwin, Atom atom);
+static void TextLayoutToPostScript (struct PsTokenStruct *tokenPtr, int x, int y, TextLayout *textPtr);
 
 /*
  *--------------------------------------------------------------

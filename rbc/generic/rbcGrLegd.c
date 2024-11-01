@@ -137,15 +137,15 @@ static Tcl_IdleProc DisplayLegend;
 static Rbc_BindPickProc PickLegendEntry;
 static Tk_EventProc LegendEventProc;
 
-static void EventuallyRedrawLegend _ANSI_ARGS_((Legend *legendPtr));
-static int CreateLegendWindow _ANSI_ARGS_((Tcl_Interp *interp, Legend *legendPtr, char *pathName));
-static void SetLegendOrigin _ANSI_ARGS_((Legend *legendPtr));
-static void ConfigureLegend _ANSI_ARGS_((Graph *graphPtr, Legend *legendPtr));
-static int GetOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char *argv[]));
-static int ActivateOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char *argv[]));
-static int BindOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
-static int CgetOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
-static int ConfigureOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
+static void EventuallyRedrawLegend (Legend *legendPtr);
+static int CreateLegendWindow (Tcl_Interp *interp, Legend *legendPtr, char *pathName);
+static void SetLegendOrigin (Legend *legendPtr);
+static void ConfigureLegend (Graph *graphPtr, Legend *legendPtr);
+static int GetOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char *argv[]);
+static int ActivateOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char *argv[]);
+static int BindOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static int CgetOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static int ConfigureOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
 
 /*
  *--------------------------------------------------------------

@@ -18,7 +18,7 @@
 static Tcl_HashTable bitmapGCTable;
 static int initialized;
 
-static void DrawTextLayout _ANSI_ARGS_((Display *display, Drawable drawable, GC gc, Tk_Font font, register int x, register int y, TextLayout *textPtr));
+static void DrawTextLayout (Display *display, Drawable drawable, GC gc, Tk_Font font, register int x, register int y, TextLayout *textPtr);
 
 /*
  *--------------------------------------------------------------

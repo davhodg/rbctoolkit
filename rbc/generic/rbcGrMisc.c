@@ -31,12 +31,12 @@ Tk_CustomOption rbcColorPairOption = {
     StringToColorPair, ColorPairToString, (ClientData)0
 };
 
-static void XColorToHSV _ANSI_ARGS_((XColor *colorPtr, HSV *hsvPtr));
-static void HSVToXColor _ANSI_ARGS_((HSV *hsvPtr, XColor *colorPtr));
-static int GetColorPair _ANSI_ARGS_((Tcl_Interp *interp, Tk_Window tkwin, char *fgStr, char *bgStr, ColorPair *pairPtr, int allowDefault));
-static char * NameOfColor _ANSI_ARGS_((XColor *colorPtr));
-static int ClipTest _ANSI_ARGS_((double ds, double dr, double *t1, double *t2));
-static double FindSplit _ANSI_ARGS_((Point2D points[], int i, int j, int *split));
+static void XColorToHSV (XColor *colorPtr, HSV *hsvPtr);
+static void HSVToXColor (HSV *hsvPtr, XColor *colorPtr);
+static int GetColorPair (Tcl_Interp *interp, Tk_Window tkwin, char *fgStr, char *bgStr, ColorPair *pairPtr, int allowDefault);
+static char * NameOfColor (XColor *colorPtr);
+static int ClipTest (double ds, double dr, double *t1, double *t2);
+static double FindSplit (Point2D points[], int i, int j, int *split);
 
 /* ----------------------------------------------------------------------
  * Custom option parse and print procedures

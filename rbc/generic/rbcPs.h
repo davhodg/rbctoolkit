@@ -47,93 +47,93 @@ struct PsTokenStruct {
     char scratchArr[PSTOKEN_BUFSIZ+1];
 };
 
-PsToken Rbc_GetPsToken _ANSI_ARGS_((Tcl_Interp *interp,
-                                    Tk_Window tkwin));
+PsToken Rbc_GetPsToken (Tcl_Interp *interp,
+                                    Tk_Window tkwin);
 
-void Rbc_ReleasePsToken _ANSI_ARGS_((PsToken psToken));
-char *Rbc_PostScriptFromToken _ANSI_ARGS_((PsToken psToken));
-char *Rbc_ScratchBufferFromToken _ANSI_ARGS_((PsToken psToken));
+void Rbc_ReleasePsToken (PsToken psToken);
+char *Rbc_PostScriptFromToken (PsToken psToken);
+char *Rbc_ScratchBufferFromToken (PsToken psToken);
 
-void Rbc_AppendToPostScript _ANSI_ARGS_(TCL_VARARGS(PsToken, psToken));
+void Rbc_AppendToPostScript TCL_VARARGS(PsToken, psToken);
 
-void Rbc_FormatToPostScript _ANSI_ARGS_(TCL_VARARGS(PsToken, psToken));
+void Rbc_FormatToPostScript TCL_VARARGS(PsToken, psToken);
 
-void Rbc_Draw3DRectangleToPostScript _ANSI_ARGS_((PsToken psToken,
+void Rbc_Draw3DRectangleToPostScript (PsToken psToken,
         Tk_3DBorder border, double x, double y, int width, int height,
-        int borderWidth, int relief));
+        int borderWidth, int relief);
 
-void Rbc_Fill3DRectangleToPostScript _ANSI_ARGS_((PsToken psToken,
+void Rbc_Fill3DRectangleToPostScript (PsToken psToken,
         Tk_3DBorder border, double x, double y, int width, int height,
-        int borderWidth, int relief));
+        int borderWidth, int relief);
 
-void Rbc_BackgroundToPostScript _ANSI_ARGS_((PsToken psToken,
-        XColor *colorPtr));
+void Rbc_BackgroundToPostScript (PsToken psToken,
+        XColor *colorPtr);
 
-void Rbc_BitmapDataToPostScript _ANSI_ARGS_((PsToken psToken,
-        Display *display, Pixmap bitmap, int width, int height));
+void Rbc_BitmapDataToPostScript (PsToken psToken,
+        Display *display, Pixmap bitmap, int width, int height);
 
-void Rbc_ClearBackgroundToPostScript _ANSI_ARGS_((PsToken psToken));
+void Rbc_ClearBackgroundToPostScript (PsToken psToken);
 
-int Rbc_ColorImageToPsData _ANSI_ARGS_((Rbc_ColorImage image,
-                                        int nComponents, Tcl_DString * resultPtr, char *prefix));
+int Rbc_ColorImageToPsData (Rbc_ColorImage image,
+                                        int nComponents, Tcl_DString * resultPtr, char *prefix);
 
-void Rbc_ColorImageToPostScript _ANSI_ARGS_((PsToken psToken,
-        Rbc_ColorImage image, double x, double y));
+void Rbc_ColorImageToPostScript (PsToken psToken,
+        Rbc_ColorImage image, double x, double y);
 
-void Rbc_ForegroundToPostScript _ANSI_ARGS_((PsToken psToken,
-        XColor *colorPtr));
+void Rbc_ForegroundToPostScript (PsToken psToken,
+        XColor *colorPtr);
 
-void Rbc_FontToPostScript _ANSI_ARGS_((PsToken psToken, Tk_Font font));
+void Rbc_FontToPostScript (PsToken psToken, Tk_Font font);
 
-void Rbc_WindowToPostScript _ANSI_ARGS_((PsToken psToken,
-                                        Tk_Window tkwin, double x, double y));
+void Rbc_WindowToPostScript (PsToken psToken,
+                                        Tk_Window tkwin, double x, double y);
 
-void Rbc_LineDashesToPostScript _ANSI_ARGS_((PsToken psToken,
-        Rbc_Dashes *dashesPtr));
+void Rbc_LineDashesToPostScript (PsToken psToken,
+        Rbc_Dashes *dashesPtr);
 
-void Rbc_LineWidthToPostScript _ANSI_ARGS_((PsToken psToken,
-        int lineWidth));
+void Rbc_LineWidthToPostScript (PsToken psToken,
+        int lineWidth);
 
-void Rbc_PathToPostScript _ANSI_ARGS_((PsToken psToken,
-                                       Point2D *screenPts, int nScreenPts));
+void Rbc_PathToPostScript (PsToken psToken,
+                                       Point2D *screenPts, int nScreenPts);
 
-void Rbc_PhotoToPostScript _ANSI_ARGS_((PsToken psToken,
-                                        Tk_PhotoHandle photoToken, double x, double y));
-void Rbc_PolygonToPostScript _ANSI_ARGS_((PsToken psToken,
-        Point2D *screenPts, int nScreenPts));
+void Rbc_PhotoToPostScript (PsToken psToken,
+                                        Tk_PhotoHandle photoToken, double x, double y);
+void Rbc_PolygonToPostScript (PsToken psToken,
+        Point2D *screenPts, int nScreenPts);
 
-void Rbc_LineToPostScript _ANSI_ARGS_((PsToken psToken,
-                                       XPoint *pointArr, int nPoints));
+void Rbc_LineToPostScript (PsToken psToken,
+                                       XPoint *pointArr, int nPoints);
 
-void Rbc_TextToPostScript _ANSI_ARGS_((PsToken psToken, char *string,
-                                       TextStyle *attrPtr, double x, double y));
+void Rbc_TextToPostScript (PsToken psToken, char *string,
+                                       TextStyle *attrPtr, double x, double y);
 
-void Rbc_RectangleToPostScript _ANSI_ARGS_((PsToken psToken, double x,
-        double y, int width, int height));
+void Rbc_RectangleToPostScript (PsToken psToken, double x,
+        double y, int width, int height);
 
-void Rbc_RegionToPostScript _ANSI_ARGS_((PsToken psToken, double x,
-                                        double y, int width, int height));
+void Rbc_RegionToPostScript (PsToken psToken, double x,
+                                        double y, int width, int height);
 
-void Rbc_RectanglesToPostScript _ANSI_ARGS_((PsToken psToken,
-        XRectangle *rectArr, int nRects));
+void Rbc_RectanglesToPostScript (PsToken psToken,
+        XRectangle *rectArr, int nRects);
 
-void Rbc_BitmapToPostScript _ANSI_ARGS_((PsToken psToken,
-                                        Display *display, Pixmap bitmap, double scaleX, double scaleY));
+void Rbc_BitmapToPostScript (PsToken psToken,
+                                        Display *display, Pixmap bitmap, double scaleX, double scaleY);
 
-void Rbc_SegmentsToPostScript _ANSI_ARGS_((PsToken psToken,
-        XSegment *segArr, int nSegs));
+void Rbc_SegmentsToPostScript (PsToken psToken,
+        XSegment *segArr, int nSegs);
 
-void Rbc_StippleToPostScript _ANSI_ARGS_((PsToken psToken,
-        Display *display, Pixmap bitmap));
+void Rbc_StippleToPostScript (PsToken psToken,
+        Display *display, Pixmap bitmap);
 
-void Rbc_LineAttributesToPostScript _ANSI_ARGS_((PsToken psToken,
+void Rbc_LineAttributesToPostScript (PsToken psToken,
         XColor *colorPtr, int lineWidth, Rbc_Dashes *dashesPtr, int capStyle,
-        int joinStyle));
+        int joinStyle);
 
-int Rbc_FileToPostScript _ANSI_ARGS_((PsToken psToken,
-                                      char *fileName));
+int Rbc_FileToPostScript (PsToken psToken,
+                                      char *fileName);
 
-void Rbc_2DSegmentsToPostScript _ANSI_ARGS_((PsToken psToken,
-        Segment2D *segments, int nSegments));
+void Rbc_2DSegmentsToPostScript (PsToken psToken,
+        Segment2D *segments, int nSegments);
 
 #endif /* _RBCPS */

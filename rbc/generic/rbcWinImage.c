@@ -1176,8 +1176,8 @@ typedef struct {
     Tcl_DString dString;
 } ReaderHandler;
 
-static void ErrorProc _ANSI_ARGS_((j_common_ptr jpegInfo));
-static void MessageProc _ANSI_ARGS_((j_common_ptr jpegInfo));
+static void ErrorProc (j_common_ptr jpegInfo);
+static void MessageProc (j_common_ptr jpegInfo);
 
 /*
  *--------------------------------------------------------------

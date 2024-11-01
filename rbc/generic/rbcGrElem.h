@@ -128,24 +128,24 @@ double dist;		/* Distance in screen coordinates */
 
 } ClosestSearch;
 
-typedef void (ElementDrawProc) _ANSI_ARGS_((Graph *graphPtr, Drawable drawable,
-        Element *elemPtr));
-typedef void (ElementToPostScriptProc) _ANSI_ARGS_((Graph *graphPtr,
-        PsToken psToken, Element *elemPtr));
-typedef void (ElementDestroyProc) _ANSI_ARGS_((Graph *graphPtr,
-        Element *elemPtr));
-typedef int (ElementConfigProc) _ANSI_ARGS_((Graph *graphPtr,
-        Element *elemPtr));
-typedef void (ElementMapProc) _ANSI_ARGS_((Graph *graphPtr,
-        Element *elemPtr));
-typedef void (ElementExtentsProc) _ANSI_ARGS_((Element *elemPtr,
-        Extents2D *extsPtr));
-typedef void (ElementClosestProc) _ANSI_ARGS_((Graph *graphPtr,
-        Element *elemPtr, ClosestSearch *searchPtr));
-typedef void (ElementDrawSymbolProc) _ANSI_ARGS_((Graph *graphPtr,
-        Drawable drawable, Element *elemPtr, int x, int y, int symbolSize));
-typedef void (ElementSymbolToPostScriptProc) _ANSI_ARGS_((Graph *graphPtr,
-        PsToken psToken, Element *elemPtr, double x, double y, int symSize));
+typedef void (ElementDrawProc) (Graph *graphPtr, Drawable drawable,
+        Element *elemPtr);
+typedef void (ElementToPostScriptProc) (Graph *graphPtr,
+        PsToken psToken, Element *elemPtr);
+typedef void (ElementDestroyProc) (Graph *graphPtr,
+        Element *elemPtr);
+typedef int (ElementConfigProc) (Graph *graphPtr,
+        Element *elemPtr);
+typedef void (ElementMapProc) (Graph *graphPtr,
+        Element *elemPtr);
+typedef void (ElementExtentsProc) (Element *elemPtr,
+        Extents2D *extsPtr);
+typedef void (ElementClosestProc) (Graph *graphPtr,
+        Element *elemPtr, ClosestSearch *searchPtr);
+typedef void (ElementDrawSymbolProc) (Graph *graphPtr,
+        Drawable drawable, Element *elemPtr, int x, int y, int symbolSize);
+typedef void (ElementSymbolToPostScriptProc) (Graph *graphPtr,
+        PsToken psToken, Element *elemPtr, double x, double y, int symSize);
 
 typedef struct {
     ElementClosestProc *closestProc;
@@ -268,15 +268,15 @@ struct ElementStruct {
     int state;
 };
 
-Element *Rbc_BarElement _ANSI_ARGS_(());
-Element *Rbc_LineElement _ANSI_ARGS_(());
+Element *Rbc_BarElement ();
+Element *Rbc_LineElement ();
 
 extern Tk_OptionParseProc Rbc_StringToStyles;
 extern Tk_OptionPrintProc Rbc_StylesToString;
 
-double Rbc_FindElemVectorMinimum _ANSI_ARGS_((ElemVector *vecPtr, double minLimit));
-void Rbc_FreePalette _ANSI_ARGS_((Graph *graphPtr, Rbc_Chain *palette));
-PenStyle **Rbc_StyleMap _ANSI_ARGS_((Element *elemPtr));
-void Rbc_MapErrorBars _ANSI_ARGS_((Graph *graphPtr, Element *elemPtr, PenStyle **dataToStyle));
+double Rbc_FindElemVectorMinimum (ElemVector *vecPtr, double minLimit);
+void Rbc_FreePalette (Graph *graphPtr, Rbc_Chain *palette);
+PenStyle **Rbc_StyleMap (Element *elemPtr);
+void Rbc_MapErrorBars (Graph *graphPtr, Element *elemPtr, PenStyle **dataToStyle);
 
 #endif /* _RBCGRELEM */

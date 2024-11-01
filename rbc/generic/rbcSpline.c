@@ -43,19 +43,19 @@ typedef struct {
 #define Y2	param[9]
 
 static Tcl_CmdProc SplineCmd;
-static int Search _ANSI_ARGS_((Point2D points[], int nPoints, double key, int *foundPtr));
-static int QuadChoose _ANSI_ARGS_((Point2D *p, Point2D *q, double m1, double m2, double epsilon));
-static void QuadCases _ANSI_ARGS_((Point2D *p, Point2D *q, double m1, double m2, double param[], int which));
-static int QuadSelect _ANSI_ARGS_((Point2D *p, Point2D *q, double m1, double m2, double epsilon, double param[]));
-INLINE static double QuadGetImage _ANSI_ARGS_((double p1, double p2, double p3, double x1, double x2, double x3));
-static void QuadSpline _ANSI_ARGS_((Point2D *intp, Point2D *left, Point2D *right, double param[], int ncase));
-static void QuadSlopes _ANSI_ARGS_((Point2D points[], double *m, int nPoints));
-static int QuadEval _ANSI_ARGS_((Point2D origPts[], int nOrigPts, Point2D intpPts[], int nIntpPts, double *m, double epsilon));
-static int SolveCubic1 _ANSI_ARGS_((TriDiagonalMatrix A[], int n));
-static void SolveCubic2 _ANSI_ARGS_((TriDiagonalMatrix A[], CubicSpline spline[], int nIntervals));
-static CubicSpline *CubicSlopes _ANSI_ARGS_((Point2D points[], int nPoints, int isClosed, double unitX, double unitY));
-static int CubicEval _ANSI_ARGS_((Point2D origPts[], int nOrigPts, Point2D intpPts[], int nIntpPts, CubicSpline spline[]));
-static void CatromCoeffs _ANSI_ARGS_((Point2D *p, Point2D *a, Point2D *b, Point2D *c, Point2D *d));
+static int Search (Point2D points[], int nPoints, double key, int *foundPtr);
+static int QuadChoose (Point2D *p, Point2D *q, double m1, double m2, double epsilon);
+static void QuadCases (Point2D *p, Point2D *q, double m1, double m2, double param[], int which);
+static int QuadSelect (Point2D *p, Point2D *q, double m1, double m2, double epsilon, double param[]);
+INLINE static double QuadGetImage (double p1, double p2, double p3, double x1, double x2, double x3);
+static void QuadSpline (Point2D *intp, Point2D *left, Point2D *right, double param[], int ncase);
+static void QuadSlopes (Point2D points[], double *m, int nPoints);
+static int QuadEval (Point2D origPts[], int nOrigPts, Point2D intpPts[], int nIntpPts, double *m, double epsilon);
+static int SolveCubic1 (TriDiagonalMatrix A[], int n);
+static void SolveCubic2 (TriDiagonalMatrix A[], CubicSpline spline[], int nIntervals);
+static CubicSpline *CubicSlopes (Point2D points[], int nPoints, int isClosed, double unitX, double unitY);
+static int CubicEval (Point2D origPts[], int nOrigPts, Point2D intpPts[], int nIntpPts, CubicSpline spline[]);
+static void CatromCoeffs (Point2D *p, Point2D *a, Point2D *b, Point2D *c, Point2D *d);
 
 /*
  * -----------------------------------------------------------------------

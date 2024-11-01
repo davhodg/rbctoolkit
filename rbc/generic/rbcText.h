@@ -97,46 +97,46 @@ typedef struct {
 } TextStyle;
 
 
-TextLayout *Rbc_GetTextLayout _ANSI_ARGS_((char *string, TextStyle *stylePtr));
+TextLayout *Rbc_GetTextLayout (char *string, TextStyle *stylePtr);
 
-void Rbc_GetTextExtents _ANSI_ARGS_((TextStyle *stylePtr,
-                                     char *text, int *widthPtr, int *heightPtr));
+void Rbc_GetTextExtents (TextStyle *stylePtr,
+                                     char *text, int *widthPtr, int *heightPtr);
 
-void Rbc_InitTextStyle _ANSI_ARGS_((TextStyle *stylePtr));
+void Rbc_InitTextStyle (TextStyle *stylePtr);
 
-void Rbc_ResetTextStyle _ANSI_ARGS_((Tk_Window tkwin,
-                                     TextStyle *stylePtr));
+void Rbc_ResetTextStyle (Tk_Window tkwin,
+                                     TextStyle *stylePtr);
 
-void Rbc_FreeTextStyle _ANSI_ARGS_((Display *display,
-                                    TextStyle *stylePtr));
+void Rbc_FreeTextStyle (Display *display,
+                                    TextStyle *stylePtr);
 
-void Rbc_SetDrawTextStyle _ANSI_ARGS_((TextStyle *stylePtr,
+void Rbc_SetDrawTextStyle (TextStyle *stylePtr,
                                        Tk_Font font, GC gc, XColor *normalColor, XColor *activeColor,
                                        XColor *shadowColor, double theta, Tk_Anchor anchor, Tk_Justify justify,
-                                       int leader, int shadowOffset));
+                                       int leader, int shadowOffset);
 
-void Rbc_SetPrintTextStyle _ANSI_ARGS_((TextStyle *stylePtr,
+void Rbc_SetPrintTextStyle (TextStyle *stylePtr,
                                         Tk_Font font, XColor *fgColor, XColor *bgColor, XColor *shadowColor,
                                         double theta, Tk_Anchor anchor, Tk_Justify justify, int leader,
-                                        int shadowOffset));
+                                        int shadowOffset);
 
-void Rbc_DrawText _ANSI_ARGS_((Tk_Window tkwin, Drawable drawable,
-                               char *string, TextStyle *stylePtr, int x, int y));
+void Rbc_DrawText (Tk_Window tkwin, Drawable drawable,
+                               char *string, TextStyle *stylePtr, int x, int y);
 
-void Rbc_DrawTextLayout _ANSI_ARGS_((Tk_Window tkwin,
+void Rbc_DrawTextLayout (Tk_Window tkwin,
                                      Drawable drawable, TextLayout *textPtr, TextStyle *stylePtr,
-                                     int x, int y));
+                                     int x, int y);
 
-void Rbc_DrawText2 _ANSI_ARGS_((Tk_Window tkwin, Drawable drawable,
+void Rbc_DrawText2 (Tk_Window tkwin, Drawable drawable,
                                 char *string, TextStyle *stylePtr, int x, int y,
-                                Dim2D * dimPtr));
+                                Dim2D * dimPtr);
 
-Pixmap Rbc_CreateTextBitmap _ANSI_ARGS_((Tk_Window tkwin,
+Pixmap Rbc_CreateTextBitmap (Tk_Window tkwin,
                                         TextLayout *textPtr, TextStyle *stylePtr, int *widthPtr,
-                                        int *heightPtr));
+                                        int *heightPtr);
 
-int Rbc_DrawRotatedText _ANSI_ARGS_((Display *display,
+int Rbc_DrawRotatedText (Display *display,
                                      Drawable drawable, int x, int y, double theta,
-                                     TextStyle *stylePtr, TextLayout *textPtr));
+                                     TextStyle *stylePtr, TextLayout *textPtr);
 
 #endif /* _RBCTEXT */

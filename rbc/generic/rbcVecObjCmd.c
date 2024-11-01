@@ -33,14 +33,14 @@ static VectorObject **sortVectorArr;
 static int nSortVectors;
 static int reverse;
 
-static int AppendVector _ANSI_ARGS_((VectorObject *destPtr, VectorObject *srcPtr));
-static int AppendList   _ANSI_ARGS_((VectorObject *vPtr, int objc, Tcl_Obj * const objv[]));
-static enum NativeFormats GetBinaryFormat _ANSI_ARGS_((Tcl_Interp *interp, char *string, int *sizePtr));
-static int   CopyValues      _ANSI_ARGS_((VectorObject *vPtr, char *byteArr, enum NativeFormats fmt, int size, int length, int swap, int *indexPtr));
-static int   InRange         _ANSI_ARGS_((double value, double min, double max));
-static int   CopyList        _ANSI_ARGS_((VectorObject *vPtr, int objc, Tcl_Obj * const objv[]));
-static int * SortVectors     _ANSI_ARGS_((VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj *CONST *objv));
-static int   CompareVectors  _ANSI_ARGS_((void *a, void *b));
+static int AppendVector (VectorObject *destPtr, VectorObject *srcPtr);
+static int AppendList   (VectorObject *vPtr, int objc, Tcl_Obj * const objv[]);
+static enum NativeFormats GetBinaryFormat (Tcl_Interp *interp, char *string, int *sizePtr);
+static int   CopyValues     (VectorObject *vPtr, char *byteArr, enum NativeFormats fmt, int size, int length, int swap, int *indexPtr);
+static int   InRange        (double value, double min, double max);
+static int   CopyList       (VectorObject *vPtr, int objc, Tcl_Obj * const objv[]);
+static int * SortVectors    (VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj *CONST *objv);
+static int   CompareVectors (void *a, void *b);
 
 double
 drand48(void)

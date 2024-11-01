@@ -73,15 +73,15 @@ static Tcl_IdleProc UpdateTile;
 static Tk_ImageChangedProc ImageChangedProc;
 static Tcl_InterpDeleteProc TileInterpDeleteProc;
 
-static TileInterpData *GetTileInterpData _ANSI_ARGS_((Tcl_Interp *interp));
-static void DestroyClient _ANSI_ARGS_((TileClient *clientPtr));
-static void DestroyTile _ANSI_ARGS_((Tile *tilePtr));
-static void RedrawTile _ANSI_ARGS_((Tk_Window tkwin, Tile *tilePtr));
-static Tile *CreateTile _ANSI_ARGS_((Tcl_Interp *interp, Tk_Window tkwin, char *imageName));
-static TileClient *CreateClient _ANSI_ARGS_((Tcl_Interp *interp, Tk_Window tkwin, char *name));
+static TileInterpData *GetTileInterpData (Tcl_Interp *interp);
+static void DestroyClient (TileClient *clientPtr);
+static void DestroyTile (Tile *tilePtr);
+static void RedrawTile (Tk_Window tkwin, Tile *tilePtr);
+static Tile *CreateTile (Tcl_Interp *interp, Tk_Window tkwin, char *imageName);
+static TileClient *CreateClient (Tcl_Interp *interp, Tk_Window tkwin, char *name);
 
 #ifdef WIN32
-static void TileRegion _ANSI_ARGS_((HDC srcDC, HDC destDC, HDC maskDC, TileClient *clientPtr, int x, int y, int width, int height));
+static void TileRegion (HDC srcDC, HDC destDC, HDC maskDC, TileClient *clientPtr, int x, int y, int width, int height);
 #endif
 
 /*

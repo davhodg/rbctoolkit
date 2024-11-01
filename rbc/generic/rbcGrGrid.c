@@ -43,12 +43,12 @@ static Tk_ConfigSpec configSpecs[] = {
     {TK_CONFIG_END, NULL, NULL, NULL, NULL, 0, 0}
 };
 
-static void ConfigureGrid _ANSI_ARGS_((Graph *graphPtr, Grid *gridPtr));
-static int CgetOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
-static int ConfigureOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
-static int MapOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
-static int UnmapOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
-static int ToggleOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
+static void ConfigureGrid (Graph *graphPtr, Grid *gridPtr);
+static int CgetOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static int ConfigureOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static int MapOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static int UnmapOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static int ToggleOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
 
 /*
  *----------------------------------------------------------------------

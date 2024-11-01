@@ -820,8 +820,8 @@ static Tk_ConfigSpec linePenConfigSpecs[] = {
     {TK_CONFIG_END, NULL, NULL, NULL, NULL, 0, 0}
 };
 
-typedef double (DistanceProc) _ANSI_ARGS_((int x, int y, Point2D *p,
-        Point2D *q, Point2D *t));
+typedef double (DistanceProc) (int x, int y, Point2D *p,
+        Point2D *q, Point2D *t);
 
 /* Forward declarations */
 static PenConfigureProc ConfigurePen;
@@ -842,43 +842,43 @@ static DistanceProc DistanceToX;
 static DistanceProc DistanceToLine;
 static Rbc_TileChangedProc TileChangedProc;
 
-INLINE static int Round _ANSI_ARGS_((register double x));
-static int StringToBitmap _ANSI_ARGS_((Tcl_Interp *interp, Tk_Window tkwin, Symbol *symbolPtr, char *string));
-static char *NameOfSymbol _ANSI_ARGS_((Symbol *symbolPtr));
-static char *NameOfSmooth _ANSI_ARGS_((Smoothing value));
-static char *NameOfPenDir _ANSI_ARGS_((int penDir));
-static void ClearPalette _ANSI_ARGS_((Rbc_Chain *palette));
-static void InitPen _ANSI_ARGS_((LinePen *penPtr));
-static int ScaleSymbol _ANSI_ARGS_((Element *elemPtr, int normalSize));
-static void GetScreenPoints _ANSI_ARGS_((Graph *graphPtr, Line *linePtr, MapInfo *mapPtr));
-static void ReducePoints _ANSI_ARGS_((MapInfo *mapPtr, double tolerance));
-static void GenerateSteps _ANSI_ARGS_((MapInfo *mapPtr));
-static void GenerateSpline _ANSI_ARGS_((Graph *graphPtr, Line *linePtr, MapInfo *mapPtr));
-static void GenerateParametricSpline _ANSI_ARGS_((Graph *graphPtr, Line *linePtr, MapInfo *mapPtr));
-static void MapSymbols _ANSI_ARGS_((Graph *graphPtr, Line *linePtr, MapInfo *mapPtr));
-static void MapActiveSymbols _ANSI_ARGS_((Graph *graphPtr, Line *linePtr));
-static void MapStrip _ANSI_ARGS_((Graph *graphPtr, Line *linePtr, MapInfo *mapPtr));
-static void MergePens _ANSI_ARGS_((Line *linePtr, PenStyle **dataToStyle));
-INLINE static int OutCode _ANSI_ARGS_((Extents2D *extsPtr, Point2D *p));
-static int ClipSegment _ANSI_ARGS_((Extents2D *extsPtr, register int code1, register int code2, register Point2D *p, register Point2D *q));
-static void SaveTrace _ANSI_ARGS_((Line *linePtr, int start, int length, MapInfo *mapPtr));
-static void FreeTraces _ANSI_ARGS_((Line *linePtr));
-static void MapTraces _ANSI_ARGS_((Graph *graphPtr, Line *linePtr, MapInfo *mapPtr));
-static void MapFillArea _ANSI_ARGS_((Graph *graphPtr, Line *linePtr, MapInfo *mapPtr));
-static void ResetLine _ANSI_ARGS_((Line *linePtr));
-static int ClosestTrace _ANSI_ARGS_((Graph *graphPtr, Line *linePtr, ClosestSearch *searchPtr, DistanceProc *distProc));
-static int ClosestStrip _ANSI_ARGS_((Graph *graphPtr, Line *linePtr, ClosestSearch *searchPtr, DistanceProc *distProc));
-static void ClosestPoint _ANSI_ARGS_((Line *linePtr, ClosestSearch *searchPtr));
-static void DrawCircles _ANSI_ARGS_((Display *display, Drawable drawable, Line *linePtr, LinePen *penPtr, int nSymbolPts, Point2D *symbolPts, int radius));
-static void DrawSquares _ANSI_ARGS_((Display *display, Drawable drawable, Line *linePtr, LinePen *penPtr, int nSymbolPts, register Point2D *symbolPts, int r));
-static void DrawSymbols _ANSI_ARGS_((Graph *graphPtr, Drawable drawable, Line *linePtr, LinePen *penPtr, int size, int nSymbolPts, Point2D *symbolPts));
-static void DrawTraces _ANSI_ARGS_((Graph *graphPtr, Drawable drawable, Line *linePtr, LinePen *penPtr));
-static void DrawValues _ANSI_ARGS_((Graph *graphPtr, Drawable drawable, Line *linePtr, LinePen *penPtr, int nSymbolPts, Point2D *symbolPts, int *pointToData));
-static void GetSymbolPostScriptInfo _ANSI_ARGS_((Graph *graphPtr, PsToken psToken, LinePen *penPtr, int size));
-static void SymbolsToPostScript _ANSI_ARGS_((Graph *graphPtr, PsToken psToken, LinePen *penPtr, int size, int nSymbolPts, Point2D *symbolPts));
-static void SetLineAttributes _ANSI_ARGS_((PsToken psToken, LinePen *penPtr));
-static void TracesToPostScript _ANSI_ARGS_((PsToken psToken, Line *linePtr, LinePen *penPtr));
-static void ValuesToPostScript _ANSI_ARGS_((PsToken psToken, Line *linePtr, LinePen *penPtr, int nSymbolPts, Point2D *symbolPts, int *pointToData));
+INLINE static int Round (register double x);
+static int StringToBitmap (Tcl_Interp *interp, Tk_Window tkwin, Symbol *symbolPtr, char *string);
+static char *NameOfSymbol (Symbol *symbolPtr);
+static char *NameOfSmooth (Smoothing value);
+static char *NameOfPenDir (int penDir);
+static void ClearPalette (Rbc_Chain *palette);
+static void InitPen (LinePen *penPtr);
+static int ScaleSymbol (Element *elemPtr, int normalSize);
+static void GetScreenPoints (Graph *graphPtr, Line *linePtr, MapInfo *mapPtr);
+static void ReducePoints (MapInfo *mapPtr, double tolerance);
+static void GenerateSteps (MapInfo *mapPtr);
+static void GenerateSpline (Graph *graphPtr, Line *linePtr, MapInfo *mapPtr);
+static void GenerateParametricSpline (Graph *graphPtr, Line *linePtr, MapInfo *mapPtr);
+static void MapSymbols (Graph *graphPtr, Line *linePtr, MapInfo *mapPtr);
+static void MapActiveSymbols (Graph *graphPtr, Line *linePtr);
+static void MapStrip (Graph *graphPtr, Line *linePtr, MapInfo *mapPtr);
+static void MergePens (Line *linePtr, PenStyle **dataToStyle);
+INLINE static int OutCode (Extents2D *extsPtr, Point2D *p);
+static int ClipSegment (Extents2D *extsPtr, register int code1, register int code2, register Point2D *p, register Point2D *q);
+static void SaveTrace (Line *linePtr, int start, int length, MapInfo *mapPtr);
+static void FreeTraces (Line *linePtr);
+static void MapTraces (Graph *graphPtr, Line *linePtr, MapInfo *mapPtr);
+static void MapFillArea (Graph *graphPtr, Line *linePtr, MapInfo *mapPtr);
+static void ResetLine (Line *linePtr);
+static int ClosestTrace (Graph *graphPtr, Line *linePtr, ClosestSearch *searchPtr, DistanceProc *distProc);
+static int ClosestStrip (Graph *graphPtr, Line *linePtr, ClosestSearch *searchPtr, DistanceProc *distProc);
+static void ClosestPoint (Line *linePtr, ClosestSearch *searchPtr);
+static void DrawCircles (Display *display, Drawable drawable, Line *linePtr, LinePen *penPtr, int nSymbolPts, Point2D *symbolPts, int radius);
+static void DrawSquares (Display *display, Drawable drawable, Line *linePtr, LinePen *penPtr, int nSymbolPts, register Point2D *symbolPts, int r);
+static void DrawSymbols (Graph *graphPtr, Drawable drawable, Line *linePtr, LinePen *penPtr, int size, int nSymbolPts, Point2D *symbolPts);
+static void DrawTraces (Graph *graphPtr, Drawable drawable, Line *linePtr, LinePen *penPtr);
+static void DrawValues (Graph *graphPtr, Drawable drawable, Line *linePtr, LinePen *penPtr, int nSymbolPts, Point2D *symbolPts, int *pointToData);
+static void GetSymbolPostScriptInfo (Graph *graphPtr, PsToken psToken, LinePen *penPtr, int size);
+static void SymbolsToPostScript (Graph *graphPtr, PsToken psToken, LinePen *penPtr, int size, int nSymbolPts, Point2D *symbolPts);
+static void SetLineAttributes (PsToken psToken, LinePen *penPtr);
+static void TracesToPostScript (PsToken psToken, Line *linePtr, LinePen *penPtr);
+static void ValuesToPostScript (PsToken psToken, Line *linePtr, LinePen *penPtr, int nSymbolPts, Point2D *symbolPts, int *pointToData);
 
 #ifdef WIN32
 MODULE_SCOPE const int tkpWinRopModes[];

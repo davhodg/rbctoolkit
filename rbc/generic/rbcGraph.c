@@ -179,33 +179,33 @@ static Tcl_CmdProc GraphCmd;
 static Tcl_CmdDeleteProc GraphInstCmdDeleteProc;
 static Rbc_TileChangedProc TileChangedProc;
 
-static void AdjustAxisPointers _ANSI_ARGS_((Graph *graphPtr));
-static int InitPens _ANSI_ARGS_((Graph *graphPtr));
-static Graph *CreateGraph _ANSI_ARGS_((Tcl_Interp *interp, int argc, CONST84 char **argv, Rbc_Uid classUid));
-static void ConfigureGraph _ANSI_ARGS_((Graph *graphPtr));
-static int NewGraph _ANSI_ARGS_((Tcl_Interp *interp, int argc, char **argv, Rbc_Uid classUid));
-static void DrawMargins _ANSI_ARGS_((Graph *graphPtr, Drawable drawable));
-static void DrawPlotRegion _ANSI_ARGS_((Graph *graphPtr, Drawable drawable));
-static void UpdateMarginTraces _ANSI_ARGS_((Graph *graphPtr));
+static void AdjustAxisPointers (Graph *graphPtr);
+static int InitPens (Graph *graphPtr);
+static Graph *CreateGraph (Tcl_Interp *interp, int argc, CONST84 char **argv, Rbc_Uid classUid);
+static void ConfigureGraph (Graph *graphPtr);
+static int NewGraph (Tcl_Interp *interp, int argc, char **argv, Rbc_Uid classUid);
+static void DrawMargins (Graph *graphPtr, Drawable drawable);
+static void DrawPlotRegion (Graph *graphPtr, Drawable drawable);
+static void UpdateMarginTraces (Graph *graphPtr);
 
-static int XAxisOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
-static int X2AxisOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
-static int YAxisOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
-static int Y2AxisOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
-static int BarOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
-static int LineOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
-static int ElementOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
-static int ConfigureOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, CONST84 char **argv));
-static int CgetOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
-static int ExtentsOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
-static int InsideOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
-static int InvtransformOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
-static int TransformOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
-static int SnapOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
+static int XAxisOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static int X2AxisOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static int YAxisOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static int Y2AxisOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static int BarOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static int LineOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static int ElementOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static int ConfigureOp (Graph *graphPtr, Tcl_Interp *interp, int argc, CONST84 char **argv);
+static int CgetOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static int ExtentsOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static int InsideOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static int InvtransformOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static int TransformOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static int SnapOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
 
 #ifdef WIN32
-static int InitMetaFileHeader _ANSI_ARGS_((Tk_Window tkwin, int width, int height, APMHEADER *mfhPtr));
-static int CreateAPMetaFile _ANSI_ARGS_((Tcl_Interp *interp, HANDLE hMetaFile, HDC hDC, APMHEADER *mfhPtr, char *fileName));
+static int InitMetaFileHeader (Tk_Window tkwin, int width, int height, APMHEADER *mfhPtr);
+static int CreateAPMetaFile (Tcl_Interp *interp, HANDLE hMetaFile, HDC hDC, APMHEADER *mfhPtr, char *fileName);
 #endif
 
 /*

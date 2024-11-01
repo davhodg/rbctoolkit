@@ -148,9 +148,9 @@ typedef enum BarModes {
 typedef struct PenStruct Pen;
 typedef struct MarkerStruct Marker;
 
-typedef Pen *(PenCreateProc) _ANSI_ARGS_((void));
-typedef int (PenConfigureProc) _ANSI_ARGS_((Graph *graphPtr, Pen *penPtr));
-typedef void (PenDestroyProc) _ANSI_ARGS_((Graph *graphPtr, Pen *penPtr));
+typedef Pen *(PenCreateProc) (void);
+typedef int (PenConfigureProc) (Graph *graphPtr, Pen *penPtr);
+typedef void (PenDestroyProc) (Graph *graphPtr, Pen *penPtr);
 
 struct PenStruct {
     char *name;			/* Pen style identifier.  If NULL pen
@@ -544,108 +544,108 @@ struct GraphStruct {
  */
 
 Tcl_CmdProc Rbc_GraphInstCmdProc;
-int Rbc_CreatePostScript _ANSI_ARGS_((Graph *graphPtr));
-int Rbc_CreateCrosshairs _ANSI_ARGS_((Graph *graphPtr));
-int Rbc_CreateGrid _ANSI_ARGS_((Graph *graphPtr));
-double Rbc_InvHMap _ANSI_ARGS_((Graph *graphPtr, Axis *axisPtr,
-                                double x));
-double Rbc_InvVMap _ANSI_ARGS_((Graph *graphPtr, Axis *axisPtr,
-                                double x));
-double Rbc_HMap _ANSI_ARGS_((Graph *graphPtr, Axis *axisPtr, double x));
-double Rbc_VMap _ANSI_ARGS_((Graph *graphPtr, Axis *axisPtr, double y));
-Point2D Rbc_InvMap2D _ANSI_ARGS_((Graph *graphPtr, double x,
-                                  double y, Axis2D *pairPtr));
-Point2D Rbc_Map2D _ANSI_ARGS_((Graph *graphPtr, double x,
-                               double y, Axis2D *pairPtr));
-Graph *Rbc_GetGraphFromWindowData _ANSI_ARGS_((Tk_Window tkwin));
-int Rbc_LineRectClip _ANSI_ARGS_((Extents2D *extsPtr, Point2D *p,
-                                  Point2D *q));
-int Rbc_PolyRectClip _ANSI_ARGS_((Extents2D *extsPtr, Point2D *inputPts,
-                                  int nInputPts, Point2D *outputPts));
+int Rbc_CreatePostScript (Graph *graphPtr);
+int Rbc_CreateCrosshairs (Graph *graphPtr);
+int Rbc_CreateGrid (Graph *graphPtr);
+double Rbc_InvHMap (Graph *graphPtr, Axis *axisPtr,
+                                double x);
+double Rbc_InvVMap (Graph *graphPtr, Axis *axisPtr,
+                                double x);
+double Rbc_HMap (Graph *graphPtr, Axis *axisPtr, double x);
+double Rbc_VMap (Graph *graphPtr, Axis *axisPtr, double y);
+Point2D Rbc_InvMap2D (Graph *graphPtr, double x,
+                                  double y, Axis2D *pairPtr);
+Point2D Rbc_Map2D (Graph *graphPtr, double x,
+                               double y, Axis2D *pairPtr);
+Graph *Rbc_GetGraphFromWindowData (Tk_Window tkwin);
+int Rbc_LineRectClip (Extents2D *extsPtr, Point2D *p,
+                                  Point2D *q);
+int Rbc_PolyRectClip (Extents2D *extsPtr, Point2D *inputPts,
+                                  int nInputPts, Point2D *outputPts);
 
-void Rbc_ComputeStacks _ANSI_ARGS_((Graph *graphPtr));
-void Rbc_ConfigureCrosshairs _ANSI_ARGS_((Graph *graphPtr));
-void Rbc_DestroyAxes _ANSI_ARGS_((Graph *graphPtr));
-void Rbc_DestroyCrosshairs _ANSI_ARGS_((Graph *graphPtr));
-void Rbc_DestroyGrid _ANSI_ARGS_((Graph *graphPtr));
-void Rbc_DestroyElements _ANSI_ARGS_((Graph *graphPtr));
-void Rbc_DestroyMarkers _ANSI_ARGS_((Graph *graphPtr));
-void Rbc_DestroyPostScript _ANSI_ARGS_((Graph *graphPtr));
-void Rbc_DrawAxes _ANSI_ARGS_((Graph *graphPtr, Drawable drawable));
-void Rbc_DrawAxisLimits _ANSI_ARGS_((Graph *graphPtr,
-                                     Drawable drawable));
-void Rbc_DrawElements _ANSI_ARGS_((Graph *graphPtr, Drawable drawable));
-void Rbc_DrawActiveElements _ANSI_ARGS_((Graph *graphPtr,
-                                        Drawable drawable));
-void Rbc_DrawGraph _ANSI_ARGS_((Graph *graphPtr, Drawable drawable,
-                                int backingStore));
-void Rbc_DrawGrid _ANSI_ARGS_((Graph *graphPtr, Drawable drawable));
-void Rbc_DrawMarkers _ANSI_ARGS_((Graph *graphPtr, Drawable drawable,
-                                  int under));
-void Rbc_Draw2DSegments _ANSI_ARGS_((Display *display,
-                                     Drawable drawable, GC gc, Segment2D *segments, int nSegments));
-void Rbc_InitFreqTable _ANSI_ARGS_((Graph *graphPtr));
-void Rbc_LayoutGraph _ANSI_ARGS_((Graph *graphPtr));
-void Rbc_LayoutMargins _ANSI_ARGS_((Graph *graphPtr));
-void Rbc_EventuallyRedrawGraph _ANSI_ARGS_((Graph *graphPtr));
-void Rbc_ResetAxes _ANSI_ARGS_((Graph *graphPtr));
-void Rbc_ResetStacks _ANSI_ARGS_((Graph *graphPtr));
-void Rbc_GraphExtents _ANSI_ARGS_((Graph *graphPtr, Extents2D *extsPtr));
-void Rbc_DisableCrosshairs _ANSI_ARGS_((Graph *graphPtr));
-void Rbc_EnableCrosshairs _ANSI_ARGS_((Graph *graphPtr));
-void Rbc_MapAxes _ANSI_ARGS_((Graph *graphPtr));
-void Rbc_MapElements _ANSI_ARGS_((Graph *graphPtr));
-void Rbc_MapMarkers _ANSI_ARGS_((Graph *graphPtr));
-void Rbc_MapGrid _ANSI_ARGS_((Graph *graphPtr));
-void Rbc_UpdateCrosshairs _ANSI_ARGS_((Graph *graphPtr));
-void Rbc_DestroyPens _ANSI_ARGS_((Graph *graphPtr));
-int Rbc_GetPen _ANSI_ARGS_((Graph *graphPtr, CONST84 char *name,
-                            Rbc_Uid classUid, Pen **penPtrPtr));
-Pen *Rbc_BarPen _ANSI_ARGS_((char *penName));
-Pen *Rbc_LinePen _ANSI_ARGS_((char *penName));
-Pen *Rbc_CreatePen _ANSI_ARGS_((Graph *graphPtr, char *penName, Rbc_Uid classUid, int nOpts, char **options));
-void Rbc_FreePen _ANSI_ARGS_((Graph *graphPtr, Pen *penPtr));
+void Rbc_ComputeStacks (Graph *graphPtr);
+void Rbc_ConfigureCrosshairs (Graph *graphPtr);
+void Rbc_DestroyAxes (Graph *graphPtr);
+void Rbc_DestroyCrosshairs (Graph *graphPtr);
+void Rbc_DestroyGrid (Graph *graphPtr);
+void Rbc_DestroyElements (Graph *graphPtr);
+void Rbc_DestroyMarkers (Graph *graphPtr);
+void Rbc_DestroyPostScript (Graph *graphPtr);
+void Rbc_DrawAxes (Graph *graphPtr, Drawable drawable);
+void Rbc_DrawAxisLimits (Graph *graphPtr,
+                                     Drawable drawable);
+void Rbc_DrawElements (Graph *graphPtr, Drawable drawable);
+void Rbc_DrawActiveElements (Graph *graphPtr,
+                                        Drawable drawable);
+void Rbc_DrawGraph (Graph *graphPtr, Drawable drawable,
+                                int backingStore);
+void Rbc_DrawGrid (Graph *graphPtr, Drawable drawable);
+void Rbc_DrawMarkers (Graph *graphPtr, Drawable drawable,
+                                  int under);
+void Rbc_Draw2DSegments (Display *display,
+                                     Drawable drawable, GC gc, Segment2D *segments, int nSegments);
+void Rbc_InitFreqTable (Graph *graphPtr);
+void Rbc_LayoutGraph (Graph *graphPtr);
+void Rbc_LayoutMargins (Graph *graphPtr);
+void Rbc_EventuallyRedrawGraph (Graph *graphPtr);
+void Rbc_ResetAxes (Graph *graphPtr);
+void Rbc_ResetStacks (Graph *graphPtr);
+void Rbc_GraphExtents (Graph *graphPtr, Extents2D *extsPtr);
+void Rbc_DisableCrosshairs (Graph *graphPtr);
+void Rbc_EnableCrosshairs (Graph *graphPtr);
+void Rbc_MapAxes (Graph *graphPtr);
+void Rbc_MapElements (Graph *graphPtr);
+void Rbc_MapMarkers (Graph *graphPtr);
+void Rbc_MapGrid (Graph *graphPtr);
+void Rbc_UpdateCrosshairs (Graph *graphPtr);
+void Rbc_DestroyPens (Graph *graphPtr);
+int Rbc_GetPen (Graph *graphPtr, CONST84 char *name,
+                            Rbc_Uid classUid, Pen **penPtrPtr);
+Pen *Rbc_BarPen (char *penName);
+Pen *Rbc_LinePen (char *penName);
+Pen *Rbc_CreatePen (Graph *graphPtr, char *penName, Rbc_Uid classUid, int nOpts, char **options);
+void Rbc_FreePen (Graph *graphPtr, Pen *penPtr);
 
-int Rbc_VirtualAxisOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp,
-                                   int argc, char **argv));
-int Rbc_AxisOp _ANSI_ARGS_((Graph *graphPtr, int margin, int argc,
-                            char **argv));
-int Rbc_ElementOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp,
-                               int argc, char **argv, Rbc_Uid classUid));
-int Rbc_GridOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp,
-                            int argc, char **argv));
-int Rbc_CrosshairsOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp,
-                                  int argc, char **argv));
-int Rbc_MarkerOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp,
-                              int argc, char **argv));
-int Rbc_PenOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp,
-                           int argc, char **argv));
-int Rbc_PointInPolygon _ANSI_ARGS_((Point2D *samplePtr,
-                                    Point2D *screenPts, int nScreenPts));
-int Rbc_RegionInPolygon _ANSI_ARGS_((Extents2D *extsPtr, Point2D *points,
-                                     int nPoints, int enclosed));
-int Rbc_PointInSegments _ANSI_ARGS_((Point2D *samplePtr,
-                                     Segment2D *segments, int nSegments, double halo));
-int Rbc_PostScriptOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp,
-                                  int argc, CONST84 char *argv[]));
-int Rbc_GraphUpdateNeeded _ANSI_ARGS_((Graph *graphPtr));
-int Rbc_DefaultAxes _ANSI_ARGS_((Graph *graphPtr));
-Axis *Rbc_GetFirstAxis _ANSI_ARGS_((Rbc_Chain *chainPtr));
-void Rbc_GetAxisSegments _ANSI_ARGS_((Graph *graphPtr, Axis *axisPtr,
-                                      Segment2D **segPtrPtr, int *nSegmentsPtr));
-Marker *Rbc_NearestMarker _ANSI_ARGS_((Graph *graphPtr, int x, int y,
-                                       int under));
-Axis *Rbc_NearestAxis _ANSI_ARGS_((Graph *graphPtr, int x, int y));
+int Rbc_VirtualAxisOp (Graph *graphPtr, Tcl_Interp *interp,
+                                   int argc, char **argv);
+int Rbc_AxisOp (Graph *graphPtr, int margin, int argc,
+                            char **argv);
+int Rbc_ElementOp (Graph *graphPtr, Tcl_Interp *interp,
+                               int argc, char **argv, Rbc_Uid classUid);
+int Rbc_GridOp (Graph *graphPtr, Tcl_Interp *interp,
+                            int argc, char **argv);
+int Rbc_CrosshairsOp (Graph *graphPtr, Tcl_Interp *interp,
+                                  int argc, char **argv);
+int Rbc_MarkerOp (Graph *graphPtr, Tcl_Interp *interp,
+                              int argc, char **argv);
+int Rbc_PenOp (Graph *graphPtr, Tcl_Interp *interp,
+                           int argc, char **argv);
+int Rbc_PointInPolygon (Point2D *samplePtr,
+                                    Point2D *screenPts, int nScreenPts);
+int Rbc_RegionInPolygon (Extents2D *extsPtr, Point2D *points,
+                                     int nPoints, int enclosed);
+int Rbc_PointInSegments (Point2D *samplePtr,
+                                     Segment2D *segments, int nSegments, double halo);
+int Rbc_PostScriptOp (Graph *graphPtr, Tcl_Interp *interp,
+                                  int argc, CONST84 char *argv[]);
+int Rbc_GraphUpdateNeeded (Graph *graphPtr);
+int Rbc_DefaultAxes (Graph *graphPtr);
+Axis *Rbc_GetFirstAxis (Rbc_Chain *chainPtr);
+void Rbc_GetAxisSegments (Graph *graphPtr, Axis *axisPtr,
+                                      Segment2D **segPtrPtr, int *nSegmentsPtr);
+Marker *Rbc_NearestMarker (Graph *graphPtr, int x, int y,
+                                       int under);
+Axis *Rbc_NearestAxis (Graph *graphPtr, int x, int y);
 
 
-typedef ClientData (MakeTagProc) _ANSI_ARGS_((Graph *graphPtr, char *tagName));
+typedef ClientData (MakeTagProc) (Graph *graphPtr, char *tagName);
 MakeTagProc Rbc_MakeElementTag;
 MakeTagProc Rbc_MakeMarkerTag;
 MakeTagProc Rbc_MakeAxisTag;
 
 Rbc_BindTagProc Rbc_GraphTags;
 
-int Rbc_GraphType _ANSI_ARGS_((Graph *graphPtr));
+int Rbc_GraphType (Graph *graphPtr);
 
 /* ---------------------- Global declarations ------------------------ */
 

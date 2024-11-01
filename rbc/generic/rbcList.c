@@ -12,10 +12,10 @@
 #include "rbcInt.h"
 #include "rbcList.h"
 
-static struct Rbc_ListNodeStruct *FindString _ANSI_ARGS_((struct Rbc_ListStruct *listPtr, CONST char *key));
-static Rbc_ListNode FindOneWord _ANSI_ARGS_((struct Rbc_ListStruct *listPtr, CONST char *key));
-static Rbc_ListNode FindArray _ANSI_ARGS_((struct Rbc_ListStruct *listPtr, CONST char *key));
-static void FreeNode _ANSI_ARGS_((struct Rbc_ListNodeStruct *nodePtr));
+static struct Rbc_ListNodeStruct *FindString (struct Rbc_ListStruct *listPtr, CONST char *key);
+static Rbc_ListNode FindOneWord (struct Rbc_ListStruct *listPtr, CONST char *key);
+static Rbc_ListNode FindArray (struct Rbc_ListStruct *listPtr, CONST char *key);
+static void FreeNode (struct Rbc_ListNodeStruct *nodePtr);
 
 /*
  *--------------------------------------------------------------

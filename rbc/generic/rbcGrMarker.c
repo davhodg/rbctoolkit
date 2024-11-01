@@ -82,14 +82,14 @@ extern Tk_CustomOption rbcStateOption;
 extern Tk_CustomOption rbcXAxisOption;
 extern Tk_CustomOption rbcYAxisOption;
 
-typedef Marker *(MarkerCreateProc) _ANSI_ARGS_((void));
-typedef void (MarkerDrawProc) _ANSI_ARGS_((Marker *markerPtr, Drawable drawable));
-typedef void (MarkerFreeProc) _ANSI_ARGS_((Graph *graphPtr, Marker *markerPtr));
-typedef int (MarkerConfigProc) _ANSI_ARGS_((Marker *markerPtr));
-typedef void (MarkerMapProc) _ANSI_ARGS_((Marker *markerPtr));
-typedef void (MarkerPostScriptProc) _ANSI_ARGS_((Marker *markerPtr, PsToken psToken));
-typedef int (MarkerPointProc) _ANSI_ARGS_((Marker *markerPtr, Point2D *samplePtr));
-typedef int (MarkerRegionProc) _ANSI_ARGS_((Marker *markerPtr, Extents2D *extsPtr, int enclosed));
+typedef Marker *(MarkerCreateProc) (void);
+typedef void (MarkerDrawProc) (Marker *markerPtr, Drawable drawable);
+typedef void (MarkerFreeProc) (Graph *graphPtr, Marker *markerPtr);
+typedef int (MarkerConfigProc) (Marker *markerPtr);
+typedef void (MarkerMapProc) (Marker *markerPtr);
+typedef void (MarkerPostScriptProc) (Marker *markerPtr, PsToken psToken);
+typedef int (MarkerPointProc) (Marker *markerPtr, Point2D *samplePtr);
+typedef int (MarkerRegionProc) (Marker *markerPtr, Extents2D *extsPtr, int enclosed);
 
 typedef struct {
     Tk_ConfigSpec *configSpecs; /* Marker configuration specifications */
@@ -788,31 +788,31 @@ static MarkerPointProc PointInBitmapMarker, PointInLineMarker, PointInImageMarke
 static MarkerRegionProc RegionInBitmapMarker, RegionInLineMarker, RegionInImageMarker, RegionInPolygonMarker, RegionInTextMarker, RegionInWindowMarker;
 static Tk_ImageChangedProc ImageChangedProc;
 
-static int BoxesDontOverlap _ANSI_ARGS_((Graph *graphPtr, Extents2D *extsPtr));
-static int GetCoordinate _ANSI_ARGS_((Tcl_Interp *interp, char *expr, double *valuePtr));
-static char *PrintCoordinate _ANSI_ARGS_((Tcl_Interp *interp, double x));
-static int ParseCoordinates _ANSI_ARGS_((Tcl_Interp *interp, Marker *markerPtr, int nExprs, char **exprArr));
-static double HMap _ANSI_ARGS_((Graph *graphPtr, Axis *axisPtr, double x));
-static double VMap _ANSI_ARGS_((Graph *graphPtr, Axis *axisPtr, double y));
-static Point2D MapPoint _ANSI_ARGS_((Graph *graphPtr, Point2D *pointPtr, Axis2D *axesPtr));
-static Marker *CreateMarker _ANSI_ARGS_((Graph *graphPtr, char *name, Rbc_Uid classUid));
-static void DestroyMarker _ANSI_ARGS_((Marker *markerPtr));
-static int NameToMarker _ANSI_ARGS_((Graph *graphPtr, char *name, Marker **markerPtrPtr));
-static int RenameMarker _ANSI_ARGS_((Graph *graphPtr, Marker *markerPtr, char *oldName, char *newName));
-static int NamesOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
-static int BindOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
-static int CgetOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
-static int ConfigureOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
-static int CreateOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
-static int DeleteOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
-static int GetOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char *argv[]));
-static int RelinkOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
-static int FindOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
-static int ExistsOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
-static int TypeOp _ANSI_ARGS_((Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv));
-static void ChildEventProc _ANSI_ARGS_((ClientData clientData, XEvent *eventPtr));
-static void ChildGeometryProc _ANSI_ARGS_((ClientData clientData, Tk_Window tkwin));
-static void ChildCustodyProc _ANSI_ARGS_((ClientData clientData, Tk_Window tkwin));
+static int BoxesDontOverlap (Graph *graphPtr, Extents2D *extsPtr);
+static int GetCoordinate (Tcl_Interp *interp, char *expr, double *valuePtr);
+static char *PrintCoordinate (Tcl_Interp *interp, double x);
+static int ParseCoordinates (Tcl_Interp *interp, Marker *markerPtr, int nExprs, char **exprArr);
+static double HMap (Graph *graphPtr, Axis *axisPtr, double x);
+static double VMap (Graph *graphPtr, Axis *axisPtr, double y);
+static Point2D MapPoint (Graph *graphPtr, Point2D *pointPtr, Axis2D *axesPtr);
+static Marker *CreateMarker (Graph *graphPtr, char *name, Rbc_Uid classUid);
+static void DestroyMarker (Marker *markerPtr);
+static int NameToMarker (Graph *graphPtr, char *name, Marker **markerPtrPtr);
+static int RenameMarker (Graph *graphPtr, Marker *markerPtr, char *oldName, char *newName);
+static int NamesOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static int BindOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static int CgetOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static int ConfigureOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static int CreateOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static int DeleteOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static int GetOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char *argv[]);
+static int RelinkOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static int FindOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static int ExistsOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static int TypeOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static void ChildEventProc (ClientData clientData, XEvent *eventPtr);
+static void ChildGeometryProc (ClientData clientData, Tk_Window tkwin);
+static void ChildCustodyProc (ClientData clientData, Tk_Window tkwin);
 
 static MarkerClass bitmapMarkerClass = {
     bitmapConfigSpecs,

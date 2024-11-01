@@ -14,8 +14,8 @@
 #include <ctype.h>
 #include <stdarg.h>
 
-static int BinaryOpSearch _ANSI_ARGS_((Rbc_OpSpec specArr[], int nSpecs, char *string));
-static int LinearOpSearch _ANSI_ARGS_((Rbc_OpSpec specArr[], int nSpecs, char *string));
+static int BinaryOpSearch (Rbc_OpSpec specArr[], int nSpecs, char *string);
+static int LinearOpSearch (Rbc_OpSpec specArr[], int nSpecs, char *string);
 
 #ifndef HAVE_STRTOLOWER
 void

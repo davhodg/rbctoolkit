@@ -74,8 +74,8 @@ typedef struct {
                               * the reference Tk window */
 } BusyInterpData;
 
-static void BusyGeometryProc _ANSI_ARGS_((ClientData clientData, Tk_Window tkwin));
-static void BusyCustodyProc _ANSI_ARGS_((ClientData clientData, Tk_Window tkwin));
+static void BusyGeometryProc (ClientData clientData, Tk_Window tkwin);
+static void BusyCustodyProc (ClientData clientData, Tk_Window tkwin);
 
 static Tk_GeomMgr busyMgrInfo = {
     "busy", /* Name of geometry manager used by winfo */
@@ -84,23 +84,23 @@ static Tk_GeomMgr busyMgrInfo = {
 };
 
 /* Forward declarations */
-static void DestroyBusy _ANSI_ARGS_((DestroyData dataPtr));
-static void BusyEventProc _ANSI_ARGS_((ClientData clientData, XEvent *eventPtr));
-static void ShowBusyWindow _ANSI_ARGS_((Busy *busyPtr));
-static void HideBusyWindow _ANSI_ARGS_((Busy *busyPtr));
-static int ConfigureBusy _ANSI_ARGS_((Tcl_Interp *interp, Busy *busyPtr, int argc, char **argv));
-static Busy *CreateBusy _ANSI_ARGS_((Tcl_Interp *interp, Tk_Window tkRef));
-static int GetBusy _ANSI_ARGS_((BusyInterpData *dataPtr, Tcl_Interp *interp, char *pathName, Busy **busyPtrPtr));
-static int HoldBusy _ANSI_ARGS_((BusyInterpData *dataPtr, Tcl_Interp *interp, int argc, char **argv));
-static int StatusOp _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, int argc, char **argv));
-static int ForgetOp _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, int argc, char **argv));
-static int ReleaseOp _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, int argc, char **argv));
-static int NamesOp _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, int argc, char **argv));
-static int BusyOp _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, int argc, char **argv));
-static int HoldOp _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, int argc, char **argv));
-static int CgetOp _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, int argc, char **argv));
-static int ConfigureOp _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp, int argc, char **argv));
-static BusyInterpData *GetBusyInterpData _ANSI_ARGS_((Tcl_Interp *interp));
+static void DestroyBusy (DestroyData dataPtr);
+static void BusyEventProc (ClientData clientData, XEvent *eventPtr);
+static void ShowBusyWindow (Busy *busyPtr);
+static void HideBusyWindow (Busy *busyPtr);
+static int ConfigureBusy (Tcl_Interp *interp, Busy *busyPtr, int argc, char **argv);
+static Busy *CreateBusy (Tcl_Interp *interp, Tk_Window tkRef);
+static int GetBusy (BusyInterpData *dataPtr, Tcl_Interp *interp, char *pathName, Busy **busyPtrPtr);
+static int HoldBusy (BusyInterpData *dataPtr, Tcl_Interp *interp, int argc, char **argv);
+static int StatusOp (ClientData clientData, Tcl_Interp *interp, int argc, char **argv);
+static int ForgetOp (ClientData clientData, Tcl_Interp *interp, int argc, char **argv);
+static int ReleaseOp (ClientData clientData, Tcl_Interp *interp, int argc, char **argv);
+static int NamesOp (ClientData clientData, Tcl_Interp *interp, int argc, char **argv);
+static int BusyOp (ClientData clientData, Tcl_Interp *interp, int argc, char **argv);
+static int HoldOp (ClientData clientData, Tcl_Interp *interp, int argc, char **argv);
+static int CgetOp (ClientData clientData, Tcl_Interp *interp, int argc, char **argv);
+static int ConfigureOp (ClientData clientData, Tcl_Interp *interp, int argc, char **argv);
+static BusyInterpData *GetBusyInterpData (Tcl_Interp *interp);
 
 static Tk_EventProc RefWinEventProc;
 static Tcl_CmdProc BusyCmd;
