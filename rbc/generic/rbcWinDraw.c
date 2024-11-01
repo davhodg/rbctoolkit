@@ -10,6 +10,8 @@
  * See "license.terms" for details.
  */
 
+#define XLIB_ILLEGAL_ACCESS
+
 #include "rbcInt.h"
 #include <X11/Xutil.h>
 #include <X11/Xlib.h>
