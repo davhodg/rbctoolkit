@@ -1989,7 +1989,7 @@ Rbc_EmulateXFillRectangles(display, drawable, gc, rectArr, nRectangles)
             }
             twdPtr = (TkWinDrawable *)gc->stipple;
             if (twdPtr->type != TWD_BITMAP) {
-                panic("unexpected drawable type in stipple");
+                Tcl_Panic("unexpected drawable type in stipple");
             }
             hBrush = CreatePatternBrush(twdPtr->bitmap.handle);
             SetBrushOrgEx(hDC, gc->ts_x_origin, gc->ts_y_origin, NULL);
@@ -2133,7 +2133,7 @@ Rbc_EmulateXFillRectangle(display, drawable, gc, x, y, width, height)
                 }
                 twdPtr = (TkWinDrawable *)gc->stipple;
                 if (twdPtr->type != TWD_BITMAP) {
-                    panic("unexpected drawable type in stipple");
+                    Tcl_Panic("unexpected drawable type in stipple");
                 }
                 hBrush = CreatePatternBrush(twdPtr->bitmap.handle);
                 SetBrushOrgEx(hDC, gc->ts_x_origin, gc->ts_y_origin, NULL);
@@ -2543,7 +2543,7 @@ Rbc_EmulateXCopyPlane(display, src, dest, gc, srcX, srcY, width, height, destX, 
     display->request++;
 
     if (plane != 1) {
-        panic("Unexpected plane specified for XCopyPlane");
+        Tcl_Panic("Unexpected plane specified for XCopyPlane");
     }
     srcDC = TkWinGetDrawableDC(display, src, &srcState);
 

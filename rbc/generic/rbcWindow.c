@@ -919,7 +919,7 @@ UnlinkWindow(winPtr)
         while (prevPtr->nextPtr != winPtr) {
             prevPtr = prevPtr->nextPtr;
             if (prevPtr == NULL) {
-                panic("UnlinkWindow couldn't find child in parent");
+                Tcl_Panic("UnlinkWindow couldn't find child in parent");
             }
         }
         prevPtr->nextPtr = winPtr->nextPtr;
