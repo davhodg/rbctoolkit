@@ -293,7 +293,7 @@ StringToPosition(clientData, interp, tkwin, string, widgRec, offset)
     ClientData clientData; /* Not used. */
     Tcl_Interp *interp; /* Interpreter to send results back to */
     Tk_Window tkwin; /* Not used. */
-    CONST84 char *string; /* New legend position string */
+    CONST86 char *string; /* New legend position string */
     char *widgRec; /* Widget record */
     int offset; /* offset to XPoint structure */
 {

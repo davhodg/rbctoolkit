@@ -1754,8 +1754,8 @@ NextToken(interp, parsePtr, valuePtr)
     switch (*p) {
         case '$':
             parsePtr->token = VALUE;
-            /* (CONST84 char **) */
-            var = Tcl_ParseVar(interp, p, (CONST84 char **) &endPtr);
+
+            var = Tcl_ParseVar(interp, p, (CONST86 char **) &endPtr);
             if (var == NULL) {
                 return TCL_ERROR;
             }

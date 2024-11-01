@@ -181,7 +181,7 @@ static Rbc_TileChangedProc TileChangedProc;
 
 static void AdjustAxisPointers (Graph *graphPtr);
 static int InitPens (Graph *graphPtr);
-static Graph *CreateGraph (Tcl_Interp *interp, int argc, CONST84 char **argv, Rbc_Uid classUid);
+static Graph *CreateGraph (Tcl_Interp *interp, int argc, CONST86 char **argv, Rbc_Uid classUid);
 static void ConfigureGraph (Graph *graphPtr);
 static int NewGraph (Tcl_Interp *interp, int argc, char **argv, Rbc_Uid classUid);
 static void DrawMargins (Graph *graphPtr, Drawable drawable);
@@ -195,7 +195,7 @@ static int Y2AxisOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv)
 static int BarOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
 static int LineOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
 static int ElementOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
-static int ConfigureOp (Graph *graphPtr, Tcl_Interp *interp, int argc, CONST84 char **argv);
+static int ConfigureOp (Graph *graphPtr, Tcl_Interp *interp, int argc, CONST86 char **argv);
 static int CgetOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
 static int ExtentsOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
 static int InsideOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
@@ -822,7 +822,7 @@ static Graph *
 CreateGraph(interp, argc, argv, classUid)
     Tcl_Interp *interp;
     int argc;
-    CONST84 char **argv;
+    CONST86 char **argv;
     Rbc_Uid classUid;
 {
     Graph *graphPtr;
@@ -1123,7 +1123,7 @@ ConfigureOp(graphPtr, interp, argc, argv)
     Graph *graphPtr;
     Tcl_Interp *interp;
     int argc;
-    CONST84 char **argv;
+    CONST86 char **argv;
 {
     int flags;
 
@@ -1770,7 +1770,7 @@ Rbc_GraphInstCmdProc(clientData, interp, argc, argv)
     ClientData clientData;
     Tcl_Interp *interp;
     int argc;
-    CONST84 char *argv[];
+    CONST86 char *argv[];
 {
     Rbc_Op proc;
     int result;
@@ -1844,7 +1844,7 @@ GraphCmd(clientData, interp, argc, argv)
     ClientData clientData; /* Not used. */
     Tcl_Interp *interp;
     int argc;
-    CONST84 char *argv[];
+    CONST86 char *argv[];
 {
     return NewGraph(interp, argc, argv, rbcLineElementUid);
 }
@@ -1870,7 +1870,7 @@ BarchartCmd(clientData, interp, argc, argv)
     ClientData clientData; /* Not used. */
     Tcl_Interp *interp;
     int argc;
-    CONST84 char *argv[];
+    CONST86 char *argv[];
 {
     return NewGraph(interp, argc, argv, rbcBarElementUid);
 }
@@ -1896,7 +1896,7 @@ StripchartCmd(clientData, interp, argc, argv)
     ClientData clientData; /* Not used. */
     Tcl_Interp *interp;
     int argc;
-    CONST84 char *argv[];
+    CONST86 char *argv[];
 {
     return NewGraph(interp, argc, argv, rbcStripElementUid);
 }

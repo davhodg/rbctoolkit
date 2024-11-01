@@ -59,7 +59,7 @@ StringToColor(clientData, interp, tkwin, string, widgRec, offset)
     ClientData clientData; /* Not used. */
     Tcl_Interp *interp; /* Interpreter to send results back to */
     Tk_Window tkwin; /* Not used. */
-    CONST84 char *string; /* String representing color */
+    CONST86 char *string; /* String representing color */
     char *widgRec; /* Widget record */
     int offset; /* Offset of color field in record */
 {
@@ -163,7 +163,7 @@ StringToPen(clientData, interp, tkwin, string, widgRec, offset)
     ClientData clientData; /* Not used. */
     Tcl_Interp *interp; /* Interpreter to send results back to */
     Tk_Window tkwin; /* Not used. */
-    CONST84 char *string; /* String representing pen */
+    CONST86 char *string; /* String representing pen */
     char *widgRec; /* Widget record */
     int offset; /* Offset of pen field in record */
 {
@@ -428,7 +428,7 @@ Rbc_CreatePen(graphPtr, penName, classUid, nOpts, options)
 int
 Rbc_GetPen(graphPtr, name, classUid, penPtrPtr)
     Graph *graphPtr;
-    CONST84 char *name;
+    CONST86 char *name;
     Rbc_Uid classUid;
     Pen **penPtrPtr;
 {

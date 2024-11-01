@@ -1075,7 +1075,7 @@ char **argv; /* Argument vector */
 int flags; /*  */
 {
     Rbc_OpSpec *specPtr;
-    CONST84 char *string;
+    CONST86 char *string;
     register int i;
     register int n;
 

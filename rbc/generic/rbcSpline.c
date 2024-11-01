@@ -1024,7 +1024,7 @@ SplineCmd(clientData, interp, argc, argv)
     ClientData clientData; /* Not used. */
     Tcl_Interp *interp;
     int argc;
-    CONST84 char *argv[];
+    CONST86 char *argv[];
 {
     Rbc_Op proc;
     Rbc_Vector *x, *y, *splX, *splY;

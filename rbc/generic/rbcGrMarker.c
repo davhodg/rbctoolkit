@@ -1142,7 +1142,7 @@ StringToCoordinates(clientData, interp, tkwin, string, widgRec, offset)
     ClientData clientData; /* Not used. */
     Tcl_Interp *interp; /* Interpreter to send results back to */
     Tk_Window tkwin; /* Not used. */
-    CONST84 char *string; /* Tcl list of numeric expressions */
+    CONST86 char *string; /* Tcl list of numeric expressions */
     char *widgRec; /* Marker record */
     int offset; /* Not used. */
 {

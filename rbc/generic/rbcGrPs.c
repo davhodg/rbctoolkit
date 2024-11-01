@@ -150,7 +150,7 @@ StringToColorMode(clientData, interp, tkwin, string, widgRec, offset)
     ClientData clientData; /* Not used. */
     Tcl_Interp *interp; /* Interpreter to send results back to */
     Tk_Window tkwin; /* Not used. */
-    CONST84 char *string; /* New value. */
+    CONST86 char *string; /* New value. */
     char *widgRec; /* Widget record */
     int offset; /* Offset of field in record */
 {
@@ -266,7 +266,7 @@ StringToFormat(clientData, interp, tkwin, string, widgRec, offset)
     ClientData clientData; /* Not used. */
     Tcl_Interp *interp; /* Interpreter to send results back to */
     Tk_Window tkwin; /* Not used. */
-    CONST84 char *string; /* New value. */
+    CONST86 char *string; /* New value. */
     char *widgRec; /* Widget record */
     int offset; /* Offset of field in record */
 {
@@ -1317,7 +1317,7 @@ Rbc_PostScriptOp(graphPtr, interp, argc, argv)
     Graph *graphPtr; /* Graph widget record */
     Tcl_Interp *interp;
     int argc; /* # arguments */
-    CONST84 char *argv[]; /* Argument list */
+    CONST86 char *argv[]; /* Argument list */
 {
     Rbc_Op proc;
     int result;

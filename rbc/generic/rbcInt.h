@@ -27,7 +27,7 @@
 
 #include <tk.h>
 
-#define MIN_VERSION "8.4"
+#define MIN_VERSION "8.6"
 
 #include "rbcTkInt.h"
 

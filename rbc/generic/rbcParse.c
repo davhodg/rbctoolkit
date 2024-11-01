@@ -326,8 +326,8 @@ copy:
         } else if (c == '$') {
             int length;
             CONST char *value;
-            /* (CONST84 char**) */
-            value = Tcl_ParseVar(interp, src - 1, (CONST84 char**)termPtr);
+
+            value = Tcl_ParseVar(interp, src - 1, (CONST86 char**)termPtr);
             if (value == NULL) {
                 return TCL_ERROR;
             }

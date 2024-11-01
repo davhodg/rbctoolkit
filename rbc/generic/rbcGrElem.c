@@ -90,7 +90,7 @@ GetPenStyle(graphPtr, string, type, stylePtr)
 {
     Pen *penPtr;
     Tcl_Interp *interp = graphPtr->interp;
-    CONST84 char **elemArr;
+    CONST86 char **elemArr;
     int nElem;
 
     elemArr = NULL;
@@ -408,7 +408,7 @@ StringToData(clientData, interp, tkwin, string, widgRec, offset)
     ClientData clientData; /* Type of axis vector to fill */
     Tcl_Interp *interp; /* Interpreter to send results back to */
     Tk_Window tkwin; /* Not used. */
-    CONST84 char *string; /* Tcl list of expressions */
+    CONST86 char *string; /* Tcl list of expressions */
     char *widgRec; /* Element record */
     int offset; /* Offset of vector in Element record */
 {
@@ -523,7 +523,7 @@ StringToDataPairs(clientData, interp, tkwin, string, widgRec, offset)
     ClientData clientData; /* Not used. */
     Tcl_Interp *interp; /* Interpreter to send results back to */
     Tk_Window tkwin; /* Not used. */
-    CONST84 char *string; /* Tcl list of numeric expressions */
+    CONST86 char *string; /* Tcl list of numeric expressions */
     char *widgRec; /* Element record */
     int offset; /* Not used. */
 {
@@ -649,7 +649,7 @@ StringToAlong(clientData, interp, tkwin, string, widgRec, offset)
     ClientData clientData; /* Not used. */
     Tcl_Interp *interp; /* Interpreter to send results back to */
     Tk_Window tkwin; /* Not used. */
-    CONST84 char *string; /* String representation of value. */
+    CONST86 char *string; /* String representation of value. */
     char *widgRec; /* Widget record. */
     int offset; /* Offset of field in widget record. */
 {

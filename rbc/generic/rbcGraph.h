@@ -599,7 +599,7 @@ void Rbc_MapMarkers (Graph *graphPtr);
 void Rbc_MapGrid (Graph *graphPtr);
 void Rbc_UpdateCrosshairs (Graph *graphPtr);
 void Rbc_DestroyPens (Graph *graphPtr);
-int Rbc_GetPen (Graph *graphPtr, CONST84 char *name,
+int Rbc_GetPen (Graph *graphPtr, CONST86 char *name,
                             Rbc_Uid classUid, Pen **penPtrPtr);
 Pen *Rbc_BarPen (char *penName);
 Pen *Rbc_LinePen (char *penName);
@@ -627,7 +627,7 @@ int Rbc_RegionInPolygon (Extents2D *extsPtr, Point2D *points,
 int Rbc_PointInSegments (Point2D *samplePtr,
                                      Segment2D *segments, int nSegments, double halo);
 int Rbc_PostScriptOp (Graph *graphPtr, Tcl_Interp *interp,
-                                  int argc, CONST84 char *argv[]);
+                                  int argc, CONST86 char *argv[]);
 int Rbc_GraphUpdateNeeded (Graph *graphPtr);
 int Rbc_DefaultAxes (Graph *graphPtr);
 Axis *Rbc_GetFirstAxis (Rbc_Chain *chainPtr);

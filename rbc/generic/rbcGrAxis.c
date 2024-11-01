@@ -381,7 +381,7 @@ StringToAnyAxis(clientData, interp, tkwin, string, widgRec, offset)
                             * axis we are looking for. */
     Tcl_Interp *interp; /* Interpreter to send results back to. */
     Tk_Window tkwin; /* Used to look up pointer to graph. */
-    CONST84 char *string; /* String representing new value. */
+    CONST86 char *string; /* String representing new value. */
     char *widgRec; /* Pointer to structure record. */
     int offset; /* Offset of field in structure. */
 {
@@ -425,7 +425,7 @@ StringToAxis(clientData, interp, tkwin, string, widgRec, offset)
                             * axis we are looking for. */
     Tcl_Interp *interp; /* Interpreter to send results back to. */
     Tk_Window tkwin; /* Used to look up pointer to graph. */
-    CONST84 char *string; /* String representing new value. */
+    CONST86 char *string; /* String representing new value. */
     char *widgRec; /* Pointer to structure record. */
     int offset; /* Offset of field in structure. */
 {
@@ -494,7 +494,7 @@ StringToFormat(clientData, interp, tkwin, string, widgRec, offset)
     ClientData clientData; /* Not used. */
     Tcl_Interp *interp; /* Interpreter to send results back to. */
     Tk_Window tkwin; /* Used to look up pointer to graph */
-    CONST84 char *string; /* String representing new value. */
+    CONST86 char *string; /* String representing new value. */
     char *widgRec; /* Pointer to structure record. */
     int offset; /* Offset of field in structure. */
 {
@@ -580,7 +580,7 @@ StringToLimit(clientData, interp, tkwin, string, widgRec, offset)
                             * Indicates which axis limit to set. */
     Tcl_Interp *interp; /* Interpreter to send results back to */
     Tk_Window tkwin; /* Not used. */
-    CONST84 char *string; /* String representing new value. */
+    CONST86 char *string; /* String representing new value. */
     char *widgRec; /* Pointer to structure record. */
     int offset; /* Offset of field in structure. */
 {
@@ -656,7 +656,7 @@ StringToTicks(clientData, interp, tkwin, string, widgRec, offset)
     ClientData clientData; /* Not used. */
     Tcl_Interp *interp; /* Interpreter to send results back to */
     Tk_Window tkwin; /* Not used. */
-    CONST84 char *string; /* String representing new value. */
+    CONST86 char *string; /* String representing new value. */
     char *widgRec; /* Pointer to structure record. */
     int offset; /* Offset of field in structure. */
 {
@@ -779,7 +779,7 @@ StringToLoose(clientData, interp, tkwin, string, widgRec, offset)
     ClientData clientData; /* Not used. */
     Tcl_Interp *interp; /* Interpreter to send results back to */
     Tk_Window tkwin; /* Not used. */
-    CONST84 char *string; /* String representing new value. */
+    CONST86 char *string; /* String representing new value. */
     char *widgRec; /* Pointer to structure record. */
     int offset; /* Offset of field in structure. */
 {

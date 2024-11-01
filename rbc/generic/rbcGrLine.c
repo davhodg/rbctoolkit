@@ -1033,7 +1033,7 @@ StringToPattern(clientData, interp, tkwin, string, widgRec, offset)
     ClientData clientData; /* Not used. */
     Tcl_Interp *interp; /* Interpreter to send results back to */
     Tk_Window tkwin; /* Not used. */
-    CONST84 char *string; /* String representing field */
+    CONST86 char *string; /* String representing field */
     char *widgRec; /* Element information record */
     int offset; /* Offset of field in record */
 {
@@ -1126,7 +1126,7 @@ StringToSymbol(clientData, interp, tkwin, string, widgRec, offset)
     ClientData clientData; /* Not used. */
     Tcl_Interp *interp; /* Interpreter to send results back to */
     Tk_Window tkwin; /* Not used. */
-    CONST84 char *string; /* String representing symbol type */
+    CONST86 char *string; /* String representing symbol type */
     char *widgRec; /* Element information record */
     int offset; /* Offset of symbol type field in record */
 {
@@ -1271,7 +1271,7 @@ StringToSmooth(clientData, interp, tkwin, string, widgRec, offset)
     ClientData clientData; /* Not used. */
     Tcl_Interp *interp; /* Interpreter to send results back to */
     Tk_Window tkwin; /* Not used. */
-    CONST84 char *string; /* String representing smooth type */
+    CONST86 char *string; /* String representing smooth type */
     char *widgRec; /* Element information record */
     int offset; /* Offset of smooth type field in record */
 {
@@ -1339,7 +1339,7 @@ StringToPenDir(clientData, interp, tkwin, string, widgRec, offset)
     ClientData clientData; /* Not used. */
     Tcl_Interp *interp; /* Interpreter to send results back to */
     Tk_Window tkwin; /* Not used. */
-    CONST84 char *string; /* String representing pen direction */
+    CONST86 char *string; /* String representing pen direction */
     char *widgRec; /* Element information record */
     int offset; /* Offset of pen direction field in record */
 {

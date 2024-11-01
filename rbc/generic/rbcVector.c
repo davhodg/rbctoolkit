@@ -12,7 +12,7 @@
 #include "tcl.h"
 #include "rbcVector.h"
 
-static CONST84 char *subCmds[] = { "*", "+", "-", "/", "append", "binread", "clear", "delete", "dup",
+static CONST86 char *subCmds[] = { "*", "+", "-", "/", "append", "binread", "clear", "delete", "dup",
                                  "expr", "index", "length", "merge", "normalize", "offset", "populate",
                                  "random", "range", "search", "seq", "set", "sort", "split", "variable",
                                  NULL
@@ -118,7 +118,7 @@ VectorObjCmd(dataPtr, interp, objc, objv)
     Tcl_Obj * const objv[];
 {
     int index;
-    CONST84 char *subCmds[] = { "create", "destroy", "expr", "names", NULL};
+    CONST86 char *subCmds[] = { "create", "destroy", "expr", "names", NULL};
     enum RecodeIndex {
         createIndex, destroyIndex, exprIndex, namesIndex
     };

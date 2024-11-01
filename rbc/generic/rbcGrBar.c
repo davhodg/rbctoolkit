@@ -448,7 +448,7 @@ StringToBarMode(clientData, interp, tkwin, string, widgRec, offset)
     ClientData clientData; /* Not used. */
     Tcl_Interp *interp; /* Interpreter to send results back to */
     Tk_Window tkwin; /* Not used. */
-    CONST84 char *string; /* Mode style string */
+    CONST86 char *string; /* Mode style string */
     char *widgRec; /* Cubicle structure record */
     int offset; /* Offset of style in record */
 {
