@@ -259,8 +259,8 @@ Rbc_ColorImageToPhoto(interp, src, photo)
     dest.offset[2] = offsetof(Pix32, Blue);
     dest.offset[3] = offsetof(Pix32, Alpha);
     dest.pixelPtr = (unsigned char *)Rbc_ColorImageBits(src);
-    Tk_PhotoSetSize(photo, width, height);
-    Tk_PhotoPutBlock(photo, &dest, 0, 0, width, height);
+    Tk_PhotoSetSize (interp, photo, width, height);
+    Tk_PhotoPutBlock (interp, photo, &dest, 0, 0, width, height, TK_PHOTO_COMPOSITE_OVERLAY);
 }
 
 /*

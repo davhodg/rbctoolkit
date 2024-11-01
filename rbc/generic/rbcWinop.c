@@ -841,7 +841,7 @@ QuantizeOp(clientData, interp, argc, argv)
     }
     Tk_PhotoGetImage(destPhoto, &dest);
     if ((dest.width != src.width) || (dest.height != src.height)) {
-        Tk_PhotoSetSize(destPhoto, src.width, src.height);
+        Tk_PhotoSetSize (interp, destPhoto, src.width, src.height);
     }
     if (Tcl_GetInt(interp, argv[4], &nColors) != TCL_OK) {
         return TCL_ERROR;
@@ -1094,7 +1094,7 @@ ResampleOp(clientData, interp, argc, argv)
     }
     Tk_PhotoGetImage(destPhoto, &dest);
     if ((dest.width <= 1) || (dest.height <= 1)) {
-        Tk_PhotoSetSize(destPhoto, src.width, src.height);
+        Tk_PhotoSetSize (interp, destPhoto, src.width, src.height);
         goto copyImage;
     }
     if ((src.width == dest.width) && (src.height == dest.height)) {
@@ -1109,7 +1109,7 @@ copyImage:
         dest.offset[0] = src.offset[0];
         dest.offset[1] = src.offset[1];
         dest.offset[2] = src.offset[2];
-        Tk_PhotoPutBlock(destPhoto, &dest, 0, 0, dest.width, dest.height);
+        Tk_PhotoPutBlock (interp, destPhoto, &dest, 0, 0, dest.width, dest.height, TK_PHOTO_COMPOSITE_OVERLAY);
         return TCL_OK;
     }
     if (filterPtr == NULL) {
@@ -1308,7 +1308,7 @@ SubsampleOp(clientData, interp, argc, argv)
         return TCL_ERROR;
     }
     if ((dest.width <= 1) || (dest.height <= 1)) {
-        Tk_PhotoSetSize(destPhoto, width, height);
+        Tk_PhotoSetSize (interp, destPhoto, width, height);
     }
     if (filterPtr == NULL) {
         Rbc_ResizePhoto(interp, srcPhoto, x, y, width, height, destPhoto);

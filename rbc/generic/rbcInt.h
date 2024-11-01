@@ -23,8 +23,6 @@
 
 /* Backwards Compatiablitity with previous Tk versions */
 #define USE_OLD_CANVAS
-#define USE_COMPOSITELESS_PHOTO_PUT_BLOCK
-
 #include <tk.h>
 
 #define MIN_VERSION "8.6"
