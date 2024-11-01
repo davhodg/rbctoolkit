@@ -147,7 +147,9 @@ Rbc_AppendToPostScript (PsToken arg1, ...)
     struct PsTokenStruct *tokenPtr;
     char *string;
 
-    tokenPtr = TCL_VARARGS_START(struct PsTokenStruct, arg1, argList);
+    va_start (argList, arg1);
+    tokenPtr = arg1;
+
     for (;;) {
         string = va_arg(argList, char *);
         if (string == NULL) {
@@ -179,7 +181,9 @@ Rbc_FormatToPostScript (PsToken arg1, ...)
     struct PsTokenStruct *tokenPtr;
     char *fmt;
 
-    tokenPtr = TCL_VARARGS_START(struct PsTokenStruct, arg1, argList);
+    va_start(argList, arg1);
+    tokenPtr = arg1;
+
     fmt = va_arg(argList, char *);
     vsprintf(tokenPtr->scratchArr, fmt, argList);
     va_end(argList);

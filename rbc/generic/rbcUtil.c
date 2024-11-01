@@ -554,7 +554,9 @@ Rbc_Panic (char *arg1, ...)
     va_list argList;
     char *format;
 
-    format = TCL_VARARGS_START(char *, arg1, argList);
+    va_start(argList, arg1);
+    format = arg1;
+
     vfprintf(stderr, format, argList);
     fprintf(stderr, "\n");
     fflush(stderr);
@@ -583,7 +585,9 @@ Rbc_DStringAppendElements (Tcl_DString *arg1, ...)
     Tcl_DString *dsPtr;
     register char *elem;
 
-    dsPtr = TCL_VARARGS_START(Tcl_DString *, arg1, argList);
+    va_start (argList, arg1);
+    dsPtr = arg1;
+
     while ((elem = va_arg(argList, char *)) != NULL) {
         Tcl_DStringAppendElement(dsPtr, elem);
     }

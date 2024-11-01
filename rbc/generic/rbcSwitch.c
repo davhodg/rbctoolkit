@@ -501,7 +501,9 @@ int Rbc_SwitchChanged (Rbc_SwitchSpec *arg1, ...)
     register Rbc_SwitchSpec *specPtr;
     register char *switchName;
 
-    specs = TCL_VARARGS_START(Rbc_SwitchSpec *, arg1, argList);
+    va_start (argList, arg1);
+    specs = arg1;
+
     while ((switchName = va_arg(argList, char *)) != NULL) {
         for (specPtr = specs; specPtr->type != RBC_SWITCH_END; specPtr++) {
             if ((Tcl_StringMatch(specPtr->switchName, switchName)) &&
