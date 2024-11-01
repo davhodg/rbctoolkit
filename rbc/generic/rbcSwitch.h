@@ -81,6 +81,6 @@ typedef struct {
 int Rbc_ProcessSwitches (Tcl_Interp *interp, Rbc_SwitchSpec *specs, int argc, char **argv, char *record, int flags);
 void Rbc_FreeSwitches (Rbc_SwitchSpec *specs, char *record, int flags);
 int Rbc_SwitchChanged (Rbc_SwitchSpec *specs, ...);
-int Rbc_ProcessObjSwitches (Tcl_Interp *interp, Rbc_SwitchSpec *specPtr, int objc, Tcl_Obj *CONST *objv, char *record, int flags);
+int Rbc_ProcessObjSwitches (Tcl_Interp *interp, Rbc_SwitchSpec *specPtr, int objc, Tcl_Obj *const *objv, char *record, int flags);
 
 #endif /* _RBCSWITCH */

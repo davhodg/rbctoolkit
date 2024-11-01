@@ -524,7 +524,7 @@ Rbc_ConfigureBindingsFromObj(interp, bindPtr, item, objc, objv)
     struct Rbc_BindTableStruct *bindPtr;
     ClientData item;
     int objc;
-    Tcl_Obj *CONST *objv;
+    Tcl_Obj *const *objv;
 {
     char *command;
     unsigned long mask;

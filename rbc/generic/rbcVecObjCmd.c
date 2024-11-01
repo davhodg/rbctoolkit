@@ -39,7 +39,7 @@ static enum NativeFormats GetBinaryFormat (Tcl_Interp *interp, char *string, int
 static int   CopyValues     (VectorObject *vPtr, char *byteArr, enum NativeFormats fmt, int size, int length, int swap, int *indexPtr);
 static int   InRange        (double value, double min, double max);
 static int   CopyList       (VectorObject *vPtr, int objc, Tcl_Obj * const objv[]);
-static int * SortVectors    (VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj *CONST *objv);
+static int * SortVectors    (VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj *const *objv);
 static int   CompareVectors (void *a, void *b);
 
 double
@@ -134,7 +134,7 @@ Rbc_ArithOp(vPtr, interp, objc, objv)
     VectorObject *vPtr;
     Tcl_Interp *interp;
     int objc;
-    Tcl_Obj *CONST *objv;
+    Tcl_Obj *const *objv;
 {
     register double value;
     register int i;
@@ -1819,7 +1819,7 @@ SortVectors(vPtr, interp, objc, objv)
     VectorObject *vPtr;
     Tcl_Interp *interp;
     int objc;
-    Tcl_Obj *CONST *objv;
+    Tcl_Obj *const *objv;
 {
     VectorObject **vPtrArray, *v2Ptr;
     int *iArr;

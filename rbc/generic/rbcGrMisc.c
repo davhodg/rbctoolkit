@@ -1210,7 +1210,7 @@ Rbc_GetScrollInfoFromObj(interp, objc, objv, offsetPtr, worldSize, windowSize,
                          scrollUnits, scrollMode)
     Tcl_Interp *interp;
     int objc;
-    Tcl_Obj *CONST *objv;
+    Tcl_Obj *const *objv;
     int *offsetPtr;
     int worldSize, windowSize;
     int scrollUnits;
@@ -1446,7 +1446,7 @@ Rbc_SetDashes(display, gc, dashesPtr)
     Rbc_Dashes *dashesPtr;
 {
     XSetDashes(display, gc, dashesPtr->offset,
-               (CONST char *)dashesPtr->values, strlen((char *)dashesPtr->values));
+               (const char *)dashesPtr->values, strlen((char *)dashesPtr->values));
 }
 #endif
 

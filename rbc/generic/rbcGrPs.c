@@ -653,7 +653,7 @@ PostScriptPreamble(graphPtr, fileName, psToken)
     PostScript *psPtr = (PostScript *)graphPtr->postscript;
     time_t ticks;
     char date[200];		/* Hold the date string from ctime() */
-    CONST char *version;
+    const char *version;
     double dpiX, dpiY;
     double xPixelsToPica, yPixelsToPica; /* Scales to convert pixels to pica */
     Screen *screenPtr;

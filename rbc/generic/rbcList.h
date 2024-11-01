@@ -51,12 +51,12 @@ void Rbc_ListReset (Rbc_List list);
 Rbc_List Rbc_ListCreate (int type);
 void Rbc_ListDestroy (Rbc_List list);
 Rbc_ListNode Rbc_ListCreateNode (Rbc_List list,
-        CONST char *key);
+        const char *key);
 void Rbc_ListDeleteNode (Rbc_ListNode node);
 
-Rbc_ListNode Rbc_ListAppend (Rbc_List list, CONST char *key,
+Rbc_ListNode Rbc_ListAppend (Rbc_List list, const char *key,
                                         ClientData clientData);
-Rbc_ListNode Rbc_ListPrepend (Rbc_List list, CONST char *key,
+Rbc_ListNode Rbc_ListPrepend (Rbc_List list, const char *key,
         ClientData clientData);
 void Rbc_ListLinkAfter (Rbc_List list, Rbc_ListNode node,
                                     Rbc_ListNode afterNode);
@@ -64,9 +64,9 @@ void Rbc_ListLinkBefore (Rbc_List list, Rbc_ListNode node,
                                      Rbc_ListNode beforeNode);
 void Rbc_ListUnlinkNode (Rbc_ListNode node);
 Rbc_ListNode Rbc_ListGetNode (Rbc_List list,
-        CONST char *key);
+        const char *key);
 void Rb_ListDeleteNodeByKey (Rbc_List list,
-        CONST char *key);
+        const char *key);
 Rbc_ListNode Rbc_ListGetNthNode (Rbc_List list,
         int position, int direction);
 void Rbc_ListSort (Rbc_List list, Rbc_ListCompareProc * proc);

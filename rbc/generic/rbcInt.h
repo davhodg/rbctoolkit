@@ -182,7 +182,7 @@ Rbc_Op Rbc_GetOp (Tcl_Interp *interp, int nSpecs,
 
 Rbc_Op Rbc_GetOpFromObj (Tcl_Interp *interp,
                                      int nSpecs, Rbc_OpSpec *specArr, int operPos, int objc,
-                                     Tcl_Obj *CONST *objv, int flags);
+                                     Tcl_Obj *const *objv, int flags);
 
 void Rbc_Draw3DRectangle (Tk_Window tkwin, Drawable drawable,
                                       Tk_3DBorder border, int x, int y, int width, int height,
@@ -604,7 +604,7 @@ int Rbc_GetScrollInfo (Tcl_Interp *interp, int argc,
                                    int scrollUnits, int scrollMode);
 
 int Rbc_GetScrollInfoFromObj (Tcl_Interp *interp, int objc,
-        Tcl_Obj *CONST *objv, int *offsetPtr, int worldSize, int windowSize,
+        Tcl_Obj *const *objv, int *offsetPtr, int worldSize, int windowSize,
         int scrollUnits, int scrollMode);
 
 void Rbc_UpdateScrollbar (Tcl_Interp *interp,
@@ -661,7 +661,7 @@ Tcl_AppInitProc Rbc_WinopInit;
 Tcl_AppInitProc Rbc_SplineInit;
 #endif
 
-char *RbcStrdup (CONST char *ptr);
+char *RbcStrdup (const char *ptr);
 void *RbcCalloc (unsigned int nElem, size_t size);
 
 #ifdef WIN32

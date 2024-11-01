@@ -171,7 +171,7 @@ extern double rbcNaN;
  * ----------------------------------------------------------------------
  */
 #ifdef NEED_DECL_STRDUP
-char *strdup (CONST char *s);
+char *strdup (const char *s);
 #endif /* NEED_DECL_STRDUP */
 
 /*
@@ -185,7 +185,7 @@ void srand48 (long seed);
 #endif /* NEED_DECL_DRAND48 */
 
 #ifdef NEED_DECL_STRCASECMP
-int strcasecmp (CONST char *s1, CONST char *s2);
+int strcasecmp (const char *s1, const char *s2);
 #endif /* NEED_DECL_STRCASECMP */
 
 #endif /* _RBCMATH */

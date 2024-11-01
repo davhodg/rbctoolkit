@@ -339,7 +339,7 @@ Rbc_ProcessObjSwitches(interp, specs, objc, objv, record, flags)
     Tcl_Interp *interp; /* Interpreter for error reporting. */
     Rbc_SwitchSpec *specs; /* Describes legal options. */
     int objc; /* Number of elements in argv. */
-    Tcl_Obj *CONST *objv; /* Command-line options. */
+    Tcl_Obj *const *objv; /* Command-line options. */
     char *record; /* Record whose fields are to be
                    * modified.  Values must be properly
                    * initialized. */

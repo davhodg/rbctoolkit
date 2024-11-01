@@ -94,7 +94,7 @@ static int    NextValue          (Tcl_Interp *interp, ParseInfo *parsePtr, int p
 static void   MathError          (Tcl_Interp *interp, double value);
 static int    NextToken          (Tcl_Interp *interp, ParseInfo *parsePtr, Value *valuePtr);
 static double Fmod               (double x, double y);
-static int    ParseString        (Tcl_Interp *interp, CONST char *string, Value *valuePtr);
+static int    ParseString        (Tcl_Interp *interp, const char *string, Value *valuePtr);
 static int    ParseMathFunction  (Tcl_Interp *interp, char *start, ParseInfo *parsePtr, Value *valuePtr);
 static int    ComponentFunc      (ClientData clientData, Tcl_Interp *interp, VectorObject *vPtr);
 static int    ScalarFunc         (ClientData clientData, Tcl_Interp *interp, VectorObject *vPtr);
@@ -1708,7 +1708,7 @@ NextToken(interp, parsePtr, valuePtr)
 {
     register char *p;
     char *endPtr;
-    CONST char *var;
+    const char *var;
     int result;
 
     p = parsePtr->nextPtr;
@@ -1960,7 +1960,7 @@ Fmod(x, y)
 static int
 ParseString(interp, string, valuePtr)
     Tcl_Interp *interp; /* Where to store error message. */
-    CONST char *string; /* String to turn into value. */
+    const char *string; /* String to turn into value. */
     Value *valuePtr; /* Where to store value information.
                       * Caller must have initialized pv field. */
 {

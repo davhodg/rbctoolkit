@@ -324,7 +324,7 @@ Rbc_BackgroundToPostScript(tokenPtr, colorPtr)
 {
     /* If the color name exists in Tcl array variable, use that translation */
     if (tokenPtr->colorVarName != NULL) {
-        CONST char *psColor;
+        const char *psColor;
 
         psColor = Tcl_GetVar2(tokenPtr->interp, tokenPtr->colorVarName,
                               Tk_NameOfColor(colorPtr), 0);
@@ -359,7 +359,7 @@ Rbc_ForegroundToPostScript(tokenPtr, colorPtr)
 {
     /* If the color name exists in Tcl array variable, use that translation */
     if (tokenPtr->colorVarName != NULL) {
-        CONST char *psColor;
+        const char *psColor;
 
         psColor = Tcl_GetVar2(tokenPtr->interp, tokenPtr->colorVarName,
                               Tk_NameOfColor(colorPtr), 0);

@@ -59,7 +59,7 @@ RbcCalloc(nElems, sizeOfElem)
  */
 char *
 RbcStrdup(string)
-    CONST char *string;
+    const char *string;
 {
     size_t size;
     char *allocPtr;

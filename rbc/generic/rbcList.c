@@ -12,9 +12,9 @@
 #include "rbcInt.h"
 #include "rbcList.h"
 
-static struct Rbc_ListNodeStruct *FindString (struct Rbc_ListStruct *listPtr, CONST char *key);
-static Rbc_ListNode FindOneWord (struct Rbc_ListStruct *listPtr, CONST char *key);
-static Rbc_ListNode FindArray (struct Rbc_ListStruct *listPtr, CONST char *key);
+static struct Rbc_ListNodeStruct *FindString (struct Rbc_ListStruct *listPtr, const char *key);
+static Rbc_ListNode FindOneWord (struct Rbc_ListStruct *listPtr, const char *key);
+static Rbc_ListNode FindArray (struct Rbc_ListStruct *listPtr, const char *key);
 static void FreeNode (struct Rbc_ListNodeStruct *nodePtr);
 
 /*
@@ -35,7 +35,7 @@ static void FreeNode (struct Rbc_ListNodeStruct *nodePtr);
 static struct Rbc_ListNodeStruct *
 FindString(listPtr, key)
     struct Rbc_ListStruct *listPtr; /* List to search */
-    CONST char *key; /* Key to match */
+    const char *key; /* Key to match */
 {
     register struct Rbc_ListNodeStruct *nodePtr;
     char c;
@@ -69,7 +69,7 @@ FindString(listPtr, key)
 static Rbc_ListNode
 FindOneWord(listPtr, key)
     struct Rbc_ListStruct *listPtr; /* List to search */
-    CONST char *key; /* Key to match */
+    const char *key; /* Key to match */
 {
     register struct Rbc_ListNodeStruct *nodePtr;
 
@@ -100,7 +100,7 @@ FindOneWord(listPtr, key)
 static Rbc_ListNode
 FindArray(listPtr, key)
     struct Rbc_ListStruct *listPtr; /* List to search */
-    CONST char *key; /* Key to match */
+    const char *key; /* Key to match */
 {
     register struct Rbc_ListNodeStruct *nodePtr;
     int nBytes;
@@ -187,7 +187,7 @@ Rbc_ListCreate(type)
 Rbc_ListNode
 Rbc_ListCreateNode(listPtr, key)
     struct Rbc_ListStruct *listPtr;
-    CONST char *key; /* Unique key to reference object */
+    const char *key; /* Unique key to reference object */
 {
     register struct Rbc_ListNodeStruct *nodePtr;
     int keySize;
@@ -449,7 +449,7 @@ Rbc_ListUnlinkNode(nodePtr)
 Rbc_ListNode
 Rbc_ListGetNode(listPtr, key)
     struct Rbc_ListStruct *listPtr; /* List to search */
-    CONST char *key; /* Key to match */
+    const char *key; /* Key to match */
 {
     if (listPtr != NULL) {
         switch (listPtr->type) {
@@ -505,7 +505,7 @@ Rbc_ListDeleteNode(nodePtr)
 void
 Rb_ListDeleteNodeByKey(listPtr, key)
     struct Rbc_ListStruct *listPtr;
-    CONST char *key;
+    const char *key;
 {
     struct Rbc_ListNodeStruct *nodePtr;
 
@@ -533,7 +533,7 @@ Rb_ListDeleteNodeByKey(listPtr, key)
 Rbc_ListNode
 Rbc_ListAppend(listPtr, key, clientData)
     struct Rbc_ListStruct *listPtr;
-    CONST char *key;
+    const char *key;
     ClientData clientData;
 {
     struct Rbc_ListNodeStruct *nodePtr;
@@ -562,7 +562,7 @@ Rbc_ListAppend(listPtr, key, clientData)
 Rbc_ListNode
 Rbc_ListPrepend(listPtr, key, clientData)
     struct Rbc_ListStruct *listPtr;
-    CONST char *key;
+    const char *key;
     ClientData clientData;
 {
     struct Rbc_ListNodeStruct *nodePtr;

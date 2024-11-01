@@ -183,8 +183,8 @@ static unsigned char caseTable[] = {
  */
 int
 strcasecmp(s1, s2)
-    CONST char *s1;
-    CONST char *s2;
+    const char *s1;
+    const char *s2;
 {
     unsigned char *s = (unsigned char *)s1;
     unsigned char *t = (unsigned char *)s2;
@@ -218,8 +218,8 @@ strcasecmp(s1, s2)
  */
 int
 strncasecmp(s1, s2, length)
-    CONST char *s1;
-    CONST char *s2;
+    const char *s1;
+    const char *s2;
     size_t length;
 {
     register unsigned char *s = (unsigned char *)s1;
@@ -1173,7 +1173,7 @@ Rbc_GetOpFromObj(interp, nSpecs, specArr, operPos, objc, objv, flags)
     int operPos; /* Position of operation in argument list. */
     int objc; /* Number of arguments in the argument vector.
                * This includes any prefixed arguments */
-    Tcl_Obj *CONST objv[]; /* Argument vector */
+    Tcl_Obj *const objv[]; /* Argument vector */
     int flags;
 {
     Rbc_OpSpec *specPtr;
