@@ -15,22 +15,22 @@
 
 #include "rbcTile.h"
 
-static int StringToFill (ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, CONST86 char *string, char *widgRec, int flags);
-static CONST86 char *FillToString (ClientData clientData, Tk_Window tkwin, char *widgRec, int offset, Tcl_FreeProc **freeProcPtr);
+static Tk_OptionParseProc StringToFill;
+static Tk_OptionPrintProc FillToString;
 
 Tk_CustomOption rbcFillOption = {
     StringToFill, FillToString, (ClientData)0
 };
 
-static int StringToPad (ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, CONST86 char *string, char *widgRec, int offset);
-static CONST86 char *PadToString (ClientData clientData, Tk_Window tkwin, char *widgRec, int offset, Tcl_FreeProc **freeProcPtr);
+static Tk_OptionParseProc StringToPad;
+static Tk_OptionPrintProc PadToString;
 
 Tk_CustomOption rbcPadOption = {
     StringToPad, PadToString, (ClientData)0
 };
 
-static int StringToDistance (ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, CONST86 char *string, char *widgRec, int flags);
-static CONST86 char *DistanceToString (ClientData clientData, Tk_Window tkwin, char *widgRec, int offset, Tcl_FreeProc **freeProcPtr);
+static Tk_OptionParseProc StringToDistance;
+static Tk_OptionPrintProc DistanceToString;
 
 Tk_CustomOption rbcDistanceOption = {
     StringToDistance, DistanceToString, (ClientData)PIXELS_NONNEGATIVE
@@ -44,8 +44,8 @@ Tk_CustomOption rbcAnyDistanceOption = {
     StringToDistance, DistanceToString, (ClientData)PIXELS_ANY
 };
 
-static int StringToCount (ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, CONST86 char *string, char *widgRec, int flags);
-static CONST86 char *CountToString (ClientData clientData, Tk_Window tkwin, char *widgRec, int offset, Tcl_FreeProc **freeProcPtr);
+static Tk_OptionParseProc StringToCount;
+static Tk_OptionPrintProc CountToString;
 
 Tk_CustomOption rbcCountOption = {
     StringToCount, CountToString, (ClientData)COUNT_NONNEGATIVE
@@ -55,43 +55,43 @@ Tk_CustomOption rbcPositiveCountOption = {
     StringToCount, CountToString, (ClientData)COUNT_POSITIVE
 };
 
-static int StringToDashes (ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, CONST86 char *string, char *widgRec, int flags);
-static CONST86 char *DashesToString (ClientData clientData, Tk_Window tkwin, char *widgRec, int offset, Tcl_FreeProc **freeProcPtr);
+static Tk_OptionParseProc StringToDashes;
+static Tk_OptionPrintProc DashesToString;
 
 Tk_CustomOption rbcDashesOption = {
     StringToDashes, DashesToString, (ClientData)0
 };
 
-static int StringToShadow (ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, CONST86 char *string, char *widgRec, int flags);
-static CONST86 char *ShadowToString (ClientData clientData, Tk_Window tkwin, char *widgRec, int offset, Tcl_FreeProc **freeProcPtr);
+static Tk_OptionParseProc StringToShadow;
+static Tk_OptionPrintProc ShadowToString;
 
 Tk_CustomOption rbcShadowOption = {
     StringToShadow, ShadowToString, (ClientData)0
 };
 
-static int StringToUid (ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, CONST86 char *string, char *widgRec, int flags);
-static CONST86 char *UidToString (ClientData clientData, Tk_Window tkwin, char *widgRec, int offset, Tcl_FreeProc **);
+static Tk_OptionParseProc StringToUid;
+static Tk_OptionPrintProc UidToString;
 
 Tk_CustomOption rbcUidOption = {
     StringToUid, UidToString, (ClientData)0
 };
 
-static int StringToState (ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, CONST86 char *string, char *widgRec, int flags);
-static CONST86 char *StateToString (ClientData clientData, Tk_Window tkwin, char *widgRec, int offset, Tcl_FreeProc **freeProcPtr);
+static Tk_OptionParseProc StringToState;
+static Tk_OptionPrintProc StateToString;
 
 Tk_CustomOption rbcStateOption = {
     StringToState, StateToString, (ClientData)0
 };
 
-static int StringToList (ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, CONST86 char *string, char *widgRec, int flags);
-static CONST86 char *ListToString (ClientData clientData, Tk_Window tkwin, char *widgRec, int offset, Tcl_FreeProc **freeProcPtr);
+static Tk_OptionParseProc StringToList;
+static Tk_OptionPrintProc ListToString;
 
 Tk_CustomOption rbcListOption = {
     StringToList, ListToString, (ClientData)0
 };
 
-static int StringToTile (ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, CONST86 char *value, char *widgRec, int flags);
-static CONST86 char *TileToString (ClientData clientData, Tk_Window tkwin, char *widgRec, int offset, Tcl_FreeProc **freeProcPtr);
+static Tk_OptionParseProc StringToTile;
+static Tk_OptionPrintProc TileToString;
 
 Tk_CustomOption rbcTileOption = {
     StringToTile, TileToString, (ClientData)0
