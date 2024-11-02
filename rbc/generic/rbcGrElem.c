@@ -765,7 +765,7 @@ Rbc_StringToStyles(clientData, interp, tkwin, string, widgRec, offset)
     ClientData clientData; /* Not used. */
     Tcl_Interp *interp; /* Interpreter to send results back to */
     Tk_Window tkwin; /* Not used. */
-    char *string; /* String representing style list */
+    CONST86 char *string; /* String representing style list */
     char *widgRec; /* Element information record */
     int offset; /* Offset of symbol type field in record */
 {

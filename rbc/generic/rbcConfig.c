@@ -15,21 +15,21 @@
 
 #include "rbcTile.h"
 
-static int StringToFill (ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, char *string, char *widgRec, int flags);
+static int StringToFill (ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, CONST86 char *string, char *widgRec, int flags);
 static CONST86 char *FillToString (ClientData clientData, Tk_Window tkwin, char *widgRec, int offset, Tcl_FreeProc **freeProcPtr);
 
 Tk_CustomOption rbcFillOption = {
     StringToFill, FillToString, (ClientData)0
 };
 
-static int StringToPad (ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, char *string, char *widgRec, int offset);
+static int StringToPad (ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, CONST86 char *string, char *widgRec, int offset);
 static CONST86 char *PadToString (ClientData clientData, Tk_Window tkwin, char *widgRec, int offset, Tcl_FreeProc **freeProcPtr);
 
 Tk_CustomOption rbcPadOption = {
     StringToPad, PadToString, (ClientData)0
 };
 
-static int StringToDistance (ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, char *string, char *widgRec, int flags);
+static int StringToDistance (ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, CONST86 char *string, char *widgRec, int flags);
 static CONST86 char *DistanceToString (ClientData clientData, Tk_Window tkwin, char *widgRec, int offset, Tcl_FreeProc **freeProcPtr);
 
 Tk_CustomOption rbcDistanceOption = {
@@ -44,7 +44,7 @@ Tk_CustomOption rbcAnyDistanceOption = {
     StringToDistance, DistanceToString, (ClientData)PIXELS_ANY
 };
 
-static int StringToCount (ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, char *string, char *widgRec, int flags);
+static int StringToCount (ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, CONST86 char *string, char *widgRec, int flags);
 static CONST86 char *CountToString (ClientData clientData, Tk_Window tkwin, char *widgRec, int offset, Tcl_FreeProc **freeProcPtr);
 
 Tk_CustomOption rbcCountOption = {
@@ -55,42 +55,42 @@ Tk_CustomOption rbcPositiveCountOption = {
     StringToCount, CountToString, (ClientData)COUNT_POSITIVE
 };
 
-static int StringToDashes (ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, char *string, char *widgRec, int flags);
+static int StringToDashes (ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, CONST86 char *string, char *widgRec, int flags);
 static CONST86 char *DashesToString (ClientData clientData, Tk_Window tkwin, char *widgRec, int offset, Tcl_FreeProc **freeProcPtr);
 
 Tk_CustomOption rbcDashesOption = {
     StringToDashes, DashesToString, (ClientData)0
 };
 
-static int StringToShadow (ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, char *string, char *widgRec, int flags);
+static int StringToShadow (ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, CONST86 char *string, char *widgRec, int flags);
 static CONST86 char *ShadowToString (ClientData clientData, Tk_Window tkwin, char *widgRec, int offset, Tcl_FreeProc **freeProcPtr);
 
 Tk_CustomOption rbcShadowOption = {
     StringToShadow, ShadowToString, (ClientData)0
 };
 
-static int StringToUid (ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, char *string, char *widgRec, int flags);
+static int StringToUid (ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, CONST86 char *string, char *widgRec, int flags);
 static CONST86 char *UidToString (ClientData clientData, Tk_Window tkwin, char *widgRec, int offset, Tcl_FreeProc **);
 
 Tk_CustomOption rbcUidOption = {
     StringToUid, UidToString, (ClientData)0
 };
 
-static int StringToState (ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, char *string, char *widgRec, int flags);
+static int StringToState (ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, CONST86 char *string, char *widgRec, int flags);
 static CONST86 char *StateToString (ClientData clientData, Tk_Window tkwin, char *widgRec, int offset, Tcl_FreeProc **freeProcPtr);
 
 Tk_CustomOption rbcStateOption = {
     StringToState, StateToString, (ClientData)0
 };
 
-static int StringToList (ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, char *string, char *widgRec, int flags);
+static int StringToList (ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, CONST86 char *string, char *widgRec, int flags);
 static CONST86 char *ListToString (ClientData clientData, Tk_Window tkwin, char *widgRec, int offset, Tcl_FreeProc **freeProcPtr);
 
 Tk_CustomOption rbcListOption = {
     StringToList, ListToString, (ClientData)0
 };
 
-static int StringToTile (ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, char *value, char *widgRec, int flags);
+static int StringToTile (ClientData clientData, Tcl_Interp *interp, Tk_Window tkwin, CONST86 char *value, char *widgRec, int flags);
 static CONST86 char *TileToString (ClientData clientData, Tk_Window tkwin, char *widgRec, int offset, Tcl_FreeProc **freeProcPtr);
 
 Tk_CustomOption rbcTileOption = {
@@ -161,7 +161,7 @@ StringToFill(clientData, interp, tkwin, string, widgRec, offset)
     ClientData clientData; /* Not used. */
     Tcl_Interp *interp; /* Interpreter to send results back to */
     Tk_Window tkwin; /* Not used. */
-    char *string; /* Fill style string */
+    CONST86 char *string; /* Fill style string */
     char *widgRec; /* Cubicle structure record */
     int offset; /* Offset of style in record */
 {
@@ -362,7 +362,7 @@ StringToDistance(clientData, interp, tkwin, string, widgRec, offset)
     ClientData clientData; /* Indicated how to check distance */
     Tcl_Interp *interp; /* Interpreter to send results back to */
     Tk_Window tkwin; /* Window */
-    char *string; /* Pixel value string */
+    CONST86 char *string; /* Pixel value string */
     char *widgRec; /* Widget record */
     int offset; /* Offset of pixel size in record */
 {
@@ -473,7 +473,7 @@ StringToCount(clientData, interp, tkwin, string, widgRec, offset)
     ClientData clientData; /* Indicated how to check distance */
     Tcl_Interp *interp; /* Interpreter to send results back to */
     Tk_Window tkwin; /* Not used. */
-    char *string; /* Pixel value string */
+    CONST86 char *string; /* Pixel value string */
     char *widgRec; /* Widget record */
     int offset; /* Offset of pixel size in record */
 {
@@ -541,7 +541,7 @@ StringToPad(clientData, interp, tkwin, string, widgRec, offset)
     ClientData clientData; /* Not used. */
     Tcl_Interp *interp; /* Interpreter to send results back to */
     Tk_Window tkwin; /* Window */
-    char *string; /* Pixel value string */
+    CONST86 char *string; /* Pixel value string */
     char *widgRec; /* Widget record */
     int offset; /* Offset of pad in widget */
 {
@@ -640,7 +640,7 @@ StringToShadow(clientData, interp, tkwin, string, widgRec, offset)
     ClientData clientData; /* Not used. */
     Tcl_Interp *interp; /* Interpreter to send results back to */
     Tk_Window tkwin; /* Window */
-    char *string; /* Pixel value string */
+    CONST86 char *string; /* Pixel value string */
     char *widgRec; /* Widget record */
     int offset; /* Offset of pad in widget */
 {
@@ -835,7 +835,7 @@ StringToDashes(clientData, interp, tkwin, string, widgRec, offset)
     ClientData clientData; /* Not used. */
     Tcl_Interp *interp; /* Interpreter to send results back to */
     Tk_Window tkwin; /* Not used. */
-    char *string; /* New dash value list */
+    CONST86 char *string; /* New dash value list */
     char *widgRec; /* Widget record */
     int offset; /* offset to Dashes structure */
 {
@@ -908,7 +908,7 @@ StringToUid(clientData, interp, tkwin, string, widgRec, offset)
     ClientData clientData; /* Not used. */
     Tcl_Interp *interp; /* Interpreter to send results back to */
     Tk_Window tkwin; /* Not used. */
-    char *string; /* Fill style string */
+    CONST86 char *string; /* Fill style string */
     char *widgRec; /* Cubicle structure record */
     int offset; /* Offset of style in record */
 {
@@ -975,7 +975,7 @@ StringToState(clientData, interp, tkwin, string, widgRec, offset)
     ClientData clientData; /* Not used. */
     Tcl_Interp *interp; /* Interpreter to send results back to */
     Tk_Window tkwin; /* Not used. */
-    char *string; /* String representation of option value */
+    CONST86 char *string; /* String representation of option value */
     char *widgRec; /* Widget structure record */
     int offset; /* Offset of field in record */
 {
@@ -1052,7 +1052,7 @@ StringToList(clientData, interp, tkwin, string, widgRec, offset)
     ClientData clientData; /* Not used. */
     Tcl_Interp *interp; /* Interpreter to send results back to */
     Tk_Window tkwin; /* Not used. */
-    char *string; /* String representation of option value */
+    CONST86 char *string; /* String representation of option value */
     char *widgRec; /* Widget structure record */
     int offset; /* Offset of field in record */
 {
@@ -1141,7 +1141,7 @@ StringToTile(clientData, interp, tkwin, string, widgRec, offset)
     ClientData clientData; /* Not used. */
     Tcl_Interp *interp; /* Interpreter to send results back to */
     Tk_Window tkwin; /* Window on same display as tile */
-    char *string; /* Name of image */
+    CONST86 char *string; /* Name of image */
     char *widgRec; /* Widget structure record */
     int offset; /* Offset of tile in record */
 {
@@ -1354,7 +1354,7 @@ Rbc_StringToEnum(clientData, interp, tkwin, string, widgRec, offset)
     ClientData clientData; /* Vectors of valid strings. */
     Tcl_Interp *interp; /* Interpreter to send results back to */
     Tk_Window tkwin; /* Not used. */
-    char *string; /* String to match. */
+    CONST86 char *string; /* String to match. */
     char *widgRec; /* Widget record. */
     int offset; /* Offset of field in record */
 {
