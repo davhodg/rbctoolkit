@@ -1419,7 +1419,8 @@ Rbc_FreePrivateGC(display, gc)
     Display *display;
     GC gc;
 {
-    Tk_FreeXId(display, (XID) XGContextFromGC(gc));
+    /* removed call to Tk_FreeXId for Tcl 9.0 */
+
     XFreeGC(display, gc);
 }
 
