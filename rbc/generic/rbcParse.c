@@ -214,6 +214,7 @@ Rbc_ParseBraces(interp, string, termPtr, parsePtr)
             }
         } else if (c == '\\') {
             int count;
+            char buf[4] = "";
 
             /*
              * Must always squish out backslash-newlines, even when in
@@ -222,10 +223,16 @@ Rbc_ParseBraces(interp, string, termPtr, parsePtr)
              */
 
             if (*src == '\n') {
-                dest[-1] = Tcl_Backslash(src - 1, &count);
+                Tcl_UniChar ch = 0;
+
+                Tcl_UtfBackslash (src - 1, &count, buf);
+                Tcl_UtfToUniChar (buf, &ch);
+
+                dest[-1] = (char) ch;
                 src += count - 1;
             } else {
-                Tcl_Backslash(src - 1, &count);
+                Tcl_UtfBackslash (src - 1, &count, buf);
+
                 while (count > 1) {
                     if (dest == end) {
                         parsePtr->next = dest;
@@ -354,9 +361,14 @@ copy:
             continue;
         } else if (c == '\\') {
             int nRead;
+            char buf[4] = "";
+            Tcl_UniChar ch = 0;
 
             src--;
-            *dest = Tcl_Backslash(src, &nRead);
+            Tcl_UtfBackslash (src, &nRead, buf);
+            Tcl_UtfToUniChar (buf, &ch);
+
+            *dest = (char) ch;
             dest++;
             src += nRead;
             continue;
