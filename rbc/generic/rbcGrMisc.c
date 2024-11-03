@@ -127,7 +127,7 @@ StringToPoint(clientData, interp, tkwin, string, widgRec, offset)
     Tk_Window tkwin; /* Not used. */
     CONST86 char *string; /* New legend position string */
     char *widgRec; /* Widget record */
-    int offset; /* offset to XPoint structure */
+    Tcl_Size offset; /* offset to XPoint structure */
 {
     XPoint *pointPtr = (XPoint *)(widgRec + offset);
     int x, y;
@@ -159,7 +159,7 @@ PointToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin; /* Not used. */
     char *widgRec; /* Widget record */
-    int offset; /* offset of XPoint in record */
+    Tcl_Size offset; /* offset of XPoint in record */
     Tcl_FreeProc **freeProcPtr; /* Memory deallocation scheme to use */
 {
     char *result;
@@ -283,7 +283,7 @@ StringToColorPair(clientData, interp, tkwin, string, widgRec, offset)
     Tk_Window tkwin; /* Not used. */
     CONST86 char *string; /* String representing color */
     char *widgRec; /* Widget record */
-    int offset; /* Offset of color field in record */
+    Tcl_Size offset; /* Offset of color field in record */
 {
     ColorPair *pairPtr = (ColorPair *)(widgRec + offset);
     ColorPair sample;
@@ -373,7 +373,7 @@ ColorPairToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin; /* Not used. */
     char *widgRec; /* Element information record */
-    int offset; /* Offset of symbol type field in record */
+    Tcl_Size offset; /* Offset of symbol type field in record */
     Tcl_FreeProc **freeProcPtr; /* Not used. */
 {
     ColorPair *pairPtr = (ColorPair *)(widgRec + offset);

@@ -450,7 +450,7 @@ StringToBarMode(clientData, interp, tkwin, string, widgRec, offset)
     Tk_Window tkwin; /* Not used. */
     CONST86 char *string; /* Mode style string */
     char *widgRec; /* Cubicle structure record */
-    int offset; /* Offset of style in record */
+    Tcl_Size offset; /* Offset of style in record */
 {
     BarMode *modePtr = (BarMode *)(widgRec + offset);
     unsigned int length;
@@ -497,7 +497,7 @@ BarModeToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin; /* Not used. */
     char *widgRec; /* Row/column structure record */
-    int offset; /* Offset of mode in Partition record */
+    Tcl_Size offset; /* Offset of mode in Partition record */
     Tcl_FreeProc **freeProcPtr; /* Not used. */
 {
     BarMode mode = *(BarMode *)(widgRec + offset);

@@ -1144,7 +1144,7 @@ StringToCoordinates(clientData, interp, tkwin, string, widgRec, offset)
     Tk_Window tkwin; /* Not used. */
     CONST86 char *string; /* Tcl list of numeric expressions */
     char *widgRec; /* Marker record */
-    int offset; /* Not used. */
+    Tcl_Size offset; /* Not used. */
 {
     Marker *markerPtr = (Marker *)widgRec;
     int nExprs;
@@ -1189,7 +1189,7 @@ CoordinatesToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin; /* Not used. */
     char *widgRec; /* Marker record */
-    int offset; /* Not used. */
+    Tcl_Size offset; /* Not used. */
     Tcl_FreeProc **freeProcPtr; /* Memory deallocation scheme to use */
 {
     Marker *markerPtr = (Marker *)widgRec;

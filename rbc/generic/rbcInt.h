@@ -27,6 +27,13 @@
 
 #define MIN_VERSION "8.6"
 
+/* Support for Tcl versions before 9 */
+#if TCL_MAJOR_VERSION < 9
+#ifndef Tcl_Size
+typedef int Tcl_Size;
+#endif /* #ifndef Tcl_Size */
+#endif /* #if TCL_MAJOR_VERSION < 9 */
+
 #include "rbcTkInt.h"
 
 #include <stdio.h>

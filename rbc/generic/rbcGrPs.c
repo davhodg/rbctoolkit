@@ -152,7 +152,7 @@ StringToColorMode(clientData, interp, tkwin, string, widgRec, offset)
     Tk_Window tkwin; /* Not used. */
     CONST86 char *string; /* New value. */
     char *widgRec; /* Widget record */
-    int offset; /* Offset of field in record */
+    Tcl_Size offset; /* Offset of field in record */
 {
     PsColorMode *modePtr = (PsColorMode *) (widgRec + offset);
     unsigned int length;
@@ -229,7 +229,7 @@ ColorModeToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin; /* Not used. */
     char *widgRec; /* Widget record. */
-    int offset; /* field of colorMode in record */
+    Tcl_Size offset; /* field of colorMode in record */
     Tcl_FreeProc **freeProcPtr; /* Not used. */
 {
     PsColorMode mode = *(PsColorMode *) (widgRec + offset);
@@ -268,7 +268,7 @@ StringToFormat(clientData, interp, tkwin, string, widgRec, offset)
     Tk_Window tkwin; /* Not used. */
     CONST86 char *string; /* New value. */
     char *widgRec; /* Widget record */
-    int offset; /* Offset of field in record */
+    Tcl_Size offset; /* Offset of field in record */
 {
     int *formatPtr = (int *) (widgRec + offset);
     unsigned int length;
@@ -321,7 +321,7 @@ FormatToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin; /* Not used. */
     char *widgRec; /* PostScript structure record */
-    int offset; /* field of colorMode in record */
+    Tcl_Size offset; /* field of colorMode in record */
     Tcl_FreeProc **freeProcPtr; /* Not used. */
 {
     int format = *(int *)(widgRec + offset);

@@ -295,7 +295,7 @@ StringToPosition(clientData, interp, tkwin, string, widgRec, offset)
     Tk_Window tkwin; /* Not used. */
     CONST86 char *string; /* New legend position string */
     char *widgRec; /* Widget record */
-    int offset; /* offset to XPoint structure */
+    Tcl_Size offset; /* offset to XPoint structure */
 {
     Legend *legendPtr = (Legend *)widgRec;
     char c;
@@ -376,7 +376,7 @@ PositionToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin; /* Not used. */
     char *widgRec; /* Widget record */
-    int offset; /* offset of XPoint in record */
+    Tcl_Size offset; /* offset of XPoint in record */
     Tcl_FreeProc **freeProcPtr; /* Memory deallocation scheme to use */
 {
     Legend *legendPtr = (Legend *)widgRec;

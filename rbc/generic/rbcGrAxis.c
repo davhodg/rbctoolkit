@@ -383,7 +383,7 @@ StringToAnyAxis(clientData, interp, tkwin, string, widgRec, offset)
     Tk_Window tkwin; /* Used to look up pointer to graph. */
     CONST86 char *string; /* String representing new value. */
     char *widgRec; /* Pointer to structure record. */
-    int offset; /* Offset of field in structure. */
+    Tcl_Size offset; /* Offset of field in structure. */
 {
     Axis **axisPtrPtr = (Axis **)(widgRec + offset);
     Rbc_Uid classUid = *(Rbc_Uid *)clientData;
@@ -427,7 +427,7 @@ StringToAxis(clientData, interp, tkwin, string, widgRec, offset)
     Tk_Window tkwin; /* Used to look up pointer to graph. */
     CONST86 char *string; /* String representing new value. */
     char *widgRec; /* Pointer to structure record. */
-    int offset; /* Offset of field in structure. */
+    Tcl_Size offset; /* Offset of field in structure. */
 {
     Axis **axisPtrPtr = (Axis **)(widgRec + offset);
     Rbc_Uid classUid = *(Rbc_Uid *)clientData;
@@ -462,7 +462,7 @@ AxisToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin; /* Not used. */
     char *widgRec; /* Pointer to structure record .*/
-    int offset; /* Offset of field in structure. */
+    Tcl_Size offset; /* Offset of field in structure. */
     Tcl_FreeProc **freeProcPtr; /* Not used. */
 {
     Axis *axisPtr = *(Axis **)(widgRec + offset);
@@ -496,7 +496,7 @@ StringToFormat(clientData, interp, tkwin, string, widgRec, offset)
     Tk_Window tkwin; /* Used to look up pointer to graph */
     CONST86 char *string; /* String representing new value. */
     char *widgRec; /* Pointer to structure record. */
-    int offset; /* Offset of field in structure. */
+    Tcl_Size offset; /* Offset of field in structure. */
 {
     Axis *axisPtr = (Axis *)(widgRec);
     char **argv;
@@ -545,7 +545,7 @@ FormatToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin; /* Not used. */
     char *widgRec; /* Widget record */
-    int offset; /* offset of limits field */
+    Tcl_Size offset; /* offset of limits field */
     Tcl_FreeProc **freeProcPtr; /* Not used. */
 {
     Axis *axisPtr = (Axis *)(widgRec);
@@ -582,7 +582,7 @@ StringToLimit(clientData, interp, tkwin, string, widgRec, offset)
     Tk_Window tkwin; /* Not used. */
     CONST86 char *string; /* String representing new value. */
     char *widgRec; /* Pointer to structure record. */
-    int offset; /* Offset of field in structure. */
+    Tcl_Size offset; /* Offset of field in structure. */
 {
     double *limitPtr = (double *)(widgRec + offset);
 
@@ -614,7 +614,7 @@ LimitToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Either LMIN or LMAX */
     Tk_Window tkwin; /* Not used. */
     char *widgRec;
-    int offset;
+    Tcl_Size offset;
     Tcl_FreeProc **freeProcPtr;
 {
     double limit = *(double *)(widgRec + offset);
@@ -658,7 +658,7 @@ StringToTicks(clientData, interp, tkwin, string, widgRec, offset)
     Tk_Window tkwin; /* Not used. */
     CONST86 char *string; /* String representing new value. */
     char *widgRec; /* Pointer to structure record. */
-    int offset; /* Offset of field in structure. */
+    Tcl_Size offset; /* Offset of field in structure. */
 {
     unsigned int mask = (unsigned int)clientData;
     Axis *axisPtr = (Axis *)widgRec;
@@ -729,7 +729,7 @@ TicksToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin; /* Not used. */
     char *widgRec;
-    int offset;
+    Tcl_Size offset;
     Tcl_FreeProc **freeProcPtr;
 {
     Ticks *ticksPtr = *(Ticks **) (widgRec + offset);
@@ -781,7 +781,7 @@ StringToLoose(clientData, interp, tkwin, string, widgRec, offset)
     Tk_Window tkwin; /* Not used. */
     CONST86 char *string; /* String representing new value. */
     char *widgRec; /* Pointer to structure record. */
-    int offset; /* Offset of field in structure. */
+    Tcl_Size offset; /* Offset of field in structure. */
 {
     Axis *axisPtr = (Axis *)(widgRec);
     register int i;
@@ -838,7 +838,7 @@ LooseToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin; /* Not used. */
     char *widgRec; /* Widget record */
-    int offset; /* offset of flags field in record */
+    Tcl_Size offset; /* offset of flags field in record */
     Tcl_FreeProc **freeProcPtr; /* Memory deallocation scheme to use */
 {
     Axis *axisPtr = (Axis *)widgRec;

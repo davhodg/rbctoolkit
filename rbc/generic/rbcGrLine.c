@@ -999,7 +999,7 @@ PatternToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin;
     char *widgRec; /* Element information record */
-    int offset; /* Offset of field in record */
+    Tcl_Size offset; /* Offset of field in record */
     Tcl_FreeProc **freeProcPtr; /* Not used. */
 {
     Pixmap stipple = *(Pixmap *)(widgRec + offset);
@@ -1035,7 +1035,7 @@ StringToPattern(clientData, interp, tkwin, string, widgRec, offset)
     Tk_Window tkwin; /* Not used. */
     CONST86 char *string; /* String representing field */
     char *widgRec; /* Element information record */
-    int offset; /* Offset of field in record */
+    Tcl_Size offset; /* Offset of field in record */
 {
     Pixmap *stipplePtr = (Pixmap *)(widgRec + offset);
     Pixmap stipple;
@@ -1128,7 +1128,7 @@ StringToSymbol(clientData, interp, tkwin, string, widgRec, offset)
     Tk_Window tkwin; /* Not used. */
     CONST86 char *string; /* String representing symbol type */
     char *widgRec; /* Element information record */
-    int offset; /* Offset of symbol type field in record */
+    Tcl_Size offset; /* Offset of symbol type field in record */
 {
     Symbol *symbolPtr = (Symbol *)(widgRec + offset);
     unsigned int length;
@@ -1201,7 +1201,7 @@ SymbolToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin;
     char *widgRec; /* Element information record */
-    int offset; /* Offset of symbol type field in record */
+    Tcl_Size offset; /* Offset of symbol type field in record */
     Tcl_FreeProc **freeProcPtr; /* Not used. */
 {
     Symbol *symbolPtr = (Symbol *)(widgRec + offset);
@@ -1273,7 +1273,7 @@ StringToSmooth(clientData, interp, tkwin, string, widgRec, offset)
     Tk_Window tkwin; /* Not used. */
     CONST86 char *string; /* String representing smooth type */
     char *widgRec; /* Element information record */
-    int offset; /* Offset of smooth type field in record */
+    Tcl_Size offset; /* Offset of smooth type field in record */
 {
     Smoothing *valuePtr = (Smoothing *)(widgRec + offset);
     register SmoothingInfo *siPtr;
@@ -1309,7 +1309,7 @@ SmoothToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin; /* Not used. */
     char *widgRec; /* Element information record */
-    int offset; /* Offset of smooth type field in record */
+    Tcl_Size offset; /* Offset of smooth type field in record */
     Tcl_FreeProc **freeProcPtr; /* Not used. */
 {
     int smooth = *(int *)(widgRec + offset);
@@ -1341,7 +1341,7 @@ StringToPenDir(clientData, interp, tkwin, string, widgRec, offset)
     Tk_Window tkwin; /* Not used. */
     CONST86 char *string; /* String representing pen direction */
     char *widgRec; /* Element information record */
-    int offset; /* Offset of pen direction field in record */
+    Tcl_Size offset; /* Offset of pen direction field in record */
 {
     int *penDirPtr = (int *)(widgRec + offset);
     unsigned int length;
@@ -1415,7 +1415,7 @@ PenDirToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin; /* Not used. */
     char *widgRec; /* Element information record */
-    int offset; /* Offset of pen direction field in record */
+    Tcl_Size offset; /* Offset of pen direction field in record */
     Tcl_FreeProc **freeProcPtr; /* Not used. */
 {
     int penDir = *(int *)(widgRec + offset);

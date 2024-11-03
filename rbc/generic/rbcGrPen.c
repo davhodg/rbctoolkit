@@ -61,7 +61,7 @@ StringToColor(clientData, interp, tkwin, string, widgRec, offset)
     Tk_Window tkwin; /* Not used. */
     CONST86 char *string; /* String representing color */
     char *widgRec; /* Widget record */
-    int offset; /* Offset of color field in record */
+    Tcl_Size offset; /* Offset of color field in record */
 {
     XColor **colorPtrPtr = (XColor **)(widgRec + offset);
     XColor *colorPtr;
@@ -135,7 +135,7 @@ ColorToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin; /* Not used. */
     char *widgRec; /* Widget information record */
-    int offset; /* Offset of symbol type in record */
+    Tcl_Size offset; /* Offset of symbol type in record */
     Tcl_FreeProc **freeProcPtr; /* Not used. */
 {
     XColor *colorPtr = *(XColor **)(widgRec + offset);
@@ -165,7 +165,7 @@ StringToPen(clientData, interp, tkwin, string, widgRec, offset)
     Tk_Window tkwin; /* Not used. */
     CONST86 char *string; /* String representing pen */
     char *widgRec; /* Widget record */
-    int offset; /* Offset of pen field in record */
+    Tcl_Size offset; /* Offset of pen field in record */
 {
     Rbc_Uid classUid = *(Rbc_Uid *)clientData; /* Element type. */
     Pen **penPtrPtr = (Pen **)(widgRec + offset);
@@ -211,7 +211,7 @@ PenToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin; /* Not used. */
     char *widgRec; /* Widget information record */
-    int offset; /* Offset of pen in record */
+    Tcl_Size offset; /* Offset of pen in record */
     Tcl_FreeProc **freeProcPtr; /* Not used. */
 {
     Pen *penPtr = *(Pen **)(widgRec + offset);

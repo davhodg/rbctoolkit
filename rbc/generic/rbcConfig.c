@@ -163,7 +163,7 @@ StringToFill(clientData, interp, tkwin, string, widgRec, offset)
     Tk_Window tkwin; /* Not used. */
     CONST86 char *string; /* Fill style string */
     char *widgRec; /* Cubicle structure record */
-    int offset; /* Offset of style in record */
+    Tcl_Size offset; /* Offset of style in record */
 {
     int *fillPtr = (int *)(widgRec + offset);
     unsigned int length;
@@ -207,7 +207,7 @@ FillToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin; /* Not used. */
     char *widgRec; /* Widget structure record */
-    int offset; /* Offset of fill in widget record */
+    Tcl_Size offset; /* Offset of fill in widget record */
     Tcl_FreeProc **freeProcPtr; /* Not used. */
 {
     int fill = *(int *)(widgRec + offset);
@@ -237,7 +237,7 @@ Rbc_StringToFlag(clientData, interp, tkwin, string, widgRec, offset)
     Tk_Window tkwin; /* Not used. */
     char *string; /* Fill style string */
     char *widgRec; /* Cubicle structure record */
-    int offset; /* Offset of style in record */
+    Tcl_Size offset; /* Offset of style in record */
 {
     unsigned int mask = (unsigned int)clientData;	/* Bit to be tested */
     int *flagPtr = (int *)(widgRec + offset);
@@ -274,7 +274,7 @@ Rbc_FlagToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Bit mask to be test in status word */
     Tk_Window tkwin; /* Not used. */
     char *widgRec; /* Widget structure record */
-    int offset; /* Offset of fill in widget record */
+    Tcl_Size offset; /* Offset of fill in widget record */
     Tcl_FreeProc **freeProcPtr; /* Not Used. */
 {
     /* Bit to be tested */
@@ -364,7 +364,7 @@ StringToDistance(clientData, interp, tkwin, string, widgRec, offset)
     Tk_Window tkwin; /* Window */
     CONST86 char *string; /* Pixel value string */
     char *widgRec; /* Widget record */
-    int offset; /* Offset of pixel size in record */
+    Tcl_Size offset; /* Offset of pixel size in record */
 {
     int *valuePtr = (int *)(widgRec + offset);
     return Rbc_GetPixels(interp, tkwin, string, (int)clientData, valuePtr);
@@ -390,7 +390,7 @@ DistanceToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin; /* Not used. */
     char *widgRec; /* Widget structure record */
-    int offset; /* Offset in widget record */
+    Tcl_Size offset; /* Offset in widget record */
     Tcl_FreeProc **freeProcPtr; /* Not used. */
 {
     int value = *(int *)(widgRec + offset);
@@ -475,7 +475,7 @@ StringToCount(clientData, interp, tkwin, string, widgRec, offset)
     Tk_Window tkwin; /* Not used. */
     CONST86 char *string; /* Pixel value string */
     char *widgRec; /* Widget record */
-    int offset; /* Offset of pixel size in record */
+    Tcl_Size offset; /* Offset of pixel size in record */
 {
     int *valuePtr = (int *)(widgRec + offset);
     return GetInt(interp, string, (int)clientData, valuePtr);
@@ -501,7 +501,7 @@ CountToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin; /* Not used. */
     char *widgRec; /* Widget structure record */
-    int offset; /* Offset in widget record */
+    Tcl_Size offset; /* Offset in widget record */
     Tcl_FreeProc **freeProcPtr; /* Not used. */
 {
     int value = *(int *)(widgRec + offset);
@@ -543,7 +543,7 @@ StringToPad(clientData, interp, tkwin, string, widgRec, offset)
     Tk_Window tkwin; /* Window */
     CONST86 char *string; /* Pixel value string */
     char *widgRec; /* Widget record */
-    int offset; /* Offset of pad in widget */
+    Tcl_Size offset; /* Offset of pad in widget */
 {
     Rbc_Pad *padPtr = (Rbc_Pad *)(widgRec + offset);
     int nElem;
@@ -596,7 +596,7 @@ PadToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin; /* Not used. */
     char *widgRec; /* Structure record */
-    int offset; /* Offset of pad in record */
+    Tcl_Size offset; /* Offset of pad in record */
     Tcl_FreeProc **freeProcPtr; /* Not used. */
 {
     Rbc_Pad *padPtr = (Rbc_Pad *)(widgRec + offset);
@@ -642,7 +642,7 @@ StringToShadow(clientData, interp, tkwin, string, widgRec, offset)
     Tk_Window tkwin; /* Window */
     CONST86 char *string; /* Pixel value string */
     char *widgRec; /* Widget record */
-    int offset; /* Offset of pad in widget */
+    Tcl_Size offset; /* Offset of pad in widget */
 {
     Shadow *shadowPtr = (Shadow *) (widgRec + offset);
     XColor *colorPtr;
@@ -708,7 +708,7 @@ ShadowToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin; /* Not used. */
     char *widgRec; /* Structure record */
-    int offset; /* Offset of pad in record */
+    Tcl_Size offset; /* Offset of pad in record */
     Tcl_FreeProc **freeProcPtr; /* Not used. */
 {
     Shadow *shadowPtr = (Shadow *) (widgRec + offset);
@@ -837,7 +837,7 @@ StringToDashes(clientData, interp, tkwin, string, widgRec, offset)
     Tk_Window tkwin; /* Not used. */
     CONST86 char *string; /* New dash value list */
     char *widgRec; /* Widget record */
-    int offset; /* offset to Dashes structure */
+    Tcl_Size offset; /* offset to Dashes structure */
 {
     Rbc_Dashes *dashesPtr = (Rbc_Dashes *)(widgRec + offset);
 
@@ -864,7 +864,7 @@ DashesToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin; /* Not used. */
     char *widgRec; /* Widget record */
-    int offset; /* offset of Dashes in record */
+    Tcl_Size offset; /* offset of Dashes in record */
     Tcl_FreeProc **freeProcPtr; /* Memory deallocation scheme to use */
 {
     Rbc_Dashes *dashesPtr = (Rbc_Dashes *)(widgRec + offset);
@@ -910,7 +910,7 @@ StringToUid(clientData, interp, tkwin, string, widgRec, offset)
     Tk_Window tkwin; /* Not used. */
     CONST86 char *string; /* Fill style string */
     char *widgRec; /* Cubicle structure record */
-    int offset; /* Offset of style in record */
+    Tcl_Size offset; /* Offset of style in record */
 {
     Rbc_Uid *uidPtr = (Rbc_Uid *)(widgRec + offset);
     Rbc_Uid newId;
@@ -946,7 +946,7 @@ UidToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin; /* Not used. */
     char *widgRec; /* Widget structure record */
-    int offset; /* Offset of fill in widget record */
+    Tcl_Size offset; /* Offset of fill in widget record */
     Tcl_FreeProc **freeProcPtr; /* Not used. */
 {
     Rbc_Uid uid = *(Rbc_Uid *)(widgRec + offset);
@@ -977,7 +977,7 @@ StringToState(clientData, interp, tkwin, string, widgRec, offset)
     Tk_Window tkwin; /* Not used. */
     CONST86 char *string; /* String representation of option value */
     char *widgRec; /* Widget structure record */
-    int offset; /* Offset of field in record */
+    Tcl_Size offset; /* Offset of field in record */
 {
     int *statePtr = (int *)(widgRec + offset);
 
@@ -1015,7 +1015,7 @@ StateToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin; /* Not used. */
     char *widgRec; /* Widget structure record */
-    int offset; /* Offset of fill in widget record */
+    Tcl_Size offset; /* Offset of fill in widget record */
     Tcl_FreeProc **freeProcPtr; /* Not used. */
 {
     int state = *(int *)(widgRec + offset);
@@ -1054,7 +1054,7 @@ StringToList(clientData, interp, tkwin, string, widgRec, offset)
     Tk_Window tkwin; /* Not used. */
     CONST86 char *string; /* String representation of option value */
     char *widgRec; /* Widget structure record */
-    int offset; /* Offset of field in record */
+    Tcl_Size offset; /* Offset of field in record */
 {
     char ***listPtr = (char ***)(widgRec + offset);
     char **elemArr;
@@ -1096,7 +1096,7 @@ ListToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin; /* Not used. */
     char *widgRec; /* Widget structure record. */
-    int offset; /* Offset of fill in widget record. */
+    Tcl_Size offset; /* Offset of fill in widget record. */
     Tcl_FreeProc **freeProcPtr; /* Not used. */
 {
     char **list = *(char ***)(widgRec + offset);
@@ -1143,7 +1143,7 @@ StringToTile(clientData, interp, tkwin, string, widgRec, offset)
     Tk_Window tkwin; /* Window on same display as tile */
     CONST86 char *string; /* Name of image */
     char *widgRec; /* Widget structure record */
-    int offset; /* Offset of tile in record */
+    Tcl_Size offset; /* Offset of tile in record */
 {
     Rbc_Tile *tilePtr = (Rbc_Tile *)(widgRec + offset);
     Rbc_Tile tile, oldTile;
@@ -1184,7 +1184,7 @@ TileToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin; /* Not used. */
     char *widgRec; /* Widget structure record */
-    int offset; /* Offset of tile in record */
+    Tcl_Size offset; /* Offset of tile in record */
     Tcl_FreeProc **freeProcPtr; /* Not used. */
 {
     Rbc_Tile tile = *(Rbc_Tile *)(widgRec + offset);
@@ -1356,7 +1356,7 @@ Rbc_StringToEnum(clientData, interp, tkwin, string, widgRec, offset)
     Tk_Window tkwin; /* Not used. */
     CONST86 char *string; /* String to match. */
     char *widgRec; /* Widget record. */
-    int offset; /* Offset of field in record */
+    Tcl_Size offset; /* Offset of field in record */
 {
     int *enumPtr = (int *)(widgRec + offset);
     char c;
@@ -1409,7 +1409,7 @@ Rbc_EnumToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* List of strings. */
     Tk_Window tkwin; /* Not used. */
     char *widgRec; /* Widget record */
-    int offset; /* Offset of field in widget record */
+    Tcl_Size offset; /* Offset of field in widget record */
     Tcl_FreeProc **freeProcPtr; /* Not used. */
 {
     int value = *(int *)(widgRec + offset);

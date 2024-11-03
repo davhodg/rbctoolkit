@@ -410,7 +410,7 @@ StringToData(clientData, interp, tkwin, string, widgRec, offset)
     Tk_Window tkwin; /* Not used. */
     CONST86 char *string; /* Tcl list of expressions */
     char *widgRec; /* Element record */
-    int offset; /* Offset of vector in Element record */
+    Tcl_Size offset; /* Offset of vector in Element record */
 {
     Element *elemPtr = (Element *)(widgRec);
     ElemVector *vPtr = (ElemVector *)(widgRec + offset);
@@ -464,7 +464,7 @@ DataToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Type of axis vector to print */
     Tk_Window tkwin; /* Not used. */
     char *widgRec; /* Element record */
-    int offset; /* Offset of vector in Element record */
+    Tcl_Size offset; /* Offset of vector in Element record */
     Tcl_FreeProc **freeProcPtr; /* Memory deallocation scheme to use */
 {
     ElemVector *vPtr = (ElemVector *)(widgRec + offset);
@@ -525,7 +525,7 @@ StringToDataPairs(clientData, interp, tkwin, string, widgRec, offset)
     Tk_Window tkwin; /* Not used. */
     CONST86 char *string; /* Tcl list of numeric expressions */
     char *widgRec; /* Element record */
-    int offset; /* Not used. */
+    Tcl_Size offset; /* Not used. */
 {
     Element *elemPtr = (Element *)widgRec;
     int nElem;
@@ -587,7 +587,7 @@ DataPairsToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin; /* Not used. */
     char *widgRec; /* Element information record */
-    int offset; /* Not used. */
+    Tcl_Size offset; /* Not used. */
     Tcl_FreeProc **freeProcPtr; /* Memory deallocation scheme to use */
 {
     Element *elemPtr = (Element *)widgRec;
@@ -651,7 +651,7 @@ StringToAlong(clientData, interp, tkwin, string, widgRec, offset)
     Tk_Window tkwin; /* Not used. */
     CONST86 char *string; /* String representation of value. */
     char *widgRec; /* Widget record. */
-    int offset; /* Offset of field in widget record. */
+    Tcl_Size offset; /* Offset of field in widget record. */
 {
     int *intPtr = (int *)(widgRec + offset);
 
@@ -689,7 +689,7 @@ AlongToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin; /* Not used. */
     char *widgRec; /* Widget record */
-    int offset; /* Offset of field in widget record */
+    Tcl_Size offset; /* Offset of field in widget record */
     Tcl_FreeProc **freeProcPtr; /* Memory deallocation scheme to use */
 {
     int along = *(int *)(widgRec + offset);
@@ -767,7 +767,7 @@ Rbc_StringToStyles(clientData, interp, tkwin, string, widgRec, offset)
     Tk_Window tkwin; /* Not used. */
     CONST86 char *string; /* String representing style list */
     char *widgRec; /* Element information record */
-    int offset; /* Offset of symbol type field in record */
+    Tcl_Size offset; /* Offset of symbol type field in record */
 {
     Rbc_Chain *palette = *(Rbc_Chain **)(widgRec + offset);
     Rbc_ChainLink *linkPtr;
@@ -835,7 +835,7 @@ Rbc_StylesToString(clientData, tkwin, widgRec, offset, freeProcPtr)
     ClientData clientData; /* Not used. */
     Tk_Window tkwin; /* Not used. */
     char *widgRec; /* Element information record */
-    int offset; /* Not used. */
+    Tcl_Size offset; /* Not used. */
     Tcl_FreeProc **freeProcPtr; /* Not used. */
 {
     Rbc_Chain *palette = *(Rbc_Chain **)(widgRec + offset);
