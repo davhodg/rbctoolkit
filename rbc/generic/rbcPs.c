@@ -1548,7 +1548,7 @@ Rbc_FontToPostScript(tokenPtr, font)
         fontInfo = (char *)Tcl_GetVar2(interp, tokenPtr->fontVarName, fontName,
                                        0);
         if (fontInfo != NULL) {
-            int nProps;
+            Tcl_Size nProps;
             char **propArr = NULL;
 
             if (Tcl_SplitList(interp, fontInfo, &nProps, &propArr) == TCL_OK) {

@@ -91,7 +91,7 @@ GetPenStyle(graphPtr, string, type, stylePtr)
     Pen *penPtr;
     Tcl_Interp *interp = graphPtr->interp;
     CONST86 char **elemArr;
-    int nElem;
+    Tcl_Size nElem;
 
     elemArr = NULL;
     if (Tcl_SplitList(interp, string, &nElem, &elemArr) != TCL_OK) {
@@ -341,7 +341,7 @@ EvalExprList(interp, list, nElemPtr, arrayPtr)
     int *nElemPtr;
     double **arrayPtr;
 {
-    int nElem;
+    Tcl_Size nElem;
     char **elemArr;
     double *array;
     int result;
@@ -354,7 +354,7 @@ EvalExprList(interp, list, nElemPtr, arrayPtr)
     array = NULL;
     if (nElem > 0) {
         register double *valuePtr;
-        register int i;
+        register Tcl_Size i;
 
         counter++;
         array = (double *)ckalloc(sizeof(double) * nElem);
@@ -375,7 +375,8 @@ EvalExprList(interp, list, nElemPtr, arrayPtr)
 badList:
     ckfree((char *)elemArr);
     *arrayPtr = array;
-    *nElemPtr = nElem;
+    /* TODO - consider using Tcl_Size* for nElemPtr */
+    *nElemPtr = (int) nElem;
     if (result != TCL_OK) {
         ckfree((char *)array);
     }
@@ -774,8 +775,8 @@ Rbc_StringToStyles(clientData, interp, tkwin, string, widgRec, offset)
     Element *elemPtr = (Element *)(widgRec);
     PenStyle *stylePtr;
     char **elemArr;
-    int nStyles;
-    register int i;
+    Tcl_Size nStyles;
+    register Tcl_Size i;
     size_t size = (size_t)clientData;
 
     elemArr = NULL;
@@ -1314,10 +1315,10 @@ RebuildDisplayList(graphPtr, newList)
     Graph *graphPtr; /* Graph widget record */
     char *newList; /* Tcl list of element names */
 {
-    int nNames;			/* Number of names found in Tcl name list */
-    char **nameArr;		/* Broken out array of element names */
+    Tcl_Size nNames;    /* Number of names found in Tcl name list */
+    char **nameArr;     /* Broken out array of element names */
     Tcl_HashSearch cursor;
-    register int i;
+    register Tcl_Size i;
     register Tcl_HashEntry *hPtr;
     Element *elemPtr;		/* Element information record */
 

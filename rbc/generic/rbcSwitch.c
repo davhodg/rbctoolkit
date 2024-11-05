@@ -182,9 +182,13 @@ DoSwitch(interp, specPtr, string, record)
                 break;
 
             case RBC_SWITCH_LIST:
-                if (Tcl_SplitList(interp, string, &count, (char ***)ptr)
+                Tcl_Size temp;
+                if (Tcl_SplitList(interp, string, &temp, (char ***)ptr)
                         != TCL_OK) {
                     return TCL_ERROR;
+                } else {
+                    /* TODO consider making count Tcl_Size */
+                    count = (int) temp;
                 }
                 break;
 

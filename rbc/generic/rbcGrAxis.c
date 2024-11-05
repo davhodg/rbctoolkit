@@ -500,7 +500,7 @@ StringToFormat(clientData, interp, tkwin, string, widgRec, offset)
 {
     Axis *axisPtr = (Axis *)(widgRec);
     char **argv;
-    int argc;
+    Tcl_Size argc;
 
     if (axisPtr->limitsFormats != NULL) {
         ckfree((char *)axisPtr->limitsFormats);
@@ -669,14 +669,14 @@ StringToTicks(clientData, interp, tkwin, string, widgRec, offset)
     nTicks = 0;
     ticksPtr = NULL;
     if ((string != NULL) && (*string != '\0')) {
-        int nExprs;
+        Tcl_Size nExprs;
         char **exprArr;
 
         if (Tcl_SplitList(interp, string, &nExprs, &exprArr) != TCL_OK) {
             return TCL_ERROR;
         }
         if (nExprs > 0) {
-            register int i;
+            register Tcl_Size i;
             int result = TCL_ERROR;
             double value;
 
@@ -694,7 +694,8 @@ StringToTicks(clientData, interp, tkwin, string, widgRec, offset)
                 ckfree((char *)ticksPtr);
                 return TCL_ERROR;
             }
-            nTicks = nExprs;
+            /* TODO consider making nTicks Tcl_Size */
+            nTicks = (int) nExprs;
         }
     }
     axisPtr->flags &= ~mask;
@@ -784,8 +785,8 @@ StringToLoose(clientData, interp, tkwin, string, widgRec, offset)
     Tcl_Size offset; /* Offset of field in structure. */
 {
     Axis *axisPtr = (Axis *)(widgRec);
-    register int i;
-    int argc;
+    register Tcl_Size i;
+    Tcl_Size argc;
     char **argv;
     int values[2];
 
@@ -3905,10 +3906,10 @@ UseOp(graphPtr, axisPtr, argc, argv)
     char **argv;
 {
     Rbc_Chain *chainPtr;
-    int nNames;
+    Tcl_Size nNames;
     char **names;
     Rbc_ChainLink *linkPtr;
-    int i;
+    Tcl_Size i;
     Rbc_Uid classUid;
     int margin;
 

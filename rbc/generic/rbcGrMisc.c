@@ -291,7 +291,7 @@ StringToColorPair(clientData, interp, tkwin, string, widgRec, offset)
 
     sample.fgColor = sample.bgColor = NULL;
     if ((string != NULL) && (*string != '\0')) {
-        int nColors;
+        Tcl_Size nColors;
         char **colors;
         int result;
 
@@ -2158,7 +2158,7 @@ Rbc_Get3DBorder(interp, tkwin, borderName)
     XColor *bgColorPtr;
     char **argv;
     char *colorName;
-    int argc;
+    Tcl_Size argc;
     int isNew;
 
     lastBorderPtr = NULL;

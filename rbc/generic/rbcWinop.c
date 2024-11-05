@@ -730,12 +730,12 @@ ConvolveOp(clientData, interp, argc, argv)
     Tk_PhotoHandle srcPhoto, destPhoto;
     Rbc_ColorImage srcImage, destImage;
     Filter2D filter;
-    int nValues;
+    Tcl_Size nValues;
     char **valueArr;
     double *kernel;
     double value, sum;
-    register int i;
-    int dim;
+    register Tcl_Size i;
+    Tcl_Size dim;
     int result = TCL_ERROR;
 
     srcPhoto = Rbc_FindPhoto(interp, argv[2]);
@@ -758,7 +758,7 @@ ConvolveOp(clientData, interp, argc, argv)
         Tcl_AppendResult(interp, "empty kernel", (char *)NULL);
         goto error;
     }
-    dim = (int)sqrt((double)nValues);
+    dim = (Tcl_Size) sqrt ((double)nValues);
     if ((dim * dim) != nValues) {
         Tcl_AppendResult(interp, "kernel must be square", (char *)NULL);
         goto error;
@@ -773,9 +773,9 @@ ConvolveOp(clientData, interp, argc, argv)
         sum += value;
     }
     filter.kernel = kernel;
-    filter.support = dim * 0.5;
+    filter.support = (double)dim * 0.5;
     filter.sum = (sum == 0.0) ? 1.0 : sum;
-    filter.scale = 1.0 / nValues;
+    filter.scale = 1.0 / (double)nValues;
 
     srcImage = Rbc_PhotoToColorImage(srcPhoto);
     destImage = Rbc_ConvolveColorImage(srcImage, &filter);

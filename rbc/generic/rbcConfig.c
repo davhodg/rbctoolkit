@@ -546,7 +546,7 @@ StringToPad(clientData, interp, tkwin, string, widgRec, offset)
     Tcl_Size offset; /* Offset of pad in widget */
 {
     Rbc_Pad *padPtr = (Rbc_Pad *)(widgRec + offset);
-    int nElem;
+    Tcl_Size nElem;
     int pad, result;
     char **padArr;
 
@@ -651,7 +651,7 @@ StringToShadow(clientData, interp, tkwin, string, widgRec, offset)
     colorPtr = NULL;
     dropOffset = 0;
     if ((string != NULL) && (string[0] != '\0')) {
-        int nElem;
+        Tcl_Size nElem;
         char **elemArr;
 
         if (Tcl_SplitList(interp, string, &nElem, &elemArr) != TCL_OK) {
@@ -775,10 +775,10 @@ GetDashes(interp, string, dashesPtr)
         dashesPtr->values[3] = 2;
         dashesPtr->values[4] = 0;
     } else {
-        int nValues;
+        Tcl_Size nValues;
         char **strArr;
         long int value;
-        register int i;
+        register Tcl_Size i;
 
         if (Tcl_SplitList(interp, string, &nValues, &strArr) != TCL_OK) {
             return TCL_ERROR;
@@ -1058,7 +1058,7 @@ StringToList(clientData, interp, tkwin, string, widgRec, offset)
 {
     char ***listPtr = (char ***)(widgRec + offset);
     char **elemArr;
-    int nElem;
+    Tcl_Size nElem;
 
     if (*listPtr != NULL) {
         ckfree((char *)*listPtr);

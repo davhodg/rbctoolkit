@@ -791,7 +791,7 @@ static Tk_ImageChangedProc ImageChangedProc;
 static int BoxesDontOverlap (Graph *graphPtr, Extents2D *extsPtr);
 static int GetCoordinate (Tcl_Interp *interp, char *expr, double *valuePtr);
 static char *PrintCoordinate (Tcl_Interp *interp, double x);
-static int ParseCoordinates (Tcl_Interp *interp, Marker *markerPtr, int nExprs, char **exprArr);
+static int ParseCoordinates (Tcl_Interp *interp, Marker *markerPtr, Tcl_Size nExprs, char **exprArr);
 static double HMap (Graph *graphPtr, Axis *axisPtr, double x);
 static double VMap (Graph *graphPtr, Axis *axisPtr, double y);
 static Point2D MapPoint (Graph *graphPtr, Point2D *pointPtr, Axis2D *axesPtr);
@@ -1044,13 +1044,13 @@ static int
 ParseCoordinates(interp, markerPtr, nExprs, exprArr)
     Tcl_Interp *interp;
     Marker *markerPtr;
-    int nExprs;
+    Tcl_Size nExprs;
     char **exprArr;
 {
     int nWorldPts;
-    int minArgs, maxArgs;
+    Tcl_Size minArgs, maxArgs;
     Point2D *worldPts;
-    register int i;
+    register Tcl_Size i;
     register Point2D *pointPtr;
     double x, y;
 
@@ -1087,7 +1087,7 @@ ParseCoordinates(interp, markerPtr, nExprs, exprArr)
                          (char *)NULL);
         return TCL_ERROR;
     }
-    nWorldPts = nExprs / 2;
+    nWorldPts = (int) (nExprs / 2);
     worldPts = (Point2D *)ckalloc(nWorldPts * sizeof(Point2D));
     if (worldPts == NULL) {
         Tcl_AppendResult(interp, "can't allocate new coordinate array",
@@ -1147,7 +1147,7 @@ StringToCoordinates(clientData, interp, tkwin, string, widgRec, offset)
     Tcl_Size offset; /* Not used. */
 {
     Marker *markerPtr = (Marker *)widgRec;
-    int nExprs;
+    Tcl_Size nExprs;
     char **exprArr;
     int result;
 

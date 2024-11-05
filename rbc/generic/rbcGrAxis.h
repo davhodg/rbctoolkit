@@ -160,7 +160,7 @@ typedef struct {
 				 * formats describing how to display
 				 * virtual axis limits. If NULL,
 				 * display no limits. */
-    int nFormats;
+    Tcl_Size nFormats;
 
     TextStyle limitsTextStyle;	/* Text attributes (color, font,
 				 * rotation, etc.)  of the limits. */

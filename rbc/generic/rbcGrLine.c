@@ -936,7 +936,7 @@ StringToBitmap(interp, tkwin, symbolPtr, string)
 {
     Pixmap bitmap, mask;
     char **elemArr;
-    int nElems;
+    Tcl_Size nElems;
     int result;
 
     if (Tcl_SplitList(interp, string, &nElems, &elemArr) != TCL_OK) {
