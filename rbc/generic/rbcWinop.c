@@ -11,7 +11,7 @@
 
 #include "rbcInt.h"
 
-#ifndef NO_WINOP
+#ifndef RBC_NO_WINOP
 
 #include "rbcImage.h"
 #include <X11/Xutil.h>
@@ -1455,4 +1455,4 @@ Rbc_WinopInit(interp)
     return TCL_OK;
 }
 
-#endif /* NO_WINOP */
+#endif /* #ifndef RBC_NO_WINOP */

@@ -54,10 +54,17 @@ typedef int Tcl_Size;
 #endif /* _MSC_VER || __BORLANDC__ */
 #endif /* EXPORT */
 
+
 /* Misc. definitions */
-#define	NO_CUTBUFFER	1
-#define NO_TILESCROLLBAR	1
-#define NO_DND		1
+#define	NO_CUTBUFFER        1
+#define NO_TILESCROLLBAR    1
+#define NO_DND              1
+
+#define RBC_NO_BUSY         1
+#define RBC_NO_EPS          1
+#define RBC_NO_WINOP        1
+
+
 
 #ifndef __GNUC__
 #ifdef O_NONBLOCK
@@ -567,7 +574,9 @@ Window Rbc_GetParent (Display *display, Window tkwin);
 void Rbc_GetBoundingBox (int width, int height,
                                      double theta, double *widthPtr, double *heightPtr, Point2D *points);
 
+#ifndef RBC_NO_EPS
 void Rbc_InitEpsCanvasItem (Tcl_Interp *interp);
+#endif /* #ifndef RBC_NO_EPS */
 
 void Rbc_TranslateAnchor (int x, int y, int width,
                                       int height, Tk_Anchor anchor, int *transXPtr, int *transYPtr);
@@ -636,37 +645,20 @@ int Rbc_JPEGToPhoto (Tcl_Interp *interp, char *fileName,
  */
 #undef TILE_MAINWINDOW
 
-#ifdef WIN32
-#if (TCL_MAJOR_VERSION == 8)  && (TCL_MINOR_VERSION == 0)
-#else
-#define NO_DDE		1
-#endif
-#else
-#define NO_DDE		1
-#define NO_PRINTER	1
-#endif /* WIN32 */
 
-#if (TCL_MAJOR_VERSION == 7)
-#define NO_TREE		1
-#define NO_ARRAY	1
-#define NO_TREEVIEW	1
-#endif
-
-#ifndef NO_BUSY
+#ifndef RBC_NO_BUSY
 Tcl_AppInitProc Rbc_BusyInit;
-#endif
-#ifndef NO_GRAPH
+#endif /* #ifndef RBC_NO_BUSY */
+
 Tcl_AppInitProc Rbc_GraphInit;
-#endif
-#ifndef NO_VECTOR
+
 Tcl_AppInitProc Rbc_VectorInit;
-#endif
-#ifndef NO_WINOP
+
+#ifndef RBC_NO_WINOP
 Tcl_AppInitProc Rbc_WinopInit;
-#endif
-#ifndef NO_SPLINE
+#endif /* #ifndef RBC_NO_WINOP */
+
 Tcl_AppInitProc Rbc_SplineInit;
-#endif
 
 char *RbcStrdup (const char *ptr);
 void *RbcCalloc (unsigned int nElem, size_t size);

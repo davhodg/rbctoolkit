@@ -134,9 +134,18 @@ Rbc_Init (interp)
 
     Rbc_VectorInit(interp);
     Rbc_GraphInit(interp);
+    
+#ifndef RBC_NO_WINOP
     Rbc_WinopInit(interp);
-    Rbc_BusyInit(interp);
-    Rbc_InitEpsCanvasItem(interp);
+#endif /* #ifndef RBC_NO_WINOP */
+
+#ifndef RBC_NO_BUSY
+    Rbc_BusyInit (interp);
+#endif /* #ifndef RBC_NO_BUSY */
+
+#ifndef RBC_NO_EPS
+    Rbc_InitEpsCanvasItem (interp);
+#endif /* #ifndef RBC_NO_EPS */
 
     Tcl_PkgProvideEx(interp, PACKAGE_NAME, PACKAGE_VERSION,
                      (ClientData) &rbcStubs); 

@@ -21,6 +21,10 @@
 #include "rbcPs.h"
 #include "rbcImage.h"
 
+
+#ifndef RBC_NO_EPS
+
+
 #ifdef HAVE_TIFF_H
 #include "tiff.h"
 #endif
@@ -1726,3 +1730,5 @@ Rbc_InitEpsCanvasItem(interp)
     tagsOption.parseProc = Tk_CanvasTagsParseProc;
     tagsOption.printProc = Tk_CanvasTagsPrintProc;
 }
+
+#endif /* #ifndef RBC_NO_EPS */

@@ -11,7 +11,7 @@
 
 #include "rbcInt.h"
 
-#ifndef NO_BUSY
+#ifndef RBC_NO_BUSY
 
 #define BUSYDEBUG 0
 
@@ -1253,4 +1253,4 @@ Rbc_BusyInit(interp)
 
     return TCL_OK;
 }
-#endif /* NO_BUSY */
+#endif /* #ifndef RBC_NO_BUSY */
