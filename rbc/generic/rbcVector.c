@@ -422,7 +422,7 @@ VectorCreateObjCmd(clientData, interp, objc, objv)
     char *leftParen, *rightParen; /* positions of left and right parens in vector specification */
     int isNew, size, first, last;
     char *cmdName, *varName, *switchName;
-    int length;
+    Tcl_Size length;
     int freeOnUnset, flush;
     char **nameArr; /* holds all vector names specified */
     int count;

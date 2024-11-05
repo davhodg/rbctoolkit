@@ -34,11 +34,11 @@ static int nSortVectors;
 static int reverse;
 
 static int AppendVector (VectorObject *destPtr, VectorObject *srcPtr);
-static int AppendList   (VectorObject *vPtr, int objc, Tcl_Obj * const objv[]);
+static int AppendList   (VectorObject *vPtr, Tcl_Size objc, Tcl_Obj * const objv[]);
 static enum NativeFormats GetBinaryFormat (Tcl_Interp *interp, char *string, int *sizePtr);
 static int   CopyValues     (VectorObject *vPtr, char *byteArr, enum NativeFormats fmt, int size, int length, int swap, int *indexPtr);
 static int   InRange        (double value, double min, double max);
-static int   CopyList       (VectorObject *vPtr, int objc, Tcl_Obj * const objv[]);
+static int   CopyList       (VectorObject *vPtr, Tcl_Size objc, Tcl_Obj * const objv[]);
 static int * SortVectors    (VectorObject *vPtr, Tcl_Interp *interp, int objc, Tcl_Obj *const *objv);
 static int   CompareVectors (void *a, void *b);
 
@@ -90,7 +90,7 @@ Rbc_AppendOp(vPtr, interp, objc, objv)
         if (v2Ptr != NULL) {
             result = AppendVector(vPtr, v2Ptr);
         } else {
-            int nElem;
+            Tcl_Size nElem;
             Tcl_Obj **elemObjArr;
 
             if (Tcl_ListObjGetElements(interp, objv[i], &nElem, &elemObjArr) != TCL_OK) {
@@ -1176,7 +1176,7 @@ Rbc_SetOp(vPtr, interp, objc, objv)
 {
     int result;
     VectorObject *v2Ptr;
-    int nElem;
+    Tcl_Size nElem;
     Tcl_Obj **elemObjArr;
 
     /* The source can be either a list of numbers or another vector.  */
@@ -1254,7 +1254,7 @@ Rbc_SortOp(vPtr, interp, objc, objv)
 
     reverse = FALSE;
     if (objc > 2) {
-        int length;
+        Tcl_Size length;
         string = Tcl_GetStringFromObj(objv[2], &length);
         if (string[0] == '-') {
             if ((length > 1) && (strncmp(string, "-reverse", length) == 0)) {
@@ -1467,7 +1467,7 @@ AppendVector(destPtr, srcPtr)
 static int
 AppendList(vPtr, objc, objv)
     VectorObject *vPtr;
-    int objc;
+    Tcl_Size objc;
     Tcl_Obj * const objv[];
 {
     int count;
@@ -1744,10 +1744,10 @@ InRange(value, min, max)
 static int
 CopyList(vPtr, objc, objv)
     VectorObject *vPtr;
-    int objc;
+    Tcl_Size objc;
     Tcl_Obj * const objv[];
 {
-    register int i;
+    register Tcl_Size i;
     double value;
 
     if (Rbc_VectorChangeLength(vPtr, objc) != TCL_OK) {
