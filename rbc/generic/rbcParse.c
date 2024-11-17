@@ -97,6 +97,7 @@ Rbc_ExpandParseValue(parsePtr, needed)
  *      The storage space at *parsePtr may be expanded.
  *--------------------------------------------------------------
  */
+#ifdef RBC_NESTED_COMMANDS
 int
 Rbc_ParseNestedCmd(interp, string, flags, termPtr, parsePtr)
     Tcl_Interp *interp; /* Interpreter to use for nested command
@@ -139,6 +140,7 @@ Rbc_ParseNestedCmd(interp, string, flags, termPtr, parsePtr)
     iPtr->resultSpace[0] = '\0';
     return TCL_OK;
 }
+#endif /* #ifdef RBC_NESTED_COMMANDS */
 
 /*
  *--------------------------------------------------------------
@@ -350,7 +352,7 @@ copy:
             continue;
         } else if (c == '[') {
             int result;
-
+#ifdef RBC_NESTED_COMMANDS
             parsePtr->next = dest;
             result = Rbc_ParseNestedCmd(interp, src, flags, termPtr, parsePtr);
             if (result != TCL_OK) {
@@ -359,6 +361,9 @@ copy:
             src = *termPtr;
             dest = parsePtr->next;
             continue;
+#else
+            return TCL_ERROR;
+#endif /* #ifdef RBC_NESTED_COMMANDS */
         } else if (c == '\\') {
             int nRead;
             char buf[4] = "";

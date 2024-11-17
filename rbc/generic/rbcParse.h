@@ -233,7 +233,7 @@ typedef struct {
  * source file uses something in here.
  *----------------------------------------------------------------
  */
-
+#ifdef RBC_NESTED_COMMANDS
 typedef struct {
 
     /*
@@ -421,6 +421,7 @@ typedef struct {
 						  * statistics for this interpreter. */
 #endif /* TCL_COMPILE_STATS */
 } Interp;
+#endif /* #ifdef RBC_NESTED_COMMANDS */
 
 #define TclParseBraces Rbc_ParseBraces
 #define TclExpandParseValue Rbc_ExpandParseValue

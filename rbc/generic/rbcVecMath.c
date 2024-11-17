@@ -1764,6 +1764,7 @@ NextToken(interp, parsePtr, valuePtr)
             result = ParseString(interp, var, valuePtr);
             return result;
         case '[':
+#ifdef RBC_NESTED_COMMANDS
             parsePtr->token = VALUE;
             result = TclParseNestedCmd(interp, p + 1, 0, &endPtr, &(valuePtr->pv));
             if (result != TCL_OK) {
@@ -1773,6 +1774,9 @@ NextToken(interp, parsePtr, valuePtr)
             Tcl_ResetResult(interp);
             result = ParseString(interp, valuePtr->pv.buffer, valuePtr);
             return result;
+#else
+            return TCL_ERROR;
+#endif /* #ifdef RBC_NESTED_COMMANDS */
         case '"':
             parsePtr->token = VALUE;
             result = TclParseQuotes(interp, p + 1, '"', 0, &endPtr, &(valuePtr->pv));
