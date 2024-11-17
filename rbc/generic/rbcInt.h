@@ -202,9 +202,6 @@ typedef enum {
 #define RBC_OP_LINEAR_SEARCH	1
 #define RBC_OP_BINARY_SEARCH	0
 
-Rbc_Op Rbc_GetOp (Tcl_Interp *interp, int nSpecs,
-                              Rbc_OpSpec *specArr, int operPos, int argc, char **argv, int flags);
-
 Rbc_Op * Rbc_GetOpFromObj (Tcl_Interp *interp,
                                      int nSpecs, Rbc_OpSpec *specArr, int operPos, int objc,
                                      Tcl_Obj *const *objv, int flags);
@@ -625,10 +622,6 @@ void Rbc_DeleteWindowInstanceData (Tk_Window tkwin);
 
 int Rbc_AdjustViewport (int offset, int worldSize,
                                     int windowSize, int scrollUnits, int scrollMode);
-
-int Rbc_GetScrollInfo (Tcl_Interp *interp, int argc,
-                                   char **argv, int *offsetPtr, int worldSize, int windowSize,
-                                   int scrollUnits, int scrollMode);
 
 int Rbc_GetScrollInfoFromObj (Tcl_Interp *interp, int objc,
         Tcl_Obj *const *objv, int *offsetPtr, int worldSize, int windowSize,

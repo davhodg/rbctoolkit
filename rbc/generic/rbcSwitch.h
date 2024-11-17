@@ -78,7 +78,6 @@ typedef struct {
 #define RBC_SWITCH_SPECIFIED        (1<<4)
 #define RBC_SWITCH_USER_BIT         (1<<8)
 
-int Rbc_ProcessSwitches (Tcl_Interp *interp, Rbc_SwitchSpec *specs, int argc, char **argv, char *record, int flags);
 void Rbc_FreeSwitches (Rbc_SwitchSpec *specs, char *record, int flags);
 int Rbc_SwitchChanged (Rbc_SwitchSpec *specs, ...);
 int Rbc_ProcessObjSwitches (Tcl_Interp *interp, Rbc_SwitchSpec *specPtr, int objc, Tcl_Obj *const *objv, char *record, int flags);

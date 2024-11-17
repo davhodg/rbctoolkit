@@ -434,74 +434,6 @@ BindProc(clientData, eventPtr)
     Tcl_Release(bindPtr->clientData);
 }
 
-/*
- *--------------------------------------------------------------
- *
- * Rbc_ConfigureBindings --
- *
- *      TODO: Description
- *
- * Results:
- *      TODO: Results
- *
- * Side effects:
- *      TODO: Side Effects
- *
- *--------------------------------------------------------------
- */
-int
-Rbc_ConfigureBindings(interp, bindPtr, item, argc, argv)
-    Tcl_Interp *interp;
-    struct Rbc_BindTableStruct *bindPtr;
-    ClientData item;
-    int argc;
-    char **argv;
-{
-    char *command;
-    unsigned long mask;
-    char *seq;
-
-    if (argc == 0) {
-        Tk_GetAllBindings(interp, bindPtr->bindingTable, item);
-        return TCL_OK;
-    }
-    if (argc == 1) {
-        command = Tk_GetBinding(interp, bindPtr->bindingTable, item, argv[0]);
-        if (command == NULL) {
-            return TCL_ERROR;
-        }
-        Tcl_SetResult(interp, command, TCL_VOLATILE);
-        return TCL_OK;
-    }
-
-    seq = argv[0];
-    command = argv[1];
-
-    if (command[0] == '\0') {
-        return Tk_DeleteBinding(interp, bindPtr->bindingTable, item, seq);
-    }
-
-    if (command[0] == '+') {
-        mask = Tk_CreateBinding(interp, bindPtr->bindingTable, item, seq, command + 1, TRUE);
-    } else {
-        mask = Tk_CreateBinding(interp, bindPtr->bindingTable, item, seq, command, FALSE);
-    }
-    if (mask == 0) {
-        return TCL_ERROR;
-    }
-    if (mask & (unsigned)~ALL_VALID_EVENTS_MASK) {
-        Tk_DeleteBinding(interp, bindPtr->bindingTable, item, seq);
-        Tcl_ResetResult(interp);
-        Tcl_AppendResult(interp, "requested illegal events; ",
-                "only key, button, motion, enter, leave, and virtual ",
-                "events may be used", (char *)NULL);
-        return TCL_ERROR;
-    }
-    return TCL_OK;
-}
-
-
-#if (TCL_MAJOR_VERSION >= 8)
 
 /*
  *--------------------------------------------------------------
@@ -572,7 +504,6 @@ Rbc_ConfigureBindingsFromObj(interp, bindPtr, item, objc, objv)
     }
     return TCL_OK;
 }
-#endif
 
 /*
  *--------------------------------------------------------------

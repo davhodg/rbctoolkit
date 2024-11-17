@@ -1111,85 +1111,7 @@ Rbc_AdjustViewport(offset, worldSize, windowSize, scrollUnits, scrollMode)
     return offset;
 }
 
-/*
- *----------------------------------------------------------------------
- *
- * Rbc_GetScrollInfo --
- *
- *      TODO: Description
- *
- * Results:
- *      TODO: Results
- *
- * Side Effects:
- *      TODO: Side Effects
- *
- *----------------------------------------------------------------------
- */
-int
-Rbc_GetScrollInfo(interp, argc, argv, offsetPtr, worldSize, windowSize,
-                  scrollUnits, scrollMode)
-    Tcl_Interp *interp;
-    int argc;
-    char **argv;
-    int *offsetPtr;
-    int worldSize, windowSize;
-    int scrollUnits;
-    int scrollMode;
-{
-    char c;
-    unsigned int length;
-    int offset;
-    int count;
-    double fract;
 
-    offset = *offsetPtr;
-    c = argv[0][0];
-    length = strlen(argv[0]);
-    if ((c == 's') && (strncmp(argv[0], "scroll", length) == 0)) {
-        if (argc != 3) {
-            return TCL_ERROR;
-        }
-        /* scroll number unit/page */
-        if (Tcl_GetInt(interp, argv[1], &count) != TCL_OK) {
-            return TCL_ERROR;
-        }
-        c = argv[2][0];
-        length = strlen(argv[2]);
-        if ((c == 'u') && (strncmp(argv[2], "units", length) == 0)) {
-            fract = (double)count *scrollUnits;
-        } else if ((c == 'p') && (strncmp(argv[2], "pages", length) == 0)) {
-            /* A page is 90% of the view-able window. */
-            fract = (double)count *windowSize * 0.9;
-        } else {
-            Tcl_AppendResult(interp, "unknown \"scroll\" units \"", argv[2],
-                             "\"", (char *)NULL);
-            return TCL_ERROR;
-        }
-        offset += (int)fract;
-    } else if ((c == 'm') && (strncmp(argv[0], "moveto", length) == 0)) {
-        if (argc != 2) {
-            return TCL_ERROR;
-        }
-        /* moveto fraction */
-        if (Tcl_GetDouble(interp, argv[1], &fract) != TCL_OK) {
-            return TCL_ERROR;
-        }
-        offset = (int)(worldSize * fract);
-    } else {
-        /* Treat like "scroll units" */
-        if (Tcl_GetInt(interp, argv[0], &count) != TCL_OK) {
-            return TCL_ERROR;
-        }
-        fract = (double)count *scrollUnits;
-        offset += (int)fract;
-    }
-    *offsetPtr = Rbc_AdjustViewport(offset, worldSize, windowSize, scrollUnits,
-                                    scrollMode);
-    return TCL_OK;
-}
-
-#if (TCL_MAJOR_VERSION >= 8)
 /*
  *----------------------------------------------------------------------
  *
@@ -1271,7 +1193,6 @@ Rbc_GetScrollInfoFromObj(interp, objc, objv, offsetPtr, worldSize, windowSize,
                                     scrollMode);
     return TCL_OK;
 }
-#endif /* TCL_MAJOR_VERSION >= 8 */
 
 /*
  * ----------------------------------------------------------------------

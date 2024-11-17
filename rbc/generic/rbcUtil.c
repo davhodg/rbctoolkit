@@ -987,7 +987,6 @@ BinaryOpSearch(specArr, nSpecs, string)
     return -1;			/* Can't find operation */
 }
 
-
 /*
  *----------------------------------------------------------------------
  *
@@ -1041,108 +1040,6 @@ LinearOpSearch(specArr, nSpecs, string)
         return -1;		/* Can't find operation */
     }
     return last;		/* Op found. */
-}
-
-/*
- *----------------------------------------------------------------------
- *
- * Rbc_GetOp --
- *
- *      Find the command operation given a string name.  This is
- *      useful where a group of command operations have the same
- *      argument signature.
- *
- * Results:
- *      If found, a pointer to the procedure (function pointer) is
- *      returned.  Otherwise NULL is returned and an error message
- *      containing a list of the possible commands is returned in
- *      interp->result.
- *
- *
- * Side effects:
- *      TODO: Side Effects
- *----------------------------------------------------------------------
- */
-Rbc_Op
-Rbc_GetOp(interp, nSpecs, specArr, operPos, argc, argv, flags)
-    Tcl_Interp *interp; /* Interpreter to report errors to */
-    int nSpecs; /* Number of specifications in array */
-    Rbc_OpSpec specArr[]; /* Op specification array */
-    int operPos; /* Index of the operation name argument */
-    int argc; /* Number of arguments in the argument vector.
-              * This includes any prefixed arguments */
-char **argv; /* Argument vector */
-int flags; /*  */
-{
-    Rbc_OpSpec *specPtr;
-    CONST86 char *string;
-    register int i;
-    register int n;
-
-    if (argc <= operPos) {	/* No operation argument */
-        Tcl_AppendResult(interp, "wrong # args: ", (char *)NULL);
-usage:
-        Tcl_AppendResult(interp, "should be one of...", (char *)NULL);
-        for (n = 0; n < nSpecs; n++) {
-            Tcl_AppendResult(interp, "\n  ", (char *)NULL);
-            for (i = 0; i < operPos; i++) {
-                Tcl_AppendResult(interp, argv[i], " ", (char *)NULL);
-            }
-            specPtr = specArr + n;
-            Tcl_AppendResult(interp, specPtr->name, " ", specPtr->usage,
-                             (char *)NULL);
-        }
-        return NULL;
-    }
-    string = argv[operPos];
-    if (flags & RBC_OP_LINEAR_SEARCH) {
-        n = LinearOpSearch(specArr, nSpecs, string);
-    } else {
-        n = BinaryOpSearch(specArr, nSpecs, string);
-    }
-    if (n == -2) {
-        char c;
-        int length;
-
-        Tcl_AppendResult(interp, "ambiguous", (char *)NULL);
-        if (operPos > 2) {
-            Tcl_AppendResult(interp, " ", argv[operPos - 1], (char *)NULL);
-        }
-        Tcl_AppendResult(interp, " operation \"", string, "\" matches:",
-                         (char *)NULL);
-
-        c = string[0];
-        length = strlen(string);
-        for (n = 0; n < nSpecs; n++) {
-            specPtr = specArr + n;
-            if ((c == specPtr->name[0]) &&
-                    (strncmp(string, specPtr->name, length) == 0)) {
-                Tcl_AppendResult(interp, " ", specPtr->name, (char *)NULL);
-            }
-        }
-        return NULL;
-
-    } else if (n == -1) {	/* Can't find operation, display help */
-        Tcl_AppendResult(interp, "bad", (char *)NULL);
-        if (operPos > 2) {
-            Tcl_AppendResult(interp, " ", argv[operPos - 1], (char *)NULL);
-        }
-        Tcl_AppendResult(interp, " operation \"", string, "\": ",
-                         (char *)NULL);
-        goto usage;
-    }
-    specPtr = specArr + n;
-    if ((argc < specPtr->minArgs) || ((specPtr->maxArgs > 0) &&
-                                      (argc > specPtr->maxArgs))) {
-        Tcl_AppendResult(interp, "wrong # args: should be \"", (char *)NULL);
-        for (i = 0; i < operPos; i++) {
-            Tcl_AppendResult(interp, argv[i], " ", (char *)NULL);
-        }
-        Tcl_AppendResult(interp, specPtr->name, " ", specPtr->usage, "\"",
-                         (char *)NULL);
-        return NULL;
-    }
-    return specPtr->proc;
 }
 
 /*

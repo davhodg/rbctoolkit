@@ -62,7 +62,6 @@ typedef struct Rbc_BindTableStruct {
 
 void Rbc_DestroyBindingTable (Rbc_BindTable table);
 Rbc_BindTable Rbc_CreateBindingTable (Tcl_Interp *interp, Tk_Window tkwin, ClientData clientData, Rbc_BindPickProc *pickProc, Rbc_BindTagProc *tagProc);
-int Rbc_ConfigureBindings (Tcl_Interp *interp, Rbc_BindTable table, ClientData item, int argc, char **argv);
 int Rbc_ConfigureBindingsFromObj (Tcl_Interp *interp, Rbc_BindTable table, ClientData item, int objc, Tcl_Obj *const *objv);
 void Rbc_PickCurrentItem (Rbc_BindTable table);
 void Rbc_DeleteBindings (Rbc_BindTable table, ClientData object);
