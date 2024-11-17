@@ -238,26 +238,26 @@ static Tk_ConfigSpec configSpecs[] = {
  * Prototypes for procedures defined in this file:
  */
 
-static char *SkipBlanks (EpsParseInfo *piPtr);
-static int ReadPsLine (EpsParseInfo *piPtr);
+static char *SkipBlanks      (EpsParseInfo *piPtr);
+static int ReadPsLine        (EpsParseInfo *piPtr);
 static unsigned char ReverseBits (register unsigned char byte);
-static int GetHexValue (EpsParseInfo *piPtr, unsigned char *bytePtr);
-static void ReadEPSI (EpsItem *epsPtr, EpsParseInfo *piPtr);
-static int OpenEpsFile (Tcl_Interp *interp, EpsItem *epsPtr);
-static void CloseEpsFile (EpsItem *epsPtr);
+static int GetHexValue       (EpsParseInfo *piPtr, unsigned char *bytePtr);
+static void ReadEPSI         (EpsItem *epsPtr, EpsParseInfo *piPtr);
+static int OpenEpsFile       (Tcl_Interp *interp, EpsItem *epsPtr);
+static void CloseEpsFile     (EpsItem *epsPtr);
 static void ImageChangedProc (ClientData clientData, int x, int y, int width, int height, int imgWidth, int imgHeight);
-static int EpsCoords (Tcl_Interp *interp, Tk_Canvas canvas, Tk_Item * itemPtr, int argc, char **argv);
-static int EpsToArea (Tk_Canvas canvas, Tk_Item * itemPtr, double *rectPtr);
-static double EpsToPoint (Tk_Canvas canvas, Tk_Item * itemPtr, double *coordPtr);
-static void ComputeEpsBbox (Tk_Canvas canvas, EpsItem *imgPtr);
-static int ConfigureEps (Tcl_Interp *interp, Tk_Canvas canvas, Tk_Item * itemPtr, int argc, char **argv, int flags);
-static int CreateEps (Tcl_Interp *interp, Tk_Canvas canvas, struct Tk_Item * itemPtr, int argc, char **argv);
-static void DeleteEps (Tk_Canvas canvas, Tk_Item * itemPtr, Display *display);
-static void DisplayEps (Tk_Canvas canvas, Tk_Item * itemPtr, Display *display, Drawable dst, int x, int y, int width, int height);
-static void ScaleEps (Tk_Canvas canvas, Tk_Item * itemPtr, double originX, double originY, double scaleX, double scaleY);
-static void TranslateEps (Tk_Canvas canvas, Tk_Item * itemPtr, double deltaX, double deltaY);
-static int EpsToPostScript (Tcl_Interp *interp, Tk_Canvas canvas, Tk_Item * itemPtr, int prepass);
-static int ReadPostScript (Tcl_Interp *interp, EpsItem *epsPtr);
+static void ComputeEpsBbox   (Tk_Canvas canvas, EpsItem *imgPtr);
+static Tk_ItemCreateProc     CreateEps;
+static Tk_ItemConfigureProc  ConfigureEps;
+static Tk_ItemCoordProc      EpsCoords;
+static Tk_ItemDeleteProc     DeleteEps;
+static Tk_ItemDisplayProc    DisplayEps;
+static Tk_ItemPointProc      EpsToPoint;
+static Tk_ItemAreaProc       EpsToArea;
+static Tk_ItemPostscriptProc EpsToPostScript;
+static Tk_ItemScaleProc      ScaleEps;
+static Tk_ItemTranslateProc  TranslateEps;
+static int ReadPostScript    (Tcl_Interp *interp, EpsItem *epsPtr);
 
 /*
  *----------------------------------------------------------------------
@@ -916,19 +916,19 @@ DeleteEps(canvas, itemPtr, display)
  *----------------------------------------------------------------------
  */
 static int
-CreateEps(interp, canvas, itemPtr, argc, argv)
-    Tcl_Interp *interp; /* Interpreter for error reporting. */
-    Tk_Canvas canvas; /* Canvas to hold new item. */
-    Tk_Item *itemPtr; /* Record to hold new item;  header
-                       * has been initialized by caller. */
-    int argc; /* Number of arguments in argv. */
-    char **argv; /* Arguments describing rectangle. */
+CreateEps(
+    Tcl_Interp *interp,     /* Interpreter for error reporting. */
+    Tk_Canvas canvas,       /* Canvas to hold new item. */
+    Tk_Item *itemPtr,       /* Record to hold new item;  header has been initialized by caller. */
+    Tcl_Size objc,          /* Number of arguments in objv. */
+    Tcl_Obj *const objv[]   /* Arguments describing rectangle. */
+)
 {
     EpsItem *epsPtr = (EpsItem *)itemPtr;
     Tk_Window tkwin;
 
     tkwin = Tk_CanvasTkwin(canvas);
-    if (argc < 2) {
+    if (objc < 2) {
         Tcl_AppendResult(interp, "wrong # args: should be \"",
                          Tk_PathName(tkwin), " create ", itemPtr->typePtr->name,
                          " x1 y1 ?options?\"", (char *)NULL);
@@ -973,11 +973,11 @@ CreateEps(interp, canvas, itemPtr, argc, argv)
      * Process the arguments to fill in the item record.
      */
 
-    if ((Tk_CanvasGetCoord(interp, canvas, argv[0], &(epsPtr->x)) != TCL_OK) ||
-            (Tk_CanvasGetCoord(interp, canvas, argv[1], &(epsPtr->y)) != TCL_OK)) {
+    if ((Tk_CanvasGetCoordFromObj(interp, canvas, objv[0], &(epsPtr->x)) != TCL_OK) ||
+            (Tk_CanvasGetCoordFromObj(interp, canvas, objv[1], &(epsPtr->y)) != TCL_OK)) {
         return TCL_ERROR;
     }
-    if (ConfigureEps(interp, canvas, itemPtr, argc - 2, argv + 2, 0)
+    if (ConfigureEps(interp, canvas, itemPtr, objc - 2, objv + 2, 0)
             != TCL_OK) {
         DeleteEps(canvas, itemPtr, Tk_Display(tkwin));
         return TCL_ERROR;
@@ -1041,13 +1041,14 @@ ImageChangedProc(clientData, x, y, width, height, imageWidth, imageHeight)
  *----------------------------------------------------------------------
  */
 static int
-ConfigureEps(interp, canvas, itemPtr, argc, argv, flags)
-    Tcl_Interp *interp; /* Used for error reporting. */
-    Tk_Canvas canvas; /* Canvas containing itemPtr. */
-    Tk_Item *itemPtr; /* EPS item to reconfigure. */
-    int argc; /* Number of elements in argv.  */
-    char **argv; /* Arguments describing things to configure. */
-    int flags; /* Flags to pass to Tk_ConfigureWidget. */
+ConfigureEps(
+    Tcl_Interp *interp,     /* Used for error reporting. */
+    Tk_Canvas canvas,       /* Canvas containing itemPtr. */
+    Tk_Item *itemPtr,       /* EPS item to reconfigure. */
+    Tcl_Size objc,          /* Number of elements in objv.  */
+    Tcl_Obj *const objv[],  /* Arguments describing things to configure. */
+    int flags               /* Flags to pass to Tk_ConfigureWidget. */
+)
 {
     EpsItem *epsPtr = (EpsItem *)itemPtr;
     Tk_Window tkwin;
@@ -1057,8 +1058,8 @@ ConfigureEps(interp, canvas, itemPtr, argc, argv, flags)
     int width, height;
 
     tkwin = Tk_CanvasTkwin(canvas);
-    if (Tk_ConfigureWidget(interp, tkwin, configSpecs, argc,
-                           argv, (char *)epsPtr, flags) != TCL_OK) {
+    if (Tk_ConfigureWidget(interp, tkwin, configSpecs, objc,
+                           objv, (char *)epsPtr, flags) != TCL_OK) {
         return TCL_ERROR;
     }
     /* Determine the size of the EPS item */
@@ -1195,28 +1196,26 @@ ConfigureEps(interp, canvas, itemPtr, argc, argv, flags)
  *----------------------------------------------------------------------
  */
 static int
-EpsCoords(interp, canvas, itemPtr, argc, argv)
-    Tcl_Interp *interp; /* Used for error reporting. */
-    Tk_Canvas canvas; /* Canvas containing item. */
-    Tk_Item *itemPtr; /* Item whose coordinates are to be
-                       * read or modified. */
-    int argc; /* Number of coordinates supplied in
-               * argv. */
-    char **argv; /* Array of coordinates: x1, y1,
-                  * x2, y2, ... */
+EpsCoords(
+    Tcl_Interp *interp,     /* Used for error reporting. */
+    Tk_Canvas canvas,       /* Canvas containing item. */
+    Tk_Item *itemPtr,       /* Item whose coordinates are to be read or modified. */
+    Tcl_Size objc,          /* Number of coordinates supplied in objv. */
+    Tcl_Obj *const objv[]   /* Array of coordinates: x1, y1, x2, y2, ... */
+)
 {
     EpsItem *epsPtr = (EpsItem *)itemPtr;
 
-    if ((argc != 0) && (argc != 2)) {
+    if ((objc != 0) && (objc != 2)) {
         Tcl_AppendResult(interp, "wrong # coordinates: expected 0 or 2, got ",
-                         Rbc_Itoa(argc), (char *)NULL);
+                         Rbc_Itoa(objc), (char *)NULL);
         return TCL_ERROR;
     }
-    if (argc == 2) {
+    if (objc == 2) {
         double x, y;		/* Don't overwrite old coordinates on errors */
 
-        if ((Tk_CanvasGetCoord(interp, canvas, argv[0], &x) != TCL_OK) ||
-                (Tk_CanvasGetCoord(interp, canvas, argv[1], &y) != TCL_OK)) {
+        if ((Tk_CanvasGetCoordFromObj(interp, canvas, objv[0], &x) != TCL_OK) ||
+                (Tk_CanvasGetCoordFromObj(interp, canvas, objv[1], &y) != TCL_OK)) {
             return TCL_ERROR;
         }
         epsPtr->x = x;
@@ -1703,7 +1702,7 @@ static Tk_ItemType epsItemType = {
     (Tk_ItemSelectionProc *) NULL, /* selectionProc */
     (Tk_ItemInsertProc *) NULL, /* insertProc */
     (Tk_ItemDCharsProc *) NULL, /* dTextProc */
-    (Tk_ItemType *) NULL /* nextPtr */
+    (Tk_ItemType *) NULL        /* nextPtr */
 };
 
 /*
@@ -1725,7 +1724,7 @@ void
 Rbc_InitEpsCanvasItem(interp)
     Tcl_Interp *interp; /* Not used. */
 {
-    Tk_CreateItemType(&epsItemType);
+    Tk_CreateItemType (&epsItemType);
     /* Initialize custom canvas option routines. */
     tagsOption.parseProc = Tk_CanvasTagsParseProc;
     tagsOption.printProc = Tk_CanvasTagsPrintProc;

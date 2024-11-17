@@ -44,12 +44,12 @@ enum cmdIdx {
     variableIdx
 };
 
-static int                VectorObjCmd           (ClientData dataPtr, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]);
-static int                VectorInstanceCmd      (ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]);
-static int                VectorCreateObjCmd     (ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]);
-static int                VectorDestroyObjCmd    (ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]);
-static int                VectorExprObjCmd       (ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]);
-static int                VectorNamesObjCmd      (ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj * const objv[]);
+static Tcl_ObjCmdProc     VectorObjCmd;
+static Tcl_ObjCmdProc     VectorInstanceCmd;
+static Tcl_ObjCmdProc     VectorCreateObjCmd;
+static Tcl_ObjCmdProc     VectorDestroyObjCmd;
+static Tcl_ObjCmdProc     VectorExprObjCmd;
+static Tcl_ObjCmdProc     VectorNamesObjCmd;
 static void               VectorInterpDeleteProc (ClientData clientData, Tcl_Interp *interp);
 static void               VectorInstDeleteProc   (ClientData clientData);
 static void               VectorNotifyClients    (ClientData clientData);
@@ -111,8 +111,8 @@ Rbc_VectorInit(interp)
  * ------------------------------------------------------------------------
  */
 static int
-VectorObjCmd(dataPtr, interp, objc, objv)
-    ClientData dataPtr;
+VectorObjCmd(clientData, interp, objc, objv)
+    ClientData clientData;
     Tcl_Interp *interp;
     int objc;
     Tcl_Obj * const objv[];
@@ -134,16 +134,16 @@ VectorObjCmd(dataPtr, interp, objc, objv)
 
     switch (index) {
         case createIndex: {
-                return VectorCreateObjCmd((ClientData) dataPtr, interp, objc, objv);
+                return VectorCreateObjCmd((ClientData) clientData, interp, objc, objv);
             }
         case destroyIndex: {
-                return VectorDestroyObjCmd((ClientData) dataPtr, interp, objc, objv);
+                return VectorDestroyObjCmd((ClientData) clientData, interp, objc, objv);
             }
         case exprIndex: {
-                return VectorExprObjCmd((ClientData) dataPtr, interp, objc, objv);
+                return VectorExprObjCmd((ClientData) clientData, interp, objc, objv);
             }
         case namesIndex: {
-                return VectorNamesObjCmd((ClientData) dataPtr, interp, objc, objv);
+                return VectorNamesObjCmd((ClientData) clientData, interp, objc, objv);
             }
     }
 

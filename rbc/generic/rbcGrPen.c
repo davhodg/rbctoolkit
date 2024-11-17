@@ -31,12 +31,12 @@ Tk_CustomOption rbcLinePenOption = {
 
 static char *NameOfColor (XColor *colorPtr);
 static Pen *NameToPen (Graph *graphPtr, char *name);
-static int CgetOp (Tcl_Interp *interp, Graph *graphPtr, int argc, char *argv[]);
-static int ConfigureOp (Tcl_Interp *interp, Graph *graphPtr, int argc, char *argv[]);
-static int CreateOp (Tcl_Interp *interp, Graph *graphPtr, int argc, char **argv);
-static int DeleteOp (Tcl_Interp *interp, Graph *graphPtr, int argc, char **argv);
-static int NamesOp (Tcl_Interp *interp, Graph *graphPtr, int argc, char **argv);
-static int TypeOp (Tcl_Interp *interp, Graph *graphPtr, int argc, char **argv);
+static Graph_Op CgetOp;
+static Graph_Op ConfigureOp;
+static Graph_Op CreateOp;
+static Graph_Op DeleteOp;
+static Graph_Op NamesOp;
+static Graph_Op TypeOp;
 
 /*
  *----------------------------------------------------------------------
@@ -329,17 +329,18 @@ Rbc_FreePen(graphPtr, penPtr)
  *----------------------------------------------------------------------
  */
 Pen *
-Rbc_CreatePen(graphPtr, penName, classUid, nOpts, options)
-    Graph *graphPtr;
-    char *penName;
-    Rbc_Uid classUid;
-    int nOpts;
-    char **options;
+Rbc_CreatePen(
+    Graph *graphPtr,
+    char *penName,
+    Rbc_Uid classUid,
+    int nOpts,
+    struct Tcl_Obj *const *options)
 {
 
     Pen *penPtr;
     Tcl_HashEntry *hPtr;
-    unsigned int length, configFlags;
+    Tcl_Size length = 0;
+    unsigned int configFlags;
     int isNew;
     register int i;
 
@@ -349,11 +350,12 @@ Rbc_CreatePen(graphPtr, penName, classUid, nOpts, options)
      * suggested type.  Last -type option wins.
      */
     for (i = 0; i < nOpts; i += 2) {
-        length = strlen(options[i]);
-        if ((length > 2) && (strncmp(options[i], "-type", length) == 0)) {
+        char *opt_str = Tcl_GetStringFromObj (options[i], &length);
+
+        if ((length > 2) && (strncmp(opt_str, "-type", length) == 0)) {
             char *arg;
 
-            arg = options[i + 1];
+            arg = Tcl_GetString (options[i + 1]);
             if (strcmp(arg, "bar") == 0) {
                 classUid = rbcBarElementUid;
             } else if (strcmp(arg, "line") != 0) {
@@ -398,6 +400,8 @@ Rbc_CreatePen(graphPtr, penName, classUid, nOpts, options)
     }
 
     configFlags = (penPtr->flags & (ACTIVE_PEN | NORMAL_PEN));
+    
+    /* DH - TODO */
     if (Rbc_ConfigureWidgetComponent(graphPtr->interp, graphPtr->tkwin,
                                      penPtr->name, "Pen", penPtr->configSpecs, nOpts, options,
                                      (char *)penPtr, configFlags) != TCL_OK) {
@@ -501,22 +505,22 @@ Rbc_DestroyPens(graphPtr)
  * ----------------------------------------------------------------------
  */
 static int
-CgetOp(interp, graphPtr, argc, argv)
-    Tcl_Interp *interp;
-    Graph *graphPtr;
-    int argc; /* Not used. */
-    char *argv[];
+CgetOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     Pen *penPtr;
     unsigned int configFlags;
 
-    penPtr = NameToPen(graphPtr, argv[3]);
+    penPtr = NameToPen(graphPtr, Tcl_GetString(objv[3]));
     if (penPtr == NULL) {
         return TCL_ERROR;
     }
     configFlags = (penPtr->flags & (ACTIVE_PEN | NORMAL_PEN));
     return Tk_ConfigureValue(interp, graphPtr->tkwin, penPtr->configSpecs,
-                             (char *)penPtr, argv[4], configFlags);
+                             (char *)penPtr, Tcl_GetString(objv[4]), configFlags);
 }
 
 /*
@@ -536,44 +540,44 @@ CgetOp(interp, graphPtr, argc, argv)
  * ----------------------------------------------------------------------
  */
 static int
-ConfigureOp(interp, graphPtr, argc, argv)
-    Tcl_Interp *interp;
-    Graph *graphPtr;
-    int argc;
-    char *argv[];
+ConfigureOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     int flags;
     Pen *penPtr;
     int nNames, nOpts;
     int redraw;
-    char **options;
+    struct Tcl_Obj *const *options;
     register int i;
 
     /* Figure out where the option value pairs begin */
-    argc -= 3;
-    argv += 3;
-    for (i = 0; i < argc; i++) {
-        if (argv[i][0] == '-') {
+    objc -= 3;
+    objv += 3;
+    for (i = 0; i < objc; i++) {
+        if (Tcl_GetString(objv[i])[0] == '-') {
             break;
         }
-        if (NameToPen(graphPtr, argv[i]) == NULL) {
+        if (NameToPen(graphPtr, Tcl_GetString(objv[i])) == NULL) {
             return TCL_ERROR;
         }
     }
     nNames = i;			/* Number of pen names specified */
-    nOpts = argc - i;		/* Number of options specified */
-    options = argv + i;		/* Start of options in argv  */
+    nOpts = objc - i;		/* Number of options specified */
+    options = objv + i;		/* Start of options in objv  */
 
     redraw = 0;
     for (i = 0; i < nNames; i++) {
-        penPtr = NameToPen(graphPtr, argv[i]);
+        penPtr = NameToPen(graphPtr, Tcl_GetString(objv[i]));
         flags = TK_CONFIG_ARGV_ONLY | (penPtr->flags & (ACTIVE_PEN|NORMAL_PEN));
         if (nOpts == 0) {
             return Tk_ConfigureInfo(interp, graphPtr->tkwin,
                                     penPtr->configSpecs, (char *)penPtr, (char *)NULL, flags);
         } else if (nOpts == 1) {
             return Tk_ConfigureInfo(interp, graphPtr->tkwin,
-                                    penPtr->configSpecs, (char *)penPtr, options[0], flags);
+                                    penPtr->configSpecs, (char *)penPtr, Tcl_GetString(options[0]), flags);
         }
         if (Tk_ConfigureWidget(interp, graphPtr->tkwin, penPtr->configSpecs,
                                nOpts, options, (char *)penPtr, flags) != TCL_OK) {
@@ -610,16 +614,15 @@ ConfigureOp(interp, graphPtr, argc, argv)
  *----------------------------------------------------------------------
  */
 static int
-CreateOp(interp, graphPtr, argc, argv)
-    Tcl_Interp *interp;
-    Graph *graphPtr;
-    int argc;
-    char **argv;
+CreateOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     Pen *penPtr;
 
-    penPtr = Rbc_CreatePen(graphPtr, argv[3], graphPtr->classUid, argc - 4,
-                           argv + 4);
+    penPtr = Rbc_CreatePen(graphPtr, Tcl_GetString(objv[3]), graphPtr->classUid, objc - 4, objv + 4);
     if (penPtr == NULL) {
         return TCL_ERROR;
     }
@@ -644,22 +647,22 @@ CreateOp(interp, graphPtr, argc, argv)
  *--------------------------------------------------------------
  */
 static int
-DeleteOp(interp, graphPtr, argc, argv)
-    Tcl_Interp *interp;
-    Graph *graphPtr;
-    int argc;
-    char **argv;
+DeleteOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     Pen *penPtr;
     int i;
 
-    for (i = 3; i < argc; i++) {
-        penPtr = NameToPen(graphPtr, argv[i]);
+    for (i = 3; i < objc; i++) {
+        penPtr = NameToPen(graphPtr, Tcl_GetString(objv[i]));
         if (penPtr == NULL) {
             return TCL_ERROR;
         }
         if (penPtr->flags & PEN_DELETE_PENDING) {
-            Tcl_AppendResult(graphPtr->interp, "can't find pen \"", argv[i],
+            Tcl_AppendResult(graphPtr->interp, "can't find pen \"", Tcl_GetString(objv[i]),
                              "\" in \"", Tk_PathName(graphPtr->tkwin), "\"", (char *)NULL);
             return TCL_ERROR;
         }
@@ -687,11 +690,11 @@ DeleteOp(interp, graphPtr, argc, argv)
  * ----------------------------------------------------------------------
  */
 static int
-NamesOp(interp, graphPtr, argc, argv)
-    Tcl_Interp *interp;
-    Graph *graphPtr;
-    int argc;
-    char **argv;
+NamesOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     Tcl_HashSearch cursor;
     Pen *penPtr;
@@ -704,12 +707,12 @@ NamesOp(interp, graphPtr, argc, argv)
         if (penPtr->flags & PEN_DELETE_PENDING) {
             continue;
         }
-        if (argc == 3) {
+        if (objc == 3) {
             Tcl_AppendElement(interp, penPtr->name);
             continue;
         }
-        for (i = 3; i < argc; i++) {
-            if (Tcl_StringMatch(penPtr->name, argv[i])) {
+        for (i = 3; i < objc; i++) {
+            if (Tcl_StringMatch(penPtr->name, Tcl_GetString(objv[i]))) {
                 Tcl_AppendElement(interp, penPtr->name);
                 break;
             }
@@ -734,15 +737,15 @@ NamesOp(interp, graphPtr, argc, argv)
  * ----------------------------------------------------------------------
  */
 static int
-TypeOp(interp, graphPtr, argc, argv)
-    Tcl_Interp *interp;
-    Graph *graphPtr;
-    int argc;
-    char **argv;
+TypeOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     Pen *penPtr;
 
-    penPtr = NameToPen(graphPtr, argv[3]);
+    penPtr = NameToPen(graphPtr, Tcl_GetString(objv[3]));
     if (penPtr == NULL) {
         return TCL_ERROR;
     }
@@ -776,17 +779,17 @@ static int nPenOps = sizeof(penOps) / sizeof(Rbc_OpSpec);
  *----------------------------------------------------------------------
  */
 int
-Rbc_PenOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr;
-    Tcl_Interp *interp;
-    int argc;
-    char **argv;
+Rbc_PenOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
-    Rbc_Op proc;
+    Rbc_Op *proc;
 
-    proc = Rbc_GetOp(interp, nPenOps, penOps, RBC_OP_ARG2, argc, argv, 0);
+    proc = Rbc_GetOpFromObj(interp, nPenOps, penOps, RBC_OP_ARG2, objc, objv, 0);
     if (proc == NULL) {
         return TCL_ERROR;
     }
-    return (*proc) (interp, graphPtr, argc, argv);
+    return (*proc) (graphPtr, interp, objc, objv);
 }

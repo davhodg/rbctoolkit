@@ -28,7 +28,7 @@ int Rbc_CreateLegend (Graph *graphPtr);
 void Rbc_DestroyLegend (Graph *graphPtr);
 void Rbc_DrawLegend (Legend *legendPtr, Drawable drawable);
 void Rbc_MapLegend (Legend *legendPtr, int width, int height);
-int Rbc_LegendOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+int Rbc_LegendOp (Graph *graphPtr, Tcl_Interp *interp, int objc, struct Tcl_Obj *const *objv);
 int Rbc_LegendSite (Legend *legendPtr);
 int Rbc_LegendWidth (Legend *legendPtr);
 int Rbc_LegendHeight (Legend *legendPtr);
@@ -37,4 +37,5 @@ int Rbc_LegendIsRaised (Legend *legendPtr);
 int Rbc_LegendX (Legend *legendPtr);
 int Rbc_LegendY (Legend *legendPtr);
 void Rbc_LegendRemoveElement (Legend *legendPtr, Element *elemPtr);
+
 #endif /* _RBCGRLEGEND */

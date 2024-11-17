@@ -141,11 +141,11 @@ static void EventuallyRedrawLegend (Legend *legendPtr);
 static int CreateLegendWindow (Tcl_Interp *interp, Legend *legendPtr, char *pathName);
 static void SetLegendOrigin (Legend *legendPtr);
 static void ConfigureLegend (Graph *graphPtr, Legend *legendPtr);
-static int GetOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char *argv[]);
-static int ActivateOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char *argv[]);
-static int BindOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
-static int CgetOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
-static int ConfigureOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static Graph_Op GetOp;
+static Graph_Op ActivateOp;
+static Graph_Op BindOp;
+static Graph_Op CgetOp;
+static Graph_Op ConfigureOp;
 
 /*
  *--------------------------------------------------------------
@@ -264,7 +264,7 @@ CreateLegendWindow(interp, legendPtr, pathName)
     if (legendPtr->tkwin != legendPtr->graphPtr->tkwin) {
         Tk_DestroyWindow(legendPtr->tkwin);
     }
-    legendPtr->cmdToken = Tcl_CreateCommand(interp, pathName, Rbc_GraphInstCmdProc, legendPtr->graphPtr, NULL);
+    legendPtr->cmdToken = Tcl_CreateObjCommand (interp, pathName, Rbc_GraphInstObjCmdProc, legendPtr->graphPtr, NULL);
     legendPtr->tkwin = tkwin;
     legendPtr->site = LEGEND_WINDOW;
     return TCL_OK;
@@ -1188,7 +1188,7 @@ Rbc_CreateLegend(graphPtr)
                            graphPtr->tkwin, graphPtr, PickLegendEntry, Rbc_GraphTags);
 
     if (Rbc_ConfigureWidgetComponent(graphPtr->interp, graphPtr->tkwin,
-                                     "legend", "Legend", configSpecs, 0, (char **)NULL,
+                                     "legend", "Legend", configSpecs, 0, NULL,
                                      (char *)legendPtr, 0) != TCL_OK) {
         return TCL_ERROR;
     }
@@ -1217,11 +1217,11 @@ Rbc_CreateLegend(graphPtr)
  *----------------------------------------------------------------------
  */
 static int
-GetOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr;
-    Tcl_Interp *interp;
-    int argc; /* Not used. */
-    char *argv[];
+GetOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     register Element *elemPtr;
     Legend *legendPtr = graphPtr->legend;
@@ -1232,11 +1232,11 @@ GetOp(graphPtr, interp, argc, argv)
         return TCL_OK;
     }
     elemPtr = NULL;
-    c = argv[3][0];
-    if ((c == 'c') && (strcmp(argv[3], "current") == 0)) {
+    c = Tcl_GetString(objv[3])[0];
+    if ((c == 'c') && (strcmp(Tcl_GetString(objv[3]), "current") == 0)) {
         elemPtr = (Element *)Rbc_GetCurrentItem(legendPtr->bindTable);
     } else if ((c == '@') &&
-               (Rbc_GetXY(interp, graphPtr->tkwin, argv[3], &x, &y) == TCL_OK)) {
+               (Rbc_GetXY(interp, graphPtr->tkwin, Tcl_GetString(objv[3]), &x, &y) == TCL_OK)) {
         elemPtr = (Element *)PickLegendEntry(graphPtr, x, y, NULL);
     }
     if (elemPtr != NULL) {
@@ -1261,11 +1261,11 @@ GetOp(graphPtr, interp, argc, argv)
  *----------------------------------------------------------------------
  */
 static int
-ActivateOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr;
-    Tcl_Interp *interp;
-    int argc;
-    char *argv[];
+ActivateOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     Legend *legendPtr = graphPtr->legend;
     Element *elemPtr;
@@ -1274,17 +1274,17 @@ ActivateOp(graphPtr, interp, argc, argv)
     Tcl_HashSearch cursor;
     register int i;
 
-    active = (argv[2][0] == 'a') ? LABEL_ACTIVE : 0;
+    active = (Tcl_GetString(objv[2])[0] == 'a') ? LABEL_ACTIVE : 0;
     redraw = 0;
     for (hPtr = Tcl_FirstHashEntry(&(graphPtr->elements.table), &cursor);
             hPtr != NULL; hPtr = Tcl_NextHashEntry(&cursor)) {
         elemPtr = Tcl_GetHashValue(hPtr);
-        for (i = 3; i < argc; i++) {
-            if (Tcl_StringMatch(elemPtr->name, argv[i])) {
+        for (i = 3; i < objc; i++) {
+            if (Tcl_StringMatch(elemPtr->name, Tcl_GetString(objv[i]))) {
                 break;
             }
         }
-        if ((i < argc) && (active != (elemPtr->flags & LABEL_ACTIVE))) {
+        if ((i < objc) && (active != (elemPtr->flags & LABEL_ACTIVE))) {
             elemPtr->flags ^= LABEL_ACTIVE;
             if (elemPtr->label != NULL) {
                 redraw++;
@@ -1334,13 +1334,13 @@ ActivateOp(graphPtr, interp, argc, argv)
  *----------------------------------------------------------------------
  */
 static int
-BindOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr;
-    Tcl_Interp *interp;
-    int argc;
-    char **argv;
+BindOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
-    if (argc == 3) {
+    if (objc == 3) {
         Tcl_HashEntry *hPtr;
         Tcl_HashSearch cursor;
         char *tagName;
@@ -1351,7 +1351,7 @@ BindOp(graphPtr, interp, argc, argv)
         }
         return TCL_OK;
     }
-    return Rbc_ConfigureBindings(interp, graphPtr->legend->bindTable, Rbc_MakeElementTag(graphPtr, argv[3]), argc - 4, argv + 4);
+    return Rbc_ConfigureBindingsFromObj (interp, graphPtr->legend->bindTable, Rbc_MakeElementTag(graphPtr, Tcl_GetString(objv[3])), objc - 4, objv + 4);
 }
 
 /*
@@ -1370,14 +1370,14 @@ BindOp(graphPtr, interp, argc, argv)
  *----------------------------------------------------------------------
  */
 static int
-CgetOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr;
-    Tcl_Interp *interp;
-    int argc;
-    char **argv;
+CgetOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     return Tk_ConfigureValue(interp, graphPtr->tkwin, configSpecs,
-                             (char *)graphPtr->legend, argv[3], 0);
+                             (char *)graphPtr->legend, Tcl_GetString(objv[3]), 0);
 }
 
 /*
@@ -1396,25 +1396,25 @@ CgetOp(graphPtr, interp, argc, argv)
  *----------------------------------------------------------------------
  */
 static int
-ConfigureOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr;
-    Tcl_Interp *interp;
-    int argc;
-    char **argv;
+ConfigureOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     int flags = TK_CONFIG_ARGV_ONLY;
     Legend *legendPtr;
 
     legendPtr = graphPtr->legend;
-    if (argc == 3) {
+    if (objc == 3) {
         return Tk_ConfigureInfo(interp, graphPtr->tkwin, configSpecs,
                                 (char *)legendPtr, (char *)NULL, flags);
-    } else if (argc == 4) {
+    } else if (objc == 4) {
         return Tk_ConfigureInfo(interp, graphPtr->tkwin, configSpecs,
-                                (char *)legendPtr, argv[3], flags);
+                                (char *)legendPtr, Tcl_GetString(objv[3]), flags);
     }
-    if (Tk_ConfigureWidget(interp, graphPtr->tkwin, configSpecs, argc - 3,
-                           argv + 3, (char *)legendPtr, flags) != TCL_OK) {
+    if (Tk_ConfigureWidget(interp, graphPtr->tkwin, configSpecs, objc - 3,
+                           objv + 3, (char *)legendPtr, flags) != TCL_OK) {
         return TCL_ERROR;
     }
     ConfigureLegend(graphPtr, legendPtr);
@@ -1447,20 +1447,20 @@ static int nLegendOps = sizeof(legendOps) / sizeof(Rbc_OpSpec);
  *----------------------------------------------------------------------
  */
 int
-Rbc_LegendOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr;
-    Tcl_Interp *interp;
-    int argc;
-    char **argv;
+Rbc_LegendOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
-    Rbc_Op proc;
+    Rbc_Op *proc;
     int result;
 
-    proc = Rbc_GetOp(interp, nLegendOps, legendOps, RBC_OP_ARG2, argc, argv,0);
+    proc = Rbc_GetOpFromObj(interp, nLegendOps, legendOps, RBC_OP_ARG2, objc, objv,0);
     if (proc == NULL) {
         return TCL_ERROR;
     }
-    result = (*proc) (graphPtr, interp, argc, argv);
+    result = (*proc) (graphPtr, interp, objc, objv);
     return result;
 }
 

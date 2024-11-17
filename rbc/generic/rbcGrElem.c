@@ -45,21 +45,21 @@ static void FreeDataVector (ElemVector *vPtr);
 static int EvalExprList (Tcl_Interp *interp, char *list, int *nElemPtr, double **arrayPtr);
 static int GetIndex (Tcl_Interp *interp, Element *elemPtr, char *string, int *indexPtr);
 static int NameToElement (Graph *graphPtr, char *name, Element **elemPtrPtr);
-static int CreateElement (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv, Rbc_Uid classUid);
+static int CreateElement (Graph *graphPtr, Tcl_Interp *interp, int objc, struct Tcl_Obj *const *objv, Rbc_Uid classUid);
 static void DestroyElement (Graph *graphPtr, Element *elemPtr);
 static int RebuildDisplayList (Graph *graphPtr, char *newList);
 
-static int ActivateOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
-static int BindOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
-static int CreateOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv, Rbc_Uid type);
-static int ConfigureOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char *argv[]);
-static int DeactivateOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
-static int DeleteOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
-static int ExistsOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
-static int GetOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char *argv[]);
-static int NamesOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
-static int ShowOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
-static int TypeOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static Graph_Op ActivateOp;
+static Graph_Op BindOp;
+static int CreateOp (Graph *graphPtr, Tcl_Interp *interp, int objc, struct Tcl_Obj *const *objv, Rbc_Uid type);
+static Graph_Op ConfigureOp;
+static Graph_Op DeactivateOp;
+static Graph_Op DeleteOp;
+static Graph_Op ExistsOp;
+static Graph_Op GetOp;
+static Graph_Op NamesOp;
+static Graph_Op ShowOp;
+static Graph_Op TypeOp;
 
 /*
  * ----------------------------------------------------------------------
@@ -1239,41 +1239,43 @@ DestroyElement(graphPtr, elemPtr)
  *----------------------------------------------------------------------
  */
 static int
-CreateElement(graphPtr, interp, argc, argv, classUid)
-    Graph *graphPtr;
-    Tcl_Interp *interp;
-    int argc;
-    char **argv;
-    Rbc_Uid classUid;
+CreateElement(
+    Graph *graphPtr,
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv,
+    Rbc_Uid classUid)
 {
     Element *elemPtr;
     Tcl_HashEntry *hPtr;
     int isNew;
+    
+    char *argv3 = Tcl_GetString (objv[3]);
 
-    if (argv[3][0] == '-') {
-        Tcl_AppendResult(graphPtr->interp, "name of element \"", argv[3],
+    if (argv3[0] == '-') {
+        Tcl_AppendResult(graphPtr->interp, "name of element \"", Tcl_GetString(objv[3]),
                          "\" can't start with a '-'", (char *)NULL);
         return TCL_ERROR;
     }
-    hPtr = Tcl_CreateHashEntry(&graphPtr->elements.table, argv[3], &isNew);
+    hPtr = Tcl_CreateHashEntry(&graphPtr->elements.table, Tcl_GetString(objv[3]), &isNew);
     if (!isNew) {
-        Tcl_AppendResult(interp, "element \"", argv[3],
-                         "\" already exists in \"", argv[0], "\"", (char *)NULL);
+        Tcl_AppendResult(interp, "element \"", Tcl_GetString(objv[3]),
+                         "\" already exists in \"", Tcl_GetString(objv[0]), "\"", (char *)NULL);
         return TCL_ERROR;
     }
     if (classUid == rbcBarElementUid) {
-        elemPtr = Rbc_BarElement(graphPtr, argv[3], classUid);
+        elemPtr = Rbc_BarElement(graphPtr, Tcl_GetString(objv[3]), classUid);
     } else {
         /* Stripcharts are line graphs with some options enabled. */
-        elemPtr = Rbc_LineElement(graphPtr, argv[3], classUid);
+        elemPtr = Rbc_LineElement(graphPtr, Tcl_GetString(objv[3]), classUid);
     }
     elemPtr->hashPtr = hPtr;
     Tcl_SetHashValue(hPtr, elemPtr);
 
     if (Rbc_ConfigureWidgetComponent(interp, graphPtr->tkwin, elemPtr->name,
-                                     "Element", elemPtr->specsPtr, argc - 4, argv + 4,
+                                     "Element", elemPtr->specsPtr, objc - 4, objv + 4,
                                      (char *)elemPtr, 0) != TCL_OK) {
-        DestroyElement(graphPtr, elemPtr);
+        DestroyElement (graphPtr, elemPtr);
         return TCL_ERROR;
     }
     (*elemPtr->procsPtr->configProc) (graphPtr, elemPtr);
@@ -1617,18 +1619,18 @@ Rbc_GraphUpdateNeeded(graphPtr)
  *----------------------------------------------------------------------
  */
 static int
-ActivateOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr; /* Graph widget */
-    Tcl_Interp *interp; /* Interpreter to report errors to */
-    int argc; /* Number of element names */
-    char **argv; /* List of element names */
+ActivateOp(
+    Graph *graphPtr,    /* Graph widget */
+    Tcl_Interp *interp, /* Interpreter to report errors to */
+    int objc,           /* Number of element names */
+    struct Tcl_Obj *const *objv)
 {
     Element *elemPtr;
     register int i;
     int *activeArr;
     int nActiveIndices;
 
-    if (argc == 3) {
+    if (objc == 3) {
         register Tcl_HashEntry *hPtr;
         Tcl_HashSearch cursor;
 
@@ -1642,21 +1644,21 @@ ActivateOp(graphPtr, interp, argc, argv)
         }
         return TCL_OK;
     }
-    if (NameToElement(graphPtr, argv[3], &elemPtr) != TCL_OK) {
+    if (NameToElement(graphPtr, Tcl_GetString(objv[3]), &elemPtr) != TCL_OK) {
         return TCL_ERROR;	/* Can't find named element */
     }
     elemPtr->flags |= ELEM_ACTIVE | ACTIVE_PENDING;
 
     activeArr = NULL;
     nActiveIndices = -1;
-    if (argc > 4) {
+    if (objc > 4) {
         register int *activePtr;
 
-        nActiveIndices = argc - 4;
+        nActiveIndices = objc - 4;
         activePtr = activeArr = (int *)ckalloc(sizeof(int) * nActiveIndices);
         assert(activeArr);
-        for (i = 4; i < argc; i++) {
-            if (GetIndex(interp, elemPtr, argv[i], activePtr) != TCL_OK) {
+        for (i = 4; i < objc; i++) {
+            if (GetIndex(interp, elemPtr, Tcl_GetString(objv[i]), activePtr) != TCL_OK) {
                 return TCL_ERROR;
             }
             activePtr++;
@@ -1715,13 +1717,13 @@ Rbc_MakeElementTag(graphPtr, tagName)
  *----------------------------------------------------------------------
  */
 static int
-BindOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr;
-    Tcl_Interp *interp;
-    int argc;
-    char **argv;
+BindOp(
+    Graph *graphPtr,    /* Graph widget */
+    Tcl_Interp *interp, /* Interpreter to report errors to */
+    int objc,           /* Number of element names */
+    struct Tcl_Obj *const *objv)
 {
-    if (argc == 3) {
+    if (objc == 3) {
         Tcl_HashEntry *hPtr;
         Tcl_HashSearch cursor;
         char *tagName;
@@ -1732,7 +1734,7 @@ BindOp(graphPtr, interp, argc, argv)
         }
         return TCL_OK;
     }
-    return Rbc_ConfigureBindings(interp, graphPtr->bindTable, Rbc_MakeElementTag(graphPtr, argv[3]), argc - 4, argv + 4);
+    return Rbc_ConfigureBindingsFromObj(interp, graphPtr->bindTable, Rbc_MakeElementTag(graphPtr, Tcl_GetString(objv[3])), objc - 4, objv + 4);
 }
 
 /*
@@ -1752,14 +1754,14 @@ BindOp(graphPtr, interp, argc, argv)
  *----------------------------------------------------------------------
  */
 static int
-CreateOp(graphPtr, interp, argc, argv, type)
-    Graph *graphPtr;
-    Tcl_Interp *interp;
-    int argc;
-    char **argv;
-    Rbc_Uid type;
+CreateOp(
+    Graph *graphPtr,    /* Graph widget */
+    Tcl_Interp *interp, /* Interpreter to report errors to */
+    int objc,           /* Number of element names */
+    struct Tcl_Obj *const *objv,
+    Rbc_Uid type)
 {
-    return CreateElement(graphPtr, interp, argc, argv, type);
+    return CreateElement(graphPtr, interp, objc, objv, type);
 }
 
 /*
@@ -1778,19 +1780,19 @@ CreateOp(graphPtr, interp, argc, argv, type)
  *----------------------------------------------------------------------
  */
 static int
-CgetOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr;
-    Tcl_Interp *interp;
-    int argc;
-    char *argv[];
+CgetOp(
+    Graph *graphPtr,    /* Graph widget */
+    Tcl_Interp *interp, /* Interpreter to report errors to */
+    int objc,           /* Number of element names */
+    struct Tcl_Obj *const *objv)
 {
     Element *elemPtr;
 
-    if (NameToElement(graphPtr, argv[3], &elemPtr) != TCL_OK) {
+    if (NameToElement(graphPtr, Tcl_GetString(objv[3]), &elemPtr) != TCL_OK) {
         return TCL_ERROR;	/* Can't find named element */
     }
     if (Tk_ConfigureValue(interp, graphPtr->tkwin, elemPtr->specsPtr,
-                          (char *)elemPtr, argv[4], 0) != TCL_OK) {
+                          (char *)elemPtr, Tcl_GetString(objv[4]), 0) != TCL_OK) {
         return TCL_ERROR;
     }
     return TCL_OK;
@@ -1839,11 +1841,11 @@ static Tk_ConfigSpec closestSpecs[] = {
  *----------------------------------------------------------------------
  */
 static int
-ClosestOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr; /* Graph widget */
-    Tcl_Interp *interp; /* Interpreter to report results to */
-    int argc; /* Number of element names */
-    char **argv; /* List of element names */
+ClosestOp(
+    Graph *graphPtr,    /* Graph widget */
+    Tcl_Interp *interp, /* Interpreter to report errors to */
+    int objc,           /* Number of element names */
+    struct Tcl_Obj *const *objv)
 {
     Element *elemPtr;
     ClosestSearch search;
@@ -1853,11 +1855,11 @@ ClosestOp(graphPtr, interp, argc, argv)
     if (graphPtr->flags & RESET_AXES) {
         Rbc_ResetAxes(graphPtr);
     }
-    if (Tk_GetPixels(interp, graphPtr->tkwin, argv[3], &x) != TCL_OK) {
+    if (Tk_GetPixelsFromObj(interp, graphPtr->tkwin, objv[3], &x) != TCL_OK) {
         Tcl_AppendResult(interp, ": bad window x-coordinate", (char *)NULL);
         return TCL_ERROR;
     }
-    if (Tk_GetPixels(interp, graphPtr->tkwin, argv[4], &y) != TCL_OK) {
+    if (Tk_GetPixelsFromObj(interp, graphPtr->tkwin, objv[4], &y) != TCL_OK) {
         Tcl_AppendResult(interp, ": bad window y-coordinate", (char *)NULL);
         return TCL_ERROR;
     }
@@ -1866,14 +1868,15 @@ ClosestOp(graphPtr, interp, argc, argv)
 
         temp = x, x = y, y = temp;
     }
-    for (i = 6; i < argc; i += 2) {	/* Count switches-value pairs */
-        if ((argv[i][0] != '-') ||
-                ((argv[i][1] == '-') && (argv[i][2] == '\0'))) {
+    for (i = 6; i < objc; i += 2) {	/* Count switches-value pairs */
+        char *argv_i = Tcl_GetString (objv[i]);
+        if ((argv_i[0] != '-') ||
+                ((argv_i[1] == '-') && (argv_i[2] == '\0'))) {
             break;
         }
     }
-    if (i > argc) {
-        i = argc;
+    if (i > objc) {
+        i = objc;
     }
 
     search.mode = SEARCH_POINTS;
@@ -1884,21 +1887,22 @@ ClosestOp(graphPtr, interp, argc, argv)
     search.y = y;
 
     if (Tk_ConfigureWidget(interp, graphPtr->tkwin, closestSpecs, i - 6,
-                           argv + 6, (char *)&search, TK_CONFIG_ARGV_ONLY) != TCL_OK) {
+                           objv + 6, (char *)&search, TK_CONFIG_ARGV_ONLY) != TCL_OK) {
         return TCL_ERROR;	/* Error occurred processing an option. */
     }
-    if ((i < argc) && (argv[i][0] == '-')) {
+    char *argv_i = Tcl_GetString (objv[i]);
+    if ((i < objc) && (argv_i[0] == '-')) {
         i++;			/* Skip "--" */
     }
     search.dist = (double)(search.halo + 1);
 
-    if (i < argc) {
-        for ( /* empty */ ; i < argc; i++) {
-            if (NameToElement(graphPtr, argv[i], &elemPtr) != TCL_OK) {
+    if (i < objc) {
+        for ( /* empty */ ; i < objc; i++) {
+            if (NameToElement(graphPtr, Tcl_GetString(objv[i]), &elemPtr) != TCL_OK) {
                 return TCL_ERROR;	/* Can't find named element */
             }
             if (elemPtr->hidden) {
-                Tcl_AppendResult(interp, "element \"", argv[i], "\" is hidden",
+                Tcl_AppendResult(interp, "element \"", Tcl_GetString(objv[i]), "\" is hidden",
                                  (char *)NULL);
                 return TCL_ERROR;	/* Element isn't visible */
             }
@@ -1940,29 +1944,29 @@ ClosestOp(graphPtr, interp, argc, argv)
         /*
          *  Return an array of 5 elements
          */
-        if (Tcl_SetVar2(interp, argv[5], "name",
+        if (Tcl_SetVar2(interp, Tcl_GetString(objv[5]), "name",
                         search.elemPtr->name, flags) == NULL) {
             return TCL_ERROR;
         }
         sprintf(string, "%d", search.index);
-        if (Tcl_SetVar2(interp, argv[5], "index", string, flags) == NULL) {
+        if (Tcl_SetVar2(interp, Tcl_GetString(objv[5]), "index", string, flags) == NULL) {
             return TCL_ERROR;
         }
         Tcl_PrintDouble(interp, search.point.x, string);
-        if (Tcl_SetVar2(interp, argv[5], "x", string, flags) == NULL) {
+        if (Tcl_SetVar2(interp, Tcl_GetString(objv[5]), "x", string, flags) == NULL) {
             return TCL_ERROR;
         }
         Tcl_PrintDouble(interp, search.point.y, string);
-        if (Tcl_SetVar2(interp, argv[5], "y", string, flags) == NULL) {
+        if (Tcl_SetVar2(interp, Tcl_GetString(objv[5]), "y", string, flags) == NULL) {
             return TCL_ERROR;
         }
         Tcl_PrintDouble(interp, search.dist, string);
-        if (Tcl_SetVar2(interp, argv[5], "dist", string, flags) == NULL) {
+        if (Tcl_SetVar2(interp, Tcl_GetString(objv[5]), "dist", string, flags) == NULL) {
             return TCL_ERROR;
         }
         Tcl_SetResult(interp, "1", TCL_STATIC);
     } else {
-        if (Tcl_SetVar2(interp, argv[5], "name", "", flags) == NULL) {
+        if (Tcl_SetVar2(interp, Tcl_GetString(objv[5]), "name", "", flags) == NULL) {
             return TCL_ERROR;
         }
         Tcl_SetResult(interp, "0", TCL_STATIC);
@@ -1992,42 +1996,43 @@ ClosestOp(graphPtr, interp, argc, argv)
  *----------------------------------------------------------------------
  */
 static int
-ConfigureOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr;
-    Tcl_Interp *interp;
-    int argc;
-    char *argv[];
+ConfigureOp(
+    Graph *graphPtr,    /* Graph widget */
+    Tcl_Interp *interp, /* Interpreter to report errors to */
+    int objc,           /* Number of element names */
+    struct Tcl_Obj *const *objv)
 {
     Element *elemPtr;
     int flags;
     int numNames, numOpts;
-    char **options;
+    struct Tcl_Obj *const *options;
     register int i;
 
     /* Figure out where the option value pairs begin */
-    argc -= 3;
-    argv += 3;
-    for (i = 0; i < argc; i++) {
-        if (argv[i][0] == '-') {
+    objc -= 3;
+    objv += 3;
+    for (i = 0; i < objc; i++) {
+        char *argv_i = Tcl_GetString (objv[i]);
+        if (argv_i[0] == '-') {
             break;
         }
-        if (NameToElement(graphPtr, argv[i], &elemPtr) != TCL_OK) {
+        if (NameToElement(graphPtr, Tcl_GetString(objv[i]), &elemPtr) != TCL_OK) {
             return TCL_ERROR;	/* Can't find named element */
         }
     }
     numNames = i;		/* Number of element names specified */
-    numOpts = argc - i;		/* Number of options specified */
-    options = argv + numNames;	/* Start of options in argv  */
+    numOpts = objc - i;		/* Number of options specified */
+    options = objv + numNames;	/* Start of options in objv  */
 
     for (i = 0; i < numNames; i++) {
-        NameToElement(graphPtr, argv[i], &elemPtr);
+        NameToElement(graphPtr, Tcl_GetString(objv[i]), &elemPtr);
         flags = TK_CONFIG_ARGV_ONLY;
         if (numOpts == 0) {
             return Tk_ConfigureInfo(interp, graphPtr->tkwin,
                                     elemPtr->specsPtr, (char *)elemPtr, (char *)NULL, flags);
         } else if (numOpts == 1) {
             return Tk_ConfigureInfo(interp, graphPtr->tkwin,
-                                    elemPtr->specsPtr, (char *)elemPtr, options[0], flags);
+                                    elemPtr->specsPtr, (char *)elemPtr, Tcl_GetString(options[0]), flags);
         }
         if (Tk_ConfigureWidget(interp, graphPtr->tkwin, elemPtr->specsPtr,
                                numOpts, options, (char *)elemPtr, flags) != TCL_OK) {
@@ -2100,17 +2105,17 @@ ConfigureOp(graphPtr, interp, argc, argv)
  *----------------------------------------------------------------------
  */
 static int
-DeactivateOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr; /* Graph widget */
-    Tcl_Interp *interp; /* Not used. */
-    int argc; /* Number of element names */
-    char **argv; /* List of element names */
+DeactivateOp(
+    Graph *graphPtr,    /* Graph widget */
+    Tcl_Interp *interp, /* Interpreter to report errors to */
+    int objc,           /* Number of element names */
+    struct Tcl_Obj *const *objv)
 {
     Element *elemPtr;
     register int i;
 
-    for (i = 3; i < argc; i++) {
-        if (NameToElement(graphPtr, argv[i], &elemPtr) != TCL_OK) {
+    for (i = 3; i < objc; i++) {
+        if (NameToElement(graphPtr, Tcl_GetString(objv[i]), &elemPtr) != TCL_OK) {
             return TCL_ERROR;	/* Can't find named element */
         }
         elemPtr->flags &= ~ELEM_ACTIVE;
@@ -2143,17 +2148,17 @@ DeactivateOp(graphPtr, interp, argc, argv)
  *----------------------------------------------------------------------
  */
 static int
-DeleteOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr; /* Graph widget */
-    Tcl_Interp *interp; /* Not used. */
-    int argc; /* Number of element names */
-    char **argv; /* List of element names */
+DeleteOp(
+    Graph *graphPtr,    /* Graph widget */
+    Tcl_Interp *interp, /* Interpreter to report errors to */
+    int objc,           /* Number of element names */
+    struct Tcl_Obj *const *objv)
 {
     Element *elemPtr;
     register int i;
 
-    for (i = 3; i < argc; i++) {
-        if (NameToElement(graphPtr, argv[i], &elemPtr) != TCL_OK) {
+    for (i = 3; i < objc; i++) {
+        if (NameToElement(graphPtr, Tcl_GetString(objv[i]), &elemPtr) != TCL_OK) {
             return TCL_ERROR;	/* Can't find named element */
         }
         DestroyElement(graphPtr, elemPtr);
@@ -2179,16 +2184,16 @@ DeleteOp(graphPtr, interp, argc, argv)
  *----------------------------------------------------------------------
  */
 static int
-ExistsOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr;
-    Tcl_Interp *interp;
-    int argc; /* Not used. */
-    char **argv;
+ExistsOp(
+    Graph *graphPtr,    /* Graph widget */
+    Tcl_Interp *interp, /* Interpreter to report errors to */
+    int objc,           /* Number of element names */
+    struct Tcl_Obj *const *objv)
 {
     Tcl_HashEntry *hPtr;
 
-    hPtr = Tcl_FindHashEntry(&graphPtr->elements.table, argv[3]);
-    Rbc_SetBooleanResult(interp, (hPtr != NULL));
+    hPtr = Tcl_FindHashEntry (&graphPtr->elements.table, Tcl_GetString(objv[3]));
+    Rbc_SetBooleanResult (interp, (hPtr != NULL));
     return TCL_OK;
 }
 
@@ -2211,15 +2216,18 @@ ExistsOp(graphPtr, interp, argc, argv)
  *----------------------------------------------------------------------
  */
 static int
-GetOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr;
-    Tcl_Interp *interp;
-    int argc; /* Not used. */
-    char *argv[];
+GetOp(
+    Graph *graphPtr,    /* Graph widget */
+    Tcl_Interp *interp, /* Interpreter to report errors to */
+    int objc,           /* Number of element names */
+    struct Tcl_Obj *const *objv)
 {
     register Element *elemPtr;
 
-    if ((argv[3][0] == 'c') && (strcmp(argv[3], "current") == 0)) {
+    Tcl_Size length = 0;
+    char *argv3 = Tcl_GetStringFromObj (objv[3], &length);
+
+    if (strncmp(argv3, "current", length) == 0) {
         elemPtr = (Element *)Rbc_GetCurrentItem(graphPtr->bindTable);
         /* Report only on elements. */
         if ((elemPtr != NULL) &&
@@ -2251,11 +2259,11 @@ GetOp(graphPtr, interp, argc, argv)
  *----------------------------------------------------------------------
  */
 static int
-NamesOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr;
-    Tcl_Interp *interp;
-    int argc;
-    char **argv;
+NamesOp(
+    Graph *graphPtr,    /* Graph widget */
+    Tcl_Interp *interp, /* Interpreter to report errors to */
+    int objc,           /* Number of element names */
+    struct Tcl_Obj *const *objv)
 {
     Element *elemPtr;
     Tcl_HashSearch cursor;
@@ -2265,12 +2273,12 @@ NamesOp(graphPtr, interp, argc, argv)
     for (hPtr = Tcl_FirstHashEntry(&graphPtr->elements.table, &cursor);
             hPtr != NULL; hPtr = Tcl_NextHashEntry(&cursor)) {
         elemPtr = (Element *)Tcl_GetHashValue(hPtr);
-        if (argc == 3) {
+        if (objc == 3) {
             Tcl_AppendElement(graphPtr->interp, elemPtr->name);
             continue;
         }
-        for (i = 3; i < argc; i++) {
-            if (Tcl_StringMatch(elemPtr->name, argv[i])) {
+        for (i = 3; i < objc; i++) {
+            if (Tcl_StringMatch(elemPtr->name, Tcl_GetString(objv[i]))) {
                 Tcl_AppendElement(interp, elemPtr->name);
                 break;
             }
@@ -2296,17 +2304,17 @@ NamesOp(graphPtr, interp, argc, argv)
  *----------------------------------------------------------------------
  */
 static int
-ShowOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr;
-    Tcl_Interp *interp;
-    int argc;
-    char **argv;
+ShowOp(
+    Graph *graphPtr,    /* Graph widget */
+    Tcl_Interp *interp, /* Interpreter to report errors to */
+    int objc,           /* Number of element names */
+    struct Tcl_Obj *const *objv)
 {
     Element *elemPtr;
     Rbc_ChainLink *linkPtr;
 
-    if (argc == 4) {
-        if (RebuildDisplayList(graphPtr, argv[3]) != TCL_OK) {
+    if (objc == 4) {
+        if (RebuildDisplayList(graphPtr, Tcl_GetString(objv[3])) != TCL_OK) {
             return TCL_ERROR;
         }
     }
@@ -2337,15 +2345,15 @@ ShowOp(graphPtr, interp, argc, argv)
  *----------------------------------------------------------------------
  */
 static int
-TypeOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr; /* Graph widget */
-    Tcl_Interp *interp;
-    int argc; /* Not used. */
-    char **argv; /* Element name */
+TypeOp(
+    Graph *graphPtr,    /* Graph widget */
+    Tcl_Interp *interp, /* Interpreter to report errors to */
+    int objc,           /* Number of element names */
+    struct Tcl_Obj *const *objv)
 {
     Element *elemPtr;
 
-    if (NameToElement(graphPtr, argv[3], &elemPtr) != TCL_OK) {
+    if (NameToElement(graphPtr, Tcl_GetString(objv[3]), &elemPtr) != TCL_OK) {
         return TCL_ERROR;	/* Can't find named element */
     }
     Tcl_SetResult(interp, elemPtr->classUid, TCL_STATIC);
@@ -2391,24 +2399,24 @@ static int numElemOps = sizeof(elemOps) / sizeof(Rbc_OpSpec);
  * ----------------------------------------------------------------
  */
 int
-Rbc_ElementOp(graphPtr, interp, argc, argv, type)
-    Graph *graphPtr; /* Graph widget record */
-    Tcl_Interp *interp;
-    int argc; /* # arguments */
-    char **argv; /* Argument list */
-    Rbc_Uid type;
+Rbc_ElementOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv,
+    Rbc_Uid type)
 {
-    Rbc_Op proc;
+    Rbc_Op *proc;
     int result;
 
-    proc = Rbc_GetOp(interp, numElemOps, elemOps, RBC_OP_ARG2, argc, argv, 0);
+    proc = Rbc_GetOpFromObj(interp, numElemOps, elemOps, RBC_OP_ARG2, objc, objv, 0);
     if (proc == NULL) {
         return TCL_ERROR;
     }
     if (proc == CreateOp) {
-        result = CreateOp(graphPtr, interp, argc, argv, type);
+        result = CreateOp (graphPtr, interp, objc, objv, type);
     } else {
-        result = (*proc) (graphPtr, interp, argc, argv);
+        result = (*proc) (graphPtr, interp, objc, objv);
     }
     return result;
 }

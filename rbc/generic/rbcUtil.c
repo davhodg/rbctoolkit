@@ -1165,7 +1165,7 @@ usage:
  *
  *----------------------------------------------------------------------
  */
-Rbc_Op
+Rbc_Op *
 Rbc_GetOpFromObj(interp, nSpecs, specArr, operPos, objc, objv, flags)
     Tcl_Interp *interp; /* Interpreter to report errors to */
     int nSpecs; /* Number of specifications in array */

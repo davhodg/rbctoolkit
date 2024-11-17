@@ -83,27 +83,31 @@ static Tk_GeomMgr busyMgrInfo = {
     BusyCustodyProc, /* Procedure when window is taken away */
 };
 
+
+typedef int (Busy_Op) (ClientData clientData, Tcl_Interp *interp, int objc, struct Tcl_Obj *const *objv);
+
+
 /* Forward declarations */
 static void DestroyBusy (DestroyData dataPtr);
 static void BusyEventProc (ClientData clientData, XEvent *eventPtr);
 static void ShowBusyWindow (Busy *busyPtr);
 static void HideBusyWindow (Busy *busyPtr);
-static int ConfigureBusy (Tcl_Interp *interp, Busy *busyPtr, int argc, char **argv);
+static int ConfigureBusy (Tcl_Interp *interp, Busy *busyPtr, int objc, struct Tcl_Obj *const *objv);
 static Busy *CreateBusy (Tcl_Interp *interp, Tk_Window tkRef);
 static int GetBusy (BusyInterpData *dataPtr, Tcl_Interp *interp, char *pathName, Busy **busyPtrPtr);
-static int HoldBusy (BusyInterpData *dataPtr, Tcl_Interp *interp, int argc, char **argv);
-static int StatusOp (ClientData clientData, Tcl_Interp *interp, int argc, char **argv);
-static int ForgetOp (ClientData clientData, Tcl_Interp *interp, int argc, char **argv);
-static int ReleaseOp (ClientData clientData, Tcl_Interp *interp, int argc, char **argv);
-static int NamesOp (ClientData clientData, Tcl_Interp *interp, int argc, char **argv);
-static int BusyOp (ClientData clientData, Tcl_Interp *interp, int argc, char **argv);
-static int HoldOp (ClientData clientData, Tcl_Interp *interp, int argc, char **argv);
-static int CgetOp (ClientData clientData, Tcl_Interp *interp, int argc, char **argv);
-static int ConfigureOp (ClientData clientData, Tcl_Interp *interp, int argc, char **argv);
+static int HoldBusy (BusyInterpData *dataPtr, Tcl_Interp *interp, int objc, struct Tcl_Obj *const *objv);
+static Busy_Op StatusOp;
+static Busy_Op ForgetOp;
+static Busy_Op ReleaseOp;
+static Busy_Op NamesOp;
+static Busy_Op BusyOp;
+static Busy_Op HoldOp;
+static Busy_Op CgetOp;
+static Busy_Op ConfigureOp;
 static BusyInterpData *GetBusyInterpData (Tcl_Interp *interp);
 
 static Tk_EventProc RefWinEventProc;
-static Tcl_CmdProc BusyCmd;
+static Tcl_ObjCmdProc BusyObjCmd;
 static Tcl_InterpDeleteProc BusyInterpDeleteProc;
 
 /*
@@ -424,21 +428,21 @@ RefWinEventProc(clientData, eventPtr)
  * -------------------------------------------------------------------
  */
 static int
-ConfigureBusy(interp, busyPtr, argc, argv)
-    Tcl_Interp *interp;
-    Busy *busyPtr;
-    int argc;
-    char **argv;
+ConfigureBusy(
+    Tcl_Interp *interp,
+    Busy *busyPtr,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     Tk_Cursor oldCursor;
 
     oldCursor = busyPtr->cursor;
-    if (Tk_ConfigureWidget(interp, busyPtr->tkRef, configSpecs, argc, argv,
+    if (Tk_ConfigureWidget(interp, busyPtr->tkRef, configSpecs, objc, objv,
                            (char *)busyPtr, 0) != TCL_OK) {
         return TCL_ERROR;
     }
     if (busyPtr->cursor != oldCursor) {
-        if (busyPtr->cursor == None) {
+        if (busyPtr->cursor == NULL) {
             Tk_UndefineCursor(busyPtr->tkBusy);
         } else {
             Tk_DefineCursor(busyPtr->tkBusy, busyPtr->cursor);
@@ -533,7 +537,7 @@ CreateBusy(interp, tkRef)
     busyPtr->height = Tk_Height(tkRef);
     busyPtr->x = Tk_X(tkRef);
     busyPtr->y = Tk_Y(tkRef);
-    busyPtr->cursor = None;
+    busyPtr->cursor = NULL;
     busyPtr->isBusy = FALSE;
     Tk_SetClass(tkBusy, "Busy");
 #if (TK_MAJOR_VERSION > 4)
@@ -591,7 +595,7 @@ CreateBusy(interp, tkRef)
      * This will also notify us if the busy window is ever packed.
      */
     Tk_ManageGeometry(tkBusy, &busyMgrInfo, busyPtr);
-    if (busyPtr->cursor != None) {
+    if (busyPtr->cursor != NULL) {
         Tk_DefineCursor(tkBusy, busyPtr->cursor);
     }
     /* Track the reference window to see if it is resized or destroyed.  */
@@ -669,13 +673,13 @@ GetBusy(dataPtr, interp, pathName, busyPtrPtr)
     Tcl_HashEntry *hPtr;
     Tk_Window tkwin;
 
-    tkwin = Tk_NameToWindow(interp, pathName, Tk_MainWindow(interp));
+    tkwin = Tk_NameToWindow (interp, pathName, Tk_MainWindow(interp));
     if (tkwin == NULL) {
         return TCL_ERROR;
     }
-    hPtr = Tcl_FindHashEntry(&dataPtr->busyTable, (char *)tkwin);
+    hPtr = Tcl_FindHashEntry (&dataPtr->busyTable, (char *)tkwin);
     if (hPtr == NULL) {
-        Tcl_AppendResult(interp, "can't find busy window \"", pathName, "\"",
+        Tcl_AppendResult (interp, "can't find busy window \"", pathName, "\"",
                          (char *)NULL);
         return TCL_ERROR;
     }
@@ -705,11 +709,12 @@ GetBusy(dataPtr, interp, pathName, busyPtrPtr)
  * -------------------------------------------------------------------
  */
 static int
-HoldBusy(dataPtr, interp, argc, argv)
-    BusyInterpData *dataPtr; /* Interpreter-specific data. */
-    Tcl_Interp *interp; /* Interpreter to report errors to */
-    int argc;
-    char **argv; /* Window name and option pairs */
+HoldBusy(
+    BusyInterpData *dataPtr,    /* Interpreter-specific data. */
+    Tcl_Interp *interp,         /* Interpreter to report errors to */
+    int objc,
+    struct Tcl_Obj *const *objv /* Window name and option pairs */
+)
 {
     Tk_Window tkwin;
     Tcl_HashEntry *hPtr;
@@ -717,7 +722,7 @@ HoldBusy(dataPtr, interp, argc, argv)
     int isNew;
     int result;
 
-    tkwin = Tk_NameToWindow(interp, argv[0], Tk_MainWindow(interp));
+    tkwin = Tk_NameToWindow (interp, Tcl_GetString(objv[0]), Tk_MainWindow(interp));
     if (tkwin == NULL) {
         return TCL_ERROR;
     }
@@ -733,7 +738,7 @@ HoldBusy(dataPtr, interp, argc, argv)
         busyPtr = (Busy *)Tcl_GetHashValue(hPtr);
     }
     busyPtr->tablePtr = &dataPtr->busyTable;
-    result = ConfigureBusy(interp, busyPtr, argc - 1, argv + 1);
+    result = ConfigureBusy(interp, busyPtr, objc - 1, objv + 1);
 
     /*
      * Don't map the busy window unless the reference window is also
@@ -768,16 +773,16 @@ HoldBusy(dataPtr, interp, argc, argv)
  * -------------------------------------------------------------------
  */
 static int
-StatusOp(clientData, interp, argc, argv)
-    ClientData clientData; /* Interpreter-specific data. */
-    Tcl_Interp *interp; /* Interpreter to report error to */
-    int argc; /* Not used. */
-    char **argv;
+StatusOp(
+    ClientData clientData,      /* Interpreter-specific data. */
+    Tcl_Interp *interp,         /* Interpreter to report errors to */
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     BusyInterpData *dataPtr = clientData;
     Busy *busyPtr;
 
-    if (GetBusy(dataPtr, interp, argv[2], &busyPtr) != TCL_OK) {
+    if (GetBusy(dataPtr, interp, Tcl_GetString(objv[2]), &busyPtr) != TCL_OK) {
         return TCL_ERROR;
     }
     Tcl_Preserve(busyPtr);
@@ -808,23 +813,23 @@ StatusOp(clientData, interp, argc, argv)
  * -------------------------------------------------------------------
  */
 static int
-ForgetOp(clientData, interp, argc, argv)
-    ClientData clientData; /* Interpreter-specific data. */
-    Tcl_Interp *interp; /* Interpreter to report errors to */
-    int argc;
-    char **argv;
+ForgetOp(
+    ClientData clientData,      /* Interpreter-specific data. */
+    Tcl_Interp *interp,         /* Interpreter to report errors to */
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     BusyInterpData *dataPtr = clientData;
     Busy *busyPtr;
     register int i;
 
-    for (i = 2; i < argc; i++) {
-        if (GetBusy(dataPtr, interp, argv[i], &busyPtr) != TCL_OK) {
+    for (i = 2; i < objc; i++) {
+        if (GetBusy (dataPtr, interp, Tcl_GetString(objv[i]), &busyPtr) != TCL_OK) {
             return TCL_ERROR;
         }
         /* Unmap the window even though it will be soon destroyed */
-        HideBusyWindow(busyPtr);
-        Tcl_EventuallyFree(busyPtr, DestroyBusy);
+        HideBusyWindow (busyPtr);
+        Tcl_EventuallyFree (busyPtr, DestroyBusy);
     }
     return TCL_OK;
 }
@@ -850,18 +855,18 @@ ForgetOp(clientData, interp, argc, argv)
  * -------------------------------------------------------------------
  */
 static int
-ReleaseOp(clientData, interp, argc, argv)
-    ClientData clientData; /* Interpreter-specific data. */
-    Tcl_Interp *interp; /* Interpreter to report errors to */
-    int argc;
-    char **argv;
+ReleaseOp(
+    ClientData clientData,      /* Interpreter-specific data. */
+    Tcl_Interp *interp,         /* Interpreter to report errors to */
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     BusyInterpData *dataPtr = clientData;
     Busy *busyPtr;
     int i;
 
-    for (i = 2; i < argc; i++) {
-        if (GetBusy(dataPtr, interp, argv[i], &busyPtr) != TCL_OK) {
+    for (i = 2; i < objc; i++) {
+        if (GetBusy(dataPtr, interp, Tcl_GetString(objv[i]), &busyPtr) != TCL_OK) {
             return TCL_ERROR;
         }
         HideBusyWindow(busyPtr);
@@ -890,11 +895,11 @@ ReleaseOp(clientData, interp, argc, argv)
  * -------------------------------------------------------------------
  */
 static int
-NamesOp(clientData, interp, argc, argv)
-    ClientData clientData; /* Interpreter-specific data. */
-    Tcl_Interp *interp; /* Interpreter to report errors to */
-    int argc;
-    char **argv;
+NamesOp(
+    ClientData clientData,      /* Interpreter-specific data. */
+    Tcl_Interp *interp,         /* Interpreter to report errors to */
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     BusyInterpData *dataPtr = clientData;
     Tcl_HashEntry *hPtr;
@@ -903,8 +908,8 @@ NamesOp(clientData, interp, argc, argv)
 
     for (hPtr = Tcl_FirstHashEntry(&dataPtr->busyTable, &cursor); hPtr != NULL; hPtr = Tcl_NextHashEntry(&cursor)) {
         busyPtr = (Busy *)Tcl_GetHashValue(hPtr);
-        if ((argc == 2) ||
-                (Tcl_StringMatch(Tk_PathName(busyPtr->tkRef), argv[2]))) {
+        if ((objc == 2) ||
+                (Tcl_StringMatch(Tk_PathName(busyPtr->tkRef), Tcl_GetString(objv[2])))) {
             Tcl_AppendElement(interp, Tk_PathName(busyPtr->tkRef));
         }
     }
@@ -931,11 +936,11 @@ NamesOp(clientData, interp, argc, argv)
  * -------------------------------------------------------------------
  */
 static int
-BusyOp(clientData, interp, argc, argv)
-    ClientData clientData; /* Interpreter-specific data. */
-    Tcl_Interp *interp; /* Interpreter to report errors to */
-    int argc;
-    char **argv;
+BusyOp(
+    ClientData clientData,      /* Interpreter-specific data. */
+    Tcl_Interp *interp,         /* Interpreter to report errors to */
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     BusyInterpData *dataPtr = clientData;
     Tcl_HashEntry *hPtr;
@@ -947,8 +952,8 @@ BusyOp(clientData, interp, argc, argv)
         if (!busyPtr->isBusy) {
             continue;
         }
-        if ((argc == 2) ||
-                (Tcl_StringMatch(Tk_PathName(busyPtr->tkRef), argv[2]))) {
+        if ((objc == 2) ||
+                (Tcl_StringMatch(Tk_PathName(busyPtr->tkRef), Tcl_GetString(objv[2])))) {
             Tcl_AppendElement(interp, Tk_PathName(busyPtr->tkRef));
         }
     }
@@ -975,32 +980,36 @@ BusyOp(clientData, interp, argc, argv)
  * -------------------------------------------------------------------
  */
 static int
-HoldOp(clientData, interp, argc, argv)
-    ClientData clientData; /* Interpreter-specific data. */
-    Tcl_Interp *interp; /* Interpreter to report errors to */
-    int argc;
-    char **argv; /* Window name and option pairs */
+HoldOp(
+    ClientData clientData,      /* Interpreter-specific data. */
+    Tcl_Interp *interp,         /* Interpreter to report errors to */
+    int objc,
+    struct Tcl_Obj *const *objv /* Window name and option pairs */
+)
 {
     BusyInterpData *dataPtr = clientData;
     register int i, count;
 
-    if ((argv[1][0] == 'h') && (strcmp(argv[1], "hold") == 0)) {
+    Tcl_Size length = 0;
+    char *argv1 = Tcl_GetStringFromObj (objv[1], &length);
+
+    if (strncmp (argv1, "hold", length) == 0) {
     	/* Command used "hold" keyword */
-    	argc--, argv++;
+    	objc--, objv++;
     }
-    for (i = 1; i < argc; i++) {
+    for (i = 1; i < objc; i++) {
         /*
          * Find the end of the option-value pairs for this window.
          */
-        for (count = i + 1; count < argc; count += 2) {
-            if (argv[count][0] != '-') {
+        for (count = i + 1; count < objc; count += 2) {
+            if (Tcl_GetString(objv[count])[0] != '-') {
                 break;
             }
         }
-        if (count > argc) {
-            count = argc;
+        if (count > objc) {
+            count = objc;
         }
-        if (HoldBusy(dataPtr, interp, count - i, argv + i) != TCL_OK) {
+        if (HoldBusy(dataPtr, interp, count - i, objv + i) != TCL_OK) {
             return TCL_ERROR;
         }
         i = count;
@@ -1024,23 +1033,24 @@ HoldOp(clientData, interp, argc, argv)
  *----------------------------------------------------------------------
  */
 static int
-CgetOp(clientData, interp, argc, argv)
-    ClientData clientData; /* Interpreter-specific data. */
-    Tcl_Interp *interp; /* Interpreter to report errors to */
-    int argc;
-    char **argv; /* Widget pathname and option switch */
+CgetOp(
+    ClientData clientData,      /* Interpreter-specific data. */
+    Tcl_Interp *interp,         /* Interpreter to report errors to */
+    int objc,
+    struct Tcl_Obj *const *objv /* Widget pathname and option switch */
+)
 {
     BusyInterpData *dataPtr = clientData;
     Busy *busyPtr;
     int result;
 
-    if (GetBusy(dataPtr, interp, argv[2], &busyPtr) != TCL_OK) {
+    if (GetBusy (dataPtr, interp, Tcl_GetString(objv[2]), &busyPtr) != TCL_OK) {
         return TCL_ERROR;
     }
-    Tcl_Preserve(busyPtr);
-    result = Tk_ConfigureValue(interp, busyPtr->tkRef, configSpecs,
-                               (char *)busyPtr, argv[3], 0);
-    Tcl_Release(busyPtr);
+    Tcl_Preserve (busyPtr);
+    result = Tk_ConfigureValue (interp, busyPtr->tkRef, configSpecs,
+                               (char *)busyPtr, Tcl_GetString(objv[3]), 0);
+    Tcl_Release (busyPtr);
     return result;
 }
 
@@ -1049,7 +1059,7 @@ CgetOp(clientData, interp, argc, argv)
  *
  * ConfigureOp --
  *
- *      This procedure is called to process an argv/argc list in order
+ *      This procedure is called to process an objv/objc list in order
  *      to configure (or reconfigure) a busy window.
  *
  * Results:
@@ -1064,29 +1074,30 @@ CgetOp(clientData, interp, argc, argv)
  *----------------------------------------------------------------------
  */
 static int
-ConfigureOp(clientData, interp, argc, argv)
-    ClientData clientData; /* Interpreter-specific data. */
-    Tcl_Interp *interp; /* Interpreter to report errors to */
-    int argc;
-    char **argv; /* Reference window path name and options */
+ConfigureOp(
+    ClientData clientData,      /* Interpreter-specific data. */
+    Tcl_Interp *interp,         /* Interpreter to report errors to */
+    int objc,
+    struct Tcl_Obj *const *objv /* Reference window path name and options */
+)
 {
     BusyInterpData *dataPtr = clientData;
     Busy *busyPtr;
     int result;
 
-    if (GetBusy(dataPtr, interp, argv[2], &busyPtr) != TCL_OK) {
+    if (GetBusy (dataPtr, interp, Tcl_GetString(objv[2]), &busyPtr) != TCL_OK) {
         return TCL_ERROR;
     }
-    if (argc == 3) {
-        result = Tk_ConfigureInfo(interp, busyPtr->tkRef, configSpecs,
+    if (objc == 3) {
+        result = Tk_ConfigureInfo (interp, busyPtr->tkRef, configSpecs,
                                   (char *)busyPtr, (char *)NULL, 0);
-    } else if (argc == 4) {
-        result = Tk_ConfigureInfo(interp, busyPtr->tkRef, configSpecs,
-                                  (char *)busyPtr, argv[3], 0);
+    } else if (objc == 4) {
+        result = Tk_ConfigureInfo (interp, busyPtr->tkRef, configSpecs,
+                                  (char *)busyPtr, Tcl_GetString(objv[3]), 0);
     } else {
-        Tcl_Preserve(busyPtr);
-        result = ConfigureBusy(interp, busyPtr, argc - 3, argv + 3);
-        Tcl_Release(busyPtr);
+        Tcl_Preserve (busyPtr);
+        result = ConfigureBusy (interp, busyPtr, objc - 3, objv + 3);
+        Tcl_Release (busyPtr);
     }
     return result;
 }
@@ -1158,7 +1169,7 @@ static int nBusyOps = sizeof(busyOps) / sizeof(Rbc_OpSpec);
 /*
  *----------------------------------------------------------------------
  *
- * BusyCmd --
+ * BusyObjCmd --
  *
  *      This procedure is invoked to process the "busy" Tcl command.
  *      See the user documentation for details on what it does.
@@ -1172,23 +1183,23 @@ static int nBusyOps = sizeof(busyOps) / sizeof(Rbc_OpSpec);
  *----------------------------------------------------------------------
  */
 static int
-BusyCmd(clientData, interp, argc, argv)
-    ClientData clientData; /* Interpreter-specific data. */
-    Tcl_Interp *interp; /* Interpreter associated with command */
-    int argc;
-    char **argv;
+BusyObjCmd(
+    ClientData clientData,  /* Interpreter-specific data. */
+    Tcl_Interp *interp,     /* Interpreter associated with command */
+	int objc,
+    struct Tcl_Obj *const *objv)
 {
-    Rbc_Op proc;
+    Rbc_Op *proc;
     int result;
 
-    if ((argc > 1) && (argv[1][0] == '.')) {
-        return HoldOp(clientData, interp, argc, argv);
+    if ((objc > 1) && (Tcl_GetString(objv[1])[0] == '.')) {
+        return HoldOp (clientData, interp, objc, objv);
     }
-    proc = Rbc_GetOp(interp, nBusyOps, busyOps, RBC_OP_ARG1, argc, argv, 0);
+    proc = Rbc_GetOpFromObj (interp, nBusyOps, busyOps, RBC_OP_ARG1, objc, objv, 0);
     if (proc == NULL) {
         return TCL_ERROR;
     }
-    result = (*proc) (clientData, interp, argc, argv);
+    result = (*proc) (clientData, interp, objc, objv);
     return result;
 }
 
@@ -1248,7 +1259,7 @@ Rbc_BusyInit(interp)
     BusyInterpData *dataPtr;
 
     dataPtr = GetBusyInterpData(interp);
-    Tcl_CreateCommand(interp, "rbc::busy", BusyCmd, (ClientData)dataPtr, (Tcl_CmdDeleteProc *)NULL);
+    Tcl_CreateObjCommand(interp, "rbc::busy", BusyObjCmd, (ClientData)dataPtr, (Tcl_CmdDeleteProc *)NULL);
 
     return TCL_OK;
 }

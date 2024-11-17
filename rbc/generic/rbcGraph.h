@@ -27,6 +27,10 @@ typedef struct LegendStruct Legend;
 #include "rbcGrAxis.h"
 #include "rbcGrLegd.h"
 
+
+typedef int (Graph_Op) (Graph *graphPtr, Tcl_Interp *interp, int objc, struct Tcl_Obj *const *objv);
+
+
 #define MARKER_UNDER	1	/* Draw markers designated to lie underneath
 * elements, grids, legend, etc. */
 #define MARKER_ABOVE	0	/* Draw markers designated to rest above
@@ -543,25 +547,19 @@ struct GraphStruct {
  * ---------------------- Forward declarations ------------------------
  */
 
-Tcl_CmdProc Rbc_GraphInstCmdProc;
+Tcl_ObjCmdProc Rbc_GraphInstObjCmdProc;
 int Rbc_CreatePostScript (Graph *graphPtr);
 int Rbc_CreateCrosshairs (Graph *graphPtr);
 int Rbc_CreateGrid (Graph *graphPtr);
-double Rbc_InvHMap (Graph *graphPtr, Axis *axisPtr,
-                                double x);
-double Rbc_InvVMap (Graph *graphPtr, Axis *axisPtr,
-                                double x);
+double Rbc_InvHMap (Graph *graphPtr, Axis *axisPtr, double x);
+double Rbc_InvVMap (Graph *graphPtr, Axis *axisPtr, double x);
 double Rbc_HMap (Graph *graphPtr, Axis *axisPtr, double x);
 double Rbc_VMap (Graph *graphPtr, Axis *axisPtr, double y);
-Point2D Rbc_InvMap2D (Graph *graphPtr, double x,
-                                  double y, Axis2D *pairPtr);
-Point2D Rbc_Map2D (Graph *graphPtr, double x,
-                               double y, Axis2D *pairPtr);
+Point2D Rbc_InvMap2D (Graph *graphPtr, double x, double y, Axis2D *pairPtr);
+Point2D Rbc_Map2D (Graph *graphPtr, double x, double y, Axis2D *pairPtr);
 Graph *Rbc_GetGraphFromWindowData (Tk_Window tkwin);
-int Rbc_LineRectClip (Extents2D *extsPtr, Point2D *p,
-                                  Point2D *q);
-int Rbc_PolyRectClip (Extents2D *extsPtr, Point2D *inputPts,
-                                  int nInputPts, Point2D *outputPts);
+int Rbc_LineRectClip (Extents2D *extsPtr, Point2D *p, Point2D *q);
+int Rbc_PolyRectClip (Extents2D *extsPtr, Point2D *inputPts, int nInputPts, Point2D *outputPts);
 
 void Rbc_ComputeStacks (Graph *graphPtr);
 void Rbc_ConfigureCrosshairs (Graph *graphPtr);
@@ -572,18 +570,13 @@ void Rbc_DestroyElements (Graph *graphPtr);
 void Rbc_DestroyMarkers (Graph *graphPtr);
 void Rbc_DestroyPostScript (Graph *graphPtr);
 void Rbc_DrawAxes (Graph *graphPtr, Drawable drawable);
-void Rbc_DrawAxisLimits (Graph *graphPtr,
-                                     Drawable drawable);
+void Rbc_DrawAxisLimits (Graph *graphPtr, Drawable drawable);
 void Rbc_DrawElements (Graph *graphPtr, Drawable drawable);
-void Rbc_DrawActiveElements (Graph *graphPtr,
-                                        Drawable drawable);
-void Rbc_DrawGraph (Graph *graphPtr, Drawable drawable,
-                                int backingStore);
+void Rbc_DrawActiveElements (Graph *graphPtr, Drawable drawable);
+void Rbc_DrawGraph (Graph *graphPtr, Drawable drawable, int backingStore);
 void Rbc_DrawGrid (Graph *graphPtr, Drawable drawable);
-void Rbc_DrawMarkers (Graph *graphPtr, Drawable drawable,
-                                  int under);
-void Rbc_Draw2DSegments (Display *display,
-                                     Drawable drawable, GC gc, Segment2D *segments, int nSegments);
+void Rbc_DrawMarkers (Graph *graphPtr, Drawable drawable, int under);
+void Rbc_Draw2DSegments (Display *display, Drawable drawable, GC gc, Segment2D *segments, int nSegments);
 void Rbc_InitFreqTable (Graph *graphPtr);
 void Rbc_LayoutGraph (Graph *graphPtr);
 void Rbc_LayoutMargins (Graph *graphPtr);
@@ -599,42 +592,30 @@ void Rbc_MapMarkers (Graph *graphPtr);
 void Rbc_MapGrid (Graph *graphPtr);
 void Rbc_UpdateCrosshairs (Graph *graphPtr);
 void Rbc_DestroyPens (Graph *graphPtr);
-int Rbc_GetPen (Graph *graphPtr, CONST86 char *name,
-                            Rbc_Uid classUid, Pen **penPtrPtr);
+int Rbc_GetPen (Graph *graphPtr, CONST86 char *name, Rbc_Uid classUid, Pen **penPtrPtr);
 Pen *Rbc_BarPen (char *penName);
 Pen *Rbc_LinePen (char *penName);
-Pen *Rbc_CreatePen (Graph *graphPtr, char *penName, Rbc_Uid classUid, int nOpts, char **options);
+Pen *Rbc_CreatePen (Graph *graphPtr, char *penName, Rbc_Uid classUid, int nOpts, struct Tcl_Obj *const *options);
 void Rbc_FreePen (Graph *graphPtr, Pen *penPtr);
 
-int Rbc_VirtualAxisOp (Graph *graphPtr, Tcl_Interp *interp,
-                                   int argc, char **argv);
-int Rbc_AxisOp (Graph *graphPtr, int margin, int argc,
-                            char **argv);
-int Rbc_ElementOp (Graph *graphPtr, Tcl_Interp *interp,
-                               int argc, char **argv, Rbc_Uid classUid);
-int Rbc_GridOp (Graph *graphPtr, Tcl_Interp *interp,
-                            int argc, char **argv);
-int Rbc_CrosshairsOp (Graph *graphPtr, Tcl_Interp *interp,
-                                  int argc, char **argv);
-int Rbc_MarkerOp (Graph *graphPtr, Tcl_Interp *interp,
-                              int argc, char **argv);
-int Rbc_PenOp (Graph *graphPtr, Tcl_Interp *interp,
-                           int argc, char **argv);
-int Rbc_PointInPolygon (Point2D *samplePtr,
-                                    Point2D *screenPts, int nScreenPts);
-int Rbc_RegionInPolygon (Extents2D *extsPtr, Point2D *points,
-                                     int nPoints, int enclosed);
-int Rbc_PointInSegments (Point2D *samplePtr,
-                                     Segment2D *segments, int nSegments, double halo);
-int Rbc_PostScriptOp (Graph *graphPtr, Tcl_Interp *interp,
-                                  int argc, CONST86 char *argv[]);
+Graph_Op Rbc_VirtualAxisOp;
+int Rbc_AxisOp (Graph *graphPtr, int margin, int objc, struct Tcl_Obj *const *objv);
+int Rbc_ElementOp (Graph *graphPtr, Tcl_Interp *interp, int objc, struct Tcl_Obj *const *objv, Rbc_Uid classUid);
+Graph_Op Rbc_GridOp;
+Graph_Op Rbc_CrosshairsOp;
+Graph_Op Rbc_MarkerOp;
+Graph_Op Rbc_PenOp;
+int Rbc_PointInPolygon (Point2D *samplePtr, Point2D *screenPts, int nScreenPts);
+int Rbc_RegionInPolygon (Extents2D *extsPtr, Point2D *points, int nPoints, int enclosed);
+int Rbc_PointInSegments (Point2D *samplePtr, Segment2D *segments, int nSegments, double halo);
+#ifndef RBC_NO_GRAPH_PS
+Graph_Op Rbc_PostScriptOp;
+#endif
 int Rbc_GraphUpdateNeeded (Graph *graphPtr);
 int Rbc_DefaultAxes (Graph *graphPtr);
 Axis *Rbc_GetFirstAxis (Rbc_Chain *chainPtr);
-void Rbc_GetAxisSegments (Graph *graphPtr, Axis *axisPtr,
-                                      Segment2D **segPtrPtr, int *nSegmentsPtr);
-Marker *Rbc_NearestMarker (Graph *graphPtr, int x, int y,
-                                       int under);
+void Rbc_GetAxisSegments (Graph *graphPtr, Axis *axisPtr, Segment2D **segPtrPtr, int *nSegmentsPtr);
+Marker *Rbc_NearestMarker (Graph *graphPtr, int x, int y, int under);
 Axis *Rbc_NearestAxis (Graph *graphPtr, int x, int y);
 
 

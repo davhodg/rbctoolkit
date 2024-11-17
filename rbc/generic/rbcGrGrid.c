@@ -44,11 +44,11 @@ static Tk_ConfigSpec configSpecs[] = {
 };
 
 static void ConfigureGrid (Graph *graphPtr, Grid *gridPtr);
-static int CgetOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
-static int ConfigureOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
-static int MapOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
-static int UnmapOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
-static int ToggleOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static Graph_Op CgetOp;
+static Graph_Op ConfigureOp;
+static Graph_Op MapOp;
+static Graph_Op UnmapOp;
+static Graph_Op ToggleOp;
 
 /*
  *----------------------------------------------------------------------
@@ -275,7 +275,7 @@ Rbc_CreateGrid(graphPtr)
     graphPtr->gridPtr = gridPtr;
 
     if (Rbc_ConfigureWidgetComponent(graphPtr->interp, graphPtr->tkwin, "grid",
-                                     "Grid", configSpecs, 0, (char **)NULL, (char *)gridPtr,
+                                     "Grid", configSpecs, 0, NULL, (char *)gridPtr,
                                      Rbc_GraphType(graphPtr)) != TCL_OK) {
         return TCL_ERROR;
     }
@@ -300,16 +300,16 @@ Rbc_CreateGrid(graphPtr)
  *----------------------------------------------------------------------
  */
 static int
-CgetOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr;
-    Tcl_Interp *interp;
-    int argc;
-    char **argv;
+CgetOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     Grid *gridPtr = (Grid *)graphPtr->gridPtr;
 
     return Tk_ConfigureValue(interp, graphPtr->tkwin, configSpecs,
-                             (char *)gridPtr, argv[3], Rbc_GraphType(graphPtr));
+                             (char *)gridPtr, Tcl_GetString(objv[3]), Rbc_GraphType(graphPtr));
 }
 
 /*
@@ -330,25 +330,25 @@ CgetOp(graphPtr, interp, argc, argv)
  *----------------------------------------------------------------------
  */
 static int
-ConfigureOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr;
-    Tcl_Interp *interp;
-    int argc;
-    char **argv;
+ConfigureOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     Grid *gridPtr = (Grid *)graphPtr->gridPtr;
     int flags;
 
     flags = Rbc_GraphType(graphPtr) | TK_CONFIG_ARGV_ONLY;
-    if (argc == 3) {
+    if (objc == 3) {
         return Tk_ConfigureInfo(interp, graphPtr->tkwin, configSpecs,
                                 (char *)gridPtr, (char *)NULL, flags);
-    } else if (argc == 4) {
+    } else if (objc == 4) {
         return Tk_ConfigureInfo(interp, graphPtr->tkwin, configSpecs,
-                                (char *)gridPtr, argv[3], flags);
+                                (char *)gridPtr, Tcl_GetString(objv[3]), flags);
     }
     if (Tk_ConfigureWidget(graphPtr->interp, graphPtr->tkwin, configSpecs,
-                           argc - 3, argv + 3, (char *)gridPtr, flags) != TCL_OK) {
+                           objc - 3, objv + 3, (char *)gridPtr, flags) != TCL_OK) {
         return TCL_ERROR;
     }
     ConfigureGrid(graphPtr, gridPtr);
@@ -373,11 +373,11 @@ ConfigureOp(graphPtr, interp, argc, argv)
  *----------------------------------------------------------------------
  */
 static int
-MapOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr;
-    Tcl_Interp *interp;
-    int argc;
-    char **argv;
+MapOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     Grid *gridPtr = (Grid *)graphPtr->gridPtr;
 
@@ -405,11 +405,11 @@ MapOp(graphPtr, interp, argc, argv)
  *----------------------------------------------------------------------
  */
 static int
-UnmapOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr;
-    Tcl_Interp *interp;
-    int argc;
-    char **argv;
+UnmapOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     Grid *gridPtr = (Grid *)graphPtr->gridPtr;
 
@@ -438,11 +438,11 @@ UnmapOp(graphPtr, interp, argc, argv)
  *----------------------------------------------------------------------
  */
 static int
-ToggleOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr;
-    Tcl_Interp *interp;
-    int argc;
-    char **argv;
+ToggleOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     Grid *gridPtr = (Grid *)graphPtr->gridPtr;
 
@@ -479,17 +479,17 @@ static int nGridOps = sizeof(gridOps) / sizeof(Rbc_OpSpec);
  *----------------------------------------------------------------------
  */
 int
-Rbc_GridOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr;
-    Tcl_Interp *interp;
-    int argc;
-    char **argv;
+Rbc_GridOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
-    Rbc_Op proc;
+    Rbc_Op *proc;
 
-    proc = Rbc_GetOp(interp, nGridOps, gridOps, RBC_OP_ARG2, argc, argv, 0);
+    proc = Rbc_GetOpFromObj(interp, nGridOps, gridOps, RBC_OP_ARG2, objc, objv, 0);
     if (proc == NULL) {
         return TCL_ERROR;
     }
-    return (*proc) (graphPtr, interp, argc, argv);
+    return (*proc) (graphPtr, interp, objc, objv);
 }

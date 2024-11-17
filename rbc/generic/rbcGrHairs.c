@@ -66,11 +66,11 @@ static Tk_ConfigSpec configSpecs[] = {
 
 static void TurnOffHairs (Tk_Window tkwin, Crosshairs *chPtr);
 static void TurnOnHairs (Graph *graphPtr, Crosshairs *chPtr);
-static int CgetOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
-static int ConfigureOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
-static int OnOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
-static int OffOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
-static int ToggleOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static Graph_Op CgetOp;
+static Graph_Op ConfigureOp;
+static Graph_Op OnOp;
+static Graph_Op OffOp;
+static Graph_Op ToggleOp;
 
 /*
  *----------------------------------------------------------------------
@@ -338,7 +338,7 @@ Rbc_CreateCrosshairs(graphPtr)
     graphPtr->crosshairs = chPtr;
 
     if (Rbc_ConfigureWidgetComponent(graphPtr->interp, graphPtr->tkwin,
-                                     "crosshairs", "Crosshairs", configSpecs, 0, (char **)NULL,
+                                     "crosshairs", "Crosshairs", configSpecs, 0, NULL,
                                      (char *)chPtr, 0) != TCL_OK) {
         return TCL_ERROR;
     }
@@ -362,16 +362,16 @@ Rbc_CreateCrosshairs(graphPtr)
  *----------------------------------------------------------------------
  */
 static int
-CgetOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr;
-    Tcl_Interp *interp;
-    int argc; /* Not used. */
-    char **argv;
+CgetOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     Crosshairs *chPtr = graphPtr->crosshairs;
 
     return Tk_ConfigureValue(interp, graphPtr->tkwin, configSpecs,
-                             (char *)chPtr, argv[3], 0);
+                             (char *)chPtr, Tcl_GetString(objv[3]), 0);
 }
 
 /*
@@ -391,23 +391,23 @@ CgetOp(graphPtr, interp, argc, argv)
  *----------------------------------------------------------------------
  */
 static int
-ConfigureOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr;
-    Tcl_Interp *interp;
-    int argc;
-    char **argv;
+ConfigureOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     Crosshairs *chPtr = graphPtr->crosshairs;
 
-    if (argc == 3) {
+    if (objc == 3) {
         return Tk_ConfigureInfo(interp, graphPtr->tkwin, configSpecs,
                                 (char *)chPtr, (char *)NULL, 0);
-    } else if (argc == 4) {
+    } else if (objc == 4) {
         return Tk_ConfigureInfo(interp, graphPtr->tkwin, configSpecs,
-                                (char *)chPtr, argv[3], 0);
+                                (char *)chPtr, Tcl_GetString(objv[3]), 0);
     }
-    if (Tk_ConfigureWidget(interp, graphPtr->tkwin, configSpecs, argc - 3,
-                           argv + 3, (char *)chPtr, TK_CONFIG_ARGV_ONLY) != TCL_OK) {
+    if (Tk_ConfigureWidget(interp, graphPtr->tkwin, configSpecs, objc - 3,
+                           objv + 3, (char *)chPtr, TK_CONFIG_ARGV_ONLY) != TCL_OK) {
         return TCL_ERROR;
     }
     Rbc_ConfigureCrosshairs(graphPtr);
@@ -430,11 +430,11 @@ ConfigureOp(graphPtr, interp, argc, argv)
  *----------------------------------------------------------------------
  */
 static int
-OnOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr;
-    Tcl_Interp *interp;
-    int argc;
-    char **argv;
+OnOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     Crosshairs *chPtr = graphPtr->crosshairs;
 
@@ -461,11 +461,11 @@ OnOp(graphPtr, interp, argc, argv)
  *----------------------------------------------------------------------
  */
 static int
-OffOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr;
-    Tcl_Interp *interp;
-    int argc;
-    char **argv;
+OffOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     Crosshairs *chPtr = graphPtr->crosshairs;
 
@@ -492,11 +492,11 @@ OffOp(graphPtr, interp, argc, argv)
  *----------------------------------------------------------------------
  */
 static int
-ToggleOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr;
-    Tcl_Interp *interp;
-    int argc;
-    char **argv;
+ToggleOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     Crosshairs *chPtr = graphPtr->crosshairs;
 
@@ -540,17 +540,17 @@ static int nXhairOps = sizeof(xhairOps) / sizeof(Rbc_OpSpec);
  *----------------------------------------------------------------------
  */
 int
-Rbc_CrosshairsOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr;
-    Tcl_Interp *interp;
-    int argc;
-    char **argv;
+Rbc_CrosshairsOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
-    Rbc_Op proc;
+    Rbc_Op *proc;
 
-    proc = Rbc_GetOp(interp, nXhairOps, xhairOps, RBC_OP_ARG2, argc, argv, 0);
+    proc = Rbc_GetOpFromObj(interp, nXhairOps, xhairOps, RBC_OP_ARG2, objc, objv, 0);
     if (proc == NULL) {
         return TCL_ERROR;
     }
-    return (*proc) (graphPtr, interp, argc, argv);
+    return (*proc) (graphPtr, interp, objc, objv);
 }

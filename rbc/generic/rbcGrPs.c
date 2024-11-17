@@ -14,6 +14,9 @@
 #include <X11/Xutil.h>
 #include <stdarg.h>
 
+#ifndef RBC_NO_GRAPH_PS
+
+
 #define PS_PREVIEW_EPSI	0
 #define PS_PREVIEW_WMF	1
 #define PS_PREVIEW_TIFF	2
@@ -79,9 +82,9 @@ extern void Rbc_AxesToPostScript            (Graph *graphPtr, PsToken psToken);
 extern void Rbc_AxisLimitsToPostScript      (Graph *graphPtr, PsToken psToken);
 
 static char *NameOfColorMode (PsColorMode colorMode);
-static int CgetOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char *argv[]);
-static int ConfigureOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
-static int OutputOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static Graph_Op CgetOp;
+static Graph_Op ConfigureOp;
+static Graph_Op OutputOp;
 static int ComputeBoundingBox               (Graph *graphPtr, PostScript *psPtr);
 static void PreviewImage                    (Graph *graphPtr, PsToken psToken);
 static int PostScriptPreamble               (Graph *graphPtr, char *fileName, PsToken psToken);
@@ -347,16 +350,16 @@ Rbc_DestroyPostScript(graphPtr)
  *--------------------------------------------------------------
  */
 static int
-CgetOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr;
-    Tcl_Interp *interp;
-    int argc;
-    char *argv[];
+CgetOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     PostScript *psPtr = (PostScript *)graphPtr->postscript;
 
     if (Tk_ConfigureValue(interp, graphPtr->tkwin, configSpecs, (char *)psPtr,
-                          argv[3], 0) != TCL_OK) {
+                          Tcl_GetString(objv[3]), 0) != TCL_OK) {
         return TCL_ERROR;
     }
     return TCL_OK;
@@ -378,23 +381,23 @@ CgetOp(graphPtr, interp, argc, argv)
  * ----------------------------------------------------------------------
  */
 static int
-ConfigureOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr;
-    Tcl_Interp *interp;
-    int argc; /* Number of options in argv vector */
-    char **argv; /* Option vector */
+ConfigureOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     int flags = TK_CONFIG_ARGV_ONLY;
     PostScript *psPtr = (PostScript *)graphPtr->postscript;
 
-    if (argc == 3) {
+    if (objc == 3) {
         return Tk_ConfigureInfo(interp, graphPtr->tkwin, configSpecs,
                                 (char *)psPtr, (char *)NULL, flags);
-    } else if (argc == 4) {
+    } else if (objc == 4) {
         return Tk_ConfigureInfo(interp, graphPtr->tkwin, configSpecs,
-                                (char *)psPtr, argv[3], flags);
+                                (char *)psPtr, Tcl_GetString(objv[3]), flags);
     }
-    if (Tk_ConfigureWidget(interp, graphPtr->tkwin, configSpecs, argc - 3, argv + 3, (char *)psPtr, flags) != TCL_OK) {
+    if (Tk_ConfigureWidget(interp, graphPtr->tkwin, configSpecs, objc - 3, objv + 3, (char *)psPtr, flags) != TCL_OK) {
         return TCL_ERROR;
     }
     return TCL_OK;
@@ -1123,11 +1126,11 @@ error:
  *----------------------------------------------------------------------
  */
 static int
-OutputOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr; /* Graph widget record */
-    Tcl_Interp *interp;
-    int argc; /* Number of options in argv vector */
-    char **argv; /* Option vector */
+OutputOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     PostScript *psPtr = (PostScript *)graphPtr->postscript;
     FILE *f = NULL;
@@ -1136,12 +1139,12 @@ OutputOp(graphPtr, interp, argc, argv)
                                  * If NULL, output is returned via
                                  * interp->result. */
     fileName = NULL;
-    if (argc > 3) {
-        if (argv[3][0] != '-') {
-            fileName = argv[3];	/* First argument is the file name. */
-            argv++, argc--;
+    if (objc > 3) {
+        if (Tcl_GetString(objv[3])[0] != '-') {
+            fileName = Tcl_GetString(objv[3]);	/* First argument is the file name. */
+            objv++, objc--;
         }
-        if (Tk_ConfigureWidget(interp, graphPtr->tkwin, configSpecs, argc - 3, argv + 3, (char *)psPtr, TK_CONFIG_ARGV_ONLY) != TCL_OK) {
+        if (Tk_ConfigureWidget(interp, graphPtr->tkwin, configSpecs, objc - 3, objv + 3, (char *)psPtr, TK_CONFIG_ARGV_ONLY) != TCL_OK) {
             return TCL_ERROR;
         }
         if (fileName != NULL) {
@@ -1234,7 +1237,7 @@ Rbc_CreatePostScript(graphPtr)
     graphPtr->postscript = psPtr;
 
     if (Rbc_ConfigureWidgetComponent(graphPtr->interp, graphPtr->tkwin,
-                                     "postscript", "Postscript", configSpecs, 0, (char **)NULL,
+                                     "postscript", "Postscript", configSpecs, 0, NULL,
                                      (char *)psPtr, 0) != TCL_OK) {
         return TCL_ERROR;
     }
@@ -1282,20 +1285,21 @@ static int nPsOps = sizeof(psOps) / sizeof(Rbc_OpSpec);
  *--------------------------------------------------------------
  */
 int
-Rbc_PostScriptOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr; /* Graph widget record */
-    Tcl_Interp *interp;
-    int argc; /* # arguments */
-    CONST86 char *argv[]; /* Argument list */
+Rbc_PostScriptOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
-    Rbc_Op proc;
+    Rbc_Op *proc;
     int result;
 
-    proc = Rbc_GetOp(interp, nPsOps, psOps, RBC_OP_ARG2, argc, argv, 0);
+    proc = Rbc_GetOpFromObj(interp, nPsOps, psOps, RBC_OP_ARG2, objc, objv, 0);
     if (proc == NULL) {
         return TCL_ERROR;
     }
-    result = (*proc) (graphPtr, interp, argc, argv);
+    result = (*proc) (graphPtr, interp, objc, objv);
     return result;
 }
 
+#endif /* #ifndef RBC_NO_GRAPH_PS */

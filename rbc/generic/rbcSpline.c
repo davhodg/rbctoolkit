@@ -42,7 +42,7 @@ typedef struct {
 #define Y1	param[8]
 #define Y2	param[9]
 
-static Tcl_CmdProc SplineCmd;
+static Tcl_ObjCmdProc SplineObjCmd;
 static int Search (Point2D points[], int nPoints, double key, int *foundPtr);
 static int QuadChoose (Point2D *p, Point2D *q, double m1, double m2, double epsilon);
 static void QuadCases (Point2D *p, Point2D *q, double m1, double m2, double param[], int which);
@@ -1007,7 +1007,7 @@ static int nSplineOps = sizeof(splineOps) / sizeof(Rbc_OpSpec);
 /*
  *--------------------------------------------------------------
  *
- * SplineCmd --
+ * SplineObjCmd --
  *
  *      TODO: Description
  *
@@ -1020,60 +1020,60 @@ static int nSplineOps = sizeof(splineOps) / sizeof(Rbc_OpSpec);
  *--------------------------------------------------------------
  */
 static int
-SplineCmd(clientData, interp, argc, argv)
-    ClientData clientData; /* Not used. */
-    Tcl_Interp *interp;
-    int argc;
-    CONST86 char *argv[];
+SplineObjCmd(
+    ClientData clientData,
+    Tcl_Interp *interp,
+	int objc,
+    struct Tcl_Obj *const *objv)
 {
-    Rbc_Op proc;
+    Rbc_Op *proc;
     Rbc_Vector *x, *y, *splX, *splY;
     double *xArr, *yArr;
     register int i;
     Point2D *origPts, *intpPts;
     int nOrigPts, nIntpPts;
 
-    proc = Rbc_GetOp(interp, nSplineOps, splineOps, RBC_OP_ARG1, argc, argv,0);
+    proc = Rbc_GetOpFromObj (interp, nSplineOps, splineOps, RBC_OP_ARG1, objc, objv, 0);
     if (proc == NULL) {
         return TCL_ERROR;
     }
-    if ((Rbc_GetVector(interp, argv[2], &x) != TCL_OK) ||
-            (Rbc_GetVector(interp, argv[3], &y) != TCL_OK) ||
-            (Rbc_GetVector(interp, argv[4], &splX) != TCL_OK)) {
+    if ((Rbc_GetVector(interp, Tcl_GetString(objv[2]), &x) != TCL_OK) ||
+            (Rbc_GetVector(interp, Tcl_GetString(objv[3]), &y) != TCL_OK) ||
+            (Rbc_GetVector(interp, Tcl_GetString(objv[4]), &splX) != TCL_OK)) {
         return TCL_ERROR;
     }
     nOrigPts = Rbc_VecLength(x);
     if (nOrigPts < 3) {
-        Tcl_AppendResult(interp, "length of vector \"", argv[2], "\" is < 3",
+        Tcl_AppendResult(interp, "length of vector \"", Tcl_GetString(objv[2]), "\" is < 3",
                          (char *)NULL);
         return TCL_ERROR;
     }
     for (i = 1; i < nOrigPts; i++) {
         if (Rbc_VecData(x)[i] < Rbc_VecData(x)[i - 1]) {
-            Tcl_AppendResult(interp, "x vector \"", argv[2],
+            Tcl_AppendResult(interp, "x vector \"", Tcl_GetString(objv[2]),
                              "\" must be monotonically increasing", (char *)NULL);
             return TCL_ERROR;
         }
     }
     /* Check that all the data points aren't the same. */
     if (Rbc_VecData(x)[i - 1] <= Rbc_VecData(x)[0]) {
-        Tcl_AppendResult(interp, "x vector \"", argv[2],
+        Tcl_AppendResult(interp, "x vector \"", Tcl_GetString(objv[2]),
                          "\" must be monotonically increasing", (char *)NULL);
         return TCL_ERROR;
     }
     if (nOrigPts != Rbc_VecLength(y)) {
-        Tcl_AppendResult(interp, "vectors \"", argv[2], "\" and \"", argv[3],
+        Tcl_AppendResult(interp, "vectors \"", Tcl_GetString(objv[2]), "\" and \"", Tcl_GetString(objv[3]),
                          " have different lengths", (char *)NULL);
         return TCL_ERROR;
     }
     nIntpPts = Rbc_VecLength(splX);
-    if (Rbc_GetVector(interp, argv[5], &splY) != TCL_OK) {
+    if (Rbc_GetVector(interp, Tcl_GetString(objv[5]), &splY) != TCL_OK) {
         /*
          * If the named vector to hold the ordinates of the spline
          * doesn't exist, create one the same size as the vector
          * containing the abscissas.
          */
-        if (Rbc_CreateVector(interp, argv[5], nIntpPts, &splY) != TCL_OK) {
+        if (Rbc_CreateVector(interp, Tcl_GetString(objv[5]), nIntpPts, &splY) != TCL_OK) {
             return TCL_ERROR;
         }
     } else if (nIntpPts != Rbc_VecLength(splY)) {
@@ -1151,7 +1151,7 @@ int
 Rbc_SplineInit(interp)
     Tcl_Interp *interp;
 {
-    Tcl_CreateCommand(interp, "spline", SplineCmd, (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+    Tcl_CreateObjCommand (interp, "spline", SplineObjCmd, (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
     return TCL_OK;
 }
 

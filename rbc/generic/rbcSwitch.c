@@ -333,7 +333,7 @@ Rbc_ProcessSwitches(interp, specs, argc, argv, record, flags)
  *
  * Side effects:
  *      The fields of widgRec get filled in with information
- *      from argc/argv and the option database.  Old information
+ *      from objc/objv and the option database.  Old information
  *      in widgRec's fields gets recycled.
  *
  *--------------------------------------------------------------
@@ -342,7 +342,7 @@ int
 Rbc_ProcessObjSwitches(interp, specs, objc, objv, record, flags)
     Tcl_Interp *interp; /* Interpreter for error reporting. */
     Rbc_SwitchSpec *specs; /* Describes legal options. */
-    int objc; /* Number of elements in argv. */
+    int objc; /* Number of elements in objv. */
     Tcl_Obj *const *objv; /* Command-line options. */
     char *record; /* Record whose fields are to be
                    * modified.  Values must be properly

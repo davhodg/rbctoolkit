@@ -18,14 +18,23 @@
 #include <windowsx.h>
 #endif /* WIN32 */
 
+#if TCL_MAJOR_VERSION < 9
 #define USE_NON_CONST
+#endif
 #include <tcl.h>
 
 /* Backwards Compatiablitity with previous Tk versions */
+#if TCL_MAJOR_VERSION < 9
 #define USE_OLD_CANVAS
+#endif
 #include <tk.h>
 
+/* */
+#if TCL_MAJOR_VERSION < 9
 #define MIN_VERSION "8.6"
+#else
+#define MIN_VERSION "9.0"
+#endif
 
 /* Support for Tcl versions before 9 */
 #if TCL_MAJOR_VERSION < 9
@@ -43,7 +52,7 @@ typedef int Tcl_Size;
 #include "rbcWinConfig.h"
 #else
 #include "rbcConfig.h"
-#endif
+#endif /* #if defined(WIN32) */
 
 #ifdef WIN32
 #ifndef EXPORT
@@ -60,18 +69,20 @@ typedef int Tcl_Size;
 #define NO_TILESCROLLBAR    1
 #define NO_DND              1
 
-#define RBC_NO_BUSY         1
-#define RBC_NO_EPS          1
-#define RBC_NO_WINOP        1
-
-
-
 #ifndef __GNUC__
 #ifdef O_NONBLOCK
 #define O_NONBLOCK	1
 #endif
 #endif /* __GNUC__ */
-#endif /* WIN32 */
+#endif /* #ifdef WIN32 */
+
+
+/* remove busy windows and winop */
+#define RBC_NO_BUSY         1
+#define RBC_NO_WINOP        1
+//#define RBC_NO_EPS          1
+//#define RBC_NO_GRAPH_PS     1
+
 
 #include "rbc.h"
 
@@ -156,7 +167,7 @@ typedef int Tcl_Size;
  *
  * ----------------------------------------------------------------------
  */
-typedef int (*Rbc_Op) ANYARGS;
+typedef int (Rbc_Op) ANYARGS;
 
 /*
  * ----------------------------------------------------------------------
@@ -172,7 +183,7 @@ typedef int (*Rbc_Op) ANYARGS;
 typedef struct {
     char *name;			/* Name of operation */
     int minChars;		/* Minimum # characters to disambiguate */
-    Rbc_Op proc;
+    Rbc_Op *proc;
     int minArgs;		/* Minimum # args required */
     int maxArgs;		/* Maximum # args required */
     char *usage;		/* Usage message */
@@ -194,7 +205,7 @@ typedef enum {
 Rbc_Op Rbc_GetOp (Tcl_Interp *interp, int nSpecs,
                               Rbc_OpSpec *specArr, int operPos, int argc, char **argv, int flags);
 
-Rbc_Op Rbc_GetOpFromObj (Tcl_Interp *interp,
+Rbc_Op * Rbc_GetOpFromObj (Tcl_Interp *interp,
                                      int nSpecs, Rbc_OpSpec *specArr, int operPos, int objc,
                                      Tcl_Obj *const *objv, int flags);
 
@@ -586,7 +597,7 @@ Point2D Rbc_TranslatePoint (Point2D *pointPtr, int width,
 
 int Rbc_ConfigureWidgetComponent (Tcl_Interp *interp,
         Tk_Window tkwin, char *name, char *class, Tk_ConfigSpec *specs,
-        int argc, char **argv, char *widgRec, int flags);
+        int objc, struct Tcl_Obj *const *objv, char *widgRec, int flags);
 
 int Rbc_MaxRequestSize (Display *display,
                                     unsigned int elemSize);

@@ -1288,16 +1288,16 @@ Rbc_ConfigModified (Tcl_Interp *interp, Tk_ConfigSpec *specs, ...)
  *----------------------------------------------------------------------
  */
 int
-Rbc_ConfigureWidgetComponent(interp, parent, resName, className, specsPtr, argc, argv, widgRec, flags)
-    Tcl_Interp *interp;
-    Tk_Window parent; /* Window to associate with component */
-    char resName[]; /* Name of component */
-    char className[];
-    Tk_ConfigSpec *specsPtr;
-    int argc;
-    char *argv[];
-    char *widgRec;
-    int flags;
+Rbc_ConfigureWidgetComponent(
+    Tcl_Interp *interp,
+    Tk_Window parent, /* Window to associate with component */
+    char resName[], /* Name of component */
+    char className[],
+    Tk_ConfigSpec *specsPtr,
+    int objc,
+    struct Tcl_Obj *const *objv,
+    char *widgRec,
+    int flags)
 {
     Tk_Window tkwin;
     int result;
@@ -1326,7 +1326,7 @@ Rbc_ConfigureWidgetComponent(interp, parent, resName, className, specsPtr, argc,
     ckfree((char *)tempName);
 
     Tk_SetClass(tkwin, className);
-    result = Tk_ConfigureWidget(interp, tkwin, specsPtr, argc, argv, widgRec, flags);
+    result = Tk_ConfigureWidget(interp, tkwin, specsPtr, objc, objv, widgRec, flags);
     if (isTemporary) {
         Tk_DestroyWindow(tkwin);
     }

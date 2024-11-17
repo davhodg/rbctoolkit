@@ -799,17 +799,17 @@ static Marker *CreateMarker (Graph *graphPtr, char *name, Rbc_Uid classUid);
 static void DestroyMarker (Marker *markerPtr);
 static int NameToMarker (Graph *graphPtr, char *name, Marker **markerPtrPtr);
 static int RenameMarker (Graph *graphPtr, Marker *markerPtr, char *oldName, char *newName);
-static int NamesOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
-static int BindOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
-static int CgetOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
-static int ConfigureOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
-static int CreateOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
-static int DeleteOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
-static int GetOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char *argv[]);
-static int RelinkOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
-static int FindOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
-static int ExistsOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
-static int TypeOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
+static Graph_Op NamesOp;
+static Graph_Op BindOp;
+static Graph_Op CgetOp;
+static Graph_Op ConfigureOp;
+static Graph_Op CreateOp;
+static Graph_Op DeleteOp;
+static Graph_Op GetOp;
+static Graph_Op RelinkOp;
+static Graph_Op FindOp;
+static Graph_Op ExistsOp;
+static Graph_Op TypeOp;
 static void ChildEventProc (ClientData clientData, XEvent *eventPtr);
 static void ChildGeometryProc (ClientData clientData, Tk_Window tkwin);
 static void ChildCustodyProc (ClientData clientData, Tk_Window tkwin);
@@ -1453,7 +1453,7 @@ DestroyMarker(markerPtr)
  *
  * ConfigureBitmapMarker --
  *
- *      This procedure is called to process an argv/argc list, plus
+ *      This procedure is called to process an objv/objc list, plus
  *      the Tk option database, in order to configure (or reconfigure)
  *      a bitmap marker.
  *
@@ -2025,7 +2025,7 @@ ImageChangedProc(clientData, x, y, width, height, imageWidth, imageHeight)
  *
  * ConfigureImageMarker --
  *
- *      This procedure is called to process an argv/argc list, plus
+ *      This procedure is called to process an objv/objc list, plus
  *      the Tk option database, in order to configure (or reconfigure)
  *      a image marker.
  *
@@ -2480,7 +2480,7 @@ CreateImageMarker()
  *
  * ConfigureTextMarker --
  *
- *      This procedure is called to process an argv/argc list, plus
+ *      This procedure is called to process an objv/objc list, plus
  *      the Tk option database, in order to configure (or
  *      reconfigure) a text marker.
  *
@@ -2870,7 +2870,7 @@ static Tk_GeomMgr winMarkerMgrInfo = {
  *
  * ConfigureWindowMarker --
  *
- *      This procedure is called to process an argv/argc list, plus
+ *      This procedure is called to process an objv/objc list, plus
  *      the Tk option database, in order to configure (or reconfigure)
  *      a window marker.
  *
@@ -3482,7 +3482,7 @@ DrawLineMarker(markerPtr, drawable)
  *
  * ConfigureLineMarker --
  *
- *      This procedure is called to process an argv/argc list, plus
+ *      This procedure is called to process an objv/objc list, plus
  *      the Tk option database, in order to configure (or reconfigure)
  *      a line marker.
  *
@@ -3991,7 +3991,7 @@ PolygonMarkerToPostScript(markerPtr, psToken)
  *
  * ConfigurePolygonMarker --
  *
- *      This procedure is called to process an argv/argc list, plus
+ *      This procedure is called to process an objv/objc list, plus
  *      the Tk option database, in order to configure (or reconfigure)
  *      a polygon marker.
  *
@@ -4265,11 +4265,11 @@ RenameMarker(graphPtr, markerPtr, oldName, newName)
  * ----------------------------------------------------------------------
  */
 static int
-NamesOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr;
-    Tcl_Interp *interp;
-    int argc;
-    char **argv;
+NamesOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     Marker *markerPtr;
     Rbc_ChainLink *linkPtr;
@@ -4279,12 +4279,12 @@ NamesOp(graphPtr, interp, argc, argv)
     for (linkPtr = Rbc_ChainFirstLink(graphPtr->markers.displayList);
             linkPtr != NULL; linkPtr = Rbc_ChainNextLink(linkPtr)) {
         markerPtr = Rbc_ChainGetValue(linkPtr);
-        if (argc == 3) {
+        if (objc == 3) {
             Tcl_AppendElement(interp, markerPtr->name);
             continue;
         }
-        for (i = 3; i < argc; i++) {
-            if (Tcl_StringMatch(markerPtr->name, argv[i])) {
+        for (i = 3; i < objc; i++) {
+            if (Tcl_StringMatch(markerPtr->name, Tcl_GetString(objv[i]))) {
                 Tcl_AppendElement(interp, markerPtr->name);
                 break;
             }
@@ -4337,13 +4337,13 @@ Rbc_MakeMarkerTag(graphPtr, tagName)
  *----------------------------------------------------------------------
  */
 static int
-BindOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr;
-    Tcl_Interp *interp;
-    int argc;
-    char **argv;
+BindOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
-    if (argc == 3) {
+    if (objc == 3) {
         Tcl_HashEntry *hPtr;
         Tcl_HashSearch cursor;
         char *tag;
@@ -4355,7 +4355,7 @@ BindOp(graphPtr, interp, argc, argv)
         }
         return TCL_OK;
     }
-    return Rbc_ConfigureBindings(interp, graphPtr->bindTable, Rbc_MakeMarkerTag(graphPtr, argv[3]), argc - 4, argv + 4);
+    return Rbc_ConfigureBindingsFromObj (interp, graphPtr->bindTable, Rbc_MakeMarkerTag(graphPtr, Tcl_GetString(objv[3])), objc - 4, objv + 4);
 }
 
 /*
@@ -4374,19 +4374,19 @@ BindOp(graphPtr, interp, argc, argv)
  *----------------------------------------------------------------------
  */
 static int
-CgetOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr;
-    Tcl_Interp *interp;
-    int argc;
-    char **argv;
+CgetOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     Marker *markerPtr;
 
-    if (NameToMarker(graphPtr, argv[3], &markerPtr) != TCL_OK) {
+    if (NameToMarker(graphPtr, Tcl_GetString(objv[3]), &markerPtr) != TCL_OK) {
         return TCL_ERROR;
     }
     if (Tk_ConfigureValue(interp, graphPtr->tkwin,
-                          markerPtr->classPtr->configSpecs, (char *)markerPtr, argv[4], 0)
+                          markerPtr->classPtr->configSpecs, (char *)markerPtr, Tcl_GetString(objv[4]), 0)
             != TCL_OK) {
         return TCL_ERROR;
     }
@@ -4409,36 +4409,36 @@ CgetOp(graphPtr, interp, argc, argv)
  * ----------------------------------------------------------------------
  */
 static int
-ConfigureOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr;
-    Tcl_Interp *interp;
-    int argc;
-    char **argv;
+ConfigureOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     Marker *markerPtr;
     int flags = TK_CONFIG_ARGV_ONLY;
     char *oldName;
     int nNames, nOpts;
-    char **options;
+    struct Tcl_Obj *const *options;
     register int i;
 
     /* Figure out where the option value pairs begin */
-    argc -= 3;
-    argv += 3;
-    for (i = 0; i < argc; i++) {
-        if (argv[i][0] == '-') {
+    objc -= 3;
+    objv += 3;
+    for (i = 0; i < objc; i++) {
+        if (Tcl_GetString(objv[i])[0] == '-') {
             break;
         }
-        if (NameToMarker(graphPtr, argv[i], &markerPtr) != TCL_OK) {
+        if (NameToMarker(graphPtr, Tcl_GetString(objv[i]), &markerPtr) != TCL_OK) {
             return TCL_ERROR;
         }
     }
     nNames = i;			/* Number of element names specified */
-    nOpts = argc - i;		/* Number of options specified */
-    options = argv + nNames;	/* Start of options in argv  */
+    nOpts = objc - i;		/* Number of options specified */
+    options = objv + nNames;	/* Start of options in objv  */
 
     for (i = 0; i < nNames; i++) {
-        NameToMarker(graphPtr, argv[i], &markerPtr);
+        NameToMarker(graphPtr, Tcl_GetString(objv[i]), &markerPtr);
         if (nOpts == 0) {
             return Tk_ConfigureInfo(interp, graphPtr->tkwin,
                                     markerPtr->classPtr->configSpecs, (char *)markerPtr,
@@ -4446,7 +4446,7 @@ ConfigureOp(graphPtr, interp, argc, argv)
         } else if (nOpts == 1) {
             return Tk_ConfigureInfo(interp, graphPtr->tkwin,
                                     markerPtr->classPtr->configSpecs, (char *)markerPtr,
-                                    options[0], flags);
+                                    Tcl_GetString(options[0]), flags);
         }
         /* Save the old marker. */
         oldName = markerPtr->name;
@@ -4487,11 +4487,11 @@ ConfigureOp(graphPtr, interp, argc, argv)
  * ----------------------------------------------------------------------
  */
 static int
-CreateOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr;
-    Tcl_Interp *interp;
-    int argc;
-    char **argv;
+CreateOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     Marker *markerPtr;
     Tcl_HashEntry *hPtr;
@@ -4500,35 +4500,42 @@ CreateOp(graphPtr, interp, argc, argv)
     register int i;
     char *name;
     char string[200];
-    unsigned int length;
-    char c;
 
-    c = argv[3][0];
+    char c;
+    char *argv3;
+    Tcl_Size argv3_len = 0;
+    
+    argv3 = Tcl_GetStringFromObj (objv[3], &argv3_len);
+
+    c = argv3[0];
     /* Create the new marker based upon the given type */
-    if ((c == 't') && (strcmp(argv[3], "text") == 0)) {
+    if ((c == 't') && (strncmp(argv3, "text", argv3_len) == 0)) {
         classUid = rbcTextMarkerUid;
-    } else if ((c == 'l') && (strcmp(argv[3], "line") == 0)) {
+    } else if ((c == 'l') && (strncmp(argv3, "line", argv3_len) == 0)) {
         classUid = rbcLineMarkerUid;
-    } else if ((c == 'p') && (strcmp(argv[3], "polygon") == 0)) {
+    } else if ((c == 'p') && (strncmp(argv3, "polygon", argv3_len) == 0)) {
         classUid = rbcPolygonMarkerUid;
-    } else if ((c == 'i') && (strcmp(argv[3], "image") == 0)) {
+    } else if ((c == 'i') && (strncmp(argv3, "image", argv3_len) == 0)) {
         classUid = rbcImageMarkerUid;
-    } else if ((c == 'b') && (strcmp(argv[3], "bitmap") == 0)) {
+    } else if ((c == 'b') && (strncmp(argv3, "bitmap", argv3_len) == 0)) {
         classUid = rbcBitmapMarkerUid;
-    } else if ((c == 'w') && (strcmp(argv[3], "window") == 0)) {
+    } else if ((c == 'w') && (strncmp(argv3, "window", argv3_len) == 0)) {
         classUid = rbcWindowMarkerUid;
     } else {
-        Tcl_AppendResult(interp, "unknown marker type \"", argv[3],
+        Tcl_AppendResult(interp, "unknown marker type \"", argv3,
                          "\": should be \"text\", \"line\", \"polygon\", \"bitmap\", \"image\", or \
 \"window\"", (char *)NULL);
         return TCL_ERROR;
     }
     /* Scan for "-name" option. We need it for the component name */
     name = NULL;
-    for (i = 4; i < argc; i += 2) {
-        length = strlen(argv[i]);
-        if ((length > 1) && (strncmp(argv[i], "-name", length) == 0)) {
-            name = argv[i + 1];
+    for (i = 4; i < objc; i += 2) {
+        char *argv_i;
+        Tcl_Size length = 0;
+        argv_i = Tcl_GetStringFromObj (objv[i], &length);
+
+        if ((length > 1) && (strncmp(argv_i, "-name", length) == 0)) {
+            name = Tcl_GetString(objv[i + 1]);
             break;
         }
     }
@@ -4544,7 +4551,7 @@ CreateOp(graphPtr, interp, argc, argv)
     markerPtr = CreateMarker(graphPtr, name, classUid);
     if (Rbc_ConfigureWidgetComponent(interp, graphPtr->tkwin, name,
                                      markerPtr->classUid, markerPtr->classPtr->configSpecs,
-                                     argc - 4, argv + 4, (char *)markerPtr, 0) != TCL_OK) {
+                                     objc - 4, objv + 4, (char *)markerPtr, 0) != TCL_OK) {
         DestroyMarker(markerPtr);
         return TCL_ERROR;
     }
@@ -4590,17 +4597,17 @@ CreateOp(graphPtr, interp, argc, argv)
  * ----------------------------------------------------------------------
  */
 static int
-DeleteOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr;
-    Tcl_Interp *interp; /* Not used. */
-    int argc;
-    char **argv;
+DeleteOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     Marker *markerPtr;
     register int i;
 
-    for (i = 3; i < argc; i++) {
-        if (NameToMarker(graphPtr, argv[i], &markerPtr) == TCL_OK) {
+    for (i = 3; i < objc; i++) {
+        if (NameToMarker(graphPtr, Tcl_GetString(objv[i]), &markerPtr) == TCL_OK) {
             DestroyMarker(markerPtr);
         }
     }
@@ -4630,15 +4637,15 @@ DeleteOp(graphPtr, interp, argc, argv)
  *----------------------------------------------------------------------
  */
 static int
-GetOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr;
-    Tcl_Interp *interp;
-    int argc; /* Not used. */
-    char *argv[];
+GetOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     register Marker *markerPtr;
 
-    if ((argv[3][0] == 'c') && (strcmp(argv[3], "current") == 0)) {
+    if ((strcmp(Tcl_GetString(objv[3]), "current") == 0)) {
         markerPtr = (Marker *)Rbc_GetCurrentItem(graphPtr->bindTable);
         /* Report only on markers. */
         if (markerPtr == NULL) {
@@ -4675,17 +4682,17 @@ GetOp(graphPtr, interp, argc, argv)
  * ----------------------------------------------------------------------
  */
 static int
-RelinkOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr;
-    Tcl_Interp *interp; /* Not used. */
-    int argc;
-    char **argv;
+RelinkOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     Rbc_ChainLink *linkPtr, *placePtr;
     Marker *markerPtr;
 
     /* Find the marker to be raised or lowered. */
-    if (NameToMarker(graphPtr, argv[3], &markerPtr) != TCL_OK) {
+    if (NameToMarker(graphPtr, Tcl_GetString(objv[3]), &markerPtr) != TCL_OK) {
         return TCL_ERROR;
     }
     /* Right now it's assumed that all markers are always in the
@@ -4694,15 +4701,15 @@ RelinkOp(graphPtr, interp, argc, argv)
     Rbc_ChainUnlinkLink(graphPtr->markers.displayList, markerPtr->linkPtr);
 
     placePtr = NULL;
-    if (argc == 5) {
-        if (NameToMarker(graphPtr, argv[4], &markerPtr) != TCL_OK) {
+    if (objc == 5) {
+        if (NameToMarker(graphPtr, Tcl_GetString(objv[4]), &markerPtr) != TCL_OK) {
             return TCL_ERROR;
         }
         placePtr = markerPtr->linkPtr;
     }
 
     /* Link the marker at its new position. */
-    if (argv[2][0] == 'a') {
+    if (Tcl_GetString(objv[2])[0] == 'a') {
         Rbc_ChainLinkAfter(graphPtr->markers.displayList, linkPtr, placePtr);
     } else {
         Rbc_ChainLinkBefore(graphPtr->markers.displayList, linkPtr, placePtr);
@@ -4731,11 +4738,11 @@ RelinkOp(graphPtr, interp, argc, argv)
  * ----------------------------------------------------------------------
  */
 static int
-FindOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr;
-    Tcl_Interp *interp;
-    int argc;
-    char **argv;
+FindOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     Rbc_ChainLink *linkPtr;
     Extents2D exts;
@@ -4746,20 +4753,20 @@ FindOp(graphPtr, interp, argc, argv)
 
 #define FIND_ENCLOSED	 (1<<0)
 #define FIND_OVERLAPPING (1<<1)
-    if (strcmp(argv[3], "enclosed") == 0) {
+    if (strcmp(Tcl_GetString(objv[3]), "enclosed") == 0) {
         mode = FIND_ENCLOSED;
-    } else if (strcmp(argv[3], "overlapping") == 0) {
+    } else if (strcmp(Tcl_GetString(objv[3]), "overlapping") == 0) {
         mode = FIND_OVERLAPPING;
     } else {
-        Tcl_AppendResult(interp, "bad search type \"", argv[3],
+        Tcl_AppendResult(interp, "bad search type \"", Tcl_GetString(objv[3]),
                          ": should be \"enclosed\", or \"overlapping\"", (char *)NULL);
         return TCL_ERROR;
     }
 
-    if ((Tcl_GetInt(interp, argv[4], &left) != TCL_OK) ||
-            (Tcl_GetInt(interp, argv[5], &top) != TCL_OK) ||
-            (Tcl_GetInt(interp, argv[6], &right) != TCL_OK) ||
-            (Tcl_GetInt(interp, argv[7], &bottom) != TCL_OK)) {
+    if ((Tcl_GetIntFromObj(interp, objv[4], &left) != TCL_OK) ||
+            (Tcl_GetIntFromObj(interp, objv[5], &top) != TCL_OK) ||
+            (Tcl_GetIntFromObj(interp, objv[6], &right) != TCL_OK) ||
+            (Tcl_GetIntFromObj(interp, objv[7], &bottom) != TCL_OK)) {
         return TCL_ERROR;
     }
     if (left < right) {
@@ -4822,15 +4829,15 @@ FindOp(graphPtr, interp, argc, argv)
  * ----------------------------------------------------------------------
  */
 static int
-ExistsOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr;
-    Tcl_Interp *interp;
-    int argc;
-    char **argv;
+ExistsOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     Tcl_HashEntry *hPtr;
 
-    hPtr = Tcl_FindHashEntry(&graphPtr->markers.table, argv[3]);
+    hPtr = Tcl_FindHashEntry(&graphPtr->markers.table, Tcl_GetString(objv[3]));
     Rbc_SetBooleanResult(interp, (hPtr != NULL));
     return TCL_OK;
 }
@@ -4853,15 +4860,15 @@ ExistsOp(graphPtr, interp, argc, argv)
  * ----------------------------------------------------------------------
  */
 static int
-TypeOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr;
-    Tcl_Interp *interp;
-    int argc;
-    char **argv;
+TypeOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     Marker *markerPtr;
 
-    if (NameToMarker(graphPtr, argv[3], &markerPtr) != TCL_OK) {
+    if (NameToMarker(graphPtr, Tcl_GetString(objv[3]), &markerPtr) != TCL_OK) {
         return TCL_ERROR;
     }
     Tcl_SetResult(interp, markerPtr->classUid, TCL_STATIC);
@@ -4904,20 +4911,20 @@ static int nMarkerOps = sizeof(markerOps) / sizeof(Rbc_OpSpec);
  * ----------------------------------------------------------------------
  */
 int
-Rbc_MarkerOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr;
-    Tcl_Interp *interp; /* Not used. */
-    int argc;
-    char **argv;
+Rbc_MarkerOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
-    Rbc_Op proc;
+    Rbc_Op *proc;
     int result;
 
-    proc = Rbc_GetOp(interp, nMarkerOps, markerOps, RBC_OP_ARG2, argc, argv,0);
+    proc = Rbc_GetOpFromObj(interp, nMarkerOps, markerOps, RBC_OP_ARG2, objc, objv,0);
     if (proc == NULL) {
         return TCL_ERROR;
     }
-    result = (*proc) (graphPtr, interp, argc, argv);
+    result = (*proc) (graphPtr, interp, objc, objv);
     return result;
 }
 

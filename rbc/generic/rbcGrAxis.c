@@ -59,6 +59,8 @@ typedef struct {
     int label; /* Distance from axis to tick label.  */
 } AxisInfo;
 
+typedef int (Axis_Op) (Graph *graphPtr, Axis *axisPtr, int objc, struct Tcl_Obj *const *objv);
+
 extern Tk_CustomOption rbcDistanceOption;
 extern Tk_CustomOption rbcPositiveDistanceOption;
 extern Tk_CustomOption rbcShadowOption;
@@ -220,7 +222,7 @@ static void MakeAxisLine (Graph *graphPtr, Axis *axisPtr, int line, Segment2D *s
 static void MakeTick (Graph *graphPtr, Axis *axisPtr, double value, int tick, int line, Segment2D *segPtr);
 static void MapAxis (Graph *graphPtr, Axis *axisPtr, int offset, int margin);
 static double AdjustViewport (double offset, double windowSize);
-static int GetAxisScrollInfo (Tcl_Interp *interp, int argc, char **argv, double *offsetPtr, double windowSize, double scrollUnits);
+static int GetAxisScrollInfo (Tcl_Interp *interp, int objc, struct Tcl_Obj *const *objv, double *offsetPtr, double windowSize, double scrollUnits);
 static void DrawAxis (Graph *graphPtr, Drawable drawable, Axis *axisPtr);
 static void AxisToPostScript (PsToken psToken, Axis *axisPtr);
 static void MakeGridLine (Graph *graphPtr, Axis *axisPtr, double value, Segment2D *segPtr);
@@ -233,24 +235,26 @@ static int NameToAxis (Graph *graphPtr, char *name, Axis **axisPtrPtr);
 static int GetAxis (Graph *graphPtr, char *name, Rbc_Uid classUid, Axis **axisPtrPtr);
 static void FreeAxis (Graph *graphPtr, Axis *axisPtr);
 
-static int BindOp (Graph *graphPtr, Axis *axisPtr, int argc, char **argv);
-static int CgetOp (Graph *graphPtr, Axis *axisPtr, int argc, char *argv[]);
-static int ConfigureOp (Graph *graphPtr, Axis *axisPtr, int argc, char *argv[]);
-static int GetOp (Graph *graphPtr, int argc, char *argv[]);
-static int LimitsOp (Graph *graphPtr, Axis *axisPtr, int argc, char **argv);
-static int InvTransformOp (Graph *graphPtr, Axis *axisPtr, int argc, char **argv);
-static int TransformOp (Graph *graphPtr, Axis *axisPtr, int argc, char **argv);
-static int UseOp (Graph *graphPtr, Axis *axisPtr, int argc, char **argv);
-static int CreateVirtualOp (Graph *graphPtr, int argc, char **argv);
-static int BindVirtualOp (Graph *graphPtr, int argc, char **argv);
-static int CgetVirtualOp (Graph *graphPtr, int argc, char **argv);
-static int ConfigureVirtualOp (Graph *graphPtr, int argc, char **argv);
-static int DeleteVirtualOp (Graph *graphPtr, int argc, char **argv);
-static int InvTransformVirtualOp (Graph *graphPtr, int argc, char **argv);
-static int LimitsVirtualOp (Graph *graphPtr, int argc, char **argv);
-static int NamesVirtualOp (Graph *graphPtr, int argc, char **argv);
-static int TransformVirtualOp (Graph *graphPtr, int argc, char **argv);
-static int ViewOp (Graph *graphPtr, int argc, char **argv);
+static Axis_Op BindOp;
+static Axis_Op CgetOp;
+static Axis_Op ConfigureOp;
+static Axis_Op InvTransformOp;
+static Axis_Op LimitsOp;
+static Axis_Op TransformOp;
+static int UseOp (Graph *graphPtr, Axis *axisPtr, int objc, struct Tcl_Obj *const *objv, int margin);
+
+static Graph_Op GetOp;
+static Graph_Op CreateVirtualOp;
+static Graph_Op BindVirtualOp;
+static Graph_Op CgetVirtualOp;
+static Graph_Op ConfigureVirtualOp;
+static Graph_Op DeleteVirtualOp;
+static Graph_Op InvTransformVirtualOp;
+static Graph_Op LimitsVirtualOp;
+static Graph_Op NamesVirtualOp;
+static Graph_Op TransformVirtualOp;
+static Graph_Op ViewOp;
+
 
 /*
  *----------------------------------------------------------------------
@@ -1958,12 +1962,12 @@ DestroyAxis(graphPtr, axisPtr)
  * ----------------------------------------------------------------------
  */
 static void
-AxisOffsets(graphPtr, axisPtr, margin, axisOffset, infoPtr)
-    Graph *graphPtr;
-    Axis *axisPtr;
-    int margin;
-    int axisOffset;
-    AxisInfo *infoPtr;
+AxisOffsets(
+    Graph *graphPtr,
+    Axis *axisPtr,
+    int margin,
+    int axisOffset,
+    AxisInfo *infoPtr)
 {
     int pad;			/* Offset of axis from interior region. This
 				 * includes a possible border and the axis
@@ -2391,52 +2395,54 @@ AdjustViewport(offset, windowSize)
  *----------------------------------------------------------------------
  */
 static int
-GetAxisScrollInfo(interp, argc, argv, offsetPtr, windowSize, scrollUnits)
-    Tcl_Interp *interp;
-    int argc;
-    char **argv;
-    double *offsetPtr;
-    double windowSize;
-    double scrollUnits;
+GetAxisScrollInfo(
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv,
+    double *offsetPtr,
+    double windowSize,
+    double scrollUnits)
 {
     char c;
-    unsigned int length;
+    Tcl_Size length;
     double offset;
     int count;
     double fract;
 
+    char *argv0 = Tcl_GetStringFromObj (objv[0], &length);
     offset = *offsetPtr;
-    c = argv[0][0];
-    length = strlen(argv[0]);
-    if ((c == 's') && (strncmp(argv[0], "scroll", length) == 0)) {
-        assert(argc == 3);
+    c = argv0[0];
+
+    if ((c == 's') && (strncmp (argv0, "scroll", length) == 0)) {
+        assert(objc == 3);
         /* scroll number unit/page */
-        if (Tcl_GetInt(interp, argv[1], &count) != TCL_OK) {
+        if (Tcl_GetIntFromObj(interp, objv[1], &count) != TCL_OK) {
             return TCL_ERROR;
         }
-        c = argv[2][0];
-        length = strlen(argv[2]);
-        if ((c == 'u') && (strncmp(argv[2], "units", length) == 0)) {
+        char *argv2 = Tcl_GetStringFromObj (objv[2], &length);
+        c = argv2[0];
+
+        if ((c == 'u') && (strncmp(argv2, "units", length) == 0)) {
             fract = (double)count * scrollUnits;
-        } else if ((c == 'p') && (strncmp(argv[2], "pages", length) == 0)) {
+        } else if ((c == 'p') && (strncmp(argv2, "pages", length) == 0)) {
             /* A page is 90% of the view-able window. */
             fract = (double)count * windowSize * 0.9;
         } else {
-            Tcl_AppendResult(interp, "unknown \"scroll\" units \"", argv[2],
+            Tcl_AppendResult(interp, "unknown \"scroll\" units \"", argv2,
                              "\"", (char *)NULL);
             return TCL_ERROR;
         }
         offset += fract;
-    } else if ((c == 'm') && (strncmp(argv[0], "moveto", length) == 0)) {
-        assert(argc == 2);
+    } else if ((c == 'm') && (strncmp(argv0, "moveto", length) == 0)) {
+        assert(objc == 2);
         /* moveto fraction */
-        if (Tcl_GetDouble(interp, argv[1], &fract) != TCL_OK) {
+        if (Tcl_GetDoubleFromObj(interp, objv[1], &fract) != TCL_OK) {
             return TCL_ERROR;
         }
         offset = fract;
     } else {
         /* Treat like "scroll units" */
-        if (Tcl_GetInt(interp, argv[0], &count) != TCL_OK) {
+        if (Tcl_GetIntFromObj(interp, objv[0], &count) != TCL_OK) {
             return TCL_ERROR;
         }
         fract = (double)count * scrollUnits;
@@ -3581,7 +3587,7 @@ Rbc_DefaultAxes(graphPtr)
          * component and not the entire graph.
          */
         if (Rbc_ConfigureWidgetComponent(graphPtr->interp, graphPtr->tkwin,
-                                         axisPtr->name, "Axis", configSpecs, 0, (char **)NULL,
+                                         axisPtr->name, "Axis", configSpecs, 0, NULL,
                                          (char *)axisPtr, flags) != TCL_OK) {
             return TCL_ERROR;
         }
@@ -3610,15 +3616,15 @@ Rbc_DefaultAxes(graphPtr)
  *----------------------------------------------------------------------
  */
 static int
-BindOp(graphPtr, axisPtr, argc, argv)
-    Graph *graphPtr;
-    Axis *axisPtr;
-    int argc;
-    char **argv;
+BindOp(
+    Graph *graphPtr,
+    Axis *axisPtr,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     Tcl_Interp *interp = graphPtr->interp;
 
-    return Rbc_ConfigureBindings(interp, graphPtr->bindTable, Rbc_MakeAxisTag(graphPtr, axisPtr->name), argc, argv);
+    return Rbc_ConfigureBindingsFromObj(interp, graphPtr->bindTable, Rbc_MakeAxisTag(graphPtr, axisPtr->name), objc, objv);
 }
 
 /*
@@ -3638,14 +3644,14 @@ BindOp(graphPtr, axisPtr, argc, argv)
  * ----------------------------------------------------------------------
  */
 static int
-CgetOp(graphPtr, axisPtr, argc, argv)
-    Graph *graphPtr;
-    Axis *axisPtr;
-    int argc; /* Not used. */
-    char *argv[];
+CgetOp(
+    Graph *graphPtr,
+    Axis *axisPtr,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     return Tk_ConfigureValue(graphPtr->interp, graphPtr->tkwin, configSpecs,
-                             (char *)axisPtr, argv[0], Rbc_GraphType(graphPtr));
+                             (char *)axisPtr, Tcl_GetString(objv[0]), Rbc_GraphType(graphPtr));
 }
 
 /*
@@ -3666,24 +3672,24 @@ CgetOp(graphPtr, axisPtr, argc, argv)
  * ----------------------------------------------------------------------
  */
 static int
-ConfigureOp(graphPtr, axisPtr, argc, argv)
-    Graph *graphPtr;
-    Axis *axisPtr;
-    int argc;
-    char *argv[];
+ConfigureOp(
+    Graph *graphPtr,
+    Axis *axisPtr,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     int flags;
 
     flags = TK_CONFIG_ARGV_ONLY | Rbc_GraphType(graphPtr);
-    if (argc == 0) {
+    if (objc == 0) {
         return Tk_ConfigureInfo(graphPtr->interp, graphPtr->tkwin, configSpecs,
                                 (char *)axisPtr, (char *)NULL, flags);
-    } else if (argc == 1) {
+    } else if (objc == 1) {
         return Tk_ConfigureInfo(graphPtr->interp, graphPtr->tkwin, configSpecs,
-                                (char *)axisPtr, argv[0], flags);
+                                (char *)axisPtr, Tcl_GetString(objv[0]), flags);
     }
     if (Tk_ConfigureWidget(graphPtr->interp, graphPtr->tkwin, configSpecs,
-                           argc, argv, (char *)axisPtr, flags) != TCL_OK) {
+                           objc, objv, (char *)axisPtr, flags) != TCL_OK) {
         return TCL_ERROR;
     }
     if (ConfigureAxis(graphPtr, axisPtr) != TCL_OK) {
@@ -3720,27 +3726,29 @@ ConfigureOp(graphPtr, axisPtr, argc, argv)
  * ----------------------------------------------------------------------
  */
 static int
-GetOp(graphPtr, argc, argv)
-    Graph *graphPtr;
-    int argc; /* Not used. */
-    char *argv[];
+GetOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp, /* NULL */
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
-    Tcl_Interp *interp = graphPtr->interp;
+    Tcl_Interp *gr_interp = graphPtr->interp;
     register Axis *axisPtr;
 
-    axisPtr = (Axis *)Rbc_GetCurrentItem(graphPtr->bindTable);
+    axisPtr = (Axis *)Rbc_GetCurrentItem (graphPtr->bindTable);
     /* Report only on axes. */
     if ((axisPtr != NULL) &&
             ((axisPtr->classUid == rbcXAxisUid) ||
              (axisPtr->classUid == rbcYAxisUid) ||
              (axisPtr->classUid == NULL))) {
-        char c;
 
-        c = argv[3][0];
-        if ((c == 'c') && (strcmp(argv[3], "current") == 0)) {
-            Tcl_SetResult(interp, axisPtr->name, TCL_VOLATILE);
-        } else if ((c == 'd') && (strcmp(argv[3], "detail") == 0)) {
-            Tcl_SetResult(interp, axisPtr->detail, TCL_VOLATILE);
+        Tcl_Size length = 0;
+        char *argv3 = Tcl_GetStringFromObj (objv[3], &length);
+
+        if (strncmp(argv3, "current", length) == 0) {
+            Tcl_SetResult(gr_interp, axisPtr->name, TCL_VOLATILE);
+        } else if (strncmp(argv3, "detail", length) == 0) {
+            Tcl_SetResult(gr_interp, axisPtr->detail, TCL_VOLATILE);
         }
     }
     return TCL_OK;
@@ -3764,11 +3772,11 @@ GetOp(graphPtr, argc, argv)
  *--------------------------------------------------------------
  */
 static int
-LimitsOp(graphPtr, axisPtr, argc, argv)
-    Graph *graphPtr;
-    Axis *axisPtr;
-    int argc; /* Not used. */
-    char **argv; /* Not used. */
+LimitsOp(
+    Graph *graphPtr,
+    Axis *axisPtr,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     Tcl_Interp *interp = graphPtr->interp;
     double min, max;
@@ -3806,11 +3814,11 @@ LimitsOp(graphPtr, axisPtr, argc, argv)
  * ----------------------------------------------------------------------
  */
 static int
-InvTransformOp(graphPtr, axisPtr, argc, argv)
-    Graph *graphPtr;
-    Axis *axisPtr;
-    int argc; /* Not used. */
-    char **argv;
+InvTransformOp(
+    Graph *graphPtr,
+    Axis *axisPtr,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     int x;			/* Integer window coordinate*/
     double y;			/* Real graph coordinate */
@@ -3818,7 +3826,7 @@ InvTransformOp(graphPtr, axisPtr, argc, argv)
     if (graphPtr->flags & RESET_AXES) {
         Rbc_ResetAxes(graphPtr);
     }
-    if (Tcl_GetInt(graphPtr->interp, argv[0], &x) != TCL_OK) {
+    if (Tcl_GetIntFromObj(graphPtr->interp, objv[0], &x) != TCL_OK) {
         return TCL_ERROR;
     }
     /*
@@ -3856,18 +3864,18 @@ InvTransformOp(graphPtr, axisPtr, argc, argv)
  * ----------------------------------------------------------------------
  */
 static int
-TransformOp(graphPtr, axisPtr, argc, argv)
-    Graph *graphPtr;
-    Axis *axisPtr;
-    int argc; /* Not used. */
-    char **argv;
+TransformOp(
+    Graph *graphPtr,
+    Axis *axisPtr,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     double x;
 
     if (graphPtr->flags & RESET_AXES) {
         Rbc_ResetAxes(graphPtr);
     }
-    if (Tcl_ExprDouble(graphPtr->interp, argv[0], &x) != TCL_OK) {
+    if (Tcl_ExprDouble(graphPtr->interp, Tcl_GetString(objv[0]), &x) != TCL_OK) {
         return TCL_ERROR;
     }
     if (AxisIsHorizontal(graphPtr, axisPtr)) {
@@ -3899,11 +3907,12 @@ TransformOp(graphPtr, axisPtr, argc, argv)
  *--------------------------------------------------------------
  */
 static int
-UseOp(graphPtr, axisPtr, argc, argv)
-    Graph *graphPtr;
-    Axis *axisPtr; /* Not used. */
-    int argc;
-    char **argv;
+UseOp(
+    Graph *graphPtr,
+    Axis *axisPtr,
+    int objc,
+    struct Tcl_Obj *const *objv, 
+    int margin)
 {
     Rbc_Chain *chainPtr;
     Tcl_Size nNames;
@@ -3911,11 +3920,9 @@ UseOp(graphPtr, axisPtr, argc, argv)
     Rbc_ChainLink *linkPtr;
     Tcl_Size i;
     Rbc_Uid classUid;
-    int margin;
 
-    margin = (int)argv[-1];
     chainPtr = graphPtr->margins[margin].axes;
-    if (argc == 0) {
+    if (objc == 0) {
         for (linkPtr = Rbc_ChainFirstLink(chainPtr); linkPtr!= NULL;
                 linkPtr = Rbc_ChainNextLink(linkPtr)) {
             axisPtr = Rbc_ChainGetValue(linkPtr);
@@ -3928,7 +3935,7 @@ UseOp(graphPtr, axisPtr, argc, argv)
     } else {
         classUid = (graphPtr->inverted) ? rbcXAxisUid : rbcYAxisUid;
     }
-    if (Tcl_SplitList(graphPtr->interp, argv[0], &nNames, &names) != TCL_OK) {
+    if (Tcl_SplitList(graphPtr->interp, Tcl_GetString(objv[0]), &nNames, &names) != TCL_OK) {
         return TCL_ERROR;
     }
     for (linkPtr = Rbc_ChainFirstLink(chainPtr); linkPtr!= NULL;
@@ -3991,21 +3998,22 @@ UseOp(graphPtr, axisPtr, argc, argv)
  * ----------------------------------------------------------------------
  */
 static int
-CreateVirtualOp(graphPtr, argc, argv)
-    Graph *graphPtr;
-    int argc;
-    char **argv;
+CreateVirtualOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp, /* NULL */
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     Axis *axisPtr;
     int flags;
 
-    axisPtr = CreateAxis(graphPtr, argv[3], MARGIN_NONE);
+    axisPtr = CreateAxis(graphPtr, Tcl_GetString(objv[3]), MARGIN_NONE);
     if (axisPtr == NULL) {
         return TCL_ERROR;
     }
     flags = Rbc_GraphType(graphPtr);
     if (Rbc_ConfigureWidgetComponent(graphPtr->interp, graphPtr->tkwin,
-                                     axisPtr->name, "Axis", configSpecs, argc - 4, argv + 4,
+                                     axisPtr->name, "Axis", configSpecs, objc - 4, objv + 4,
                                      (char *)axisPtr, flags) != TCL_OK) {
         goto error;
     }
@@ -4035,14 +4043,15 @@ error:
  *----------------------------------------------------------------------
  */
 static int
-BindVirtualOp(graphPtr, argc, argv)
-    Graph *graphPtr;
-    int argc;
-    char **argv;
+BindVirtualOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp, /* NULL */
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
-    Tcl_Interp *interp = graphPtr->interp;
+    Tcl_Interp *gr_interp = graphPtr->interp;
 
-    if (argc == 3) {
+    if (objc == 3) {
         Tcl_HashEntry *hPtr;
         Tcl_HashSearch cursor;
         char *tagName;
@@ -4050,11 +4059,11 @@ BindVirtualOp(graphPtr, argc, argv)
         for (hPtr = Tcl_FirstHashEntry(&graphPtr->axes.tagTable, &cursor);
                 hPtr != NULL; hPtr = Tcl_NextHashEntry(&cursor)) {
             tagName = Tcl_GetHashKey(&graphPtr->axes.tagTable, hPtr);
-            Tcl_AppendElement(interp, tagName);
+            Tcl_AppendElement(gr_interp, tagName);
         }
         return TCL_OK;
     }
-    return Rbc_ConfigureBindings(interp, graphPtr->bindTable, Rbc_MakeAxisTag(graphPtr, argv[3]), argc - 4, argv + 4);
+    return Rbc_ConfigureBindingsFromObj (gr_interp, graphPtr->bindTable, Rbc_MakeAxisTag(graphPtr, Tcl_GetString(objv[3])), objc - 4, objv + 4);
 }
 
 
@@ -4075,17 +4084,18 @@ BindVirtualOp(graphPtr, argc, argv)
  * ----------------------------------------------------------------------
  */
 static int
-CgetVirtualOp(graphPtr, argc, argv)
-    Graph *graphPtr;
-    int argc;
-    char *argv[];
+CgetVirtualOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp, /* NULL */
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     Axis *axisPtr;
 
-    if (NameToAxis(graphPtr, argv[3], &axisPtr) != TCL_OK) {
+    if (NameToAxis(graphPtr, Tcl_GetString(objv[3]), &axisPtr) != TCL_OK) {
         return TCL_ERROR;
     }
-    return CgetOp(graphPtr, axisPtr, argc - 4, argv + 4);
+    return CgetOp(graphPtr, axisPtr, objc - 4, objv + 4);
 }
 
 /*
@@ -4106,33 +4116,35 @@ CgetVirtualOp(graphPtr, argc, argv)
  * ----------------------------------------------------------------------
  */
 static int
-ConfigureVirtualOp(graphPtr, argc, argv)
-    Graph *graphPtr;
-    int argc;
-    char *argv[];
+ConfigureVirtualOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp, /* NULL */
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     Axis *axisPtr;
     int nNames, nOpts;
-    char **options;
+    struct Tcl_Obj *const *options;
     register int i;
 
     /* Figure out where the option value pairs begin */
-    argc -= 3;
-    argv += 3;
-    for (i = 0; i < argc; i++) {
-        if (argv[i][0] == '-') {
+    objc -= 3;
+    objv += 3;
+    for (i = 0; i < objc; i++) {
+        char *str = Tcl_GetString (objv[i]);
+        if (str[0] == '-') {
             break;
         }
-        if (NameToAxis(graphPtr, argv[i], &axisPtr) != TCL_OK) {
+        if (NameToAxis(graphPtr, Tcl_GetString(objv[i]), &axisPtr) != TCL_OK) {
             return TCL_ERROR;
         }
     }
     nNames = i;			/* Number of pen names specified */
-    nOpts = argc - i;		/* Number of options specified */
-    options = argv + i;		/* Start of options in argv  */
+    nOpts = objc - i;		/* Number of options specified */
+    options = objv + i;		/* Start of options in argv  */
 
     for (i = 0; i < nNames; i++) {
-        if (NameToAxis(graphPtr, argv[i], &axisPtr) != TCL_OK) {
+        if (NameToAxis(graphPtr, Tcl_GetString(objv[i]), &axisPtr) != TCL_OK) {
             return TCL_ERROR;
         }
         if (ConfigureOp(graphPtr, axisPtr, nOpts, options) != TCL_OK) {
@@ -4164,16 +4176,17 @@ ConfigureVirtualOp(graphPtr, argc, argv)
  * ----------------------------------------------------------------------
  */
 static int
-DeleteVirtualOp(graphPtr, argc, argv)
-    Graph *graphPtr;
-    int argc;
-    char **argv;
+DeleteVirtualOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp, /* NULL */
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     register int i;
     Axis *axisPtr;
 
-    for (i = 3; i < argc; i++) {
-        if (NameToAxis(graphPtr, argv[i], &axisPtr) != TCL_OK) {
+    for (i = 3; i < objc; i++) {
+        if (NameToAxis(graphPtr, Tcl_GetString(objv[i]), &axisPtr) != TCL_OK) {
             return TCL_ERROR;
         }
         axisPtr->deletePending = TRUE;
@@ -4202,17 +4215,18 @@ DeleteVirtualOp(graphPtr, argc, argv)
  * ----------------------------------------------------------------------
  */
 static int
-InvTransformVirtualOp(graphPtr, argc, argv)
-    Graph *graphPtr;
-    int argc; /* Not used. */
-    char **argv;
+InvTransformVirtualOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp, /* NULL */
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     Axis *axisPtr;
 
-    if (NameToAxis(graphPtr, argv[3], &axisPtr) != TCL_OK) {
+    if (NameToAxis(graphPtr, Tcl_GetString(objv[3]), &axisPtr) != TCL_OK) {
         return TCL_ERROR;
     }
-    return InvTransformOp(graphPtr, axisPtr, argc - 4, argv + 4);
+    return InvTransformOp(graphPtr, axisPtr, objc - 4, objv + 4);
 }
 
 /*
@@ -4233,17 +4247,18 @@ InvTransformVirtualOp(graphPtr, argc, argv)
  *--------------------------------------------------------------
  */
 static int
-LimitsVirtualOp(graphPtr, argc, argv)
-    Graph *graphPtr;
-    int argc; /* Not used. */
-    char **argv; /* Not used. */
+LimitsVirtualOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp, /* NULL */
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     Axis *axisPtr;
 
-    if (NameToAxis(graphPtr, argv[3], &axisPtr) != TCL_OK) {
+    if (NameToAxis(graphPtr, Tcl_GetString(objv[3]), &axisPtr) != TCL_OK) {
         return TCL_ERROR;
     }
-    return LimitsOp(graphPtr, axisPtr, argc - 4, argv + 4);
+    return LimitsOp(graphPtr, axisPtr, objc - 4, objv + 4);
 }
 
 /*
@@ -4262,10 +4277,11 @@ LimitsVirtualOp(graphPtr, argc, argv)
  * ----------------------------------------------------------------------
  */
 static int
-NamesVirtualOp(graphPtr, argc, argv)
-    Graph *graphPtr;
-    int argc; /* Not used. */
-    char **argv; /* Not used. */
+NamesVirtualOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp, /* NULL */
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     Tcl_HashEntry *hPtr;
     Tcl_HashSearch cursor;
@@ -4278,12 +4294,12 @@ NamesVirtualOp(graphPtr, argc, argv)
         if (axisPtr->deletePending) {
             continue;
         }
-        if (argc == 3) {
+        if (objc == 3) {
             Tcl_AppendElement(graphPtr->interp, axisPtr->name);
             continue;
         }
-        for (i = 3; i < argc; i++) {
-            if (Tcl_StringMatch(axisPtr->name, argv[i])) {
+        for (i = 3; i < objc; i++) {
+            if (Tcl_StringMatch(axisPtr->name, Tcl_GetString(objv[i]))) {
                 Tcl_AppendElement(graphPtr->interp, axisPtr->name);
                 break;
             }
@@ -4311,17 +4327,18 @@ NamesVirtualOp(graphPtr, argc, argv)
  * ----------------------------------------------------------------------
  */
 static int
-TransformVirtualOp(graphPtr, argc, argv)
-    Graph *graphPtr;
-    int argc; /* Not used. */
-    char **argv;
+TransformVirtualOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp, /* NULL */
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     Axis *axisPtr;
 
-    if (NameToAxis(graphPtr, argv[3], &axisPtr) != TCL_OK) {
+    if (NameToAxis(graphPtr, Tcl_GetString(objv[3]), &axisPtr) != TCL_OK) {
         return TCL_ERROR;
     }
-    return TransformOp(graphPtr, axisPtr, argc - 4, argv + 4);
+    return TransformOp(graphPtr, axisPtr, objc - 4, objv + 4);
 }
 
 /*
@@ -4340,19 +4357,20 @@ TransformVirtualOp(graphPtr, argc, argv)
  *----------------------------------------------------------------------
  */
 static int
-ViewOp(graphPtr, argc, argv)
-    Graph *graphPtr;
-    int argc;
-    char **argv;
+ViewOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp, /* NULL */
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     Axis *axisPtr;
-    Tcl_Interp *interp = graphPtr->interp;
+    Tcl_Interp *gr_interp = graphPtr->interp;
     double axisOffset, scrollUnits;
     double fract;
     double viewMin, viewMax, worldMin, worldMax;
     double viewWidth, worldWidth;
 
-    if (NameToAxis(graphPtr, argv[3], &axisPtr) != TCL_OK) {
+    if (NameToAxis(graphPtr, Tcl_GetString(objv[3]), &axisPtr) != TCL_OK) {
         return TCL_ERROR;
     }
     worldMin = axisPtr->valueRange.min;
@@ -4393,17 +4411,17 @@ ViewOp(graphPtr, argc, argv)
         axisOffset = worldMax - viewMax;
         scrollUnits = (double)axisPtr->scrollUnits * graphPtr->vScale;
     }
-    if (argc == 4) {
+    if (objc == 4) {
         /* Note: Bound the fractions between 0.0 and 1.0 to support
          * "canvas"-style scrolling. */
         fract = axisOffset / worldWidth;
-        Tcl_AppendElement(interp, Rbc_Dtoa(interp, CLAMP(fract, 0.0, 1.0)));
+        Tcl_AppendElement(gr_interp, Rbc_Dtoa(gr_interp, CLAMP(fract, 0.0, 1.0)));
         fract = (axisOffset + viewWidth) / worldWidth;
-        Tcl_AppendElement(interp, Rbc_Dtoa(interp, CLAMP(fract, 0.0, 1.0)));
+        Tcl_AppendElement(gr_interp, Rbc_Dtoa(gr_interp, CLAMP(fract, 0.0, 1.0)));
         return TCL_OK;
     }
     fract = axisOffset / worldWidth;
-    if (GetAxisScrollInfo(interp, argc - 4, argv + 4, &fract,
+    if (GetAxisScrollInfo(gr_interp, objc - 4, objv + 4, &fract,
                           viewWidth / worldWidth, scrollUnits) != TCL_OK) {
         return TCL_ERROR;
     }
@@ -4439,37 +4457,34 @@ ViewOp(graphPtr, argc, argv)
  *----------------------------------------------------------------------
  */
 int
-Rbc_VirtualAxisOp(graphPtr, interp, argc, argv)
-    Graph *graphPtr;
-    Tcl_Interp *interp;
-    int argc;
-    char **argv;
+Rbc_VirtualAxisOp(
+    Graph *graphPtr,
+    Tcl_Interp *interp,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
-    Rbc_Op proc;
+    Rbc_Op *proc;
     int result;
     static Rbc_OpSpec axisOps[] = {
-        {"bind", 1, (Rbc_Op)BindVirtualOp, 3, 6, "axisName sequence command",},
-        {"cget", 2, (Rbc_Op)CgetVirtualOp, 5, 5, "axisName option",},
-        {"configure", 2, (Rbc_Op)ConfigureVirtualOp, 4, 0,
-         "axisName ?axisName?... ?option value?...",},
-        {"create", 2, (Rbc_Op)CreateVirtualOp, 4, 0,
-         "axisName ?option value?...",},
-        {"delete", 1, (Rbc_Op)DeleteVirtualOp, 3, 0, "?axisName?...",},
-        {"get", 1, (Rbc_Op)GetOp, 4, 4, "name",},
-        {"invtransform", 1, (Rbc_Op)InvTransformVirtualOp, 5, 5,
-         "axisName value",},
-        {"limits", 1, (Rbc_Op)LimitsVirtualOp, 4, 4, "axisName",},
-        {"names", 1, (Rbc_Op)NamesVirtualOp, 3, 0, "?pattern?...",},
-        {"transform", 1, (Rbc_Op)TransformVirtualOp, 5, 5, "axisName value",},
-        {"view", 1, (Rbc_Op)ViewOp, 4, 7, "axisName ?moveto fract? ?scroll number what?",},
+        {"bind",         1, BindVirtualOp,          3, 6, "axisName sequence command",},
+        {"cget",         2, CgetVirtualOp,          5, 5, "axisName option",},
+        {"configure",    2, ConfigureVirtualOp,     4, 0, "axisName ?axisName?... ?option value?...",},
+        {"create",       2, CreateVirtualOp,        4, 0, "axisName ?option value?...",},
+        {"delete",       1, DeleteVirtualOp,        3, 0, "?axisName?...",},
+        {"get",          1, GetOp,                  4, 4, "name",},
+        {"invtransform", 1, InvTransformVirtualOp,  5, 5, "axisName value",},
+        {"limits",       1, LimitsVirtualOp,        4, 4, "axisName",},
+        {"names",        1, NamesVirtualOp,         3, 0, "?pattern?...",},
+        {"transform",    1, TransformVirtualOp,     5, 5, "axisName value",},
+        {"view",         1, ViewOp,                 4, 7, "axisName ?moveto fract? ?scroll number what?",},
     };
     static int nAxisOps = sizeof(axisOps) / sizeof(Rbc_OpSpec);
 
-    proc = Rbc_GetOp(interp, nAxisOps, axisOps, RBC_OP_ARG2, argc, argv, 0);
+    proc = Rbc_GetOpFromObj (interp, nAxisOps, axisOps, RBC_OP_ARG2, objc, objv, 0);
     if (proc == NULL) {
         return TCL_ERROR;
     }
-    result = (*proc) (graphPtr, argc, argv);
+    result = (*proc) (graphPtr, NULL, objc, objv);
     return result;
 }
 
@@ -4489,36 +4504,43 @@ Rbc_VirtualAxisOp(graphPtr, interp, argc, argv)
  *----------------------------------------------------------------------
  */
 int
-Rbc_AxisOp(graphPtr, margin, argc, argv)
-    Graph *graphPtr;
-    int margin;
-    int argc;
-    char **argv;
+Rbc_AxisOp(
+    Graph *graphPtr,
+    int margin,
+    int objc,
+    struct Tcl_Obj *const *objv)
 {
     int result;
-    Rbc_Op proc;
+    Rbc_Op *proc;
     Axis *axisPtr;
     static Rbc_OpSpec axisOps[] = {
-        {"bind", 1, (Rbc_Op)BindOp, 2, 5, "sequence command",},
-        {"cget", 2, (Rbc_Op)CgetOp, 4, 4, "option",},
-        {"configure", 2, (Rbc_Op)ConfigureOp, 3, 0, "?option value?...",},
-        {"invtransform", 1, (Rbc_Op)InvTransformOp, 4, 4, "value",},
-        {"limits", 1, (Rbc_Op)LimitsOp, 3, 3, "",},
-        {"transform", 1, (Rbc_Op)TransformOp, 4, 4, "value",},
-        {"use", 1, (Rbc_Op)UseOp, 3, 4, "?axisName?",},
+        {"bind",         1, BindOp,         2, 5, "sequence command",},
+        {"cget",         2, CgetOp,         4, 4, "option",},
+        {"configure",    2, ConfigureOp,    3, 0, "?option value?...",},
+        {"invtransform", 1, InvTransformOp, 4, 4, "value",},
+        {"limits",       1, LimitsOp,       3, 3, "",},
+        {"transform",    1, TransformOp,    4, 4, "value",},
+        {"use",          1, UseOp,          3, 4, "?axisName?",},
     };
     static int nAxisOps = sizeof(axisOps) / sizeof(Rbc_OpSpec);
 
-    proc = Rbc_GetOp(graphPtr->interp, nAxisOps, axisOps, RBC_OP_ARG2,
-                     argc, argv, 0);
+    proc = Rbc_GetOpFromObj (graphPtr->interp, nAxisOps, axisOps, 
+                                      RBC_OP_ARG2, objc, objv, 0);
     if (proc == NULL) {
         return TCL_ERROR;
     }
-    argv[2] = (char *)margin; /* Hack. Slide a reference to the margin in
-			       * the argument list. Needed only for UseOp.
-			       */
-    axisPtr = Rbc_GetFirstAxis(graphPtr->margins[margin].axes);
-    result = (*proc)(graphPtr, axisPtr, argc - 3, argv + 3);
+
+    axisPtr = Rbc_GetFirstAxis (graphPtr->margins[margin].axes);
+
+    /* Hack. Slide a reference to the margin in
+     * the argument list. Needed only for UseOp.
+     */
+    if (proc == UseOp) {
+        result = UseOp (graphPtr, axisPtr, objc - 3, objv + 3, margin);
+    } else {
+        result = (*proc) (graphPtr, axisPtr, objc - 3, objv + 3);
+    }
+
     return result;
 }
 
