@@ -50,102 +50,102 @@ extern Tk_CustomOption rbcPadOption;
 extern Tk_CustomOption rbcTileOption;
 extern Tk_CustomOption rbcShadowOption;
 
-#define DEF_GRAPH_ASPECT_RATIO		"0.0"
-#define DEF_GRAPH_BAR_BASELINE		"0.0"
-#define DEF_GRAPH_BAR_MODE		"normal"
-#define DEF_GRAPH_BAR_WIDTH		"0.8"
-#define DEF_GRAPH_BACKGROUND		STD_NORMAL_BACKGROUND
-#define DEF_GRAPH_BG_MONO		STD_NORMAL_BG_MONO
-#define DEF_GRAPH_BORDERWIDTH		STD_BORDERWIDTH
-#define DEF_GRAPH_BUFFER_ELEMENTS	"1"
-#define DEF_GRAPH_BUFFER_GRAPH		"1"
-#define DEF_GRAPH_CURSOR		"crosshair"
-#define DEF_GRAPH_FONT			STD_FONT_LARGE
-#define DEF_GRAPH_HALO			"2m"
-#define DEF_GRAPH_HALO_BAR		"0.1i"
-#define DEF_GRAPH_HEIGHT		"4i"
-#define DEF_GRAPH_HIGHLIGHT_BACKGROUND	STD_NORMAL_BACKGROUND
-#define DEF_GRAPH_HIGHLIGHT_BG_MONO	STD_NORMAL_BG_MONO
-#define DEF_GRAPH_HIGHLIGHT_COLOR	RGB_BLACK
-#define DEF_GRAPH_HIGHLIGHT_WIDTH	"2"
-#define DEF_GRAPH_INVERT_XY		"0"
-#define DEF_GRAPH_JUSTIFY		"center"
-#define DEF_GRAPH_MARGIN		"0"
-#define DEF_GRAPH_MARGIN_VAR		(char *)NULL
-#define DEF_GRAPH_PLOT_BACKGROUND		RGB_WHITE
-#define DEF_GRAPH_PLOT_BG_MONO		RGB_WHITE
-#define DEF_GRAPH_PLOT_BW_COLOR		STD_BORDERWIDTH
-#define DEF_GRAPH_PLOT_BW_MONO		"0"
-#define DEF_GRAPH_PLOT_PADX		"8"
-#define DEF_GRAPH_PLOT_PADY		"8"
-#define DEF_GRAPH_PLOT_RELIEF		"sunken"
-#define DEF_GRAPH_RELIEF		"flat"
-#define DEF_GRAPH_SHADOW_COLOR		(char *)NULL
-#define DEF_GRAPH_SHADOW_MONO		(char *)NULL
-#define DEF_GRAPH_SHOW_VALUES		"no"
-#define DEF_GRAPH_TAKE_FOCUS		""
-#define DEF_GRAPH_TITLE			(char *)NULL
-#define DEF_GRAPH_TITLE_COLOR		STD_NORMAL_FOREGROUND
-#define DEF_GRAPH_TITLE_MONO		STD_NORMAL_FG_MONO
-#define DEF_GRAPH_WIDTH			"5i"
-#define DEF_GRAPH_DATA			(char *)NULL
-#define DEF_GRAPH_DATA_COMMAND		(char *)NULL
+#define DEF_GRAPH_ASPECT_RATIO          "0.0"
+#define DEF_GRAPH_BAR_BASELINE          "0.0"
+#define DEF_GRAPH_BAR_MODE              "normal"
+#define DEF_GRAPH_BAR_WIDTH             "0.8"
+#define DEF_GRAPH_BACKGROUND            STD_NORMAL_BACKGROUND
+#define DEF_GRAPH_BG_MONO               STD_NORMAL_BG_MONO
+#define DEF_GRAPH_BORDERWIDTH           STD_BORDERWIDTH
+#define DEF_GRAPH_BUFFER_ELEMENTS       "1"
+#define DEF_GRAPH_BUFFER_GRAPH          "1"
+#define DEF_GRAPH_CURSOR                "crosshair"
+#define DEF_GRAPH_FONT                  STD_FONT_LARGE
+#define DEF_GRAPH_HALO                  "2m"
+#define DEF_GRAPH_HALO_BAR              "0.1i"
+#define DEF_GRAPH_HEIGHT                "4i"
+#define DEF_GRAPH_HIGHLIGHT_BACKGROUND  STD_NORMAL_BACKGROUND
+#define DEF_GRAPH_HIGHLIGHT_BG_MONO     STD_NORMAL_BG_MONO
+#define DEF_GRAPH_HIGHLIGHT_COLOR       RGB_BLACK
+#define DEF_GRAPH_HIGHLIGHT_WIDTH       "2"
+#define DEF_GRAPH_INVERT_XY             "0"
+#define DEF_GRAPH_JUSTIFY               "center"
+#define DEF_GRAPH_MARGIN                "0"
+#define DEF_GRAPH_MARGIN_VAR            (char *)NULL
+#define DEF_GRAPH_PLOT_BACKGROUND       RGB_WHITE
+#define DEF_GRAPH_PLOT_BG_MONO          RGB_WHITE
+#define DEF_GRAPH_PLOT_BW_COLOR         STD_BORDERWIDTH
+#define DEF_GRAPH_PLOT_BW_MONO          "0"
+#define DEF_GRAPH_PLOT_PADX             "8"
+#define DEF_GRAPH_PLOT_PADY             "8"
+#define DEF_GRAPH_PLOT_RELIEF           "sunken"
+#define DEF_GRAPH_RELIEF                "flat"
+#define DEF_GRAPH_SHADOW_COLOR          (char *)NULL
+#define DEF_GRAPH_SHADOW_MONO           (char *)NULL
+#define DEF_GRAPH_SHOW_VALUES           "no"
+#define DEF_GRAPH_TAKE_FOCUS            ""
+#define DEF_GRAPH_TITLE                 (char *)NULL
+#define DEF_GRAPH_TITLE_COLOR           STD_NORMAL_FOREGROUND
+#define DEF_GRAPH_TITLE_MONO            STD_NORMAL_FG_MONO
+#define DEF_GRAPH_WIDTH                 "5i"
+#define DEF_GRAPH_DATA                  (char *)NULL
+#define DEF_GRAPH_DATA_COMMAND          (char *)NULL
 
 static Tk_ConfigSpec configSpecs[] = {
-    {TK_CONFIG_DOUBLE, "-aspect", "aspect", "Aspect", DEF_GRAPH_ASPECT_RATIO, offsetof(Graph, aspect), TK_CONFIG_DONT_SET_DEFAULT},
-    {TK_CONFIG_BORDER, "-background", "background", "Background", DEF_GRAPH_BACKGROUND, offsetof(Graph, border), TK_CONFIG_COLOR_ONLY},
-    {TK_CONFIG_BORDER, "-background", "background", "Background", DEF_GRAPH_BG_MONO, offsetof(Graph, border), TK_CONFIG_MONO_ONLY},
-    {TK_CONFIG_CUSTOM, "-barmode", "barMode", "BarMode", DEF_GRAPH_BAR_MODE, offsetof(Graph, mode), TK_CONFIG_DONT_SET_DEFAULT, &rbcBarModeOption},
-    {TK_CONFIG_DOUBLE, "-barwidth", "barWidth", "BarWidth", DEF_GRAPH_BAR_WIDTH, offsetof(Graph, barWidth), 0},
-    {TK_CONFIG_DOUBLE, "-baseline", "baseline", "Baseline", DEF_GRAPH_BAR_BASELINE, offsetof(Graph, baseline), 0},
-    {TK_CONFIG_SYNONYM, "-bd", "borderWidth", (char *)NULL, (char *)NULL, 0, 0},
-    {TK_CONFIG_SYNONYM, "-bg", "background", (char *)NULL, (char *)NULL, 0, 0},
-    {TK_CONFIG_SYNONYM, "-bm", "bottomMargin", (char *)NULL, (char *)NULL, 0, 0},
-    {TK_CONFIG_CUSTOM, "-borderwidth", "borderWidth", "BorderWidth", DEF_GRAPH_BORDERWIDTH, offsetof(Graph, borderWidth), TK_CONFIG_DONT_SET_DEFAULT, &rbcDistanceOption},
-    {TK_CONFIG_CUSTOM, "-bottommargin", "bottomMargin", "Margin", DEF_GRAPH_MARGIN, offsetof(Graph, bottomMargin.reqSize), 0, &rbcDistanceOption},
-    {TK_CONFIG_STRING, "-bottomvariable", "bottomVariable", "BottomVariable", DEF_GRAPH_MARGIN_VAR, offsetof(Graph, bottomMargin.varName), TK_CONFIG_NULL_OK},
-    {TK_CONFIG_BOOLEAN, "-bufferelements", "bufferElements", "BufferElements", DEF_GRAPH_BUFFER_ELEMENTS, offsetof(Graph, backingStore), TK_CONFIG_DONT_SET_DEFAULT},
-    {TK_CONFIG_BOOLEAN, "-buffergraph", "bufferGraph", "BufferGraph", DEF_GRAPH_BUFFER_GRAPH, offsetof(Graph, doubleBuffer), TK_CONFIG_DONT_SET_DEFAULT},
-    {TK_CONFIG_ACTIVE_CURSOR, "-cursor", "cursor", "Cursor", DEF_GRAPH_CURSOR, offsetof(Graph, cursor), TK_CONFIG_NULL_OK},
-    {TK_CONFIG_STRING, "-data", "data", "Data", (char *)NULL, offsetof(Graph, data), TK_CONFIG_DONT_SET_DEFAULT},
-    {TK_CONFIG_STRING, "-datacommand", "dataCommand", "DataCommand", (char *)NULL, offsetof(Graph, dataCmd), TK_CONFIG_DONT_SET_DEFAULT},
-    {TK_CONFIG_SYNONYM, "-fg", "foreground", (char *)NULL, (char *)NULL, 0, 0},
-    {TK_CONFIG_FONT, "-font", "font", "Font", DEF_GRAPH_FONT, offsetof(Graph, titleTextStyle.font), 0},
-    {TK_CONFIG_COLOR, "-foreground", "foreground", "Foreground", DEF_GRAPH_TITLE_COLOR, offsetof(Graph, titleTextStyle.color), TK_CONFIG_COLOR_ONLY},
-    {TK_CONFIG_COLOR, "-foreground", "foreground", "Foreground", DEF_GRAPH_TITLE_MONO, offsetof(Graph, titleTextStyle.color), TK_CONFIG_MONO_ONLY},
-    {TK_CONFIG_CUSTOM, "-halo", "halo", "Halo", DEF_GRAPH_HALO, offsetof(Graph, halo), 0, &rbcDistanceOption},
-    {TK_CONFIG_CUSTOM, "-height", "height", "Height", DEF_GRAPH_HEIGHT, offsetof(Graph, reqHeight), 0, &rbcDistanceOption},
-    {TK_CONFIG_COLOR, "-highlightbackground", "highlightBackground", "HighlightBackground", DEF_GRAPH_HIGHLIGHT_BACKGROUND, offsetof(Graph, highlightBgColor), TK_CONFIG_COLOR_ONLY},
-    {TK_CONFIG_COLOR, "-highlightbackground", "highlightBackground", "HighlightBackground", DEF_GRAPH_HIGHLIGHT_BG_MONO, offsetof(Graph, highlightBgColor), TK_CONFIG_MONO_ONLY},
-    {TK_CONFIG_COLOR, "-highlightcolor", "highlightColor", "HighlightColor", DEF_GRAPH_HIGHLIGHT_COLOR, offsetof(Graph, highlightColor), 0},
-    {TK_CONFIG_PIXELS, "-highlightthickness", "highlightThickness", "HighlightThickness", DEF_GRAPH_HIGHLIGHT_WIDTH, offsetof(Graph, highlightWidth), TK_CONFIG_DONT_SET_DEFAULT},
-    {TK_CONFIG_BOOLEAN, "-invertxy", "invertXY", "InvertXY", DEF_GRAPH_INVERT_XY, offsetof(Graph, inverted), TK_CONFIG_DONT_SET_DEFAULT},
-    {TK_CONFIG_JUSTIFY, "-justify", "justify", "Justify", DEF_GRAPH_JUSTIFY, offsetof(Graph, titleTextStyle.justify), TK_CONFIG_DONT_SET_DEFAULT},
-    {TK_CONFIG_CUSTOM, "-leftmargin", "leftMargin", "Margin", DEF_GRAPH_MARGIN, offsetof(Graph, leftMargin.reqSize), TK_CONFIG_DONT_SET_DEFAULT, &rbcDistanceOption},
-    {TK_CONFIG_STRING, "-leftvariable", "leftVariable", "LeftVariable", DEF_GRAPH_MARGIN_VAR, offsetof(Graph, leftMargin.varName), TK_CONFIG_NULL_OK},
-    {TK_CONFIG_SYNONYM, "-lm", "leftMargin", (char *)NULL, (char *)NULL, 0, 0},
-    {TK_CONFIG_COLOR, "-plotbackground", "plotBackground", "Background", DEF_GRAPH_PLOT_BG_MONO, offsetof(Graph, plotBg), TK_CONFIG_MONO_ONLY},
-    {TK_CONFIG_COLOR, "-plotbackground", "plotBackground", "Background", DEF_GRAPH_PLOT_BACKGROUND, offsetof(Graph, plotBg), TK_CONFIG_COLOR_ONLY},
-    {TK_CONFIG_CUSTOM, "-plotborderwidth", "plotBorderWidth", "BorderWidth", DEF_GRAPH_PLOT_BW_COLOR, offsetof(Graph, plotBorderWidth), TK_CONFIG_COLOR_ONLY, &rbcDistanceOption},
-    {TK_CONFIG_CUSTOM, "-plotborderwidth", "plotBorderWidth", "BorderWidth", DEF_GRAPH_PLOT_BW_MONO, offsetof(Graph, plotBorderWidth), TK_CONFIG_MONO_ONLY, &rbcDistanceOption},
-    {TK_CONFIG_CUSTOM, "-plotpadx", "plotPadX", "PlotPad", DEF_GRAPH_PLOT_PADX, offsetof(Graph, padX), TK_CONFIG_DONT_SET_DEFAULT, &rbcPadOption},
-    {TK_CONFIG_CUSTOM, "-plotpady", "plotPadY", "PlotPad", DEF_GRAPH_PLOT_PADY, offsetof(Graph, padY), TK_CONFIG_DONT_SET_DEFAULT, &rbcPadOption},
-    {TK_CONFIG_RELIEF, "-plotrelief", "plotRelief", "Relief", DEF_GRAPH_PLOT_RELIEF, offsetof(Graph, plotRelief), TK_CONFIG_DONT_SET_DEFAULT},
-    {TK_CONFIG_RELIEF, "-relief", "relief", "Relief", DEF_GRAPH_RELIEF, offsetof(Graph, relief), TK_CONFIG_DONT_SET_DEFAULT},
-    {TK_CONFIG_CUSTOM, "-rightmargin", "rightMargin", "Margin", DEF_GRAPH_MARGIN, offsetof(Graph, rightMargin.reqSize), TK_CONFIG_DONT_SET_DEFAULT, &rbcDistanceOption},
-    {TK_CONFIG_STRING, "-rightvariable", "rightVariable", "RightVariable", DEF_GRAPH_MARGIN_VAR, offsetof(Graph, rightMargin.varName), TK_CONFIG_NULL_OK},
-    {TK_CONFIG_SYNONYM, "-rm", "rightMargin", (char *)NULL, (char *)NULL, 0, 0},
-    {TK_CONFIG_CUSTOM, "-shadow", "shadow", "Shadow", DEF_GRAPH_SHADOW_COLOR, offsetof(Graph, titleTextStyle.shadow), TK_CONFIG_COLOR_ONLY, &rbcShadowOption},
-    {TK_CONFIG_CUSTOM, "-shadow", "shadow", "Shadow", DEF_GRAPH_SHADOW_MONO, offsetof(Graph, titleTextStyle.shadow), TK_CONFIG_MONO_ONLY, &rbcShadowOption},
-    {TK_CONFIG_COLOR, "-foreground", "foreground", "Foreground", DEF_GRAPH_TITLE_MONO, offsetof(Graph, titleTextStyle.color), TK_CONFIG_MONO_ONLY},
-    {TK_CONFIG_STRING, "-takefocus", "takeFocus", "TakeFocus", DEF_GRAPH_TAKE_FOCUS, offsetof(Graph, takeFocus), TK_CONFIG_NULL_OK},
-    {TK_CONFIG_CUSTOM, "-tile", "tile", "Tile", (char *)NULL, offsetof(Graph, tile), TK_CONFIG_NULL_OK, &rbcTileOption},
-    {TK_CONFIG_STRING, "-title", "title", "Title", DEF_GRAPH_TITLE, offsetof(Graph, title), TK_CONFIG_NULL_OK},
-    {TK_CONFIG_SYNONYM, "-tm", "topMargin", (char *)NULL, (char *)NULL, 0, 0},
-    {TK_CONFIG_CUSTOM, "-topmargin", "topMargin", "Margin", DEF_GRAPH_MARGIN, offsetof(Graph, topMargin.reqSize), TK_CONFIG_DONT_SET_DEFAULT, &rbcDistanceOption},
-    {TK_CONFIG_STRING, "-topvariable", "topVariable", "TopVariable", DEF_GRAPH_MARGIN_VAR, offsetof(Graph, topMargin.varName), TK_CONFIG_NULL_OK},
-    {TK_CONFIG_CUSTOM, "-width", "width", "Width", DEF_GRAPH_WIDTH, offsetof(Graph, reqWidth), 0, &rbcDistanceOption},
-    {TK_CONFIG_END, NULL, NULL, NULL, NULL, 0, 0}
+    { TK_CONFIG_DOUBLE,     "-aspect",              "aspect",               "Aspect",               DEF_GRAPH_ASPECT_RATIO,         offsetof(Graph, aspect),                TK_CONFIG_DONT_SET_DEFAULT},
+    { TK_CONFIG_BORDER,     "-background",          "background",           "Background",           DEF_GRAPH_BACKGROUND,           offsetof(Graph, border),                TK_CONFIG_COLOR_ONLY},
+    { TK_CONFIG_BORDER,     "-background",          "background",           "Background",           DEF_GRAPH_BG_MONO,              offsetof(Graph, border),                TK_CONFIG_MONO_ONLY},
+    { TK_CONFIG_CUSTOM,     "-barmode",             "barMode",              "BarMode",              DEF_GRAPH_BAR_MODE,             offsetof(Graph, mode),                  TK_CONFIG_DONT_SET_DEFAULT, &rbcBarModeOption},
+    { TK_CONFIG_DOUBLE,     "-barwidth",            "barWidth",             "BarWidth",             DEF_GRAPH_BAR_WIDTH,            offsetof(Graph, barWidth),              0},
+    { TK_CONFIG_DOUBLE,     "-baseline",            "baseline",             "Baseline",             DEF_GRAPH_BAR_BASELINE,         offsetof(Graph, baseline),              0},
+    { TK_CONFIG_SYNONYM,    "-bd",                  "borderWidth",          (char *)NULL,           (char *)NULL,                   0,                                      0},
+    { TK_CONFIG_SYNONYM,    "-bg",                  "background",           (char *)NULL,           (char *)NULL,                   0,                                      0},
+    { TK_CONFIG_SYNONYM,    "-bm",                  "bottomMargin",         (char *)NULL,           (char *)NULL,                   0,                                      0},
+    { TK_CONFIG_CUSTOM,     "-borderwidth",         "borderWidth",          "BorderWidth",          DEF_GRAPH_BORDERWIDTH,          offsetof(Graph, borderWidth),           TK_CONFIG_DONT_SET_DEFAULT, &rbcDistanceOption},
+    { TK_CONFIG_CUSTOM,     "-bottommargin",        "bottomMargin",         "Margin",               DEF_GRAPH_MARGIN,               offsetof(Graph, bottomMargin.reqSize),  0, &rbcDistanceOption},
+    { TK_CONFIG_STRING,     "-bottomvariable",      "bottomVariable",       "BottomVariable",       DEF_GRAPH_MARGIN_VAR,           offsetof(Graph, bottomMargin.varName),  TK_CONFIG_NULL_OK},
+    { TK_CONFIG_BOOLEAN,    "-bufferelements",      "bufferElements",       "BufferElements",       DEF_GRAPH_BUFFER_ELEMENTS,      offsetof(Graph, backingStore),          TK_CONFIG_DONT_SET_DEFAULT},
+    { TK_CONFIG_BOOLEAN,    "-buffergraph",         "bufferGraph",          "BufferGraph",          DEF_GRAPH_BUFFER_GRAPH,         offsetof(Graph, doubleBuffer),          TK_CONFIG_DONT_SET_DEFAULT},
+    { TK_CONFIG_ACTIVE_CURSOR, "-cursor",           "cursor",               "Cursor",               DEF_GRAPH_CURSOR,               offsetof(Graph, cursor),                TK_CONFIG_NULL_OK},
+    { TK_CONFIG_STRING,     "-data",                "data",                 "Data",                 (char *)NULL,                   offsetof(Graph, data),                  TK_CONFIG_DONT_SET_DEFAULT},
+    { TK_CONFIG_STRING,     "-datacommand",         "dataCommand",          "DataCommand",          (char *)NULL,                   offsetof(Graph, dataCmd),               TK_CONFIG_DONT_SET_DEFAULT},
+    { TK_CONFIG_SYNONYM,    "-fg",                  "foreground",           (char *)NULL,           (char *)NULL,                   0,                                      0},
+    { TK_CONFIG_FONT,       "-font",                "font",                 "Font",                 DEF_GRAPH_FONT,                 offsetof(Graph, titleTextStyle.font),   0},
+    { TK_CONFIG_COLOR,      "-foreground",          "foreground",           "Foreground",           DEF_GRAPH_TITLE_COLOR,          offsetof(Graph, titleTextStyle.color),  TK_CONFIG_COLOR_ONLY},
+    { TK_CONFIG_COLOR,      "-foreground",          "foreground",           "Foreground",           DEF_GRAPH_TITLE_MONO,           offsetof(Graph, titleTextStyle.color),  TK_CONFIG_MONO_ONLY},
+    { TK_CONFIG_CUSTOM,     "-halo",                "halo",                 "Halo",                 DEF_GRAPH_HALO,                 offsetof(Graph, halo),                  0, &rbcDistanceOption},
+    { TK_CONFIG_CUSTOM,     "-height",              "height",               "Height",               DEF_GRAPH_HEIGHT,               offsetof(Graph, reqHeight),             0, &rbcDistanceOption},
+    { TK_CONFIG_COLOR,      "-highlightbackground", "highlightBackground",  "HighlightBackground",  DEF_GRAPH_HIGHLIGHT_BACKGROUND, offsetof(Graph, highlightBgColor),      TK_CONFIG_COLOR_ONLY},
+    { TK_CONFIG_COLOR,      "-highlightbackground", "highlightBackground",  "HighlightBackground",  DEF_GRAPH_HIGHLIGHT_BG_MONO,    offsetof(Graph, highlightBgColor),      TK_CONFIG_MONO_ONLY},
+    { TK_CONFIG_COLOR,      "-highlightcolor",      "highlightColor",       "HighlightColor",       DEF_GRAPH_HIGHLIGHT_COLOR,      offsetof(Graph, highlightColor),        0},
+    { TK_CONFIG_PIXELS,     "-highlightthickness",  "highlightThickness",   "HighlightThickness",   DEF_GRAPH_HIGHLIGHT_WIDTH,      offsetof(Graph, highlightWidth),        TK_CONFIG_DONT_SET_DEFAULT},
+    { TK_CONFIG_BOOLEAN,    "-invertxy",            "invertXY",             "InvertXY",             DEF_GRAPH_INVERT_XY,            offsetof(Graph, inverted),              TK_CONFIG_DONT_SET_DEFAULT},
+    { TK_CONFIG_JUSTIFY,    "-justify",             "justify",              "Justify",              DEF_GRAPH_JUSTIFY,              offsetof(Graph, titleTextStyle.justify), TK_CONFIG_DONT_SET_DEFAULT},
+    { TK_CONFIG_CUSTOM,     "-leftmargin",          "leftMargin",           "Margin",               DEF_GRAPH_MARGIN,               offsetof(Graph, leftMargin.reqSize),    TK_CONFIG_DONT_SET_DEFAULT, &rbcDistanceOption},
+    { TK_CONFIG_STRING,     "-leftvariable",        "leftVariable",         "LeftVariable",         DEF_GRAPH_MARGIN_VAR,           offsetof(Graph, leftMargin.varName),    TK_CONFIG_NULL_OK},
+    { TK_CONFIG_SYNONYM,    "-lm",                  "leftMargin",           (char *)NULL,           (char *)NULL,                   0,                                      0},
+    { TK_CONFIG_COLOR,      "-plotbackground",      "plotBackground",       "Background",           DEF_GRAPH_PLOT_BG_MONO,         offsetof(Graph, plotBg),                TK_CONFIG_MONO_ONLY},
+    { TK_CONFIG_COLOR,      "-plotbackground",      "plotBackground",       "Background",           DEF_GRAPH_PLOT_BACKGROUND,      offsetof(Graph, plotBg),                TK_CONFIG_COLOR_ONLY},
+    { TK_CONFIG_CUSTOM,     "-plotborderwidth",     "plotBorderWidth",      "BorderWidth",          DEF_GRAPH_PLOT_BW_COLOR,        offsetof(Graph, plotBorderWidth),       TK_CONFIG_COLOR_ONLY, &rbcDistanceOption},
+    { TK_CONFIG_CUSTOM,     "-plotborderwidth",     "plotBorderWidth",      "BorderWidth",          DEF_GRAPH_PLOT_BW_MONO,         offsetof(Graph, plotBorderWidth),       TK_CONFIG_MONO_ONLY, &rbcDistanceOption},
+    { TK_CONFIG_CUSTOM,     "-plotpadx",            "plotPadX",             "PlotPad",              DEF_GRAPH_PLOT_PADX,            offsetof(Graph, padX),                  TK_CONFIG_DONT_SET_DEFAULT, &rbcPadOption},
+    { TK_CONFIG_CUSTOM,     "-plotpady",            "plotPadY",             "PlotPad",              DEF_GRAPH_PLOT_PADY,            offsetof(Graph, padY),                  TK_CONFIG_DONT_SET_DEFAULT, &rbcPadOption},
+    { TK_CONFIG_RELIEF,     "-plotrelief",          "plotRelief",           "Relief",               DEF_GRAPH_PLOT_RELIEF,          offsetof(Graph, plotRelief),            TK_CONFIG_DONT_SET_DEFAULT},
+    { TK_CONFIG_RELIEF,     "-relief",              "relief",               "Relief",               DEF_GRAPH_RELIEF,               offsetof(Graph, relief),                TK_CONFIG_DONT_SET_DEFAULT},
+    { TK_CONFIG_CUSTOM,     "-rightmargin",         "rightMargin",          "Margin",               DEF_GRAPH_MARGIN,               offsetof(Graph, rightMargin.reqSize),   TK_CONFIG_DONT_SET_DEFAULT, &rbcDistanceOption},
+    { TK_CONFIG_STRING,     "-rightvariable",       "rightVariable",        "RightVariable",        DEF_GRAPH_MARGIN_VAR,           offsetof(Graph, rightMargin.varName),   TK_CONFIG_NULL_OK},
+    { TK_CONFIG_SYNONYM,    "-rm",                  "rightMargin",          (char *)NULL,           (char *)NULL,                   0,                                      0},
+    { TK_CONFIG_CUSTOM,     "-shadow",              "shadow",               "Shadow",               DEF_GRAPH_SHADOW_COLOR,         offsetof(Graph, titleTextStyle.shadow), TK_CONFIG_COLOR_ONLY, &rbcShadowOption},
+    { TK_CONFIG_CUSTOM,     "-shadow",              "shadow",               "Shadow",               DEF_GRAPH_SHADOW_MONO,          offsetof(Graph, titleTextStyle.shadow), TK_CONFIG_MONO_ONLY, &rbcShadowOption},
+    { TK_CONFIG_COLOR,      "-foreground",          "foreground",           "Foreground",           DEF_GRAPH_TITLE_MONO,           offsetof(Graph, titleTextStyle.color),  TK_CONFIG_MONO_ONLY},
+    { TK_CONFIG_STRING,     "-takefocus",           "takeFocus",            "TakeFocus",            DEF_GRAPH_TAKE_FOCUS,           offsetof(Graph, takeFocus),             TK_CONFIG_NULL_OK},
+    { TK_CONFIG_CUSTOM,     "-tile",                "tile",                 "Tile",                 (char *)NULL,                   offsetof(Graph, tile),                  TK_CONFIG_NULL_OK, &rbcTileOption},
+    { TK_CONFIG_STRING,     "-title",               "title",                "Title",                DEF_GRAPH_TITLE,                offsetof(Graph, title),                 TK_CONFIG_NULL_OK},
+    { TK_CONFIG_SYNONYM,    "-tm",                  "topMargin",            (char *)NULL,           (char *)NULL,                   0,                                      0},
+    { TK_CONFIG_CUSTOM,     "-topmargin",           "topMargin",            "Margin",               DEF_GRAPH_MARGIN,               offsetof(Graph, topMargin.reqSize),     TK_CONFIG_DONT_SET_DEFAULT, &rbcDistanceOption},
+    { TK_CONFIG_STRING,     "-topvariable",         "topVariable",          "TopVariable",          DEF_GRAPH_MARGIN_VAR,           offsetof(Graph, topMargin.varName),     TK_CONFIG_NULL_OK},
+    { TK_CONFIG_CUSTOM,     "-width",               "width",                "Width",                DEF_GRAPH_WIDTH,                offsetof(Graph, reqWidth),              0, &rbcDistanceOption},
+    { TK_CONFIG_END,        NULL,                   NULL,                   NULL,                   NULL,                           0,                                      0}
 };
 
 static Rbc_SwitchParseProc StringToFormat;
@@ -1724,29 +1724,31 @@ SnapOp(graphPtr, interp, argc, argv)
     Rbc_EventuallyRedrawGraph(graphPtr);
     return result;
 }
-
+    
 static Rbc_OpSpec graphOps[] = {
-    {"axis", 1, (Rbc_Op)Rbc_VirtualAxisOp, 2, 0, "oper ?args?",},
-    {"bar", 2, (Rbc_Op)BarOp, 2, 0, "oper ?args?",},
-    {"cget", 2, (Rbc_Op)CgetOp, 3, 3, "option",},
-    {"configure", 2, (Rbc_Op)ConfigureOp, 2, 0, "?option value?...",},
-    {"crosshairs", 2, (Rbc_Op)Rbc_CrosshairsOp, 2, 0, "oper ?args?",},
-    {"element", 2, (Rbc_Op)ElementOp, 2, 0, "oper ?args?",},
-    {"extents", 2, (Rbc_Op)ExtentsOp, 3, 3, "item",},
-    {"grid", 1, (Rbc_Op)Rbc_GridOp, 2, 0, "oper ?args?",},
-    {"inside", 3, (Rbc_Op)InsideOp, 4, 4, "winX winY",},
-    {"invtransform", 3, (Rbc_Op)InvtransformOp, 4, 4, "winX winY",},
-    {"legend", 2, (Rbc_Op)Rbc_LegendOp, 2, 0, "oper ?args?",},
-    {"line", 2, (Rbc_Op)LineOp, 2, 0, "oper ?args?",},
-    {"marker", 2, (Rbc_Op)Rbc_MarkerOp, 2, 0, "oper ?args?",},
-    {"pen", 2, (Rbc_Op)Rbc_PenOp, 2, 0, "oper ?args?",},
-    {"postscript", 2, (Rbc_Op)Rbc_PostScriptOp, 2, 0, "oper ?args?",},
-    {"snap", 1, (Rbc_Op)SnapOp, 3, 0, "?switches? name",},
-    {"transform", 1, (Rbc_Op)TransformOp, 4, 4, "x y",},
-    {"x2axis", 2, (Rbc_Op)X2AxisOp, 2, 0, "oper ?args?",},
-    {"xaxis", 2, (Rbc_Op)XAxisOp, 2, 0, "oper ?args?",},
-    {"y2axis", 2, (Rbc_Op)Y2AxisOp, 2, 0, "oper ?args?",},
-    {"yaxis", 2, (Rbc_Op)YAxisOp, 2, 0, "oper ?args?",},
+    {"axis",         1, Rbc_VirtualAxisOp,  2, 0, "oper ?args?",},
+    {"bar",          2, BarOp,              2, 0, "oper ?args?",},
+    {"cget",         2, CgetOp,             3, 3, "option",},
+    {"configure",    2, ConfigureOp,        2, 0, "?option value?...",},
+    {"crosshairs",   2, Rbc_CrosshairsOp,   2, 0, "oper ?args?",},
+    {"element",      2, ElementOp,          2, 0, "oper ?args?",},
+    {"extents",      2, ExtentsOp,          3, 3, "item",},
+    {"grid",         1, Rbc_GridOp,         2, 0, "oper ?args?",},
+    {"inside",       3, InsideOp,           4, 4, "winX winY",},
+    {"invtransform", 3, InvtransformOp,     4, 4, "winX winY",},
+    {"legend",       2, Rbc_LegendOp,       2, 0, "oper ?args?",},
+    {"line",         2, LineOp,             2, 0, "oper ?args?",},
+    {"marker",       2, Rbc_MarkerOp,       2, 0, "oper ?args?",},
+    {"pen",          2, Rbc_PenOp,          2, 0, "oper ?args?",},
+#ifndef RBC_NO_GRAPH_PS
+    {"postscript",   2, Rbc_PostScriptOp,   2, 0, "oper ?args?",},
+#endif
+    {"snap",         1, SnapOp,             3, 0, "?switches? name",},
+    {"transform",    1, TransformOp,        4, 4, "x y",},
+    {"x2axis",       2, X2AxisOp,           2, 0, "oper ?args?",},
+    {"xaxis",        2, XAxisOp,            2, 0, "oper ?args?",},
+    {"y2axis",       2, Y2AxisOp,           2, 0, "oper ?args?",},
+    {"yaxis",        2, YAxisOp,            2, 0, "oper ?args?",},
 };
 static int nGraphOps = sizeof(graphOps) / sizeof(Rbc_OpSpec);
 

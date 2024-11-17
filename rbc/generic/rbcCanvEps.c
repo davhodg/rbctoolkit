@@ -1684,21 +1684,21 @@ error:
  * procedures that can be invoked by generic item code.
  */
 static Tk_ItemType epsItemType = {
-    "eps", /* name */
-    sizeof(EpsItem), /* itemSize */
-    CreateEps, /* createProc */
-    configSpecs, /* configSpecs */
-    ConfigureEps, /* configureProc */
-    EpsCoords, /* coordProc */
-    DeleteEps, /* deleteProc */
-    DisplayEps, /* displayProc */
-    0, /* alwaysRedraw */
-    EpsToPoint, /* pointProc */
-    EpsToArea, /* areaProc */
-    EpsToPostScript, /* postscriptProc */
-    ScaleEps, /* scaleProc */
-    TranslateEps, /* translateProc */
-    (Tk_ItemIndexProc *) NULL, /* indexProc */
+    "eps",                      /* name */
+    sizeof(EpsItem),            /* itemSize */
+    CreateEps,                  /* createProc */
+    configSpecs,                /* configSpecs */
+    ConfigureEps,               /* configureProc */
+    EpsCoords,                  /* coordProc */
+    DeleteEps,                  /* deleteProc */
+    DisplayEps,                 /* displayProc */
+    0,                          /* alwaysRedraw */
+    EpsToPoint,                 /* pointProc */
+    EpsToArea,                  /* areaProc */
+    EpsToPostScript,            /* postscriptProc */
+    ScaleEps,                   /* scaleProc */
+    TranslateEps,               /* translateProc */
+    (Tk_ItemIndexProc *) NULL,  /* indexProc */
     (Tk_ItemCursorProc *) NULL, /* icursorProc */
     (Tk_ItemSelectionProc *) NULL, /* selectionProc */
     (Tk_ItemInsertProc *) NULL, /* insertProc */

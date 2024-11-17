@@ -1422,12 +1422,12 @@ ConfigureOp(graphPtr, interp, argc, argv)
 }
 
 static Rbc_OpSpec legendOps[] = {
-    {"activate", 1, (Rbc_Op)ActivateOp, 3, 0, "?pattern?...",},
-    {"bind", 1, (Rbc_Op)BindOp, 3, 6, "elemName sequence command",},
-    {"cget", 2, (Rbc_Op)CgetOp, 4, 4, "option",},
-    {"configure", 2, (Rbc_Op)ConfigureOp, 3, 0, "?option value?...",},
-    {"deactivate", 1, (Rbc_Op)ActivateOp, 3, 0, "?pattern?...",},
-    {"get", 1, (Rbc_Op)GetOp, 4, 4, "index",},
+    {"activate",    1, ActivateOp,  3, 0, "?pattern?...",},
+    {"bind",        1, BindOp,      3, 6, "elemName sequence command",},
+    {"cget",        2, CgetOp,      4, 4, "option",},
+    {"configure",   2, ConfigureOp, 3, 0, "?option value?...",},
+    {"deactivate",  1, ActivateOp,  3, 0, "?pattern?...",},
+    {"get",         1, GetOp,       4, 4, "index",},
 };
 static int nLegendOps = sizeof(legendOps) / sizeof(Rbc_OpSpec);
 

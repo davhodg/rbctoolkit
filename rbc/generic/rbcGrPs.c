@@ -50,76 +50,46 @@ extern Tk_CustomOption rbcPadOption;
 #define DEF_PS_WIDTH		"0"
 
 static Tk_ConfigSpec configSpecs[] = {
-    {TK_CONFIG_BOOLEAN, "-center", "center", "Center",
-        DEF_PS_CENTER, offsetof(PostScript, center),
-        TK_CONFIG_DONT_SET_DEFAULT},
-    {TK_CONFIG_STRING, "-colormap", "colorMap", "ColorMap",
-     DEF_PS_COLOR_MAP, offsetof(PostScript, colorVarName),
-     TK_CONFIG_NULL_OK},
-    {TK_CONFIG_CUSTOM, "-colormode", "colorMode", "ColorMode",
-     DEF_PS_COLOR_MODE, offsetof(PostScript, colorMode),
-     TK_CONFIG_DONT_SET_DEFAULT, &colorModeOption},
-    {TK_CONFIG_BOOLEAN, "-decorations", "decorations", "Decorations",
-     DEF_PS_DECORATIONS, offsetof(PostScript, decorations),
-     TK_CONFIG_DONT_SET_DEFAULT},
-    {TK_CONFIG_STRING, "-fontmap", "fontMap", "FontMap",
-     DEF_PS_FONT_MAP, offsetof(PostScript, fontVarName),
-     TK_CONFIG_NULL_OK},
-    {TK_CONFIG_BOOLEAN, "-footer", "footer", "Footer",
-     DEF_PS_FOOTER, offsetof(PostScript, footer),
-     TK_CONFIG_DONT_SET_DEFAULT},
-    {TK_CONFIG_CUSTOM, "-height", "height", "Height",
-     DEF_PS_HEIGHT, offsetof(PostScript, reqHeight),
-     TK_CONFIG_DONT_SET_DEFAULT, &rbcDistanceOption},
-    {TK_CONFIG_BOOLEAN, "-landscape", "landscape", "Landscape",
-     DEF_PS_LANDSCAPE, offsetof(PostScript, landscape),
-     TK_CONFIG_DONT_SET_DEFAULT},
-    {TK_CONFIG_BOOLEAN, "-maxpect", "maxpect", "Maxpect",
-     DEF_PS_MAXPECT, offsetof(PostScript, maxpect),
-     TK_CONFIG_DONT_SET_DEFAULT},
-    {TK_CONFIG_CUSTOM, "-padx", "padX", "PadX",
-     DEF_PS_PADX, offsetof(PostScript, padX), 0, &rbcPadOption},
-    {TK_CONFIG_CUSTOM, "-pady", "padY", "PadY",
-     DEF_PS_PADY, offsetof(PostScript, padY), 0, &rbcPadOption},
-    {TK_CONFIG_CUSTOM, "-paperheight", "paperHeight", "PaperHeight",
-     DEF_PS_PAPERHEIGHT, offsetof(PostScript, reqPaperHeight),
-     0, &rbcPositiveDistanceOption},
-    {TK_CONFIG_CUSTOM, "-paperwidth", "paperWidth", "PaperWidth",
-     DEF_PS_PAPERWIDTH, offsetof(PostScript, reqPaperWidth),
-     0, &rbcPositiveDistanceOption},
-    {TK_CONFIG_BOOLEAN, "-preview", "preview", "Preview",
-     DEF_PS_PREVIEW, offsetof(PostScript, addPreview),
-     TK_CONFIG_DONT_SET_DEFAULT},
-    {TK_CONFIG_CUSTOM, "-previewformat", "previewFormat", "PreviewFormat",
-     DEF_PS_PREVIEW_FORMAT, offsetof(PostScript, previewFormat),
-     TK_CONFIG_DONT_SET_DEFAULT, &formatOption},
-    {TK_CONFIG_CUSTOM, "-width", "width", "Width",
-     DEF_PS_WIDTH, offsetof(PostScript, reqWidth),
-     TK_CONFIG_DONT_SET_DEFAULT, &rbcDistanceOption},
-    {TK_CONFIG_END, NULL, NULL, NULL, NULL, 0, 0}
+    {TK_CONFIG_BOOLEAN, "-center",          "center",       "Center",        DEF_PS_CENTER,         offsetof(PostScript, center),       TK_CONFIG_DONT_SET_DEFAULT},
+    {TK_CONFIG_STRING,  "-colormap",        "colorMap",     "ColorMap",      DEF_PS_COLOR_MAP,      offsetof(PostScript, colorVarName), TK_CONFIG_NULL_OK},
+    {TK_CONFIG_CUSTOM,  "-colormode",       "colorMode",    "ColorMode",     DEF_PS_COLOR_MODE,     offsetof(PostScript, colorMode),    TK_CONFIG_DONT_SET_DEFAULT, &colorModeOption},
+    {TK_CONFIG_BOOLEAN, "-decorations",     "decorations",  "Decorations",   DEF_PS_DECORATIONS,    offsetof(PostScript, decorations),  TK_CONFIG_DONT_SET_DEFAULT},
+    {TK_CONFIG_STRING,  "-fontmap",         "fontMap",      "FontMap",       DEF_PS_FONT_MAP,       offsetof(PostScript, fontVarName),  TK_CONFIG_NULL_OK},
+    {TK_CONFIG_BOOLEAN, "-footer",          "footer",       "Footer",        DEF_PS_FOOTER,         offsetof(PostScript, footer),       TK_CONFIG_DONT_SET_DEFAULT},
+    {TK_CONFIG_CUSTOM,  "-height",          "height",       "Height",        DEF_PS_HEIGHT,         offsetof(PostScript, reqHeight),    TK_CONFIG_DONT_SET_DEFAULT, &rbcDistanceOption},
+    {TK_CONFIG_BOOLEAN, "-landscape",       "landscape",    "Landscape",     DEF_PS_LANDSCAPE,      offsetof(PostScript, landscape),    TK_CONFIG_DONT_SET_DEFAULT},
+    {TK_CONFIG_BOOLEAN, "-maxpect",         "maxpect",      "Maxpect",       DEF_PS_MAXPECT,        offsetof(PostScript, maxpect),      TK_CONFIG_DONT_SET_DEFAULT},
+    {TK_CONFIG_CUSTOM,  "-padx",            "padX",         "PadX",          DEF_PS_PADX,           offsetof(PostScript, padX),         0, &rbcPadOption},
+    {TK_CONFIG_CUSTOM,  "-pady",            "padY",         "PadY",          DEF_PS_PADY,           offsetof(PostScript, padY),         0, &rbcPadOption},
+    {TK_CONFIG_CUSTOM,  "-paperheight",     "paperHeight",  "PaperHeight",   DEF_PS_PAPERHEIGHT,    offsetof(PostScript, reqPaperHeight), 0, &rbcPositiveDistanceOption},
+    {TK_CONFIG_CUSTOM,  "-paperwidth",      "paperWidth",   "PaperWidth",    DEF_PS_PAPERWIDTH,     offsetof(PostScript, reqPaperWidth), 0, &rbcPositiveDistanceOption},
+    {TK_CONFIG_BOOLEAN, "-preview",         "preview",      "Preview",       DEF_PS_PREVIEW,        offsetof(PostScript, addPreview),   TK_CONFIG_DONT_SET_DEFAULT},
+    {TK_CONFIG_CUSTOM,  "-previewformat",   "previewFormat", "PreviewFormat", DEF_PS_PREVIEW_FORMAT, offsetof(PostScript, previewFormat), TK_CONFIG_DONT_SET_DEFAULT, &formatOption},
+    {TK_CONFIG_CUSTOM,  "-width",           "width",        "Width",         DEF_PS_WIDTH,          offsetof(PostScript, reqWidth),     TK_CONFIG_DONT_SET_DEFAULT, &rbcDistanceOption},
+    {TK_CONFIG_END,     NULL,               NULL,           NULL,            NULL,                  0,                                  0}
 };
 
 /* TODO: These do not belong here */
-extern void Rbc_MarkersToPostScript (Graph *graphPtr, PsToken psToken, int under);
-extern void Rbc_ElementsToPostScript (Graph *graphPtr, PsToken psToken);
-extern void Rbc_ActiveElementsToPostScript (Graph *graphPtr, PsToken psToken);
-extern void Rbc_LegendToPostScript (Legend *legendPtr, PsToken psToken);
-extern void Rbc_GridToPostScript (Graph *graphPtr, PsToken psToken);
-extern void Rbc_AxesToPostScript (Graph *graphPtr, PsToken psToken);
-extern void Rbc_AxisLimitsToPostScript (Graph *graphPtr, PsToken psToken);
+extern void Rbc_MarkersToPostScript         (Graph *graphPtr, PsToken psToken, int under);
+extern void Rbc_ElementsToPostScript        (Graph *graphPtr, PsToken psToken);
+extern void Rbc_ActiveElementsToPostScript  (Graph *graphPtr, PsToken psToken);
+extern void Rbc_LegendToPostScript          (Legend *legendPtr, PsToken psToken);
+extern void Rbc_GridToPostScript            (Graph *graphPtr, PsToken psToken);
+extern void Rbc_AxesToPostScript            (Graph *graphPtr, PsToken psToken);
+extern void Rbc_AxisLimitsToPostScript      (Graph *graphPtr, PsToken psToken);
 
 static char *NameOfColorMode (PsColorMode colorMode);
 static int CgetOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char *argv[]);
 static int ConfigureOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
 static int OutputOp (Graph *graphPtr, Tcl_Interp *interp, int argc, char **argv);
-static int ComputeBoundingBox (Graph *graphPtr, PostScript *psPtr);
-static void PreviewImage (Graph *graphPtr, PsToken psToken);
-static int PostScriptPreamble (Graph *graphPtr, char *fileName, PsToken psToken);
-static void MarginsToPostScript (Graph *graphPtr, PsToken psToken);
-static int GraphToPostScript (Graph *graphPtr, char *ident, PsToken psToken);
+static int ComputeBoundingBox               (Graph *graphPtr, PostScript *psPtr);
+static void PreviewImage                    (Graph *graphPtr, PsToken psToken);
+static int PostScriptPreamble               (Graph *graphPtr, char *fileName, PsToken psToken);
+static void MarginsToPostScript             (Graph *graphPtr, PsToken psToken);
+static int GraphToPostScript                (Graph *graphPtr, char *ident, PsToken psToken);
 
 #ifdef WIN32
-static int CreateWindowsEPS (Graph *graphPtr, PsToken psToken, FILE *f);
+static int CreateWindowsEPS                 (Graph *graphPtr, PsToken psToken, FILE *f);
 #endif
 
 /*
@@ -1289,10 +1259,9 @@ Rbc_CreatePostScript(graphPtr)
  *--------------------------------------------------------------
  */
 static Rbc_OpSpec psOps[] = {
-    {"cget", 2, (Rbc_Op)CgetOp, 4, 4, "option",},
-    {"configure", 2, (Rbc_Op)ConfigureOp, 3, 0, "?option value?...",},
-    {"output", 1, (Rbc_Op)OutputOp, 3, 0,
-     "?fileName? ?option value?...",},
+    {"cget",        2, CgetOp,      4, 4, "option",},
+    {"configure",   2, ConfigureOp, 3, 0, "?option value?...",},
+    {"output",      1, OutputOp,    3, 0, "?fileName? ?option value?...",},
 };
 
 static int nPsOps = sizeof(psOps) / sizeof(Rbc_OpSpec);

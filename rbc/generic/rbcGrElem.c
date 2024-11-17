@@ -2356,21 +2356,19 @@ TypeOp(graphPtr, interp, argc, argv)
  * Global routines:
  */
 static Rbc_OpSpec elemOps[] = {
-    {"activate", 1, (Rbc_Op)ActivateOp, 3, 0, "?elemName? ?index...?",},
-    {"bind", 1, (Rbc_Op)BindOp, 3, 6, "elemName sequence command",},
-    {"cget", 2, (Rbc_Op)CgetOp, 5, 5, "elemName option",},
-    {"closest", 2, (Rbc_Op)ClosestOp, 6, 0,
-     "x y varName ?option value?... ?elemName?...",},
-    {"configure", 2, (Rbc_Op)ConfigureOp, 4, 0,
-     "elemName ?elemName?... ?option value?...",},
-    {"create", 2, (Rbc_Op)CreateOp, 4, 0, "elemName ?option value?...",},
-    {"deactivate", 3, (Rbc_Op)DeactivateOp, 3, 0, "?elemName?...",},
-    {"delete", 3, (Rbc_Op)DeleteOp, 3, 0, "?elemName?...",},
-    {"exists", 1, (Rbc_Op)ExistsOp, 4, 4, "elemName",},
-    {"get", 1, (Rbc_Op)GetOp, 4, 4, "name",},
-    {"names", 1, (Rbc_Op)NamesOp, 3, 0, "?pattern?...",},
-    {"show", 1, (Rbc_Op)ShowOp, 3, 4, "?elemList?",},
-    {"type", 1, (Rbc_Op)TypeOp, 4, 4, "elemName",},
+    {"activate",    1, ActivateOp,   3, 0, "?elemName? ?index...?",},
+    {"bind",        1, BindOp,       3, 6, "elemName sequence command",},
+    {"cget",        2, CgetOp,       5, 5, "elemName option",},
+    {"closest",     2, ClosestOp,    6, 0, "x y varName ?option value?... ?elemName?...",},
+    {"configure",   2, ConfigureOp,  4, 0, "elemName ?elemName?... ?option value?...",},
+    {"create",      2, CreateOp,     4, 0, "elemName ?option value?...",},
+    {"deactivate",  3, DeactivateOp, 3, 0, "?elemName?...",},
+    {"delete",      3, DeleteOp,     3, 0, "?elemName?...",},
+    {"exists",      1, ExistsOp,     4, 4, "elemName",},
+    {"get",         1, GetOp,        4, 4, "name",},
+    {"names",       1, NamesOp,      3, 0, "?pattern?...",},
+    {"show",        1, ShowOp,       3, 4, "?elemList?",},
+    {"type",        1, TypeOp,       4, 4, "elemName",},
 };
 static int numElemOps = sizeof(elemOps) / sizeof(Rbc_OpSpec);
 

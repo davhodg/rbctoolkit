@@ -751,13 +751,12 @@ TypeOp(interp, graphPtr, argc, argv)
 }
 
 static Rbc_OpSpec penOps[] = {
-    {"cget", 2, (Rbc_Op)CgetOp, 5, 5, "penName option",},
-    {"configure", 2, (Rbc_Op)ConfigureOp, 4, 0,
-     "penName ?penName?... ?option value?...",},
-    {"create", 2, (Rbc_Op)CreateOp, 4, 0, "penName ?option value?...",},
-    {"delete", 2, (Rbc_Op)DeleteOp, 3, 0, "?penName?...",},
-    {"names", 1, (Rbc_Op)NamesOp, 3, 0, "?pattern?...",},
-    {"type", 1, (Rbc_Op)TypeOp, 4, 4, "penName",},
+    {"cget",        2, CgetOp,      5, 5, "penName option",},
+    {"configure",   2, ConfigureOp, 4, 0, "penName ?penName?... ?option value?...",},
+    {"create",      2, CreateOp,    4, 0, "penName ?option value?...",},
+    {"delete",      2, DeleteOp,    3, 0, "?penName?...",},
+    {"names",       1, NamesOp,     3, 0, "?pattern?...",},
+    {"type",        1, TypeOp,      4, 4, "penName",},
 };
 static int nPenOps = sizeof(penOps) / sizeof(Rbc_OpSpec);
 

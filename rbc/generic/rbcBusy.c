@@ -1143,16 +1143,15 @@ BusyInterpDeleteProc(clientData, interp)
  *--------------------------------------------------------------
  */
 static Rbc_OpSpec busyOps[] = {
-    {"cget", 2, (Rbc_Op)CgetOp, 4, 4, "window option",},
-    {"configure", 2, (Rbc_Op)ConfigureOp, 3, 0, "window ?options?...",},
-    {"forget", 1, (Rbc_Op)ForgetOp, 2, 0, "?window?...",},
-    {"hold", 3, (Rbc_Op)HoldOp, 3, 0,
-     "window ?options?... ?window options?...",},
-    {"isbusy", 1, (Rbc_Op)BusyOp, 2, 3, "?pattern?",},
-    {"names", 1, (Rbc_Op)NamesOp, 2, 3, "?pattern?",},
-    {"release", 1, (Rbc_Op)ReleaseOp, 2, 0, "?window?...",},
-    {"status", 1, (Rbc_Op)StatusOp, 3, 3, "window",},
-    {"windows", 1, (Rbc_Op)NamesOp, 2, 3, "?pattern?",},
+    {"cget",      2, CgetOp,      4, 4, "window option",},
+    {"configure", 2, ConfigureOp, 3, 0, "window ?options?...",},
+    {"forget",    1, ForgetOp,    2, 0, "?window?...",},
+    {"hold",      3, HoldOp,      3, 0, "window ?options?... ?window options?...",},
+    {"isbusy",    1, BusyOp,      2, 3, "?pattern?",},
+    {"names",     1, NamesOp,     2, 3, "?pattern?",},
+    {"release",   1, ReleaseOp,   2, 0, "?window?...",},
+    {"status",    1, StatusOp,    3, 3, "window",},
+    {"windows",   1, NamesOp,     2, 3, "?pattern?",},
 };
 static int nBusyOps = sizeof(busyOps) / sizeof(Rbc_OpSpec);
 

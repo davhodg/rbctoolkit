@@ -454,11 +454,11 @@ ToggleOp(graphPtr, interp, argc, argv)
 
 
 static Rbc_OpSpec gridOps[] = {
-    {"cget", 2, (Rbc_Op)CgetOp, 4, 4, "option",},
-    {"configure", 2, (Rbc_Op)ConfigureOp, 3, 0, "?options...?",},
-    {"off", 2, (Rbc_Op)UnmapOp, 3, 3, "",},
-    {"on", 2, (Rbc_Op)MapOp, 3, 3, "",},
-    {"toggle", 1, (Rbc_Op)ToggleOp, 3, 3, "",},
+    {"cget",        2, CgetOp,      4, 4, "option",},
+    {"configure",   2, ConfigureOp, 3, 0, "?options...?",},
+    {"off",         2, UnmapOp,     3, 3, "",},
+    {"on",          2, MapOp,       3, 3, "",},
+    {"toggle",      1, ToggleOp,    3, 3, "",},
 };
 static int nGridOps = sizeof(gridOps) / sizeof(Rbc_OpSpec);
 

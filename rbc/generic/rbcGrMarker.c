@@ -4871,20 +4871,18 @@ TypeOp(graphPtr, interp, argc, argv)
 /* Public routines */
 
 static Rbc_OpSpec markerOps[] = {
-    {"after", 1, (Rbc_Op)RelinkOp, 4, 5, "marker ?afterMarker?",},
-    {"before", 2, (Rbc_Op)RelinkOp, 4, 5, "marker ?beforeMarker?",},
-    {"bind", 2, (Rbc_Op)BindOp, 3, 6, "marker sequence command",},
-    {"cget", 2, (Rbc_Op)CgetOp, 5, 5, "marker option",},
-    {"configure", 2, (Rbc_Op)ConfigureOp, 4, 0,
-     "marker ?marker?... ?option value?...",},
-    {"create", 2, (Rbc_Op)CreateOp, 4, 0,
-     "type ?option value?...",},
-    {"delete", 1, (Rbc_Op)DeleteOp, 3, 0, "?marker?...",},
-    {"exists", 1, (Rbc_Op)ExistsOp, 4, 4, "marker",},
-    {"find", 1, (Rbc_Op)FindOp, 8, 8, "enclosed|overlapping x1 y1 x2 y2",},
-    {"get", 1, (Rbc_Op)GetOp, 4, 4, "name",},
-    {"names", 1, (Rbc_Op)NamesOp, 3, 0, "?pattern?...",},
-    {"type", 1, (Rbc_Op)TypeOp, 4, 4, "marker",},
+    {"after",       1, RelinkOp,    4, 5, "marker ?afterMarker?",},
+    {"before",      2, RelinkOp,    4, 5, "marker ?beforeMarker?",},
+    {"bind",        2, BindOp,      3, 6, "marker sequence command",},
+    {"cget",        2, CgetOp,      5, 5, "marker option",},
+    {"configure",   2, ConfigureOp, 4, 0, "marker ?marker?... ?option value?...",},
+    {"create",      2, CreateOp,    4, 0, "type ?option value?...",},
+    {"delete",      1, DeleteOp,    3, 0, "?marker?...",},
+    {"exists",      1, ExistsOp,    4, 4, "marker",},
+    {"find",        1, FindOp,      8, 8, "enclosed|overlapping x1 y1 x2 y2",},
+    {"get",         1, GetOp,       4, 4, "name",},
+    {"names",       1, NamesOp,     3, 0, "?pattern?...",},
+    {"type",        1, TypeOp,      4, 4, "marker",},
 };
 static int nMarkerOps = sizeof(markerOps) / sizeof(Rbc_OpSpec);
 

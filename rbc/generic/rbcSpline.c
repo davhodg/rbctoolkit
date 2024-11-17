@@ -999,8 +999,8 @@ Rbc_NaturalSpline(origPts, nOrigPts, intpPts, nIntpPts)
 }
 
 static Rbc_OpSpec splineOps[] = {
-    {"natural", 1, (Rbc_Op)Rbc_NaturalSpline, 6, 6, "x y splx sply",},
-    {"quadratic", 1, (Rbc_Op)Rbc_QuadraticSpline, 6, 6, "x y splx sply",},
+    {"natural",   1, Rbc_NaturalSpline,   6, 6, "x y splx sply",},
+    {"quadratic", 1, Rbc_QuadraticSpline, 6, 6, "x y splx sply",},
 };
 static int nSplineOps = sizeof(splineOps) / sizeof(Rbc_OpSpec);
 

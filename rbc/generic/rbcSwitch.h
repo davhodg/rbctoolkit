@@ -73,10 +73,10 @@ typedef struct {
  * or above RBC_SWITCH_USER_BIT may be used by clients for selecting
  * certain entries.
  */
-#define RBC_SWITCH_NULL_OK		(1<<0)
-#define RBC_SWITCH_DONT_SET_DEFAULT	(1<<3)
-#define RBC_SWITCH_SPECIFIED		(1<<4)
-#define RBC_SWITCH_USER_BIT		(1<<8)
+#define RBC_SWITCH_NULL_OK          (1<<0)
+#define RBC_SWITCH_DONT_SET_DEFAULT (1<<3)
+#define RBC_SWITCH_SPECIFIED        (1<<4)
+#define RBC_SWITCH_USER_BIT         (1<<8)
 
 int Rbc_ProcessSwitches (Tcl_Interp *interp, Rbc_SwitchSpec *specs, int argc, char **argv, char *record, int flags);
 void Rbc_FreeSwitches (Rbc_SwitchSpec *specs, char *record, int flags);
