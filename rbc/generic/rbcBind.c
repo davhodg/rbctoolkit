@@ -77,13 +77,13 @@ static void PickCurrentItem (struct Rbc_BindTableStruct *bindPtr, XEvent *eventP
  *--------------------------------------------------------------
  */
 static void
-DoEvent(bindPtr, eventPtr, item, context)
-    struct Rbc_BindTableStruct *bindPtr; /* Binding information for widget in
+DoEvent(
+    struct Rbc_BindTableStruct *bindPtr, /* Binding information for widget in
                                           * which event occurred. */
-    XEvent *eventPtr; /* Real or simulated X event that
-                       * is to be processed. */
-    ClientData item; /* Item picked. */
-    ClientData context; /* Context of item.  */
+    XEvent *eventPtr,   /* Real or simulated X event that
+                         * is to be processed. */
+    ClientData item,    /* Item picked. */
+    ClientData context) /* Context of item.  */
 {
     Rbc_List bindIds;
     int nIds;
@@ -155,9 +155,9 @@ DoEvent(bindPtr, eventPtr, item, context)
  *--------------------------------------------------------------
  */
 static void
-PickCurrentItem(bindPtr, eventPtr)
-    struct Rbc_BindTableStruct *bindPtr;    /* Binding table information. */
-    XEvent *eventPtr;       /* Event describing location of
+PickCurrentItem(
+    struct Rbc_BindTableStruct *bindPtr,    /* Binding table information. */
+    XEvent *eventPtr)       /* Event describing location of
                              * mouse cursor.  Must be EnterWindow,
                              * LeaveWindow, ButtonRelease, or
                              * MotionNotify. */
@@ -357,9 +357,9 @@ PickCurrentItem(bindPtr, eventPtr)
  *--------------------------------------------------------------
  */
 static void
-BindProc(clientData, eventPtr)
-    ClientData clientData;  /* Pointer to widget structure. */
-    XEvent *eventPtr;       /* Pointer to X event that just
+BindProc(
+    ClientData clientData,  /* Pointer to widget structure. */
+    XEvent *eventPtr)       /* Pointer to X event that just
                              * happened. */
 {
     struct Rbc_BindTableStruct *bindPtr = clientData;
@@ -451,12 +451,12 @@ BindProc(clientData, eventPtr)
  *--------------------------------------------------------------
  */
 int
-Rbc_ConfigureBindingsFromObj(interp, bindPtr, item, objc, objv)
-    Tcl_Interp *interp;
-    struct Rbc_BindTableStruct *bindPtr;
-    ClientData item;
-    int objc;
-    Tcl_Obj *const *objv;
+Rbc_ConfigureBindingsFromObj(
+    Tcl_Interp *interp,
+    struct Rbc_BindTableStruct *bindPtr,
+    ClientData item,
+    int objc,
+    Tcl_Obj *const *objv)
 {
     char *command;
     unsigned long mask;
@@ -521,12 +521,12 @@ Rbc_ConfigureBindingsFromObj(interp, bindPtr, item, objc, objv)
  *--------------------------------------------------------------
  */
 Rbc_BindTable
-Rbc_CreateBindingTable(interp, tkwin, clientData, pickProc, tagProc)
-    Tcl_Interp *interp;
-    Tk_Window tkwin;
-    ClientData clientData;
-    Rbc_BindPickProc *pickProc;
-    Rbc_BindTagProc *tagProc;
+Rbc_CreateBindingTable(
+    Tcl_Interp *interp,
+    Tk_Window tkwin,
+    ClientData clientData,
+    Rbc_BindPickProc *pickProc,
+    Rbc_BindTagProc *tagProc)
 {
     unsigned int mask;
     struct Rbc_BindTableStruct *bindPtr;
@@ -559,8 +559,8 @@ Rbc_CreateBindingTable(interp, tkwin, clientData, pickProc, tagProc)
  *--------------------------------------------------------------
  */
 void
-Rbc_DestroyBindingTable(bindPtr)
-    struct Rbc_BindTableStruct *bindPtr;
+Rbc_DestroyBindingTable(
+    struct Rbc_BindTableStruct *bindPtr)
 {
     unsigned int mask;
 
@@ -586,8 +586,8 @@ Rbc_DestroyBindingTable(bindPtr)
  *--------------------------------------------------------------
  */
 void
-Rbc_PickCurrentItem(bindPtr)
-    struct Rbc_BindTableStruct *bindPtr;
+Rbc_PickCurrentItem(
+    struct Rbc_BindTableStruct *bindPtr)
 {
     if (bindPtr->activePick) {
         PickCurrentItem(bindPtr, &(bindPtr->pickEvent));
@@ -610,9 +610,9 @@ Rbc_PickCurrentItem(bindPtr)
  *--------------------------------------------------------------
  */
 void
-Rbc_DeleteBindings(bindPtr, object)
-    struct Rbc_BindTableStruct *bindPtr;
-    ClientData object;
+Rbc_DeleteBindings(
+    struct Rbc_BindTableStruct *bindPtr,
+    ClientData object)
 {
     Tk_DeleteAllBindings(bindPtr->bindingTable, object);
 
@@ -649,9 +649,9 @@ Rbc_DeleteBindings(bindPtr, object)
  *--------------------------------------------------------------
  */
 void
-Rbc_MoveBindingTable(bindPtr, tkwin)
-    struct Rbc_BindTableStruct *bindPtr;
-    Tk_Window tkwin;
+Rbc_MoveBindingTable(
+    struct Rbc_BindTableStruct *bindPtr,
+    Tk_Window tkwin)
 {
     unsigned int mask;
 

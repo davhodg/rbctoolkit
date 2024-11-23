@@ -68,9 +68,9 @@ static Graph_Op ToggleOp;
  *----------------------------------------------------------------------
  */
 static void
-ConfigureGrid(graphPtr, gridPtr)
-    Graph *graphPtr;
-    Grid *gridPtr;
+ConfigureGrid(
+    Graph *graphPtr,
+    Grid *gridPtr)
 {
     XGCValues gcValues;
     unsigned long gcMask;
@@ -110,8 +110,8 @@ ConfigureGrid(graphPtr, gridPtr)
  *----------------------------------------------------------------------
  */
 void
-Rbc_MapGrid(graphPtr)
-    Graph *graphPtr;
+Rbc_MapGrid(
+    Graph *graphPtr)
 {
     Grid *gridPtr = (Grid *)graphPtr->gridPtr;
     int nSegments;
@@ -158,9 +158,9 @@ Rbc_MapGrid(graphPtr)
  *----------------------------------------------------------------------
  */
 void
-Rbc_DrawGrid(graphPtr, drawable)
-    Graph *graphPtr;
-    Drawable drawable; /* Pixmap or window to draw into */
+Rbc_DrawGrid(
+    Graph *graphPtr,
+    Drawable drawable) /* Pixmap or window to draw into */
 {
     Grid *gridPtr = (Grid *)graphPtr->gridPtr;
 
@@ -193,9 +193,9 @@ Rbc_DrawGrid(graphPtr, drawable)
  *----------------------------------------------------------------------
  */
 void
-Rbc_GridToPostScript(graphPtr, psToken)
-    Graph *graphPtr;
-    PsToken psToken;
+Rbc_GridToPostScript(
+    Graph *graphPtr,
+    PsToken psToken)
 {
     Grid *gridPtr = (Grid *)graphPtr->gridPtr;
 
@@ -230,8 +230,8 @@ Rbc_GridToPostScript(graphPtr, psToken)
  *----------------------------------------------------------------------
  */
 void
-Rbc_DestroyGrid(graphPtr)
-    Graph *graphPtr;
+Rbc_DestroyGrid(
+    Graph *graphPtr)
 {
     Grid *gridPtr = (Grid *)graphPtr->gridPtr;
 
@@ -264,8 +264,8 @@ Rbc_DestroyGrid(graphPtr)
  *----------------------------------------------------------------------
  */
 int
-Rbc_CreateGrid(graphPtr)
-    Graph *graphPtr;
+Rbc_CreateGrid(
+    Graph *graphPtr)
 {
     Grid *gridPtr;
 

@@ -33,9 +33,9 @@ static void FreeNode (struct Rbc_ListNodeStruct *nodePtr);
  *--------------------------------------------------------------
  */
 static struct Rbc_ListNodeStruct *
-FindString(listPtr, key)
-    struct Rbc_ListStruct *listPtr; /* List to search */
-    const char *key; /* Key to match */
+FindString(
+    struct Rbc_ListStruct *listPtr, /* List to search */
+    const char *key)                /* Key to match */
 {
     register struct Rbc_ListNodeStruct *nodePtr;
     char c;
@@ -67,9 +67,9 @@ FindString(listPtr, key)
  *--------------------------------------------------------------
  */
 static Rbc_ListNode
-FindOneWord(listPtr, key)
-    struct Rbc_ListStruct *listPtr; /* List to search */
-    const char *key; /* Key to match */
+FindOneWord(
+    struct Rbc_ListStruct *listPtr, /* List to search */
+    const char *key)                /* Key to match */
 {
     register struct Rbc_ListNodeStruct *nodePtr;
 
@@ -98,9 +98,9 @@ FindOneWord(listPtr, key)
  *--------------------------------------------------------------
  */
 static Rbc_ListNode
-FindArray(listPtr, key)
-    struct Rbc_ListStruct *listPtr; /* List to search */
-    const char *key; /* Key to match */
+FindArray(
+    struct Rbc_ListStruct *listPtr, /* List to search */
+    const char *key)                /* Key to match */
 {
     register struct Rbc_ListNodeStruct *nodePtr;
     int nBytes;
@@ -131,8 +131,7 @@ FindArray(listPtr, key)
  *----------------------------------------------------------------------
  */
 static void
-FreeNode(nodePtr)
-    struct Rbc_ListNodeStruct *nodePtr;
+FreeNode (struct Rbc_ListNodeStruct *nodePtr)
 {
     ckfree((char *)nodePtr);
 }
@@ -153,8 +152,7 @@ FreeNode(nodePtr)
  *----------------------------------------------------------------------
  */
 Rbc_List
-Rbc_ListCreate(type)
-    int type;
+Rbc_ListCreate (int type)
 {
     struct Rbc_ListStruct *listPtr;
 
@@ -185,9 +183,9 @@ Rbc_ListCreate(type)
  *----------------------------------------------------------------------
  */
 Rbc_ListNode
-Rbc_ListCreateNode(listPtr, key)
-    struct Rbc_ListStruct *listPtr;
-    const char *key; /* Unique key to reference object */
+Rbc_ListCreateNode(
+    struct Rbc_ListStruct *listPtr,
+    const char *key) /* Unique key to reference object */
 {
     register struct Rbc_ListNodeStruct *nodePtr;
     int keySize;
@@ -236,8 +234,7 @@ Rbc_ListCreateNode(listPtr, key)
  *----------------------------------------------------------------------
  */
 void
-Rbc_ListReset(listPtr)
-    struct Rbc_ListStruct *listPtr; /* List to clear */
+Rbc_ListReset (struct Rbc_ListStruct *listPtr) /* List to clear */
 {
     if (listPtr != NULL) {
         register struct Rbc_ListNodeStruct *oldPtr;
@@ -268,8 +265,7 @@ Rbc_ListReset(listPtr)
  *----------------------------------------------------------------------
  */
 void
-Rbc_ListDestroy(listPtr)
-   struct Rbc_ListStruct *listPtr;
+Rbc_ListDestroy (struct Rbc_ListStruct *listPtr)
 {
     if (listPtr != NULL) {
         Rbc_ListReset(listPtr);
@@ -293,9 +289,9 @@ Rbc_ListDestroy(listPtr)
  *----------------------------------------------------------------------
  */
 void
-Rbc_ListInit(listPtr, type)
-    struct Rbc_ListStruct *listPtr;
-    int type;
+Rbc_ListInit(
+    struct Rbc_ListStruct *listPtr,
+    int type)
 {
     listPtr->nNodes = 0;
     listPtr->headPtr = listPtr->tailPtr = NULL;
@@ -318,10 +314,10 @@ Rbc_ListInit(listPtr, type)
  *----------------------------------------------------------------------
  */
 void
-Rbc_ListLinkAfter(listPtr, nodePtr, afterPtr)
-    struct Rbc_ListStruct *listPtr;
-    struct Rbc_ListNodeStruct *nodePtr;
-    struct Rbc_ListNodeStruct *afterPtr;
+Rbc_ListLinkAfter(
+    struct Rbc_ListStruct *listPtr,
+    struct Rbc_ListNodeStruct *nodePtr,
+    struct Rbc_ListNodeStruct *afterPtr)
 {
     if (listPtr->headPtr == NULL) {
         listPtr->tailPtr = listPtr->headPtr = nodePtr;
@@ -363,10 +359,10 @@ Rbc_ListLinkAfter(listPtr, nodePtr, afterPtr)
  *----------------------------------------------------------------------
  */
 void
-Rbc_ListLinkBefore(listPtr, nodePtr, beforePtr)
-    struct Rbc_ListStruct *listPtr; /* List to contain new node */
-    struct Rbc_ListNodeStruct *nodePtr;      /* New node to be inserted */
-    struct Rbc_ListNodeStruct *beforePtr;      /* Node to link before */
+Rbc_ListLinkBefore(
+    struct Rbc_ListStruct *listPtr,         /* List to contain new node */
+    struct Rbc_ListNodeStruct *nodePtr,     /* New node to be inserted */
+    struct Rbc_ListNodeStruct *beforePtr)   /* Node to link before */
 {
     if (listPtr->headPtr == NULL) {
         listPtr->tailPtr = listPtr->headPtr = nodePtr;
@@ -406,8 +402,7 @@ Rbc_ListLinkBefore(listPtr, nodePtr, beforePtr)
  *----------------------------------------------------------------------
  */
 void
-Rbc_ListUnlinkNode(nodePtr)
-    struct Rbc_ListNodeStruct *nodePtr;
+Rbc_ListUnlinkNode (struct Rbc_ListNodeStruct *nodePtr)
 {
     struct Rbc_ListStruct *listPtr;
 
@@ -447,9 +442,9 @@ Rbc_ListUnlinkNode(nodePtr)
  *----------------------------------------------------------------------
  */
 Rbc_ListNode
-Rbc_ListGetNode(listPtr, key)
-    struct Rbc_ListStruct *listPtr; /* List to search */
-    const char *key; /* Key to match */
+Rbc_ListGetNode(
+    struct Rbc_ListStruct *listPtr, /* List to search */
+    const char *key) /* Key to match */
 {
     if (listPtr != NULL) {
         switch (listPtr->type) {
@@ -480,8 +475,7 @@ Rbc_ListGetNode(listPtr, key)
  *----------------------------------------------------------------------
  */
 void
-Rbc_ListDeleteNode(nodePtr)
-    struct Rbc_ListNodeStruct *nodePtr;
+Rbc_ListDeleteNode (struct Rbc_ListNodeStruct *nodePtr)
 {
     Rbc_ListUnlinkNode(nodePtr);
     FreeNode(nodePtr);
@@ -503,9 +497,9 @@ Rbc_ListDeleteNode(nodePtr)
  *----------------------------------------------------------------------
  */
 void
-Rb_ListDeleteNodeByKey(listPtr, key)
-    struct Rbc_ListStruct *listPtr;
-    const char *key;
+Rb_ListDeleteNodeByKey(
+    struct Rbc_ListStruct *listPtr,
+    const char *key)
 {
     struct Rbc_ListNodeStruct *nodePtr;
 
@@ -531,10 +525,10 @@ Rb_ListDeleteNodeByKey(listPtr, key)
  *--------------------------------------------------------------
  */
 Rbc_ListNode
-Rbc_ListAppend(listPtr, key, clientData)
-    struct Rbc_ListStruct *listPtr;
-    const char *key;
-    ClientData clientData;
+Rbc_ListAppend(
+    struct Rbc_ListStruct *listPtr,
+    const char *key,
+    ClientData clientData)
 {
     struct Rbc_ListNodeStruct *nodePtr;
 
@@ -560,10 +554,10 @@ Rbc_ListAppend(listPtr, key, clientData)
  *--------------------------------------------------------------
  */
 Rbc_ListNode
-Rbc_ListPrepend(listPtr, key, clientData)
-    struct Rbc_ListStruct *listPtr;
-    const char *key;
-    ClientData clientData;
+Rbc_ListPrepend(
+    struct Rbc_ListStruct *listPtr,
+    const char *key,
+    ClientData clientData)
 {
     struct Rbc_ListNodeStruct *nodePtr;
 
@@ -590,11 +584,11 @@ Rbc_ListPrepend(listPtr, key, clientData)
  *----------------------------------------------------------------------
  */
 Rbc_ListNode
-Rbc_ListGetNthNode(listPtr, position, direction)
-    struct Rbc_ListStruct *listPtr; /* List to traverse */
-    int position; /* Index of node to select from front
+Rbc_ListGetNthNode(
+    struct Rbc_ListStruct *listPtr, /* List to traverse */
+    int position, /* Index of node to select from front
                    * or back of the list. */
-    int direction;
+    int direction)
 {
     register struct Rbc_ListNodeStruct *nodePtr;
 
@@ -637,9 +631,9 @@ Rbc_ListGetNthNode(listPtr, position, direction)
  *----------------------------------------------------------------------
  */
 void
-Rbc_ListSort(listPtr, proc)
-    struct Rbc_ListStruct *listPtr; /* List to traverse */
-    Rbc_ListCompareProc *proc;
+Rbc_ListSort(
+    struct Rbc_ListStruct *listPtr, /* List to traverse */
+    Rbc_ListCompareProc *proc)
 {
     struct Rbc_ListNodeStruct **nodeArr;
     register struct Rbc_ListNodeStruct *nodePtr;

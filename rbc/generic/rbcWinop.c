@@ -61,10 +61,10 @@ static Win_Op ImageOp;
  *--------------------------------------------------------------
  */
 static int
-GetRealizedWindow(interp, string, tkwinPtr)
-    Tcl_Interp *interp;
-    char *string;
-    Tk_Window *tkwinPtr;
+GetRealizedWindow(
+    Tcl_Interp *interp,
+    char *string,
+    Tk_Window *tkwinPtr)
 {
     Tk_Window tkwin;
 
@@ -95,9 +95,9 @@ GetRealizedWindow(interp, string, tkwinPtr)
  *--------------------------------------------------------------
  */
 static Window
-StringToWindow(interp, string)
-    Tcl_Interp *interp;
-    char *string;
+StringToWindow(
+    Tcl_Interp *interp,
+    char *string)
 {
     int xid;
 
@@ -145,11 +145,11 @@ StringToWindow(interp, string)
  *--------------------------------------------------------------
  */
 static int
-GetWindowSize(interp, window, widthPtr, heightPtr)
-    Tcl_Interp *interp;
-    Window window;
-    int *widthPtr;
-    int *heightPtr;
+GetWindowSize(
+    Tcl_Interp *interp,
+    Window window,
+    int *widthPtr,
+    int *heightPtr)
 {
     int result;
     RECT region;
@@ -182,9 +182,9 @@ GetWindowSize(interp, window, widthPtr, heightPtr)
  *----------------------------------------------------------------------
  */
 static int
-XGeometryErrorProc(clientData, errEventPtr)
-    ClientData clientData;
-    XErrorEvent *errEventPtr;
+XGeometryErrorProc(
+    ClientData clientData,
+    XErrorEvent *errEventPtr)
 {
     int *errorPtr = clientData;
 
@@ -208,10 +208,11 @@ XGeometryErrorProc(clientData, errEventPtr)
  *--------------------------------------------------------------
  */
 static int
-GetWindowSize(interp, window, widthPtr, heightPtr)
-    Tcl_Interp *interp;
-    Window window;
-    int *widthPtr, *heightPtr;
+GetWindowSize(
+    Tcl_Interp *interp,
+    Window window,
+    int *widthPtr,
+    int *heightPtr)
 {
     int result;
     int any = -1;
@@ -1445,8 +1446,7 @@ WinopObjCmd(
  *--------------------------------------------------------------
  */
 int
-Rbc_WinopInit(interp)
-    Tcl_Interp *interp;
+Rbc_WinopInit (Tcl_Interp *interp)
 {
     Tcl_CreateObjCommand (interp, "rbc::winop", WinopObjCmd, (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
     return TCL_OK;

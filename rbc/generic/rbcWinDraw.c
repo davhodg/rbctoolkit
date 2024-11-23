@@ -123,7 +123,7 @@ static Tcl_Encoding systemEncoding = NULL;
  *--------------------------------------------------------------
  */
 HPALETTE
-Rbc_GetSystemPalette()
+Rbc_GetSystemPalette (void)
 {
     HDC hDC;
     HPALETTE hPalette;
@@ -165,9 +165,9 @@ Rbc_GetSystemPalette()
  *--------------------------------------------------------------
  */
 HFONT
-CreateRotatedFont(fontPtr, theta)
-    TkFont *fontPtr; /* Font identifier (actually a Tk_Font) */
-    double theta; /* Number of degrees to rotate font */
+CreateRotatedFont(
+    TkFont *fontPtr, /* Font identifier (actually a Tk_Font) */
+    double theta)    /* Number of degrees to rotate font */
 {
     RbcFontAttributes *faPtr;	/* Set of attributes to match. */
     HFONT hFont;
@@ -281,12 +281,12 @@ CreateRotatedFont(fontPtr, theta)
  *--------------------------------------------------------------
  */
 unsigned char *
-Rbc_GetBitmapData(display, bitmap, width, height, pitchPtr)
-    Display *display; /* Display of bitmap */
-    Pixmap bitmap; /* Bitmap to query */
-    int width; /* Width of bitmap */
-    int height; /* Height of bitmap */
-    int *pitchPtr; /* (out) Number of bytes per row */
+Rbc_GetBitmapData(
+    Display *display, /* Display of bitmap */
+    Pixmap bitmap,  /* Bitmap to query */
+    int width,      /* Width of bitmap */
+    int height,     /* Height of bitmap */
+    int *pitchPtr)  /* (out) Number of bytes per row */
 {
     TkWinDCState state;
     HDC dc;
@@ -366,8 +366,7 @@ Rbc_GetBitmapData(display, bitmap, width, height, pitchPtr)
  *--------------------------------------------------------------
  */
 void
-Rbc_EmulateXFree(ptr)
-    void *ptr;
+Rbc_EmulateXFree (void *ptr)
 {
     ckfree((char *)ptr);
 }
@@ -388,8 +387,7 @@ Rbc_EmulateXFree(ptr)
  *--------------------------------------------------------------
  */
 long
-Rbc_EmulateXMaxRequestSize(display)
-    Display *display;
+Rbc_EmulateXMaxRequestSize (Display *display)
 {
     return (SHRT_MAX / 4);
 }
@@ -410,9 +408,9 @@ Rbc_EmulateXMaxRequestSize(display)
  *--------------------------------------------------------------
  */
 void
-Rbc_EmulateXLowerWindow(display, window)
-    Display *display;
-    Window window;
+Rbc_EmulateXLowerWindow(
+    Display *display,
+    Window window)
 {
     HWND hWnd;
 
@@ -437,9 +435,9 @@ Rbc_EmulateXLowerWindow(display, window)
  *--------------------------------------------------------------
  */
 void
-Rbc_EmulateXRaiseWindow(display, window)
-    Display *display;
-    Window window;
+Rbc_EmulateXRaiseWindow(
+    Display *display,
+    Window window)
 {
     HWND hWnd;
 
@@ -464,9 +462,9 @@ Rbc_EmulateXRaiseWindow(display, window)
  *--------------------------------------------------------------
  */
 void
-Rbc_EmulateXUnmapWindow(display, window)
-    Display *display;
-    Window window;
+Rbc_EmulateXUnmapWindow(
+    Display *display,
+    Window window)
 {
     HWND hWnd;
 
@@ -503,16 +501,16 @@ Rbc_EmulateXUnmapWindow(display, window)
  *--------------------------------------------------------------
  */
 void
-Rbc_EmulateXWarpPointer(display, srcWindow, destWindow, srcX, srcY, srcWidth, srcHeight, destX, destY)
-    Display *display;
-    Window srcWindow;
-    Window destWindow;
-    int srcX;
-    int srcY;
-    unsigned int srcWidth;
-    unsigned int srcHeight;
-    int destX;
-    int destY;
+Rbc_EmulateXWarpPointer(
+    Display *display,
+    Window srcWindow,
+    Window destWindow,
+    int srcX,
+    int srcY,
+    unsigned int srcWidth,
+    unsigned int srcHeight,
+    int destX,
+    int destY)
 {
     HWND hWnd;
     POINT point;
@@ -552,10 +550,10 @@ typedef struct {
  *--------------------------------------------------------------
  */
 void
-Rbc_SetDashes(display, gc, dashesPtr)
-    Display *display;
-    GC gc;
-    Rbc_Dashes *dashesPtr;
+Rbc_SetDashes(
+    Display *display,
+    GC gc,
+    Rbc_Dashes *dashesPtr)
 {
     XGCValuesEx *gcPtr = (XGCValuesEx *)gc;
 
@@ -582,10 +580,10 @@ Rbc_SetDashes(display, gc, dashesPtr)
  *--------------------------------------------------------------
  */
 static int
-GetDashInfo(dc, gc, infoPtr)
-    HDC dc;
-    GC gc;
-    DashInfo *infoPtr;
+GetDashInfo(
+    HDC dc,
+    GC gc,
+    DashInfo *infoPtr)
 {
     int dashOffset, dashValue;
 
@@ -627,9 +625,9 @@ GetDashInfo(dc, gc, infoPtr)
  *--------------------------------------------------------------
  */
 void
-Rbc_SetROP2(dc, function)
-    HDC dc;
-    int function;
+Rbc_SetROP2(
+    HDC dc,
+    int function)
 {
     SetROP2(dc, tkpWinRopModes[function]);
 }
@@ -650,7 +648,7 @@ Rbc_SetROP2(dc, function)
  *--------------------------------------------------------------
  */
 static XGCValuesEx *
-CreateGC()
+CreateGC (void)
 {
     XGCValuesEx *gcPtr;
 
@@ -701,17 +699,17 @@ CreateGC()
  *----------------------------------------------------------------------
  */
 GC
-Rbc_EmulateXCreateGC(display, drawable, mask, srcPtr)
-    Display *display;
-    Drawable drawable;
-    unsigned long mask;
-    XGCValues *srcPtr;
+Rbc_EmulateXCreateGC(
+    Display *display,
+    Drawable drawable,
+    unsigned long mask,
+    XGCValues *srcPtr)
 {
     XGCValuesEx *destPtr;
 
     destPtr = CreateGC();
     if (destPtr == NULL) {
-        return None;
+        return NULL;
     }
     if (mask & GCFunction) {
         destPtr->function = srcPtr->function;
@@ -837,9 +835,9 @@ Rbc_EmulateXCreateGC(display, drawable, mask, srcPtr)
  *----------------------------------------------------------------------
  */
 HPEN
-Rbc_GCToPen(dc, gc)
-    HDC dc;
-    GC gc;
+Rbc_GCToPen(
+    HDC dc,
+    GC gc)
 {
     DWORD lineAttrs, lineStyle;
     DWORD dashArr[12];
@@ -979,12 +977,12 @@ Rbc_GCToPen(dc, gc)
  *----------------------------------------------------------------------
  */
 void
-Rbc_EmulateXDrawRectangles(display, drawable, gc, rectArr, nRects)
-    Display *display;
-    Drawable drawable;
-    GC gc;
-    XRectangle *rectArr;
-    int nRects;
+Rbc_EmulateXDrawRectangles(
+    Display *display,
+    Drawable drawable,
+    GC gc,
+    XRectangle *rectArr,
+    int nRects)
 {
     HPEN pen, oldPen;
     TkWinDCState state;
@@ -1108,12 +1106,12 @@ DrawMiniArc(
  *----------------------------------------------------------------------
  */
 static void
-DrawArc(dc, arcMode, arcPtr, pen, brush)
-    HDC dc;
-    int arcMode; /* Mode: either ArcChord or ArcPieSlice */
-    XArc *arcPtr;
-    HPEN pen;
-    HBRUSH brush;
+DrawArc(
+    HDC dc,
+    int arcMode, /* Mode: either ArcChord or ArcPieSlice */
+    XArc *arcPtr,
+    HPEN pen,
+    HBRUSH brush)
 {
     int start, extent, clockwise;
     int xstart, ystart, xend, yend;
@@ -1214,12 +1212,12 @@ DrawArc(dc, arcMode, arcPtr, pen, brush)
  *----------------------------------------------------------------------
  */
 void
-Rbc_EmulateXDrawArcs(display, drawable, gc, arcArr, nArcs)
-    Display *display;
-    Drawable drawable;
-    GC gc;
-    XArc *arcArr;
-    int nArcs;
+Rbc_EmulateXDrawArcs(
+    Display *display,
+    Drawable drawable,
+    GC gc,
+    XArc *arcArr,
+    int nArcs)
 {
     HPEN pen, oldPen;
     HBRUSH brush, oldBrush;
@@ -1262,12 +1260,12 @@ Rbc_EmulateXDrawArcs(display, drawable, gc, arcArr, nArcs)
  *----------------------------------------------------------------------
  */
 void
-Rbc_EmulateXFillArcs(display, drawable, gc, arcArr, nArcs)
-    Display *display;
-    Drawable drawable;
-    GC gc;
-    XArc *arcArr;
-    int nArcs;
+Rbc_EmulateXFillArcs(
+    Display *display,
+    Drawable drawable,
+    GC gc,
+    XArc *arcArr,
+    int nArcs)
 {
     HBRUSH brush, oldBrush;
     HPEN pen, oldPen;
@@ -1342,14 +1340,14 @@ DrawDot(
  *----------------------------------------------------------------------
  */
 void
-Rbc_EmulateXDrawLine(display, drawable, gc, x1, y1, x2, y2)
-    Display *display;
-    Drawable drawable;
-    GC gc;
-    int x1;
-    int y1;
-    int x2;
-    int y2;
+Rbc_EmulateXDrawLine(
+    Display *display,
+    Drawable drawable,
+    GC gc,
+    int x1,
+    int y1,
+    int x2,
+    int y2)
 {
     TkWinDCState state;
     HDC dc;
@@ -1400,12 +1398,12 @@ solidLine:
  *----------------------------------------------------------------------
  */
 static void
-DrawLine(display, drawable, gc, points, nPoints)
-    Display *display;
-    Drawable drawable;
-    GC gc;
-    POINT *points;
-    int nPoints;
+DrawLine(
+    Display *display,
+    Drawable drawable,
+    GC gc,
+    POINT *points,
+    int nPoints)
 {
     TkWinDCState state;
     HDC dc;
@@ -1464,13 +1462,13 @@ DrawLine(display, drawable, gc, points, nPoints)
  *--------------------------------------------------------------
  */
 void
-Rbc_EmulateXDrawLines(display, drawable, gc, pointArr, nPoints, mode)
-    Display *display;
-    Drawable drawable;
-    GC gc;
-    XPoint *pointArr;
-    int nPoints;
-    int mode;
+Rbc_EmulateXDrawLines(
+    Display *display,
+    Drawable drawable,
+    GC gc,
+    XPoint *pointArr,
+    int nPoints,
+    int mode)
 {
     if (drawable == None) {
         return;
@@ -1559,12 +1557,12 @@ Rbc_EmulateXDrawLines(display, drawable, gc, pointArr, nPoints, mode)
  *----------------------------------------------------------------------
  */
 void
-Rbc_EmulateXDrawSegments(display, drawable, gc, segArr, nSegments)
-    Display *display;
-    Drawable drawable;
-    GC gc;
-    XSegment *segArr;
-    int nSegments;
+Rbc_EmulateXDrawSegments(
+    Display *display,
+    Drawable drawable,
+    GC gc,
+    XSegment *segArr,
+    int nSegments)
 {
     HDC dc;
     register XSegment *segPtr, *endPtr;
@@ -1626,14 +1624,14 @@ solidLine:
  *----------------------------------------------------------------------
  */
 void
-Rbc_EmulateXDrawRectangle(display, drawable, gc, x, y, width, height)
-    Display *display;
-    Drawable drawable;
-    GC gc;
-    int x;
-    int y;
-    unsigned int width;
-    unsigned int height;
+Rbc_EmulateXDrawRectangle(
+    Display *display,
+    Drawable drawable,
+    GC gc,
+    int x,
+    int y,
+    unsigned int width,
+    unsigned int height)
 {
     TkWinDCState state;
     HPEN pen, oldPen;
@@ -1692,13 +1690,13 @@ solidLine:
  *----------------------------------------------------------------------
  */
 void
-Rbc_EmulateXDrawPoints(display, drawable, gc, pointArr, nPoints, mode)
-    Display *display;
-    Drawable drawable;
-    GC gc;
-    XPoint *pointArr;
-    int nPoints;
-    int mode;
+Rbc_EmulateXDrawPoints(
+    Display *display,
+    Drawable drawable,
+    GC gc,
+    XPoint *pointArr,
+    int nPoints,
+    int mode)
 {				/* Ignored. CoordModeOrigin is assumed. */
     HDC dc;
     register XPoint *pointPtr, *endPtr;
@@ -1739,12 +1737,12 @@ Rbc_EmulateXDrawPoints(display, drawable, gc, pointArr, nPoints, mode)
  *----------------------------------------------------------------------
  */
 void
-Rbc_EmulateXReparentWindow(display, window, parent, x, y)
-    Display *display;
-    Window window;
-    Window parent;
-    int x;
-    int y;
+Rbc_EmulateXReparentWindow(
+    Display *display,
+    Window window,
+    Window parent,
+    int x,
+    int y)
 {
     HWND child, newParent;
 
@@ -1775,12 +1773,12 @@ Rbc_EmulateXReparentWindow(display, window, parent, x, y)
  *--------------------------------------------------------------
  */
 void
-Rbc_EmulateXSetDashes(display, gc, dashOffset, dashList, n)
-    Display *display;
-    GC gc;
-    int dashOffset;
-    _Xconst char *dashList;
-    int n;
+Rbc_EmulateXSetDashes(
+    Display *display,
+    GC gc,
+    int dashOffset,
+    _Xconst char *dashList,
+    int n)
 {
     gc->dashes = (unsigned char)strlen(dashList);
     gc->dash_offset = (int)dashList;
@@ -1802,14 +1800,14 @@ Rbc_EmulateXSetDashes(display, gc, dashOffset, dashList, n)
  *----------------------------------------------------------------------
  */
 void
-Rbc_EmulateXDrawString(display, drawable, gc, x, y, string, length)
-    Display *display;
-    Drawable drawable;
-    GC gc;
-    int x;
-    int y;
-    _Xconst char *string;
-    int length;
+Rbc_EmulateXDrawString(
+    Display *display,
+    Drawable drawable,
+    GC gc,
+    int x,
+    int y,
+    _Xconst char *string,
+    int length)
 {
     if (drawable == None) {
         return;
@@ -1834,17 +1832,17 @@ Rbc_EmulateXDrawString(display, drawable, gc, x, y, string, length)
  *--------------------------------------------------------------
  */
 static void
-TileArea(destDC, srcDC, tileOriginX, tileOriginY, tileWidth, tileHeight,
-         x, y, width, height)
-      HDC destDC, srcDC;
-      int tileOriginX;
-      int tileOriginY;
-      int tileWidth;
-      int tileHeight;
-      int x;
-      int y;
-      int width;
-      int height;
+TileArea(
+      HDC destDC,
+      HDC srcDC,
+      int tileOriginX,
+      int tileOriginY,
+      int tileWidth,
+      int tileHeight,
+      int x,
+      int y,
+      int width,
+      int height)
 {
     int destX, destY;
     int destWidth, destHeight;
@@ -1937,12 +1935,12 @@ TileArea(destDC, srcDC, tileOriginX, tileOriginY, tileWidth, tileHeight,
  *----------------------------------------------------------------------
  */
 void
-Rbc_EmulateXFillRectangles(display, drawable, gc, rectArr, nRectangles)
-    Display *display;
-    Drawable drawable;
-    GC gc;
-    XRectangle *rectArr;
-    int nRectangles;
+Rbc_EmulateXFillRectangles(
+    Display *display,
+    Drawable drawable,
+    GC gc,
+    XRectangle *rectArr,
+    int nRectangles)
 {
     BITMAP bm;
     HBITMAP oldBitmap, hBitmap;
@@ -2072,14 +2070,14 @@ fillSolid:
  *--------------------------------------------------------------
  */
 void
-Rbc_EmulateXFillRectangle(display, drawable, gc, x, y, width, height)
-    Display *display;
-    Drawable drawable;
-    GC gc;
-    int x;
-    int y;
-    unsigned int width;
-    unsigned int height;
+Rbc_EmulateXFillRectangle(
+    Display *display,
+    Drawable drawable,
+    GC gc,
+    int x,
+    int y,
+    unsigned int width,
+    unsigned int height)
 {
     HDC hDC;
     RECT rect;
@@ -2205,12 +2203,12 @@ fillSolid:
  *--------------------------------------------------------------
  */
 static BOOL
-DrawChars(dc, x, y, string, length)
-    HDC dc;
-    int x;
-    int y;
-    char *string;
-    int length;
+DrawChars(
+    HDC dc,
+    int x,
+    int y,
+    char *string,
+    int length)
 {
     BOOL result;
 
@@ -2246,14 +2244,14 @@ DrawChars(dc, x, y, string, length)
  *--------------------------------------------------------------
  */
 int
-Rbc_DrawRotatedText(display, drawable, x, y, theta, tsPtr, textPtr)
-    Display *display;
-    Drawable drawable;
-    int x;
-    int y;
-    double theta;
-    TextStyle *tsPtr;
-    TextLayout *textPtr;
+Rbc_DrawRotatedText(
+    Display *display,
+    Drawable drawable,
+    int x,
+    int y,
+    double theta,
+    TextStyle *tsPtr,
+    TextLayout *textPtr)
 {
     HFONT hFont, oldFont;
     TkWinDCState state;
@@ -2277,7 +2275,7 @@ Rbc_DrawRotatedText(display, drawable, x, y, theta, tsPtr, textPtr)
         }
         initialized = 1;
     }
-    hFont = CreateRotatedFont(tsPtr->gc->font, theta);
+    hFont = CreateRotatedFont (tsPtr->gc->font, theta);
     if (hFont == NULL) {
         return FALSE;
     }
@@ -2381,11 +2379,11 @@ done:
  *--------------------------------------------------------------
  */
 static void
-DrawPixel(hDC, x, y, color)
-    HDC hDC;
-    int x;
-    int y;
-    COLORREF color;
+DrawPixel(
+    HDC hDC,
+    int x,
+    int y,
+    COLORREF color)
 {
     HDC memDC;
     HBRUSH hBrushFg;
@@ -2429,16 +2427,16 @@ DrawPixel(hDC, x, y, color)
  *----------------------------------------------------------------------
  */
 static void
-PixelateBitmap(display, drawable, srcBitmap, maskBitmap, width, height, gc, destX, destY)
-    Display *display;
-    Drawable drawable;
-    Pixmap srcBitmap;
-    Pixmap maskBitmap;
-    int width;
-    int height;
-    GC gc;
-    int destX;
-    int destY;
+PixelateBitmap(
+    Display *display,
+    Drawable drawable,
+    Pixmap srcBitmap,
+    Pixmap maskBitmap,
+    int width,
+    int height,
+    GC gc,
+    int destX,
+    int destY)
 {
     register int x, y;
     register int dx, dy;
@@ -2525,18 +2523,18 @@ PixelateBitmap(display, drawable, srcBitmap, maskBitmap, width, height, gc, dest
  *----------------------------------------------------------------------
  */
 void
-Rbc_EmulateXCopyPlane(display, src, dest, gc, srcX, srcY, width, height, destX, destY, plane)
-    Display *display;
-    Drawable src;
-    Drawable dest;
-    GC gc;
-    int srcX;
-    int srcY;
-    unsigned int width;
-    unsigned int height;
-    int destX;
-    int destY;
-    unsigned long plane;
+Rbc_EmulateXCopyPlane(
+    Display *display,
+    Drawable src,
+    Drawable dest,
+    GC gc,
+    int srcX,
+    int srcY,
+    unsigned int width,
+    unsigned int height,
+    int destX,
+    int destY,
+    unsigned long plane)
 {
     HDC srcDC, destDC;
     TkWinDCState srcState, destState;
@@ -2655,18 +2653,18 @@ Rbc_EmulateXCopyPlane(display, src, dest, gc, srcX, srcY, width, height, destX, 
  *----------------------------------------------------------------------
  */
 void
-Rbc_EmulateXCopyArea(display, src, dest, gc, srcX, srcY, width, height, destX, destY)
-    Display *display;
-    Drawable src;
-    Drawable dest;
-    GC gc;
-    int srcX; /* Source X-coordinate */
-    int srcY; /* Source Y-coordinate. */
-    unsigned int width; /* Width of area. */
-    unsigned int height; /* Height of area. */
-    int destX; /* Destination X-coordinate (in screen
+Rbc_EmulateXCopyArea(
+    Display *display,
+    Drawable src,
+    Drawable dest,
+    GC gc,
+    int srcX, /* Source X-coordinate */
+    int srcY, /* Source Y-coordinate. */
+    unsigned int width, /* Width of area. */
+    unsigned int height, /* Height of area. */
+    int destX, /* Destination X-coordinate (in screen
                 * coordinates). */
-    int destY; /* Destination Y-coordinate (in screen
+    int destY) /* Destination Y-coordinate (in screen
                 * coordinates). */
 {
     HDC srcDC, destDC;
@@ -2711,15 +2709,15 @@ Rbc_EmulateXCopyArea(display, src, dest, gc, srcX, srcY, width, height, destX, d
  *--------------------------------------------------------------
  */
 static void
-StippleRegion(display, hDC, gc, x, y, width, height)
-    Display *display;
-    HDC hDC; /* Device context: For polygons, clip
+StippleRegion(
+    Display *display,
+    HDC hDC, /* Device context: For polygons, clip
               * region will be installed. */
-    GC gc;
-    int x;
-    int y;
-    int width;
-    int height;
+    GC gc,
+    int x,
+    int y,
+    int width,
+    int height)
 {
     BITMAP bm;
     HBITMAP oldBitmap;
@@ -2865,14 +2863,14 @@ StippleRegion(display, hDC, gc, x, y, width, height)
  *--------------------------------------------------------------
  */
 void
-Rbc_EmulateXFillPolygon(display, drawable, gc, pointPtr, nPoints, shape, mode)
-    Display *display;
-    Drawable drawable;
-    GC gc;
-    XPoint *pointPtr;
-    int nPoints;
-    int shape;
-    int mode;
+Rbc_EmulateXFillPolygon(
+    Display *display,
+    Drawable drawable,
+    GC gc,
+    XPoint *pointPtr,
+    int nPoints,
+    int shape,
+    int mode)
 {
     HDC hDC;
     HRGN hRgn;

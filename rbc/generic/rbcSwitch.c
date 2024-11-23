@@ -37,15 +37,15 @@ static int DoSwitch (Tcl_Interp *interp, Rbc_SwitchSpec *specPtr, char *string, 
  *--------------------------------------------------------------
  */
 static Rbc_SwitchSpec *
-FindSwitchSpec(interp, specs, name, needFlags, hateFlags)
-    Tcl_Interp *interp; /* Used for reporting errors. */
-    Rbc_SwitchSpec *specs; /* Pointer to table of configuration
+FindSwitchSpec(
+    Tcl_Interp *interp,    /* Used for reporting errors. */
+    Rbc_SwitchSpec *specs, /* Pointer to table of configuration
                             * specifications for a widget. */
-    char *name; /* Name (suitable for use in a "switch"
-                 * command) identifying particular option. */
-    int needFlags; /* Flags that must be present in matching
+    char *name,    /* Name (suitable for use in a "switch"
+                    * command) identifying particular option. */
+    int needFlags, /* Flags that must be present in matching
                     * entry. */
-    int hateFlags; /* Flags that must NOT be present in
+    int hateFlags) /* Flags that must NOT be present in
                     * matching entry. */
 {
     register Rbc_SwitchSpec *specPtr;
@@ -106,11 +106,11 @@ FindSwitchSpec(interp, specs, name, needFlags, hateFlags)
  *--------------------------------------------------------------
  */
 static int
-DoSwitch(interp, specPtr, string, record)
-    Tcl_Interp *interp; /* Interpreter for error reporting. */
-    Rbc_SwitchSpec *specPtr; /* Specifier to apply. */
-    char *string; /* Value to use to fill in widgRec. */
-    ClientData record; /* Record whose fields are to be
+DoSwitch(
+    Tcl_Interp *interp,         /* Interpreter for error reporting. */
+    Rbc_SwitchSpec *specPtr,    /* Specifier to apply. */
+    char *string,               /* Value to use to fill in widgRec. */
+    ClientData record) /* Record whose fields are to be
                         * modified.  Values must be properly
                         * initialized. */
 {
@@ -234,15 +234,15 @@ DoSwitch(interp, specPtr, string, record)
  *--------------------------------------------------------------
  */
 int
-Rbc_ProcessObjSwitches(interp, specs, objc, objv, record, flags)
-    Tcl_Interp *interp; /* Interpreter for error reporting. */
-    Rbc_SwitchSpec *specs; /* Describes legal options. */
-    int objc; /* Number of elements in objv. */
-    Tcl_Obj *const *objv; /* Command-line options. */
-    char *record; /* Record whose fields are to be
+Rbc_ProcessObjSwitches(
+    Tcl_Interp *interp,     /* Interpreter for error reporting. */
+    Rbc_SwitchSpec *specs,  /* Describes legal options. */
+    int objc,               /* Number of elements in objv. */
+    Tcl_Obj *const *objv,   /* Command-line options. */
+    char *record, /* Record whose fields are to be
                    * modified.  Values must be properly
                    * initialized. */
-    int flags; /* Used to specify additional flags
+    int flags) /* Used to specify additional flags
                 * that must be present in switch specs
                 * for them to be considered.  Also,
                 * may have RBC_SWITCH_ARGV_ONLY set. */
@@ -336,11 +336,11 @@ Rbc_ProcessObjSwitches(interp, specs, objc, objv, record, flags)
 
 /* ARGSUSED */
 void
-Rbc_FreeSwitches(specs, record, needFlags)
-    Rbc_SwitchSpec *specs; /* Describes legal options. */
-    char *record; /* Record whose fields contain current
-                   * values for options. */
-    int needFlags; /* Used to specify additional flags
+Rbc_FreeSwitches(
+    Rbc_SwitchSpec *specs, /* Describes legal options. */
+    char *record,  /* Record whose fields contain current
+                    * values for options. */
+    int needFlags) /* Used to specify additional flags
                     * that must be present in config specs
                     * for them to be considered. */
 {

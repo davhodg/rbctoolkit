@@ -272,8 +272,8 @@ static Graph_Op ViewOp;
  *----------------------------------------------------------------------
  */
 static int
-Round(x)
-    register double x;
+Round(
+    register double x)
 {
     return (int) (x + ((x < 0.0) ? -0.5 : 0.5));
 }
@@ -294,9 +294,10 @@ Round(x)
  *----------------------------------------------------------------------
  */
 static void
-SetAxisRange(rangePtr, min, max)
-    AxisRange *rangePtr;
-    double min, max;
+SetAxisRange(
+    AxisRange *rangePtr,
+    double min,
+    double max)
 {
     rangePtr->min = min;
     rangePtr->max = max;
@@ -331,9 +332,9 @@ SetAxisRange(rangePtr, min, max)
  * ----------------------------------------------------------------------
  */
 static int
-InRange(x, rangePtr)
-    register double x;
-    AxisRange *rangePtr;
+InRange(
+    register double x,
+    AxisRange *rangePtr)
 {
     if (rangePtr->range < DBL_EPSILON) {
 #ifdef notdef
@@ -350,9 +351,9 @@ InRange(x, rangePtr)
 }
 
 static int
-AxisIsHorizontal(graphPtr, axisPtr)
-    Graph *graphPtr;
-    Axis *axisPtr;
+AxisIsHorizontal(
+    Graph *graphPtr,
+    Axis *axisPtr)
 {
     return ((axisPtr->classUid == rbcYAxisUid) == graphPtr->inverted);
 }
@@ -380,14 +381,14 @@ AxisIsHorizontal(graphPtr, axisPtr)
  *----------------------------------------------------------------------
  */
 static int
-StringToAnyAxis(clientData, interp, tkwin, string, widgRec, offset)
-    ClientData clientData; /* Class identifier of the type of
+StringToAnyAxis(
+    ClientData clientData, /* Class identifier of the type of
                             * axis we are looking for. */
-    Tcl_Interp *interp; /* Interpreter to send results back to. */
-    Tk_Window tkwin; /* Used to look up pointer to graph. */
-    CONST86 char *string; /* String representing new value. */
-    char *widgRec; /* Pointer to structure record. */
-    Tcl_Size offset; /* Offset of field in structure. */
+    Tcl_Interp *interp,    /* Interpreter to send results back to. */
+    Tk_Window tkwin,       /* Used to look up pointer to graph. */
+    CONST86 char *string,  /* String representing new value. */
+    char *widgRec,         /* Pointer to structure record. */
+    Tcl_Size offset)       /* Offset of field in structure. */
 {
     Axis **axisPtrPtr = (Axis **)(widgRec + offset);
     Rbc_Uid classUid = *(Rbc_Uid *)clientData;
@@ -424,14 +425,14 @@ StringToAnyAxis(clientData, interp, tkwin, string, widgRec, offset)
  *----------------------------------------------------------------------
  */
 static int
-StringToAxis(clientData, interp, tkwin, string, widgRec, offset)
-    ClientData clientData; /* Class identifier of the type of
+StringToAxis(
+    ClientData clientData, /* Class identifier of the type of
                             * axis we are looking for. */
-    Tcl_Interp *interp; /* Interpreter to send results back to. */
-    Tk_Window tkwin; /* Used to look up pointer to graph. */
-    CONST86 char *string; /* String representing new value. */
-    char *widgRec; /* Pointer to structure record. */
-    Tcl_Size offset; /* Offset of field in structure. */
+    Tcl_Interp *interp,    /* Interpreter to send results back to. */
+    Tk_Window tkwin,       /* Used to look up pointer to graph. */
+    CONST86 char *string,  /* String representing new value. */
+    char *widgRec,         /* Pointer to structure record. */
+    Tcl_Size offset)       /* Offset of field in structure. */
 {
     Axis **axisPtrPtr = (Axis **)(widgRec + offset);
     Rbc_Uid classUid = *(Rbc_Uid *)clientData;
@@ -462,12 +463,12 @@ StringToAxis(clientData, interp, tkwin, string, widgRec, offset)
  *----------------------------------------------------------------------
  */
 static CONST86 char *
-AxisToString(clientData, tkwin, widgRec, offset, freeProcPtr)
-    ClientData clientData; /* Not used. */
-    Tk_Window tkwin; /* Not used. */
-    char *widgRec; /* Pointer to structure record .*/
-    Tcl_Size offset; /* Offset of field in structure. */
-    Tcl_FreeProc **freeProcPtr; /* Not used. */
+AxisToString(
+    ClientData clientData,  /* Not used. */
+    Tk_Window tkwin,        /* Not used. */
+    char *widgRec,          /* Pointer to structure record .*/
+    Tcl_Size offset,        /* Offset of field in structure. */
+    Tcl_FreeProc **freeProcPtr) /* Not used. */
 {
     Axis *axisPtr = *(Axis **)(widgRec + offset);
 
@@ -494,13 +495,13 @@ AxisToString(clientData, tkwin, widgRec, offset, freeProcPtr)
  *----------------------------------------------------------------------
  */
 static int
-StringToFormat(clientData, interp, tkwin, string, widgRec, offset)
-    ClientData clientData; /* Not used. */
-    Tcl_Interp *interp; /* Interpreter to send results back to. */
-    Tk_Window tkwin; /* Used to look up pointer to graph */
-    CONST86 char *string; /* String representing new value. */
-    char *widgRec; /* Pointer to structure record. */
-    Tcl_Size offset; /* Offset of field in structure. */
+StringToFormat(
+    ClientData clientData,
+    Tcl_Interp *interp,    /* Interpreter to send results back to. */
+    Tk_Window tkwin,       /* Used to look up pointer to graph. */
+    CONST86 char *string,  /* String representing new value. */
+    char *widgRec,         /* Pointer to structure record. */
+    Tcl_Size offset)       /* Offset of field in structure. */
 {
     Axis *axisPtr = (Axis *)(widgRec);
     char **argv;
@@ -545,12 +546,12 @@ StringToFormat(clientData, interp, tkwin, string, widgRec, offset)
  *----------------------------------------------------------------------
  */
 static CONST86 char *
-FormatToString(clientData, tkwin, widgRec, offset, freeProcPtr)
-    ClientData clientData; /* Not used. */
-    Tk_Window tkwin; /* Not used. */
-    char *widgRec; /* Widget record */
-    Tcl_Size offset; /* offset of limits field */
-    Tcl_FreeProc **freeProcPtr; /* Not used. */
+FormatToString(
+    ClientData clientData,  /* Not used. */
+    Tk_Window tkwin,        /* Not used. */
+    char *widgRec,          /* Widget record */
+    Tcl_Size offset,        /* offset of limits field */
+    Tcl_FreeProc **freeProcPtr) /* Not used. */
 {
     Axis *axisPtr = (Axis *)(widgRec);
 
@@ -579,14 +580,14 @@ FormatToString(clientData, tkwin, widgRec, offset, freeProcPtr)
  * ----------------------------------------------------------------------
  */
 static int
-StringToLimit(clientData, interp, tkwin, string, widgRec, offset)
-    ClientData clientData; /* Either AXIS_CONFIG_MIN or AXIS_CONFIG_MAX.
+StringToLimit(
+    ClientData clientData, /* Either AXIS_CONFIG_MIN or AXIS_CONFIG_MAX.
                             * Indicates which axis limit to set. */
-    Tcl_Interp *interp; /* Interpreter to send results back to */
-    Tk_Window tkwin; /* Not used. */
-    CONST86 char *string; /* String representing new value. */
-    char *widgRec; /* Pointer to structure record. */
-    Tcl_Size offset; /* Offset of field in structure. */
+    Tcl_Interp *interp,    /* Interpreter to send results back to */
+    Tk_Window tkwin,       /* Not used. */
+    CONST86 char *string,  /* String representing new value. */
+    char *widgRec,         /* Pointer to structure record. */
+    Tcl_Size offset)       /* Offset of field in structure. */
 {
     double *limitPtr = (double *)(widgRec + offset);
 
@@ -614,12 +615,12 @@ StringToLimit(clientData, interp, tkwin, string, widgRec, offset)
  * ----------------------------------------------------------------------
  */
 static CONST86 char *
-LimitToString(clientData, tkwin, widgRec, offset, freeProcPtr)
-    ClientData clientData; /* Either LMIN or LMAX */
-    Tk_Window tkwin; /* Not used. */
-    char *widgRec;
-    Tcl_Size offset;
-    Tcl_FreeProc **freeProcPtr;
+LimitToString(
+    ClientData clientData,  /* Either LMIN or LMAX */
+    Tk_Window tkwin,        /* Not used. */
+    char *widgRec,
+    Tcl_Size offset,
+    Tcl_FreeProc **freeProcPtr)
 {
     double limit = *(double *)(widgRec + offset);
     char *result;
@@ -656,13 +657,13 @@ LimitToString(clientData, tkwin, widgRec, offset, freeProcPtr)
  * ----------------------------------------------------------------------
  */
 static int
-StringToTicks(clientData, interp, tkwin, string, widgRec, offset)
-    ClientData clientData; /* Not used. */
-    Tcl_Interp *interp; /* Interpreter to send results back to */
-    Tk_Window tkwin; /* Not used. */
-    CONST86 char *string; /* String representing new value. */
-    char *widgRec; /* Pointer to structure record. */
-    Tcl_Size offset; /* Offset of field in structure. */
+StringToTicks(
+    ClientData clientData, /* Not used. */
+    Tcl_Interp *interp,    /* Interpreter to send results back to */
+    Tk_Window tkwin,       /* Not used. */
+    CONST86 char *string,  /* String representing new value. */
+    char *widgRec,         /* Pointer to structure record. */
+    Tcl_Size offset)       /* Offset of field in structure. */
 {
     unsigned int mask = (unsigned int)clientData;
     Axis *axisPtr = (Axis *)widgRec;
@@ -730,12 +731,12 @@ StringToTicks(clientData, interp, tkwin, string, widgRec, offset)
  * ----------------------------------------------------------------------
  */
 static CONST86 char *
-TicksToString(clientData, tkwin, widgRec, offset, freeProcPtr)
-    ClientData clientData; /* Not used. */
-    Tk_Window tkwin; /* Not used. */
-    char *widgRec;
-    Tcl_Size offset;
-    Tcl_FreeProc **freeProcPtr;
+TicksToString(
+    ClientData clientData, /* Not used. */
+    Tk_Window tkwin,       /* Not used. */
+    char *widgRec,
+    Tcl_Size offset,
+    Tcl_FreeProc **freeProcPtr)
 {
     Ticks *ticksPtr = *(Ticks **) (widgRec + offset);
     char string[TCL_DOUBLE_SPACE + 1];
@@ -780,13 +781,13 @@ TicksToString(clientData, tkwin, widgRec, offset, freeProcPtr)
  *----------------------------------------------------------------------
  */
 static int
-StringToLoose(clientData, interp, tkwin, string, widgRec, offset)
-    ClientData clientData; /* Not used. */
-    Tcl_Interp *interp; /* Interpreter to send results back to */
-    Tk_Window tkwin; /* Not used. */
-    CONST86 char *string; /* String representing new value. */
-    char *widgRec; /* Pointer to structure record. */
-    Tcl_Size offset; /* Offset of field in structure. */
+StringToLoose(
+    ClientData clientData,  /* Not used. */
+    Tcl_Interp *interp,     /* Interpreter to send results back to */
+    Tk_Window tkwin,        /* Not used. */
+    CONST86 char *string,   /* String representing new value. */
+    char *widgRec,          /* Pointer to structure record. */
+    Tcl_Size offset)        /* Offset of field in structure. */
 {
     Axis *axisPtr = (Axis *)(widgRec);
     register Tcl_Size i;
@@ -839,12 +840,12 @@ StringToLoose(clientData, interp, tkwin, string, widgRec, offset)
  *----------------------------------------------------------------------
  */
 static CONST86 char *
-LooseToString(clientData, tkwin, widgRec, offset, freeProcPtr)
-    ClientData clientData; /* Not used. */
-    Tk_Window tkwin; /* Not used. */
-    char *widgRec; /* Widget record */
-    Tcl_Size offset; /* offset of flags field in record */
-    Tcl_FreeProc **freeProcPtr; /* Memory deallocation scheme to use */
+LooseToString(
+    ClientData clientData,  /* Not used. */
+    Tk_Window tkwin,        /* Not used. */
+    char *widgRec,          /* Widget record */
+    Tcl_Size offset,        /* offset of flags field in record */
+    Tcl_FreeProc **freeProcPtr) /* Memory deallocation scheme to use */
 {
     Axis *axisPtr = (Axis *)widgRec;
     Tcl_DString dString;
@@ -889,8 +890,8 @@ LooseToString(clientData, tkwin, widgRec, offset, freeProcPtr)
  *----------------------------------------------------------------------
  */
 static void
-FreeLabels(chainPtr)
-    Rbc_Chain *chainPtr;
+FreeLabels(
+    Rbc_Chain *chainPtr)
 {
     Rbc_ChainLink *linkPtr;
     TickLabel *labelPtr;
@@ -921,10 +922,10 @@ FreeLabels(chainPtr)
  * ----------------------------------------------------------------------
  */
 static TickLabel *
-MakeLabel(graphPtr, axisPtr, value)
-    Graph *graphPtr;
-    Axis *axisPtr; /* Axis structure */
-    double value; /* Value to be convert to a decimal string */
+MakeLabel(
+    Graph *graphPtr,
+    Axis *axisPtr, /* Axis structure */
+    double value)  /* Value to be convert to a decimal string */
 {
     char string[TICK_LABEL_SIZE + 1];
     TickLabel *labelPtr;
@@ -985,10 +986,10 @@ MakeLabel(graphPtr, axisPtr, value)
  * ----------------------------------------------------------------------
  */
 double
-Rbc_InvHMap(graphPtr, axisPtr, x)
-    Graph *graphPtr;
-    Axis *axisPtr;
-    double x;
+Rbc_InvHMap(
+    Graph *graphPtr,
+    Axis *axisPtr,
+    double x)
 {
     double value;
 
@@ -1021,10 +1022,10 @@ Rbc_InvHMap(graphPtr, axisPtr, x)
  * ----------------------------------------------------------------------
  */
 double
-Rbc_InvVMap(graphPtr, axisPtr, y)
-    Graph *graphPtr;
-    Axis *axisPtr;
-    double y;
+Rbc_InvVMap(
+    Graph *graphPtr,
+    Axis *axisPtr,
+    double y)
 {
     double value;
 
@@ -1057,10 +1058,10 @@ Rbc_InvVMap(graphPtr, axisPtr, y)
  * ----------------------------------------------------------------------
  */
 double
-Rbc_HMap(graphPtr, axisPtr, x)
-    Graph *graphPtr;
-    Axis *axisPtr;
-    double x;
+Rbc_HMap(
+    Graph *graphPtr,
+    Axis *axisPtr,
+    double x)
 {
     if ((axisPtr->logScale) && (x != 0.0)) {
         x = log10(FABS(x));
@@ -1091,10 +1092,10 @@ Rbc_HMap(graphPtr, axisPtr, x)
  * ----------------------------------------------------------------------
  */
 double
-Rbc_VMap(graphPtr, axisPtr, y)
-    Graph *graphPtr;
-    Axis *axisPtr;
-    double y;
+Rbc_VMap(
+    Graph *graphPtr,
+    Axis *axisPtr,
+    double y)
 {
     if ((axisPtr->logScale) && (y != 0.0)) {
         y = log10(FABS(y));
@@ -1124,10 +1125,11 @@ Rbc_VMap(graphPtr, axisPtr, y)
  * ----------------------------------------------------------------------
  */
 Point2D
-Rbc_Map2D(graphPtr, x, y, axesPtr)
-    Graph *graphPtr;
-    double x, y; /* Graph x and y coordinates */
-    Axis2D *axesPtr; /* Specifies which axes to use */
+Rbc_Map2D(
+    Graph *graphPtr,
+    double x,
+    double y,        /* Graph x and y coordinates */
+    Axis2D *axesPtr) /* Specifies which axes to use */
 {
     Point2D point;
 
@@ -1158,10 +1160,11 @@ Rbc_Map2D(graphPtr, x, y, axesPtr)
  * ----------------------------------------------------------------------
  */
 Point2D
-Rbc_InvMap2D(graphPtr, x, y, axesPtr)
-    Graph *graphPtr;
-    double x, y; /* Window x and y coordinates */
-    Axis2D *axesPtr; /* Specifies which axes to use */
+Rbc_InvMap2D(
+    Graph *graphPtr,
+    double x,
+    double y,        /* Window x and y coordinates */
+    Axis2D *axesPtr) /* Specifies which axes to use */
 {
     Point2D point;
 
@@ -1191,9 +1194,10 @@ Rbc_InvMap2D(graphPtr, x, y, axesPtr)
  *----------------------------------------------------------------------
  */
 static void
-GetDataLimits(axisPtr, min, max)
-    Axis *axisPtr;
-    double min, max;
+GetDataLimits(
+    Axis *axisPtr,
+    double min,
+    double max)
 {
     if (axisPtr->valueRange.min > min) {
         axisPtr->valueRange.min = min;
@@ -1219,8 +1223,8 @@ GetDataLimits(axisPtr, min, max)
  *----------------------------------------------------------------------
  */
 static void
-FixAxisRange(axisPtr)
-    Axis *axisPtr;
+FixAxisRange(
+    Axis *axisPtr)
 {
     double min, max;
     /*
@@ -1342,9 +1346,9 @@ FixAxisRange(axisPtr)
  * ----------------------------------------------------------------------
  */
 static double
-NiceNum(x, round)
-    double x;
-    int round; /* If non-zero, round. Otherwise take ceiling
+NiceNum(
+    double x,
+    int round) /* If non-zero, round. Otherwise take ceiling
                 * of value. */
 {
     double expt;		/* Exponent of x */
@@ -1393,8 +1397,8 @@ NiceNum(x, round)
  *----------------------------------------------------------------------
  */
 static Ticks *
-GenerateTicks(sweepPtr)
-    TickSweep *sweepPtr;
+GenerateTicks(
+    TickSweep *sweepPtr)
 {
     Ticks *ticksPtr;
     register int i;
@@ -1506,9 +1510,10 @@ GenerateTicks(sweepPtr)
  *
  * ---------------------------------------------------------------------- */
 static void
-LogScaleAxis(axisPtr, min, max)
-    Axis *axisPtr;
-    double min, max;
+LogScaleAxis(
+    Axis *axisPtr,
+    double min,
+    double max)
 {
     double range;
     double tickMin, tickMax;
@@ -1633,9 +1638,10 @@ LogScaleAxis(axisPtr, min, max)
  * ----------------------------------------------------------------------
  */
 static void
-LinearScaleAxis(axisPtr, min, max)
-    Axis *axisPtr;
-    double min, max;
+LinearScaleAxis(
+    Axis *axisPtr,
+    double min,
+    double max)
 {
     double range, step;
     double tickMin, tickMax;
@@ -1721,8 +1727,8 @@ LinearScaleAxis(axisPtr, min, max)
  *----------------------------------------------------------------------
  */
 static void
-SweepTicks(axisPtr)
-    Axis *axisPtr;
+SweepTicks(
+    Axis *axisPtr)
 {
     if ((axisPtr->flags & AXIS_CONFIG_MAJOR) == 0) {
         if (axisPtr->t1Ptr != NULL) {
@@ -1754,8 +1760,8 @@ SweepTicks(axisPtr)
  * ----------------------------------------------------------------------
  */
 void
-Rbc_ResetAxes(graphPtr)
-    Graph *graphPtr;
+Rbc_ResetAxes(
+    Graph *graphPtr)
 {
     Rbc_ChainLink *linkPtr;
     Element *elemPtr;
@@ -1857,9 +1863,9 @@ Rbc_ResetAxes(graphPtr)
  * ----------------------------------------------------------------------
  */
 static void
-ResetTextStyles(graphPtr, axisPtr)
-    Graph *graphPtr;
-    Axis *axisPtr;
+ResetTextStyles(
+    Graph *graphPtr,
+    Axis *axisPtr)
 {
     GC newGC;
     XGCValues gcValues;
@@ -1898,9 +1904,9 @@ ResetTextStyles(graphPtr, axisPtr)
  * ----------------------------------------------------------------------
  */
 static void
-DestroyAxis(graphPtr, axisPtr)
-    Graph *graphPtr;
-    Axis *axisPtr;
+DestroyAxis(
+    Graph *graphPtr,
+    Axis *axisPtr)
 {
     int flags;
 
@@ -2136,11 +2142,11 @@ AxisOffsets(
  *----------------------------------------------------------------------
  */
 static void
-MakeAxisLine(graphPtr, axisPtr, line, segPtr)
-    Graph *graphPtr;
-    Axis *axisPtr; /* Axis information */
-    int line;
-    Segment2D *segPtr;
+MakeAxisLine(
+    Graph *graphPtr,
+    Axis *axisPtr, /* Axis information */
+    int line,
+    Segment2D *segPtr)
 {
     double min, max;
 
@@ -2177,12 +2183,13 @@ MakeAxisLine(graphPtr, axisPtr, line, segPtr)
  *----------------------------------------------------------------------
  */
 static void
-MakeTick(graphPtr, axisPtr, value, tick, line, segPtr)
-    Graph *graphPtr;
-    Axis *axisPtr;
-    double value;
-    int tick, line; /* Lengths of tick and axis line. */
-    Segment2D *segPtr;
+MakeTick(
+    Graph *graphPtr,
+    Axis *axisPtr,
+    double value,
+    int tick, /* Length of tick line. */
+    int line, /* Length of axis line. */
+    Segment2D *segPtr)
 {
     if (axisPtr->logScale) {
         value = EXP10(value);
@@ -2224,11 +2231,11 @@ MakeTick(graphPtr, axisPtr, value, tick, line, segPtr)
  * -----------------------------------------------------------------
  */
 static void
-MapAxis(graphPtr, axisPtr, offset, margin)
-    Graph *graphPtr;
-    Axis *axisPtr;
-    int offset;
-    int margin;
+MapAxis(
+    Graph *graphPtr,
+    Axis *axisPtr,
+    int offset,
+    int margin)
 {
     int arraySize;
     int nMajorTicks, nMinorTicks;
@@ -2354,8 +2361,9 @@ MapAxis(graphPtr, axisPtr, offset, margin)
  *----------------------------------------------------------------------
  */
 static double
-AdjustViewport(offset, windowSize)
-    double offset, windowSize;
+AdjustViewport(
+    double offset,
+    double windowSize)
 {
     /*
      * Canvas-style scrolling allows the world to be scrolled
@@ -2472,10 +2480,10 @@ GetAxisScrollInfo(
  * -----------------------------------------------------------------
  */
 static void
-DrawAxis(graphPtr, drawable, axisPtr)
-    Graph *graphPtr;
-    Drawable drawable;
-    Axis *axisPtr;
+DrawAxis(
+    Graph *graphPtr,
+    Drawable drawable,
+    Axis *axisPtr)
 {
     if (axisPtr->border != NULL) {
         Rbc_Fill3DRectangle(graphPtr->tkwin, drawable, axisPtr->border,
@@ -2593,9 +2601,9 @@ DrawAxis(graphPtr, drawable, axisPtr)
  * -----------------------------------------------------------------
  */
 static void
-AxisToPostScript(psToken, axisPtr)
-    PsToken psToken;
-    Axis *axisPtr;
+AxisToPostScript(
+    PsToken psToken,
+    Axis *axisPtr)
 {
     if (axisPtr->title != NULL) {
         Rbc_TextToPostScript(psToken, axisPtr->title, &axisPtr->titleTextStyle,
@@ -2638,11 +2646,11 @@ AxisToPostScript(psToken, axisPtr)
  *----------------------------------------------------------------------
  */
 static void
-MakeGridLine(graphPtr, axisPtr, value, segPtr)
-    Graph *graphPtr;
-    Axis *axisPtr;
-    double value;
-    Segment2D *segPtr;
+MakeGridLine(
+    Graph *graphPtr,
+    Axis *axisPtr,
+    double value,
+    Segment2D *segPtr)
 {
     if (axisPtr->logScale) {
         value = EXP10(value);
@@ -2677,11 +2685,11 @@ MakeGridLine(graphPtr, axisPtr, value, segPtr)
  *----------------------------------------------------------------------
  */
 void
-Rbc_GetAxisSegments(graphPtr, axisPtr, segPtrPtr, nSegmentsPtr)
-    Graph *graphPtr;
-    Axis *axisPtr;
-    Segment2D **segPtrPtr;
-    int *nSegmentsPtr;
+Rbc_GetAxisSegments(
+    Graph *graphPtr,
+    Axis *axisPtr,
+    Segment2D **segPtrPtr,
+    int *nSegmentsPtr)
 {
     int needed;
     Ticks *t1Ptr, *t2Ptr;
@@ -2764,9 +2772,9 @@ Rbc_GetAxisSegments(graphPtr, axisPtr, segPtrPtr, nSegmentsPtr)
  *----------------------------------------------------------------------
  */
 static void
-GetAxisGeometry(graphPtr, axisPtr)
-    Graph *graphPtr;
-    Axis *axisPtr;
+GetAxisGeometry(
+    Graph *graphPtr,
+    Axis *axisPtr)
 {
     int height;
 
@@ -2895,9 +2903,9 @@ GetAxisGeometry(graphPtr, axisPtr)
  *----------------------------------------------------------------------
  */
 static int
-GetMarginGeometry(graphPtr, marginPtr)
-    Graph *graphPtr;
-    Margin *marginPtr;
+GetMarginGeometry(
+    Graph *graphPtr,
+    Margin *marginPtr)
 {
     Rbc_ChainLink *linkPtr;
     Axis *axisPtr;
@@ -2961,8 +2969,8 @@ GetMarginGeometry(graphPtr, marginPtr)
  *
  *---------------------------------------------------------------------- */
 static void
-ComputeMargins(graphPtr)
-    Graph *graphPtr;
+ComputeMargins(
+    Graph *graphPtr)
 {
     int left, right, top, bottom;
     int width, height;
@@ -3190,8 +3198,8 @@ ComputeMargins(graphPtr)
  * -----------------------------------------------------------------
  */
 void
-Rbc_LayoutMargins(graphPtr)
-    Graph *graphPtr;
+Rbc_LayoutMargins(
+    Graph *graphPtr)
 {
     int width, height;
     int titleY;
@@ -3262,9 +3270,9 @@ Rbc_LayoutMargins(graphPtr)
  * ----------------------------------------------------------------------
  */
 static int
-ConfigureAxis(graphPtr, axisPtr)
-    Graph *graphPtr;
-    Axis *axisPtr;
+ConfigureAxis(
+    Graph *graphPtr,
+    Axis *axisPtr)
 {
     char errMsg[200];
 
@@ -3337,10 +3345,10 @@ ConfigureAxis(graphPtr, axisPtr)
  * ----------------------------------------------------------------------
  */
 static Axis *
-CreateAxis(graphPtr, name, margin)
-    Graph *graphPtr;
-    char *name; /* Identifier for axis. */
-    int margin;
+CreateAxis(
+    Graph *graphPtr,
+    char *name,     /* Identifier for axis. */
+    int margin)
 {
     Axis *axisPtr;
     Tcl_HashEntry *hPtr;
@@ -3411,10 +3419,10 @@ CreateAxis(graphPtr, name, margin)
  *----------------------------------------------------------------------
  */
 static int
-NameToAxis(graphPtr, name, axisPtrPtr)
-    Graph *graphPtr; /* Graph widget record. */
-    char *name; /* Name of the axis to be searched for. */
-    Axis **axisPtrPtr; /* (out) Pointer to found axis structure. */
+NameToAxis(
+    Graph *graphPtr,    /* Graph widget record. */
+    char *name,         /* Name of the axis to be searched for. */
+    Axis **axisPtrPtr)  /* (out) Pointer to found axis structure. */
 {
     Tcl_HashEntry *hPtr;
 
@@ -3450,11 +3458,11 @@ NameToAxis(graphPtr, name, axisPtrPtr)
  *----------------------------------------------------------------------
  */
 static int
-GetAxis(graphPtr, axisName, classUid, axisPtrPtr)
-    Graph *graphPtr;
-    char *axisName;
-    Rbc_Uid classUid;
-    Axis **axisPtrPtr;
+GetAxis(
+    Graph *graphPtr,
+    char *axisName,
+    Rbc_Uid classUid,
+    Axis **axisPtrPtr)
 {
     Axis *axisPtr;
 
@@ -3493,9 +3501,9 @@ GetAxis(graphPtr, axisName, classUid, axisPtrPtr)
  *----------------------------------------------------------------------
  */
 static void
-FreeAxis(graphPtr, axisPtr)
-    Graph *graphPtr;
-    Axis *axisPtr;
+FreeAxis(
+    Graph *graphPtr,
+    Axis *axisPtr)
 {
     axisPtr->refCount--;
     if ((axisPtr->deletePending) && (axisPtr->refCount == 0)) {
@@ -3519,8 +3527,8 @@ FreeAxis(graphPtr, axisPtr)
  *----------------------------------------------------------------------
  */
 void
-Rbc_DestroyAxes(graphPtr)
-    Graph *graphPtr;
+Rbc_DestroyAxes(
+    Graph *graphPtr)
 {
     Tcl_HashEntry *hPtr;
     Tcl_HashSearch cursor;
@@ -3557,8 +3565,8 @@ Rbc_DestroyAxes(graphPtr)
  *----------------------------------------------------------------------
  */
 int
-Rbc_DefaultAxes(graphPtr)
-    Graph *graphPtr;
+Rbc_DefaultAxes(
+    Graph *graphPtr)
 {
     register int i;
     Axis *axisPtr;
@@ -4560,8 +4568,8 @@ Rbc_AxisOp(
  *----------------------------------------------------------------------
  */
 void
-Rbc_MapAxes(graphPtr)
-    Graph *graphPtr;
+Rbc_MapAxes(
+    Graph *graphPtr)
 {
     Axis *axisPtr;
     Rbc_Chain *chainPtr;
@@ -4603,9 +4611,9 @@ Rbc_MapAxes(graphPtr)
  *----------------------------------------------------------------------
  */
 void
-Rbc_DrawAxes(graphPtr, drawable)
-    Graph *graphPtr;
-    Drawable drawable;
+Rbc_DrawAxes(
+    Graph *graphPtr,
+    Drawable drawable)
 {
     Axis *axisPtr;
     Rbc_ChainLink *linkPtr;
@@ -4638,9 +4646,9 @@ Rbc_DrawAxes(graphPtr, drawable)
  *----------------------------------------------------------------------
  */
 void
-Rbc_AxesToPostScript(graphPtr, psToken)
-    Graph *graphPtr;
-    PsToken psToken;
+Rbc_AxesToPostScript(
+    Graph *graphPtr,
+    PsToken psToken)
 {
     Axis *axisPtr;
     Rbc_ChainLink *linkPtr;
@@ -4677,9 +4685,9 @@ Rbc_AxesToPostScript(graphPtr, psToken)
  * ----------------------------------------------------------------------
  */
 void
-Rbc_DrawAxisLimits(graphPtr, drawable)
-    Graph *graphPtr;
-    Drawable drawable;
+Rbc_DrawAxisLimits(
+    Graph *graphPtr,
+    Drawable drawable)
 {
     Axis *axisPtr;
     Tcl_HashEntry *hPtr;
@@ -4769,9 +4777,9 @@ Rbc_DrawAxisLimits(graphPtr, drawable)
  *----------------------------------------------------------------------
  */
 void
-Rbc_AxisLimitsToPostScript(graphPtr, psToken)
-    Graph *graphPtr;
-    PsToken psToken;
+Rbc_AxisLimitsToPostScript(
+    Graph *graphPtr,
+    PsToken psToken)
 {
     Axis *axisPtr;
     Tcl_HashEntry *hPtr;
@@ -4856,8 +4864,8 @@ Rbc_AxisLimitsToPostScript(graphPtr, psToken)
  *----------------------------------------------------------------------
  */
 Axis *
-Rbc_GetFirstAxis(chainPtr)
-    Rbc_Chain *chainPtr;
+Rbc_GetFirstAxis(
+    Rbc_Chain *chainPtr)
 {
     Rbc_ChainLink *linkPtr;
 
@@ -4884,9 +4892,10 @@ Rbc_GetFirstAxis(chainPtr)
  *----------------------------------------------------------------------
  */
 Axis *
-Rbc_NearestAxis(graphPtr, x, y)
-    Graph *graphPtr;
-    int x, y; /* Point to be tested */
+Rbc_NearestAxis(
+    Graph *graphPtr,
+    int x, /* Point to be tested */
+    int y) 
 {
     register Tcl_HashEntry *hPtr;
     Tcl_HashSearch cursor;
@@ -4972,9 +4981,9 @@ Rbc_NearestAxis(graphPtr, x, y)
  *----------------------------------------------------------------------
  */
 ClientData
-Rbc_MakeAxisTag(graphPtr, tagName)
-    Graph *graphPtr;
-    char *tagName;
+Rbc_MakeAxisTag(
+    Graph *graphPtr,
+    char *tagName)
 {
     Tcl_HashEntry *hPtr;
     int isNew;

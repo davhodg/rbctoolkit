@@ -62,11 +62,11 @@
 
 
 static void
-GetPaletteSizes(nColors, nRedsPtr, nGreensPtr, nBluesPtr)
-    int nColors;		/* Number of colors requested. */
-    unsigned int *nRedsPtr;	/* (out) Number of red components. */
-    unsigned int *nGreensPtr;	/* (out) Number of green components. */
-    unsigned int *nBluesPtr;	/* (out) Number of blue components. */
+GetPaletteSizes(
+    int nColors,		/* Number of colors requested. */
+    unsigned int *nRedsPtr,	/* (out) Number of red components. */
+    unsigned int *nGreensPtr,	/* (out) Number of green components. */
+    unsigned int *nBluesPtr)	/* (out) Number of blue components. */
 {
     unsigned int nBlues, nReds, nGreens;
 
@@ -88,9 +88,9 @@ GetPaletteSizes(nColors, nRedsPtr, nGreensPtr, nBluesPtr)
 }
 
 static void
-BuildColorRamp(palettePtr, nColors)
-    Pix32 *palettePtr;
-    int nColors;
+BuildColorRamp(
+    Pix32 *palettePtr,
+    int nColors)
 {
     register unsigned int r, g, b;
     unsigned int short red, green, blue;
@@ -130,11 +130,11 @@ BuildColorRamp(palettePtr, nColors)
  */
 
 static int
-QueryColormap(display, colorMap, mapColors, numMapColorsPtr)
-    Display *display;
-    Colormap colorMap;
-    XColor mapColors[];
-    int *numMapColorsPtr;
+QueryColormap(
+    Display *display,
+    Colormap colorMap,
+    XColor mapColors[],
+    int *numMapColorsPtr)
 {
     unsigned long int pixelValues[NCOLORS];
     int numAvail, numMapColors;
@@ -184,10 +184,10 @@ QueryColormap(display, colorMap, mapColors, numMapColorsPtr)
 }
 
 static void
-FindClosestColor(colorPtr, mapColors, numMapColors)
-    ColorInfo *colorPtr;
-    XColor mapColors[];
-    int numMapColors;
+FindClosestColor(
+    ColorInfo *colorPtr,
+    XColor mapColors[],
+    int numMapColors)
 {
     double r, g, b;
     register int i;
@@ -218,8 +218,9 @@ FindClosestColor(colorPtr, mapColors, numMapColors)
 }
 
 static int
-CompareColors(a, b)
-    void *a, *b;
+CompareColors(
+    void *a, 
+    void *b)
 {
     ColorInfo *i1Ptr, *i2Ptr;
 
@@ -234,14 +235,13 @@ CompareColors(a, b)
 }
 
 static float
-MatchColors(colorTabPtr, rgbPtr, numColors, numAvailColors, numMapColors,
-    mapColors)
-    struct ColorTableStruct *colorTabPtr;
-    Pix32 *rgbPtr;
-    int numColors;
-    int numAvailColors;
-    int numMapColors;
-    XColor mapColors[NCOLORS];
+MatchColors(
+    struct ColorTableStruct *colorTabPtr,
+    Pix32 *rgbPtr,
+    int numColors,
+    int numAvailColors,
+    int numMapColors,
+    XColor mapColors[NCOLORS])
 {
     int numMatched;
     float sum;
@@ -293,10 +293,10 @@ MatchColors(colorTabPtr, rgbPtr, numColors, numAvailColors, numMapColors,
 
 
 static int
-AllocateColors(nImageColors, colorTabPtr, matchOnly)
-    int nImageColors;
-    struct ColorTableStruct *colorTabPtr;
-    int matchOnly;
+AllocateColors(
+    int nImageColors,
+    struct ColorTableStruct *colorTabPtr,
+    int matchOnly)
 {
     register int i;
     register ColorInfo *colorPtr;
@@ -327,8 +327,8 @@ AllocateColors(nImageColors, colorTabPtr, matchOnly)
 }
 
 ColorTable
-Rbc_CreateColorTable(tkwin)
-    Tk_Window tkwin;
+Rbc_CreateColorTable(
+    Tk_Window tkwin)
 {
     XVisualInfo visualInfo, *visualInfoPtr;
     int nVisuals;
@@ -356,8 +356,8 @@ Rbc_CreateColorTable(tkwin)
 }
 
 void
-Rbc_FreeColorTable(colorTabPtr)
-    struct ColorTableStruct *colorTabPtr;
+Rbc_FreeColorTable(
+    struct ColorTableStruct *colorTabPtr)
 {
     if (colorTabPtr == NULL) {
 	return;
@@ -387,10 +387,10 @@ int redMaskShift, greenMaskShift, blueMaskShift;
  */
 /*ARGSUSED*/
 ColorTable
-Rbc_DirectColorTable(interp, tkwin, image)
-    Tcl_Interp *interp;
-    Tk_Window tkwin;
-    Rbc_ColorImage image;
+Rbc_DirectColorTable(
+    Tcl_Interp *interp,
+    Tk_Window tkwin,
+    Rbc_ColorImage image)
 {
     struct ColorTableStruct *colorTabPtr;
     Visual *visualPtr;
@@ -499,8 +499,8 @@ Rbc_DirectColorTable(interp, tkwin, image)
  *	on the first failure or if we need more than NCOLORS.
  */
 static int
-GetUniqueColors(image)
-    Rbc_ColorImage image;
+GetUniqueColors(
+    Rbc_ColorImage image)
 {
     register int i, nColors;
     register Pix32 *pixelPtr;
@@ -537,11 +537,11 @@ GetUniqueColors(image)
 
 
 static void
-PrivateColormap(interp, colorTabPtr, image, tkwin)
-    Tcl_Interp *interp;
-    struct ColorTableStruct *colorTabPtr;
-    Rbc_ColorImage image;
-    Tk_Window tkwin;
+PrivateColormap(
+    Tcl_Interp *interp,
+    struct ColorTableStruct *colorTabPtr,
+    Rbc_ColorImage image,
+    Tk_Window tkwin)
 {
     int keepColors = 0;
     register int i;
@@ -611,10 +611,10 @@ PrivateColormap(interp, colorTabPtr, image, tkwin)
 }
 
 ColorTable
-Rbc_PseudoColorTable(interp, tkwin, image)
-    Tcl_Interp *interp;
-    Tk_Window tkwin;
-    Rbc_ColorImage image;
+Rbc_PseudoColorTable(
+    Tcl_Interp *interp,
+    Tk_Window tkwin,
+    Rbc_ColorImage image)
 {
     struct ColorTableStruct *colorTabPtr;
     Colormap defColorMap;
@@ -643,9 +643,10 @@ Rbc_PseudoColorTable(interp, tkwin, image)
 #ifdef notdef
 
 static void
-ConvoleColorImage(srcImage, destImage, kernelPtr)
-    Rbc_ColorImage srcImage, destImage;
-    ConvoleKernel *kernelPtr;
+ConvoleColorImage(
+    Rbc_ColorImage srcImage,
+    Rbc_ColorImage destImage,
+    ConvoleKernel *kernelPtr)
 {
     Pix32 *srcPtr, *destPtr;
     Pix32 *src[MAXROWS];
@@ -725,10 +726,13 @@ ConvoleColorImage(srcImage, destImage, kernelPtr)
 }
 
 static void
-DitherRow(srcImage, destImage, lastRow, curRow)
-    Rbc_ColorImage srcImage, destImage;
-    int width, height;
-    int bottom, top;
+DitherRow(
+    Rbc_ColorImage srcImage,
+    Rbc_ColorImage destImage,
+    int width,
+    int height,
+    int bottom,
+    int top)
 {
     int width, height;
 
@@ -860,9 +864,18 @@ DitherRow(srcImage, destImage, lastRow, curRow)
 
 /********************************************/
 static Rbc_ColorImage
-DoColorDither(pic24, pic8, w, h, rmap, gmap, bmap, rdisp, gdisp, bdisp, maplen)
-    byte *pic24, *pic8, *rmap, *gmap, *bmap, *rdisp, *gdisp, *bdisp;
-    int w, h, maplen;
+DoColorDither(
+    byte *pic24,
+    byte *pic8,
+    int w,
+    int h,
+    byte *rmap,
+    byte *gmap,
+    byte *bmap,
+    byte *rdisp,
+    byte *gdisp,
+    byte *bdisp;
+    int maplen)
 {
     /* takes a 24 bit picture, of size w*h, dithers with the colors in
        rdisp, gdisp, bdisp (which have already been allocated),
@@ -950,8 +963,8 @@ DoColorDither(pic24, pic8, w, h, rmap, gmap, bmap, rdisp, gdisp, bdisp, maplen)
 
 
 static void
-DitherImage(image)
-    Rbc_ColorImage image;
+DitherImage(
+    Rbc_ColorImage image)
 {
     int width, height;
 

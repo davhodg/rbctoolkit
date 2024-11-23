@@ -275,8 +275,8 @@ static int ReadPostScript    (Tcl_Interp *interp, EpsItem *epsPtr);
  *----------------------------------------------------------------------
  */
 static char *
-SkipBlanks(piPtr)
-    EpsParseInfo *piPtr;
+SkipBlanks(
+    EpsParseInfo *piPtr)
 {
     char *s;
 
@@ -302,8 +302,8 @@ SkipBlanks(piPtr)
  *----------------------------------------------------------------------
  */
 static int
-ReadPsLine(piPtr)
-    EpsParseInfo *piPtr;
+ReadPsLine(
+    EpsParseInfo *piPtr)
 {
     if (ftell(piPtr->f) < piPtr->maxBytes) {
         if (fgets(piPtr->line, MAX_EPS_LINE_LENGTH, piPtr->f) != NULL) {
@@ -366,9 +366,9 @@ ReverseBits(unsigned char byte)
  *----------------------------------------------------------------------
  */
 static int
-GetHexValue(piPtr, bytePtr)
-    EpsParseInfo *piPtr;
-    unsigned char *bytePtr;
+GetHexValue(
+    EpsParseInfo *piPtr,
+    unsigned char *bytePtr)
 {
     register char *p;
     unsigned int byte;
@@ -435,9 +435,9 @@ nextLine:
  *----------------------------------------------------------------------
  */
 static void
-ReadEPSI(epsPtr, piPtr)
-    EpsItem *epsPtr;
-    EpsParseInfo *piPtr;
+ReadEPSI(
+    EpsItem *epsPtr,
+    EpsParseInfo *piPtr)
 {
     Rbc_ColorImage image;
     int width, height, bitsPerPixel, nLines;
@@ -557,9 +557,9 @@ error:
  *----------------------------------------------------------------------
  */
 static int
-ReadPostScript(interp, epsPtr)
-    Tcl_Interp *interp;
-    EpsItem *epsPtr;
+ReadPostScript(
+    Tcl_Interp *interp,
+    EpsItem *epsPtr)
 {
     char *field;
     char *dscTitle, *dscBoundingBox;
@@ -689,9 +689,9 @@ error:
  *----------------------------------------------------------------------
  */
 static int
-OpenEpsFile(interp, epsPtr)
-    Tcl_Interp *interp;
-    EpsItem *epsPtr;
+OpenEpsFile(
+    Tcl_Interp *interp,
+    EpsItem *epsPtr)
 {
     FILE *f;
 #ifdef WIN32
@@ -753,8 +753,8 @@ OpenEpsFile(interp, epsPtr)
  *----------------------------------------------------------------------
  */
 static void
-CloseEpsFile(epsPtr)
-    EpsItem *epsPtr;
+CloseEpsFile(
+    EpsItem *epsPtr)
 {
     if (epsPtr->psFile != NULL) {
         fclose(epsPtr->psFile);
@@ -779,8 +779,8 @@ CloseEpsFile(epsPtr)
  *----------------------------------------------------------------------
  */
 static void
-ReadTiffPreview(epsPtr)
-    EpsItem *epsPtr;
+ReadTiffPreview(
+    EpsItem *epsPtr)
 {
     unsigned int width, height;
     Rbc_ColorImage image;
@@ -855,10 +855,10 @@ ReadWMF(f, epsPtr, headerPtr)
  *----------------------------------------------------------------------
  */
 static void
-DeleteEps(canvas, itemPtr, display)
-    Tk_Canvas canvas; /* Info about overall canvas widget. */
-    Tk_Item *itemPtr; /* Item that is being deleted. */
-    Display *display; /* Display containing window for
+DeleteEps(
+    Tk_Canvas canvas, /* Info about overall canvas widget. */
+    Tk_Item *itemPtr, /* Item that is being deleted. */
+    Display *display) /* Display containing window for
                        * canvas. */
 {
     EpsItem *epsPtr = (EpsItem *)itemPtr;
@@ -1005,10 +1005,14 @@ CreateEps(
  *----------------------------------------------------------------------
  */
 static void
-ImageChangedProc(clientData, x, y, width, height, imageWidth, imageHeight)
-    ClientData clientData;
-    int x, y, width, height; /* Not used. */
-    int imageWidth, imageHeight; /* Not used. */
+ImageChangedProc(
+    ClientData clientData,
+    int x,
+    int y,
+    int width,
+    int height,
+    int imageWidth,
+    int imageHeight)
 {
     EpsItem *epsPtr = clientData;
 
@@ -1248,9 +1252,9 @@ EpsCoords(
  *----------------------------------------------------------------------
  */
 static void
-ComputeEpsBbox(canvas, epsPtr)
-    Tk_Canvas canvas; /* Canvas that contains item. */
-    EpsItem *epsPtr; /* Item whose bbox is to be recomputed. */
+ComputeEpsBbox(
+    Tk_Canvas canvas, /* Canvas that contains item. */
+    EpsItem *epsPtr) /* Item whose bbox is to be recomputed. */
 {
     int x, y;
 
@@ -1294,14 +1298,16 @@ ComputeEpsBbox(canvas, epsPtr)
  *----------------------------------------------------------------------
  */
 static void
-DisplayEps(canvas, itemPtr, display, drawable, x, y, width, height)
-    Tk_Canvas canvas; /* Canvas that contains item. */
-    Tk_Item *itemPtr; /* Item to be displayed. */
-    Display *display; /* Display on which to draw item. */
-    Drawable drawable; /* Pixmap or window in which to draw
+DisplayEps(
+    Tk_Canvas canvas,  /* Canvas that contains item. */
+    Tk_Item *itemPtr,  /* Item to be displayed. */
+    Display *display,  /* Display on which to draw item. */
+    Drawable drawable, /* Pixmap or window in which to draw
                         * item. */
-    int x, y, width, height; /* Describes region of canvas that
-                              * must be redisplayed (not used). */
+    int x,             /* Describes region of canvas that */
+    int y,             /* must be redisplayed (not used). */
+    int width,
+    int height)
 {
     Tk_Window tkwin;
     EpsItem *epsPtr = (EpsItem *)itemPtr;
@@ -1440,10 +1446,10 @@ DisplayEps(canvas, itemPtr, display, drawable, x, y, width, height)
  */
 /*ARGSUSED*/
 static double
-EpsToPoint(canvas, itemPtr, coordArr)
-    Tk_Canvas canvas; /* Canvas containing item. */
-    Tk_Item *itemPtr; /* Item to check against point. */
-    double *coordArr; /* Pointer to x and y coordinates. */
+EpsToPoint(
+    Tk_Canvas canvas, /* Canvas containing item. */
+    Tk_Item *itemPtr, /* Item to check against point. */
+    double *coordArr) /* Pointer to x and y coordinates. */
 {
     EpsItem *epsPtr = (EpsItem *)itemPtr;
     double dx, dy;
@@ -1488,10 +1494,10 @@ EpsToPoint(canvas, itemPtr, coordArr)
  *----------------------------------------------------------------------
  */
 static int
-EpsToArea(canvas, itemPtr, area)
-    Tk_Canvas canvas; /* Canvas containing item. */
-    Tk_Item *itemPtr; /* Item to check against rectangle. */
-    double area[]; /* Pointer to array of four coordinates
+EpsToArea(
+    Tk_Canvas canvas, /* Canvas containing item. */
+    Tk_Item *itemPtr, /* Item to check against rectangle. */
+    double area[]) /* Pointer to array of four coordinates
                     * (x1, y1, x2, y2) describing rectangular
                     * area.  */
 {
@@ -1527,12 +1533,13 @@ EpsToArea(canvas, itemPtr, area)
  *----------------------------------------------------------------------
  */
 static void
-ScaleEps(canvas, itemPtr, originX, originY, scaleX, scaleY)
-    Tk_Canvas canvas; /* Canvas containing rectangle. */
-    Tk_Item *itemPtr; /* Rectangle to be scaled. */
-    double originX, originY; /* Origin about which to scale rect. */
-    double scaleX; /* Amount to scale in X direction. */
-    double scaleY; /* Amount to scale in Y direction. */
+ScaleEps(
+    Tk_Canvas canvas, /* Canvas containing rectangle. */
+    Tk_Item *itemPtr, /* Rectangle to be scaled. */
+    double originX,   /* Origin about which to scale rect. */
+    double originY,
+    double scaleX, /* Amount to scale in X direction. */
+    double scaleY) /* Amount to scale in Y direction. */
 {
     EpsItem *epsPtr = (EpsItem *)itemPtr;
 
@@ -1559,11 +1566,11 @@ ScaleEps(canvas, itemPtr, originX, originY, scaleX, scaleY)
  *----------------------------------------------------------------------
  */
 static void
-TranslateEps(canvas, itemPtr, deltaX, deltaY)
-    Tk_Canvas canvas; /* Canvas containing item. */
-    Tk_Item *itemPtr; /* Item that is being moved. */
-    double deltaX, deltaY; /* Amount by which item is to be
-                            * moved. */
+TranslateEps(
+    Tk_Canvas canvas, /* Canvas containing item. */
+    Tk_Item *itemPtr, /* Item that is being moved. */
+    double deltaX,    /* Amount by which item is to be moved. */
+    double deltaY) 
 {
     EpsItem *epsPtr = (EpsItem *)itemPtr;
 
@@ -1593,13 +1600,13 @@ TranslateEps(canvas, itemPtr, deltaX, deltaY)
  *----------------------------------------------------------------------
  */
 static int
-EpsToPostScript(interp, canvas, itemPtr, prepass)
-    Tcl_Interp *interp; /* Leave Postscript or error message
+EpsToPostScript(
+    Tcl_Interp *interp, /* Leave Postscript or error message
                          * here. */
-    Tk_Canvas canvas; /* Information about overall canvas. */
-    Tk_Item *itemPtr; /* Item for which Postscript is
+    Tk_Canvas canvas, /* Information about overall canvas. */
+    Tk_Item *itemPtr, /* Item for which Postscript is
                        * wanted. */
-    int prepass; /* 1 means this is a prepass to
+    int prepass) /* 1 means this is a prepass to
                   * collect font information;  0 means
                   * final Postscript is being created. */
 {
@@ -1721,8 +1728,8 @@ static Tk_ItemType epsItemType = {
  *----------------------------------------------------------------------
  */
 void
-Rbc_InitEpsCanvasItem(interp)
-    Tcl_Interp *interp; /* Not used. */
+Rbc_InitEpsCanvasItem(
+    Tcl_Interp *interp) /* Not used. */
 {
     Tk_CreateItemType (&epsItemType);
     /* Initialize custom canvas option routines. */

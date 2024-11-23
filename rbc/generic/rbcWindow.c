@@ -519,8 +519,7 @@ static void UnlinkWindow (TkWindow *winPtr);
  *----------------------------------------------------------------------
  */
 static HWND
-GetWindowHandle(tkwin)
-    Tk_Window tkwin;
+GetWindowHandle (Tk_Window tkwin)
 {
     HWND hWnd;
     Window window;
@@ -554,9 +553,9 @@ GetWindowHandle(tkwin)
  *--------------------------------------------------------------
  */
 Window
-Rbc_GetParent(display, window)
-    Display *display;
-    Window window;
+Rbc_GetParent(
+    Display *display,
+    Window window)
 {
     Window root, parent;
     Window *dummy;
@@ -585,8 +584,7 @@ Rbc_GetParent(display, window)
  *--------------------------------------------------------------
  */
 static Window
-GetWindowId(tkwin)
-    Tk_Window tkwin;
+GetWindowId (Tk_Window tkwin)
 {
     Window window;
 
@@ -625,8 +623,8 @@ GetWindowId(tkwin)
  *----------------------------------------------------------------------
  */
 static void
-DoConfigureNotify(winPtr)
-    Tk_FakeWin *winPtr; /* Window whose configuration was just
+DoConfigureNotify(
+    Tk_FakeWin *winPtr) /* Window whose configuration was just
                          * changed. */
 {
     XEvent event;
@@ -679,10 +677,10 @@ DoConfigureNotify(winPtr)
  *--------------------------------------------------------------
  */
 void
-Rbc_MakeTransparentWindowExist(tkwin, parent, isBusy)
-    Tk_Window tkwin; /* Token for window. */
-    Window parent; /* Parent window. */
-    int isBusy; /*  */
+Rbc_MakeTransparentWindowExist(
+    Tk_Window tkwin, /* Token for window. */
+    Window parent,   /* Parent window. */
+    int isBusy)
 {
     TkWindow *winPtr = (TkWindow *) tkwin;
     TkWindow *winPtr2;
@@ -815,9 +813,9 @@ Rbc_MakeTransparentWindowExist(tkwin, parent, isBusy)
  *----------------------------------------------------------------------
  */
 Tk_Window
-Rbc_FindChild(parent, name)
-    Tk_Window parent;
-    char *name;
+Rbc_FindChild(
+    Tk_Window parent,
+    char *name)
 {
     register TkWindow *winPtr;
     TkWindow *parentPtr = (TkWindow *)parent;
@@ -852,8 +850,7 @@ Rbc_FindChild(parent, name)
  *----------------------------------------------------------------------
  */
 Tk_Window
-Rbc_FirstChild(parent)
-    Tk_Window parent;
+Rbc_FirstChild (Tk_Window parent)
 {
     TkWindow *parentPtr = (TkWindow *)parent;
     return (Tk_Window)parentPtr->childList;
@@ -876,8 +873,7 @@ Rbc_FirstChild(parent)
  *--------------------------------------------------------------
  */
 Tk_Window
-Rbc_NextChild(tkwin)
-    Tk_Window tkwin;
+Rbc_NextChild (Tk_Window tkwin)
 {
     TkWindow *winPtr = (TkWindow *)tkwin;
 
@@ -904,8 +900,7 @@ Rbc_NextChild(tkwin)
  *----------------------------------------------------------------------
  */
 static void
-UnlinkWindow(winPtr)
-    TkWindow *winPtr; /* Child window to be unlinked. */
+UnlinkWindow (TkWindow *winPtr) /* Child window to be unlinked. */
 {
     TkWindow *prevPtr;
 
@@ -953,10 +948,11 @@ UnlinkWindow(winPtr)
  *----------------------------------------------------------------------
  */
 void
-Rbc_RelinkWindow(tkwin, newParent, x, y)
-    Tk_Window tkwin; /* Child window to be linked. */
-    Tk_Window newParent;
-int x, y;
+Rbc_RelinkWindow(
+    Tk_Window tkwin, /* Child window to be linked. */
+    Tk_Window newParent,
+    int x,
+    int y)
 {
     TkWindow *winPtr, *parentWinPtr;
 
@@ -1005,12 +1001,12 @@ int x, y;
  *----------------------------------------------------------------------
  */
 void
-Rbc_RelinkWindow2(tkwin, window, newParent, x, y)
-    Tk_Window tkwin; /* Child window to be linked. */
-    Window window;
-    Tk_Window newParent;
-    int x;
-    int y;
+Rbc_RelinkWindow2(
+    Tk_Window tkwin, /* Child window to be linked. */
+    Window window,
+    Tk_Window newParent,
+    int x,
+    int y)
 {
 #ifdef notdef
     TkWindow *winPtr, *parentWinPtr;
@@ -1054,8 +1050,7 @@ Rbc_RelinkWindow2(tkwin, window, newParent, x, y)
  *--------------------------------------------------------------
  */
 void
-Rbc_UnlinkWindow(tkwin)
-    Tk_Window tkwin; /* Child window to be linked. */
+Rbc_UnlinkWindow (Tk_Window tkwin) /* Child window to be linked. */
 {
     TkWindow *winPtr;
     Window root;
@@ -1086,8 +1081,7 @@ Rbc_UnlinkWindow(tkwin)
  *----------------------------------------------------------------------
  */
 Tk_Window
-Rbc_Toplevel(tkwin)
-    register Tk_Window tkwin;
+Rbc_Toplevel (register Tk_Window tkwin)
 {
     while (!Tk_IsTopLevel(tkwin)) {
         tkwin = Tk_Parent(tkwin);
@@ -1111,12 +1105,12 @@ Rbc_Toplevel(tkwin)
  *--------------------------------------------------------------
  */
 void
-Rbc_RootCoordinates(tkwin, x, y, rootXPtr, rootYPtr)
-    Tk_Window tkwin;
-    int x;
-    int y;
-    int *rootXPtr;
-    int *rootYPtr;
+Rbc_RootCoordinates(
+    Tk_Window tkwin,
+    int x,
+    int y,
+    int *rootXPtr,
+    int *rootYPtr)
 {
     int vx, vy, vw, vh;
     int rootX, rootY;
@@ -1147,8 +1141,7 @@ Rbc_RootCoordinates(tkwin, x, y, rootXPtr, rootYPtr)
  *--------------------------------------------------------------
  */
 int
-Rbc_RootX(tkwin)
-    Tk_Window tkwin;
+Rbc_RootX (Tk_Window tkwin)
 {
     int x;
 
@@ -1177,8 +1170,7 @@ Rbc_RootX(tkwin)
  *--------------------------------------------------------------
  */
 int
-Rbc_RootY(tkwin)
-    Tk_Window tkwin;
+Rbc_RootY (Tk_Window tkwin)
 {
     int y;
 
@@ -1213,8 +1205,7 @@ Rbc_RootY(tkwin)
  *----------------------------------------------------------------------
  */
 Window
-Rbc_GetRealWindowId(tkwin)
-    Tk_Window tkwin;
+Rbc_GetRealWindowId (Tk_Window tkwin)
 {
     return (Window) GetWindowHandle(tkwin);
 }
@@ -1237,9 +1228,8 @@ Rbc_GetRealWindowId(tkwin)
  *----------------------------------------------------------------------
  */
 Tk_Window
-Rbc_GetToplevel(tkwin)
-    Tk_Window tkwin; /* Window for which the toplevel
-                      * should be deterined. */
+Rbc_GetToplevel (Tk_Window tkwin) /* Window for which the toplevel
+                                   * should be deterined. */
 {
     while (!Tk_IsTopLevel(tkwin)) {
         tkwin = Tk_Parent(tkwin);
@@ -1266,8 +1256,7 @@ Rbc_GetToplevel(tkwin)
  *----------------------------------------------------------------------
  */
 void
-Rbc_RaiseToplevel(tkwin)
-    Tk_Window tkwin;
+Rbc_RaiseToplevel (Tk_Window tkwin)
 {
     SetWindowPos(GetWindowHandle(tkwin), HWND_TOP, 0, 0, 0, 0,
                  SWP_NOMOVE | SWP_NOSIZE);
@@ -1289,8 +1278,7 @@ Rbc_RaiseToplevel(tkwin)
  *----------------------------------------------------------------------
  */
 void
-Rbc_MapToplevel(tkwin)
-    Tk_Window tkwin;
+Rbc_MapToplevel (Tk_Window tkwin)
 {
     ShowWindow(GetWindowHandle(tkwin), SW_SHOWNORMAL);
 }
@@ -1311,8 +1299,7 @@ Rbc_MapToplevel(tkwin)
  *----------------------------------------------------------------------
  */
 void
-Rbc_UnmapToplevel(tkwin)
-    Tk_Window tkwin;
+Rbc_UnmapToplevel (Tk_Window tkwin)
 {
     ShowWindow(GetWindowHandle(tkwin), SW_HIDE);
 }
@@ -1333,12 +1320,12 @@ Rbc_UnmapToplevel(tkwin)
  *----------------------------------------------------------------------
  */
 void
-Rbc_MoveResizeToplevel(tkwin, x, y, width, height)
-    Tk_Window tkwin;
-    int x;
-    int y;
-    int width;
-    int height;
+Rbc_MoveResizeToplevel(
+    Tk_Window tkwin,
+    int x,
+    int y,
+    int width,
+    int height)
 {
     SetWindowPos(GetWindowHandle(tkwin), HWND_TOP, x, y, width, height, 0);
 }
@@ -1359,12 +1346,12 @@ Rbc_MoveResizeToplevel(tkwin, x, y, width, height)
  *--------------------------------------------------------------
  */
 int
-Rbc_ReparentWindow(display, window, newParent, x, y)
-    Display *display;
-    Window window;
-    Window newParent;
-    int x;
-    int y;
+Rbc_ReparentWindow(
+    Display *display,
+    Window window,
+    Window newParent,
+    int x,
+    int y)
 {
     XReparentWindow(display, window, newParent, x, y);
     return TCL_OK;
@@ -1393,8 +1380,7 @@ Rbc_ReparentWindow(display, window, newParent, x, y)
  *----------------------------------------------------------------------
  */
 Window
-Rbc_GetRealWindowId(tkwin)
-    Tk_Window tkwin;
+Rbc_GetRealWindowId (Tk_Window tkwin)
 {
     return GetWindowId(tkwin);
 }
@@ -1415,8 +1401,7 @@ Rbc_GetRealWindowId(tkwin)
  *----------------------------------------------------------------------
  */
 void
-Rbc_RaiseToplevel(tkwin)
-    Tk_Window tkwin;
+Rbc_RaiseToplevel (Tk_Window tkwin)
 {
     XRaiseWindow(Tk_Display(tkwin), GetWindowId(tkwin));
 }
@@ -1437,8 +1422,7 @@ Rbc_RaiseToplevel(tkwin)
  *----------------------------------------------------------------------
  */
 void
-Rbc_LowerToplevel(tkwin)
-    Tk_Window tkwin;
+Rbc_LowerToplevel (Tk_Window tkwin)
 {
     XLowerWindow(Tk_Display(tkwin), GetWindowId(tkwin));
 }
@@ -1459,10 +1443,10 @@ Rbc_LowerToplevel(tkwin)
  *----------------------------------------------------------------------
  */
 void
-Rbc_ResizeToplevel(tkwin, width, height)
-    Tk_Window tkwin;
-    int width;
-    int height;
+Rbc_ResizeToplevel(
+    Tk_Window tkwin,
+    int width,
+    int height)
 {
     XResizeWindow(Tk_Display(tkwin), GetWindowId(tkwin), width, height);
 }
@@ -1483,12 +1467,12 @@ Rbc_ResizeToplevel(tkwin, width, height)
  *----------------------------------------------------------------------
  */
 void
-Rbc_MoveResizeToplevel(tkwin, x, y, width, height)
-    Tk_Window tkwin;
-    int x;
-    int y;
-    int width;
-    int height;
+Rbc_MoveResizeToplevel(
+    Tk_Window tkwin,
+    int x,
+    int y,
+    int width,
+    int height)
 {
     XMoveResizeWindow(Tk_Display(tkwin), GetWindowId(tkwin), x, y,
                       width, height);
@@ -1510,10 +1494,10 @@ Rbc_MoveResizeToplevel(tkwin, x, y, width, height)
  *----------------------------------------------------------------------
  */
 void
-Rbc_MoveToplevel(tkwin, x, y)
-    Tk_Window tkwin;
-    int x;
-    int y;
+Rbc_MoveToplevel(
+    Tk_Window tkwin,
+    int x,
+    int y)
 {
     XMoveWindow(Tk_Display(tkwin), GetWindowId(tkwin), x, y);
 }
@@ -1534,8 +1518,7 @@ Rbc_MoveToplevel(tkwin, x, y)
  *----------------------------------------------------------------------
  */
 void
-Rbc_MapToplevel(tkwin)
-    Tk_Window tkwin;
+Rbc_MapToplevel (Tk_Window tkwin)
 {
     XMapWindow(Tk_Display(tkwin), GetWindowId(tkwin));
 }
@@ -1556,8 +1539,7 @@ Rbc_MapToplevel(tkwin)
  *----------------------------------------------------------------------
  */
 void
-Rbc_UnmapToplevel(tkwin)
-    Tk_Window tkwin;
+Rbc_UnmapToplevel (Tk_Window tkwin)
 {
     XUnmapWindow(Tk_Display(tkwin), GetWindowId(tkwin));
 }
@@ -1578,9 +1560,9 @@ Rbc_UnmapToplevel(tkwin)
  *----------------------------------------------------------------------
  */
 static int
-XReparentWindowErrorProc(clientData, errEventPtr)
-    ClientData clientData;
-    XErrorEvent *errEventPtr;
+XReparentWindowErrorProc(
+    ClientData clientData,
+    XErrorEvent *errEventPtr)
 {
     int *errorPtr = clientData;
 
@@ -1604,12 +1586,12 @@ XReparentWindowErrorProc(clientData, errEventPtr)
  *----------------------------------------------------------------------
  */
 int
-Rbc_ReparentWindow(display, window, newParent, x, y)
-    Display *display;
-    Window window;
-    Window newParent;
-    int x;
-    int y;
+Rbc_ReparentWindow(
+    Display *display,
+    Window window,
+    Window newParent,
+    int x,
+    int y)
 {
     Tk_ErrorHandler handler;
     int result;
@@ -1646,9 +1628,9 @@ static Tcl_HashTable windowTable;
  *--------------------------------------------------------------
  */
 void
-Rbc_SetWindowInstanceData(tkwin, instanceData)
-    Tk_Window tkwin;
-    ClientData instanceData;
+Rbc_SetWindowInstanceData(
+    Tk_Window tkwin,
+    ClientData instanceData)
 {
     Tcl_HashEntry *hPtr;
     int isNew;
@@ -1678,8 +1660,7 @@ Rbc_SetWindowInstanceData(tkwin, instanceData)
  *--------------------------------------------------------------
  */
 ClientData
-Rbc_GetWindowInstanceData(tkwin)
-    Tk_Window tkwin;
+Rbc_GetWindowInstanceData (Tk_Window tkwin)
 {
     Tcl_HashEntry *hPtr;
 
@@ -1706,8 +1687,7 @@ Rbc_GetWindowInstanceData(tkwin)
  *--------------------------------------------------------------
  */
 void
-Rbc_DeleteWindowInstanceData(tkwin)
-    Tk_Window tkwin;
+Rbc_DeleteWindowInstanceData (Tk_Window tkwin)
 {
     Tcl_HashEntry *hPtr;
 
@@ -1734,9 +1714,9 @@ Rbc_DeleteWindowInstanceData(tkwin)
  *--------------------------------------------------------------
  */
 void
-Rbc_SetWindowInstanceData(tkwin, instanceData)
-    Tk_Window tkwin;
-    ClientData instanceData;
+Rbc_SetWindowInstanceData(
+    Tk_Window tkwin,
+    ClientData instanceData)
 {
     TkWindow *winPtr = (TkWindow *)tkwin;
 
@@ -1759,8 +1739,7 @@ Rbc_SetWindowInstanceData(tkwin, instanceData)
  *--------------------------------------------------------------
  */
 ClientData
-Rbc_GetWindowInstanceData(tkwin)
-    Tk_Window tkwin;
+Rbc_GetWindowInstanceData (Tk_Window tkwin)
 {
     TkWindow *winPtr = (TkWindow *)tkwin;
 
@@ -1783,9 +1762,9 @@ Rbc_GetWindowInstanceData(tkwin)
  *--------------------------------------------------------------
  */
 void
-Rbc_DeleteWindowInstanceData(tkwin)
-    Tk_Window tkwin;
+Rbc_DeleteWindowInstanceData (Tk_Window tkwin)
 {
+    
 }
 
 #endif

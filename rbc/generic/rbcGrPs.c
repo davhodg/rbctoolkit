@@ -119,13 +119,13 @@ static int CreateWindowsEPS                 (Graph *graphPtr, PsToken psToken, F
  *----------------------------------------------------------------------
  */
 static int
-StringToColorMode(clientData, interp, tkwin, string, widgRec, offset)
-    ClientData clientData; /* Not used. */
-    Tcl_Interp *interp; /* Interpreter to send results back to */
-    Tk_Window tkwin; /* Not used. */
-    CONST86 char *string; /* New value. */
-    char *widgRec; /* Widget record */
-    Tcl_Size offset; /* Offset of field in record */
+StringToColorMode(
+    ClientData clientData,  /* Not used. */
+    Tcl_Interp *interp,     /* Interpreter to send results back to */
+    Tk_Window tkwin,        /* Not used. */
+    CONST86 char *string,   /* New value. */
+    char *widgRec,          /* Widget record */
+    Tcl_Size offset)        /* Offset of field in record */
 {
     PsColorMode *modePtr = (PsColorMode *) (widgRec + offset);
     unsigned int length;
@@ -166,8 +166,8 @@ StringToColorMode(clientData, interp, tkwin, string, widgRec, offset)
  *----------------------------------------------------------------------
  */
 static char *
-NameOfColorMode(colorMode)
-    PsColorMode colorMode;
+NameOfColorMode(
+    PsColorMode colorMode)
 {
     switch (colorMode) {
         case PS_MODE_COLOR:
@@ -198,12 +198,12 @@ NameOfColorMode(colorMode)
  *----------------------------------------------------------------------
  */
 static CONST86 char *
-ColorModeToString(clientData, tkwin, widgRec, offset, freeProcPtr)
-    ClientData clientData; /* Not used. */
-    Tk_Window tkwin; /* Not used. */
-    char *widgRec; /* Widget record. */
-    Tcl_Size offset; /* field of colorMode in record */
-    Tcl_FreeProc **freeProcPtr; /* Not used. */
+ColorModeToString(
+    ClientData clientData,  /* Not used. */
+    Tk_Window tkwin,        /* Not used. */
+    char *widgRec,          /* Widget record. */
+    Tcl_Size offset,        /* field of colorMode in record */
+    Tcl_FreeProc **freeProcPtr) /* Not used. */
 {
     PsColorMode mode = *(PsColorMode *) (widgRec + offset);
 
@@ -235,13 +235,13 @@ ColorModeToString(clientData, tkwin, widgRec, offset, freeProcPtr)
  *----------------------------------------------------------------------
  */
 static int
-StringToFormat(clientData, interp, tkwin, string, widgRec, offset)
-    ClientData clientData; /* Not used. */
-    Tcl_Interp *interp; /* Interpreter to send results back to */
-    Tk_Window tkwin; /* Not used. */
-    CONST86 char *string; /* New value. */
-    char *widgRec; /* Widget record */
-    Tcl_Size offset; /* Offset of field in record */
+StringToFormat(
+    ClientData clientData,  /* Not used. */
+    Tcl_Interp *interp,     /* Interpreter to send results back to */
+    Tk_Window tkwin,        /* Not used. */
+    CONST86 char *string,   /* New value. */
+    char *widgRec,          /* Widget record */
+    Tcl_Size offset)        /* Offset of field in record */
 {
     int *formatPtr = (int *) (widgRec + offset);
     unsigned int length;
@@ -290,12 +290,12 @@ StringToFormat(clientData, interp, tkwin, string, widgRec, offset)
  *----------------------------------------------------------------------
  */
 static CONST86 char *
-FormatToString(clientData, tkwin, widgRec, offset, freeProcPtr)
-    ClientData clientData; /* Not used. */
-    Tk_Window tkwin; /* Not used. */
-    char *widgRec; /* PostScript structure record */
-    Tcl_Size offset; /* field of colorMode in record */
-    Tcl_FreeProc **freeProcPtr; /* Not used. */
+FormatToString(
+    ClientData clientData,      /* Not used. */
+    Tk_Window tkwin,            /* Not used. */
+    char *widgRec,              /* PostScript structure record */
+    Tcl_Size offset,            /* field of colorMode in record */
+    Tcl_FreeProc **freeProcPtr) /* Not used. */
 {
     int format = *(int *)(widgRec + offset);
 
@@ -326,8 +326,8 @@ FormatToString(clientData, tkwin, widgRec, offset, freeProcPtr)
  *--------------------------------------------------------------
  */
 void
-Rbc_DestroyPostScript(graphPtr)
-    Graph *graphPtr;
+Rbc_DestroyPostScript(
+    Graph *graphPtr)
 {
     Tk_FreeOptions(configSpecs, (char *)graphPtr->postscript,
                    graphPtr->display, 0);
@@ -429,9 +429,9 @@ ConfigureOp(
  * --------------------------------------------------------------------------
  */
 static int
-ComputeBoundingBox(graphPtr, psPtr)
-    Graph *graphPtr;
-    PostScript *psPtr;
+ComputeBoundingBox(
+    Graph *graphPtr,
+    PostScript *psPtr)
 {
     int paperWidth, paperHeight;
     int x, y, hSize, vSize, hBorder, vBorder;
@@ -524,9 +524,9 @@ ComputeBoundingBox(graphPtr, psPtr)
  * --------------------------------------------------------------------------
  */
 static void
-PreviewImage(graphPtr, psToken)
-    Graph *graphPtr;
-    PsToken psToken;
+PreviewImage(
+    Graph *graphPtr,
+    PsToken psToken)
 {
     PostScript *psPtr = (PostScript *)graphPtr->postscript;
     int noBackingStore = 0;
@@ -618,10 +618,10 @@ PreviewImage(graphPtr, psToken)
  *--------------------------------------------------------------
  */
 static int
-PostScriptPreamble(graphPtr, fileName, psToken)
-    Graph *graphPtr;
-    char *fileName;
-    PsToken psToken;
+PostScriptPreamble(
+    Graph *graphPtr,
+    char *fileName,
+    PsToken psToken)
 {
     PostScript *psPtr = (PostScript *)graphPtr->postscript;
     time_t ticks;
@@ -769,9 +769,9 @@ PostScriptPreamble(graphPtr, fileName, psToken)
  *--------------------------------------------------------------
  */
 static void
-MarginsToPostScript(graphPtr, psToken)
-    Graph *graphPtr;
-    PsToken psToken;
+MarginsToPostScript(
+    Graph *graphPtr,
+    PsToken psToken)
 {
     PostScript *psPtr = (PostScript *)graphPtr->postscript;
     XRectangle margin[4];
@@ -841,10 +841,10 @@ MarginsToPostScript(graphPtr, psToken)
  *--------------------------------------------------------------
  */
 static int
-GraphToPostScript(graphPtr, ident, psToken)
-    Graph *graphPtr;
-    char *ident; /* Identifier string (usually the filename) */
-    PsToken psToken;
+GraphToPostScript(
+    Graph *graphPtr,
+    char *ident,    /* Identifier string (usually the filename) */
+    PsToken psToken)
 {
     int x, y, width, height;
     int result;
@@ -985,10 +985,10 @@ error:
  * --------------------------------------------------------------------------
  */
 static int
-CreateWindowsEPS(graphPtr, psToken, f)
-    Graph *graphPtr;
-    PsToken psToken;
-    FILE *f;
+CreateWindowsEPS(
+    Graph *graphPtr,
+    PsToken psToken,
+    FILE *f)
 {
     DWORD size;
     DOSEPSHEADER epsHeader;
@@ -1224,8 +1224,8 @@ error:
  *----------------------------------------------------------------------
  */
 int
-Rbc_CreatePostScript(graphPtr)
-    Graph *graphPtr;
+Rbc_CreatePostScript(
+    Graph *graphPtr)
 {
     PostScript *psPtr;
 

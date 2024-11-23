@@ -55,13 +55,13 @@ static Graph_Op TypeOp;
  *----------------------------------------------------------------------
  */
 static int
-StringToColor(clientData, interp, tkwin, string, widgRec, offset)
-    ClientData clientData; /* Not used. */
-    Tcl_Interp *interp; /* Interpreter to send results back to */
-    Tk_Window tkwin; /* Not used. */
-    CONST86 char *string; /* String representing color */
-    char *widgRec; /* Widget record */
-    Tcl_Size offset; /* Offset of color field in record */
+StringToColor(
+    ClientData clientData,  /* Not used. */
+    Tcl_Interp *interp,     /* Interpreter to send results back to */
+    Tk_Window tkwin,        /* Not used. */
+    CONST86 char *string,   /* String representing color */
+    char *widgRec,          /* Widget record */
+    Tcl_Size offset)        /* Offset of color field in record */
 {
     XColor **colorPtrPtr = (XColor **)(widgRec + offset);
     XColor *colorPtr;
@@ -103,8 +103,8 @@ StringToColor(clientData, interp, tkwin, string, widgRec, offset)
  *----------------------------------------------------------------------
  */
 static char *
-NameOfColor(colorPtr)
-    XColor *colorPtr;
+NameOfColor(
+    XColor *colorPtr)
 {
     if (colorPtr == NULL) {
         return "";
@@ -131,12 +131,12 @@ NameOfColor(colorPtr)
  *----------------------------------------------------------------------
  */
 static CONST86 char *
-ColorToString(clientData, tkwin, widgRec, offset, freeProcPtr)
-    ClientData clientData; /* Not used. */
-    Tk_Window tkwin; /* Not used. */
-    char *widgRec; /* Widget information record */
-    Tcl_Size offset; /* Offset of symbol type in record */
-    Tcl_FreeProc **freeProcPtr; /* Not used. */
+ColorToString(
+    ClientData clientData,      /* Not used. */
+    Tk_Window tkwin,            /* Not used. */
+    char *widgRec,              /* Widget information record */
+    Tcl_Size offset,            /* Offset of symbol type in record */
+    Tcl_FreeProc **freeProcPtr) /* Not used. */
 {
     XColor *colorPtr = *(XColor **)(widgRec + offset);
 
@@ -159,13 +159,13 @@ ColorToString(clientData, tkwin, widgRec, offset, freeProcPtr)
  *----------------------------------------------------------------------
  */
 static int
-StringToPen(clientData, interp, tkwin, string, widgRec, offset)
-    ClientData clientData; /* Not used. */
-    Tcl_Interp *interp; /* Interpreter to send results back to */
-    Tk_Window tkwin; /* Not used. */
-    CONST86 char *string; /* String representing pen */
-    char *widgRec; /* Widget record */
-    Tcl_Size offset; /* Offset of pen field in record */
+StringToPen(
+    ClientData clientData,  /* Not used. */
+    Tcl_Interp *interp,     /* Interpreter to send results back to */
+    Tk_Window tkwin,        /* Not used. */
+    CONST86 char *string,   /* String representing pen */
+    char *widgRec,          /* Widget record */
+    Tcl_Size offset)        /* Offset of pen field in record */
 {
     Rbc_Uid classUid = *(Rbc_Uid *)clientData; /* Element type. */
     Pen **penPtrPtr = (Pen **)(widgRec + offset);
@@ -207,12 +207,12 @@ StringToPen(clientData, interp, tkwin, string, widgRec, offset)
  *----------------------------------------------------------------------
  */
 static CONST86 char *
-PenToString(clientData, tkwin, widgRec, offset, freeProcPtr)
-    ClientData clientData; /* Not used. */
-    Tk_Window tkwin; /* Not used. */
-    char *widgRec; /* Widget information record */
-    Tcl_Size offset; /* Offset of pen in record */
-    Tcl_FreeProc **freeProcPtr; /* Not used. */
+PenToString(
+    ClientData clientData,  /* Not used. */
+    Tk_Window tkwin,        /* Not used. */
+    char *widgRec,          /* Widget information record */
+    Tcl_Size offset,        /* Offset of pen in record */
+    Tcl_FreeProc **freeProcPtr) /* Not used. */
 {
     Pen *penPtr = *(Pen **)(widgRec + offset);
 
@@ -235,9 +235,9 @@ PenToString(clientData, tkwin, widgRec, offset, freeProcPtr)
  *----------------------------------------------------------------------
  */
 static Pen *
-NameToPen(graphPtr, name)
-    Graph *graphPtr;
-    char *name;
+NameToPen(
+    Graph *graphPtr,
+    char *name)
 {
     Tcl_HashEntry *hPtr;
     Pen *penPtr;
@@ -272,9 +272,9 @@ notFound:
  *----------------------------------------------------------------------
  */
 static void
-DestroyPen(graphPtr, penPtr)
-    Graph *graphPtr;
-    Pen *penPtr;
+DestroyPen(
+    Graph *graphPtr,
+    Pen *penPtr)
 {
     Tk_FreeOptions(penPtr->configSpecs, (char *)penPtr, graphPtr->display, 0);
     (*penPtr->destroyProc) (graphPtr, penPtr);
@@ -303,9 +303,9 @@ DestroyPen(graphPtr, penPtr)
  *----------------------------------------------------------------------
  */
 void
-Rbc_FreePen(graphPtr, penPtr)
-    Graph *graphPtr;
-    Pen *penPtr;
+Rbc_FreePen(
+    Graph *graphPtr,
+    Pen *penPtr)
 {
     penPtr->refCount--;
     if ((penPtr->refCount == 0) && (penPtr->flags & PEN_DELETE_PENDING)) {
@@ -430,11 +430,11 @@ Rbc_CreatePen(
  *----------------------------------------------------------------------
  */
 int
-Rbc_GetPen(graphPtr, name, classUid, penPtrPtr)
-    Graph *graphPtr;
-    CONST86 char *name;
-    Rbc_Uid classUid;
-    Pen **penPtrPtr;
+Rbc_GetPen(
+    Graph *graphPtr,
+    CONST86 char *name,
+    Rbc_Uid classUid,
+    Pen **penPtrPtr)
 {
     Pen *penPtr;
 
@@ -472,8 +472,8 @@ Rbc_GetPen(graphPtr, name, classUid, penPtrPtr)
  *----------------------------------------------------------------------
  */
 void
-Rbc_DestroyPens(graphPtr)
-    Graph *graphPtr;
+Rbc_DestroyPens(
+    Graph *graphPtr)
 {
     Tcl_HashEntry *hPtr;
     Tcl_HashSearch cursor;

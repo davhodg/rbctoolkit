@@ -64,10 +64,10 @@ DllMain(
  *----------------------------------------------------------------------
  */
 BOOL APIENTRY
-DllEntryPoint(hInst, reason, reserved)
-    HINSTANCE hInst;            /* Library instance handle. */
-    DWORD reason;               /* Reason this function is being called. */
-    LPVOID reserved;            /* Not used. */
+DllEntryPoint(
+    HINSTANCE hInst,    /* Library instance handle. */
+    DWORD reason,       /* Reason this function is being called. */
+    LPVOID reserved)    /* Not used. */
 {
     return DllMain(hInst, reason, reserved);
 }
@@ -90,8 +90,8 @@ DllEntryPoint(hInst, reason, reserved)
  * ------------------------------------------------------------------------
  */
 int DLLEXPORT
-Rbc_Init (interp)
-    Tcl_Interp *interp; /* Base interpreter to return results to. */
+Rbc_Init (
+    Tcl_Interp *interp) /* Base interpreter to return results to. */
 {
     Tcl_Namespace *nsPtr;
 

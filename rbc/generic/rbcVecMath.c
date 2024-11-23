@@ -156,8 +156,8 @@ static MathFunction mathFunctions[] = {
  *----------------------------------------------------------------------
  */
 void
-Rbc_VectorInstallMathFunctions(tablePtr)
-    Tcl_HashTable *tablePtr; /* Pointer to the hash where
+Rbc_VectorInstallMathFunctions(
+    Tcl_HashTable *tablePtr) /* Pointer to the hash where
                               * the math functions should
                               * be installed to. */
 {
@@ -188,8 +188,8 @@ Rbc_VectorInstallMathFunctions(tablePtr)
  *----------------------------------------------------------------------
  */
 void
-Rbc_VectorInstallSpecialIndices(tablePtr)
-    Tcl_HashTable *tablePtr; /* Pointer to the hash where
+Rbc_VectorInstallSpecialIndices(
+    Tcl_HashTable *tablePtr) /* Pointer to the hash where
                               * the special indices should
                               * be added to. */
 {
@@ -217,10 +217,10 @@ Rbc_VectorInstallSpecialIndices(tablePtr)
  *----------------------------------------------------------------------
  */
 static void
-InstallIndexProc(tablePtr, string, procPtr)
-    Tcl_HashTable *tablePtr;
-    char *string;
-    Rbc_VectorIndexProc *procPtr; /* Pointer to function to be called
+InstallIndexProc(
+    Tcl_HashTable *tablePtr,
+    char *string,
+    Rbc_VectorIndexProc *procPtr) /* Pointer to function to be called
                                    * when the vector finds the named index.
                                    * If NULL, this indicates to remove
                                    * the index from the table.
@@ -257,8 +257,7 @@ InstallIndexProc(tablePtr, string, procPtr)
  *--------------------------------------------------------------
  */
 static int
-First(vPtr)
-    VectorObject *vPtr; /* The vector to retrieve the first index from */
+First (VectorObject *vPtr) /* The vector to retrieve the first index from */
 {
     register int i;
 
@@ -290,9 +289,9 @@ First(vPtr)
  *--------------------------------------------------------------
  */
 static int
-Next(vPtr, current)
-    VectorObject *vPtr; /* The vector to retrieve the next index for */
-    int current; /* The current index */
+Next(
+    VectorObject *vPtr, /* The vector to retrieve the next index for */
+    int current)        /* The current index */
 {
     register int i;
 
@@ -321,8 +320,7 @@ Next(vPtr, current)
  *----------------------------------------------------------------------
  */
 double
-Rbc_VecMin(vecPtr)
-    Rbc_Vector *vecPtr; /* The vector to calculate the min for */
+Rbc_VecMin (Rbc_Vector *vecPtr) /* The vector to calculate the min for */
 {
     VectorObject *vPtr = (VectorObject *) vecPtr;
 
@@ -365,8 +363,7 @@ Rbc_VecMin(vecPtr)
  *----------------------------------------------------------------------
  */
 double
-Rbc_VecMax(vecPtr)
-    Rbc_Vector *vecPtr; /* The vector to calculate the max for */
+Rbc_VecMax (Rbc_Vector *vecPtr) /* The vector to calculate the max for */
 {
     VectorObject *vPtr = (VectorObject *) vecPtr;
     double max;
@@ -407,8 +404,7 @@ Rbc_VecMax(vecPtr)
  *----------------------------------------------------------------------
  */
 static double
-Mean(vecPtr)
-    Rbc_Vector *vecPtr; /* The vector to calculate the mean of */
+Mean (Rbc_Vector *vecPtr) /* The vector to calculate the mean of */
 {
     VectorObject *vPtr = (VectorObject *) vecPtr;
     register int i;
@@ -441,8 +437,7 @@ Mean(vecPtr)
  *----------------------------------------------------------------------
  */
 static double
-Sum(vecPtr)
-    Rbc_Vector *vecPtr; /* The vector to calculate the sum for */
+Sum (Rbc_Vector *vecPtr) /* The vector to calculate the sum for */
 {
     VectorObject *vPtr = (VectorObject *) vecPtr;
     register int i;
@@ -472,8 +467,7 @@ Sum(vecPtr)
  *----------------------------------------------------------------------
  */
 static double
-Product(vecPtr)
-    Rbc_Vector *vecPtr; /* The Vector to calculate product for */
+Product (Rbc_Vector *vecPtr) /* The Vector to calculate product for */
 {
     VectorObject *vPtr = (VectorObject *) vecPtr;
     register int i;
@@ -503,8 +497,7 @@ Product(vecPtr)
  *--------------------------------------------------------------
  */
 static int
-Sort(vPtr)
-    VectorObject *vPtr;
+Sort (VectorObject *vPtr)
 {
     int *indexArr;
     double *tempArr;
@@ -539,8 +532,7 @@ Sort(vPtr)
  *--------------------------------------------------------------
  */
 static double
-Length(vecPtr)
-    Rbc_Vector *vecPtr;
+Length (Rbc_Vector *vecPtr)
 {
     VectorObject *vPtr = (VectorObject *)vecPtr;
     int count;
@@ -569,8 +561,7 @@ Length(vecPtr)
  *--------------------------------------------------------------
  */
 static double
-Median(vecPtr)
-    Rbc_Vector *vecPtr;
+Median (Rbc_Vector *vecPtr)
 {
     VectorObject *vPtr = (VectorObject *)vecPtr;
     int *iArr;
@@ -613,8 +604,7 @@ Median(vecPtr)
  *--------------------------------------------------------------
  */
 static double
-Variance(vecPtr)
-    Rbc_Vector *vecPtr;
+Variance (Rbc_Vector *vecPtr)
 {
     VectorObject *vPtr = (VectorObject *)vecPtr;
     register double dx, var, mean;
@@ -652,8 +642,7 @@ Variance(vecPtr)
  *--------------------------------------------------------------
  */
 static double
-Skew(vecPtr)
-    Rbc_Vector *vecPtr;
+Skew (Rbc_Vector *vecPtr)
 {
     VectorObject *vPtr = (VectorObject *)vecPtr;
     register double diff, var, skew, mean, diffsq;
@@ -695,8 +684,7 @@ Skew(vecPtr)
  *--------------------------------------------------------------
  */
 static double
-StdDeviation(vecPtr)
-    Rbc_Vector *vecPtr;
+StdDeviation (Rbc_Vector *vecPtr)
 {
     double var;
 
@@ -723,8 +711,7 @@ StdDeviation(vecPtr)
  *--------------------------------------------------------------
  */
 static double
-AvgDeviation(vecPtr)
-    Rbc_Vector *vecPtr;
+AvgDeviation (Rbc_Vector *vecPtr)
 {
     VectorObject *vPtr = (VectorObject *)vecPtr;
     register double diff, avg, mean;
@@ -762,8 +749,7 @@ AvgDeviation(vecPtr)
  *--------------------------------------------------------------
  */
 static double
-Kurtosis(vecPtr)
-    Rbc_Vector *vecPtr;
+Kurtosis (Rbc_Vector *vecPtr)
 {
     VectorObject *vPtr = (VectorObject *)vecPtr;
     register double diff, diffsq, kurt, var, mean;
@@ -807,8 +793,7 @@ Kurtosis(vecPtr)
  *--------------------------------------------------------------
  */
 static double
-Q1(vecPtr)
-    Rbc_Vector *vecPtr;
+Q1 (Rbc_Vector *vecPtr)
 {
     VectorObject *vPtr = (VectorObject *)vecPtr;
     double q1;
@@ -858,8 +843,7 @@ Q1(vecPtr)
  *--------------------------------------------------------------
  */
 static double
-Q3(vecPtr)
-    Rbc_Vector *vecPtr;
+Q3 (Rbc_Vector *vecPtr)
 {
     VectorObject *vPtr = (VectorObject *)vecPtr;
     double q3;
@@ -910,8 +894,7 @@ Q3(vecPtr)
  *--------------------------------------------------------------
  */
 static int
-Norm(vecPtr)
-    Rbc_Vector *vecPtr;
+Norm (Rbc_Vector *vecPtr)
 {
     VectorObject *vPtr = (VectorObject *)vecPtr;
     double norm, range, min, max;
@@ -943,8 +926,7 @@ Norm(vecPtr)
  *--------------------------------------------------------------
  */
 static double
-Nonzeros(vecPtr)
-    Rbc_Vector *vecPtr;
+Nonzeros (Rbc_Vector *vecPtr)
 {
     VectorObject *vPtr = (VectorObject *)vecPtr;
     register int i;
@@ -975,8 +957,7 @@ Nonzeros(vecPtr)
  *--------------------------------------------------------------
  */
 static double
-Fabs(value)
-    double value;
+Fabs (double value)
 {
     if (value < 0.0) {
         return -value;
@@ -1000,8 +981,7 @@ Fabs(value)
  *--------------------------------------------------------------
  */
 static double
-Round(value)
-    double value;
+Round (double value)
 {
     if (value < 0.0) {
         return ceil(value - 0.5);
@@ -1031,10 +1011,10 @@ Round(value)
  *--------------------------------------------------------------
  */
 int
-Rbc_ExprVector(interp, string, vecPtr)
-    Tcl_Interp *interp;
-    char *string;
-    Rbc_Vector *vecPtr;
+Rbc_ExprVector(
+    Tcl_Interp *interp,
+    char *string,
+    Rbc_Vector *vecPtr)
 {
     VectorInterpData *dataPtr; /* Interpreter-specific data. */
     VectorObject *vPtr = (VectorObject *) vecPtr;
@@ -1084,11 +1064,11 @@ Rbc_ExprVector(interp, string, vecPtr)
  *--------------------------------------------------------------
  */
 static int
-EvaluateExpression(interp, string, valuePtr)
-    Tcl_Interp *interp; /* Context in which to evaluate the
+EvaluateExpression(
+    Tcl_Interp *interp, /* Context in which to evaluate the
                          * expression. */
-    char *string; /* Expression to evaluate. */
-    Value *valuePtr; /* Where to store result.  Should
+    char *string,    /* Expression to evaluate. */
+    Value *valuePtr) /* Where to store result.  Should
                       * not be initialized by caller. */
 {
     ParseInfo info;
@@ -1147,15 +1127,15 @@ EvaluateExpression(interp, string, valuePtr)
  *----------------------------------------------------------------------
  */
 static int
-NextValue(interp, parsePtr, prec, valuePtr)
-    Tcl_Interp *interp;  /* Interpreter to use for error reporting. */
-    ParseInfo *parsePtr; /* Describes the state of the parse
+NextValue(
+    Tcl_Interp *interp,  /* Interpreter to use for error reporting. */
+    ParseInfo *parsePtr, /* Describes the state of the parse
                           * just before the value (i.e. NextToken will
                           * be called to get first token of value). */
-    int prec; /* Treat any un-parenthesized operator
+    int prec, /* Treat any un-parenthesized operator
                * with precedence <= this as the end
                * of the expression. */
-    Value *valuePtr; /* Where to store the value of the expression.
+    Value *valuePtr) /* Where to store the value of the expression.
                       * Caller must have initialized pv field. */
 {
     Value value2; /* Second operand for current operator.  */
@@ -1639,10 +1619,10 @@ error:
  *----------------------------------------------------------------------
  */
 static void
-MathError(interp, value)
-    Tcl_Interp *interp; /* Where to store error message. */
-    double value; /* Value returned after error;  used to
-                   * distinguish underflows from overflows. */
+MathError(
+    Tcl_Interp *interp, /* Where to store error message. */
+    double value)       /* Value returned after error;  used to
+                         * distinguish underflows from overflows. */
 {
     if ((errno== EDOM) || (value != value)) {
         Tcl_AppendResult(interp, "domain error: argument not in valid range",
@@ -1698,10 +1678,10 @@ MathError(interp, value)
  *----------------------------------------------------------------------
  */
 static int
-NextToken(interp, parsePtr, valuePtr)
-    Tcl_Interp *interp; /* Interpreter to use for error reporting. */
-    ParseInfo *parsePtr; /* Describes the state of the parse. */
-    Value *valuePtr; /* Where to store value, if that is
+NextToken(
+    Tcl_Interp *interp,  /* Interpreter to use for error reporting. */
+    ParseInfo *parsePtr, /* Describes the state of the parse. */
+    Value *valuePtr) /* Where to store value, if that is
                       * what's parsed from string.  Caller
                       * must have initialized pv field
                       * correctly. */
@@ -1929,9 +1909,9 @@ NextToken(interp, parsePtr, valuePtr)
  *--------------------------------------------------------------
  */
 static double
-Fmod(x, y)
-    double x;
-    double y;
+Fmod(
+    double x,
+    double y)
 {
     if (y == 0.0) {
         return 0.0;
@@ -1962,10 +1942,10 @@ Fmod(x, y)
  */
 
 static int
-ParseString(interp, string, valuePtr)
-    Tcl_Interp *interp; /* Where to store error message. */
-    const char *string; /* String to turn into value. */
-    Value *valuePtr; /* Where to store value information.
+ParseString(
+    Tcl_Interp *interp, /* Where to store error message. */
+    const char *string, /* String to turn into value. */
+    Value *valuePtr) /* Where to store value information.
                       * Caller must have initialized pv field. */
 {
     char *endPtr;
@@ -2038,14 +2018,14 @@ ParseString(interp, string, valuePtr)
  *----------------------------------------------------------------------
  */
 static int
-ParseMathFunction(interp, start, parsePtr, valuePtr)
-    Tcl_Interp *interp; /* Interpreter to use for error reporting. */
-    char *start; /* Start of string to parse */
-    ParseInfo *parsePtr; /* Describes the state of the parse.
+ParseMathFunction(
+    Tcl_Interp *interp, /* Interpreter to use for error reporting. */
+    char *start,        /* Start of string to parse */
+    ParseInfo *parsePtr, /* Describes the state of the parse.
                           * parsePtr->nextPtr must point to the
                           * first character of the function's
                           * name. */
-    Value *valuePtr; /* Where to store value, if that is
+    Value *valuePtr) /* Where to store value, if that is
                       * what's parsed from string.  Caller
                       * must have initialized pv field
                       * correctly. */
@@ -2115,12 +2095,12 @@ ParseMathFunction(interp, start, parsePtr, valuePtr)
  *----------------------------------------------------------------------
  */
 static int
-ComponentFunc(clientData, interp, vPtr)
-    ClientData clientData; /* Contains address of procedure that
+ComponentFunc(
+    ClientData clientData, /* Contains address of procedure that
                             * takes one double argument and
                             * returns a double result. */
-    Tcl_Interp *interp;
-    VectorObject *vPtr;
+    Tcl_Interp *interp,
+    VectorObject *vPtr)
 {
     ComponentProc *procPtr = (ComponentProc *) clientData;
     register int i;
@@ -2159,10 +2139,10 @@ ComponentFunc(clientData, interp, vPtr)
  *--------------------------------------------------------------
  */
 static int
-ScalarFunc(clientData, interp, vPtr)
-    ClientData clientData;
-    Tcl_Interp *interp;
-    VectorObject *vPtr;
+ScalarFunc(
+    ClientData clientData,
+    Tcl_Interp *interp,
+    VectorObject *vPtr)
 {
     double value;
     ScalarProc *procPtr = (ScalarProc *) clientData;
@@ -2196,10 +2176,10 @@ ScalarFunc(clientData, interp, vPtr)
  *--------------------------------------------------------------
  */
 static int
-VectorFunc(clientData, interp, vPtr)
-    ClientData clientData;
-    Tcl_Interp *interp;
-    VectorObject *vPtr;
+VectorFunc(
+    ClientData clientData,
+    Tcl_Interp *interp,
+    VectorObject *vPtr)
 {
     VectorProc *procPtr = (VectorProc *) clientData;
     return (*procPtr) (vPtr);

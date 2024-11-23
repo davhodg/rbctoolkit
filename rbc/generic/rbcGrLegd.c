@@ -165,8 +165,8 @@ static Graph_Op ConfigureOp;
  *--------------------------------------------------------------
  */
 static void
-EventuallyRedrawLegend(legendPtr)
-    Legend *legendPtr; /* Legend record */
+EventuallyRedrawLegend(
+    Legend *legendPtr) /* Legend record */
 {
     if ((legendPtr->tkwin != NULL) && !(legendPtr->flags & REDRAW_PENDING)) {
         Tcl_DoWhenIdle(DisplayLegend, legendPtr);
@@ -193,9 +193,9 @@ EventuallyRedrawLegend(legendPtr)
  *--------------------------------------------------------------
  */
 static void
-LegendEventProc(clientData, eventPtr)
-    ClientData clientData; /* Legend record */
-    register XEvent *eventPtr; /* Event which triggered call to routine */
+LegendEventProc(
+    ClientData clientData,      /* Legend record */
+    register XEvent *eventPtr)  /* Event which triggered call to routine */
 {
     Legend *legendPtr = clientData;
 
@@ -244,10 +244,10 @@ LegendEventProc(clientData, eventPtr)
  *----------------------------------------------------------------------
  */
 static int
-CreateLegendWindow(interp, legendPtr, pathName)
-    Tcl_Interp *interp;
-    Legend *legendPtr;
-    char *pathName;
+CreateLegendWindow(
+    Tcl_Interp *interp,
+    Legend *legendPtr,
+    char *pathName)
 {
     Tk_Window tkwin;
 
@@ -289,13 +289,13 @@ CreateLegendWindow(interp, legendPtr, pathName)
  *----------------------------------------------------------------------
  */
 static int
-StringToPosition(clientData, interp, tkwin, string, widgRec, offset)
-    ClientData clientData; /* Not used. */
-    Tcl_Interp *interp; /* Interpreter to send results back to */
-    Tk_Window tkwin; /* Not used. */
-    CONST86 char *string; /* New legend position string */
-    char *widgRec; /* Widget record */
-    Tcl_Size offset; /* offset to XPoint structure */
+StringToPosition(
+    ClientData clientData,  /* Not used. */
+    Tcl_Interp *interp,     /* Interpreter to send results back to */
+    Tk_Window tkwin,        /* Not used. */
+    CONST86 char *string,   /* New legend position string */
+    char *widgRec,          /* Widget record */
+    Tcl_Size offset)        /* offset to XPoint structure */
 {
     Legend *legendPtr = (Legend *)widgRec;
     char c;
@@ -372,12 +372,12 @@ StringToPosition(clientData, interp, tkwin, string, widgRec, offset)
  *----------------------------------------------------------------------
  */
 static CONST86 char *
-PositionToString(clientData, tkwin, widgRec, offset, freeProcPtr)
-    ClientData clientData; /* Not used. */
-    Tk_Window tkwin; /* Not used. */
-    char *widgRec; /* Widget record */
-    Tcl_Size offset; /* offset of XPoint in record */
-    Tcl_FreeProc **freeProcPtr; /* Memory deallocation scheme to use */
+PositionToString(
+    ClientData clientData,  /* Not used. */
+    Tk_Window tkwin,        /* Not used. */
+    char *widgRec,          /* Widget record */
+    Tcl_Size offset,        /* offset of XPoint in record */
+    Tcl_FreeProc **freeProcPtr) /* Memory deallocation scheme to use */
 {
     Legend *legendPtr = (Legend *)widgRec;
 
@@ -425,8 +425,8 @@ PositionToString(clientData, tkwin, widgRec, offset, freeProcPtr)
  *----------------------------------------------------------------------
  */
 static void
-SetLegendOrigin(legendPtr)
-    Legend *legendPtr;
+SetLegendOrigin(
+    Legend *legendPtr)
 {
     Graph *graphPtr;
     int x, y, width, height;
@@ -513,10 +513,11 @@ SetLegendOrigin(legendPtr)
  *----------------------------------------------------------------------
  */
 static ClientData
-PickLegendEntry(clientData, x, y, contextPtr)
-    ClientData clientData;
-    int x, y; /* Point to be tested */
-    ClientData *contextPtr; /* Not used. */
+PickLegendEntry(
+    ClientData clientData,
+    int x, 
+    int y, /* Point to be tested */
+    ClientData *contextPtr) /* Not used. */
 {
     Graph *graphPtr = clientData;
     Legend *legendPtr;
@@ -593,12 +594,12 @@ PickLegendEntry(clientData, x, y, contextPtr)
  * -----------------------------------------------------------------
  */
 void
-Rbc_MapLegend(legendPtr, plotWidth, plotHeight)
-    Legend *legendPtr;
-    int plotWidth; /* Maximum width available in window
+Rbc_MapLegend(
+    Legend *legendPtr,
+    int plotWidth, /* Maximum width available in window
                     * to draw the legend. Will calculate number
                     * of columns from this. */
-    int plotHeight; /* Maximum height available in window
+    int plotHeight) /* Maximum height available in window
                      * to draw the legend. Will calculate number
                      * of rows from this. */
 {
@@ -764,9 +765,9 @@ Rbc_MapLegend(legendPtr, plotWidth, plotHeight)
  *----------------------------------------------------------------------
  */
 void
-Rbc_DrawLegend(legendPtr, drawable)
-    Legend *legendPtr;
-    Drawable drawable; /* Pixmap or window to draw into */
+Rbc_DrawLegend(
+    Legend *legendPtr,
+    Drawable drawable) /* Pixmap or window to draw into */
 {
     Graph *graphPtr;
     Rbc_ChainLink *linkPtr;
@@ -920,9 +921,9 @@ Rbc_DrawLegend(legendPtr, drawable)
  *----------------------------------------------------------------------
  */
 void
-Rbc_LegendToPostScript(legendPtr, psToken)
-    Legend *legendPtr;
-    PsToken psToken;
+Rbc_LegendToPostScript(
+    Legend *legendPtr,
+    PsToken psToken)
 {
     Graph *graphPtr;
     double x, y, startY;
@@ -1020,8 +1021,8 @@ Rbc_LegendToPostScript(legendPtr, psToken)
  *----------------------------------------------------------------------
  */
 static void
-DisplayLegend(clientData)
-    ClientData clientData;
+DisplayLegend(
+    ClientData clientData)
 {
     Legend *legendPtr = clientData;
     int width, height;
@@ -1063,9 +1064,9 @@ DisplayLegend(clientData)
  *----------------------------------------------------------------------
  */
 static void
-ConfigureLegend(graphPtr, legendPtr)
-    Graph *graphPtr;
-    Legend *legendPtr;
+ConfigureLegend(
+    Graph *graphPtr,
+    Legend *legendPtr)
 {
     Rbc_ResetTextStyle(graphPtr->tkwin, &(legendPtr->style));
 
@@ -1113,8 +1114,8 @@ ConfigureLegend(graphPtr, legendPtr)
  *----------------------------------------------------------------------
  */
 void
-Rbc_DestroyLegend(graphPtr)
-    Graph *graphPtr;
+Rbc_DestroyLegend(
+    Graph *graphPtr)
 {
     Legend *legendPtr = graphPtr->legend;
 
@@ -1160,8 +1161,8 @@ Rbc_DestroyLegend(graphPtr)
  *----------------------------------------------------------------------
  */
 int
-Rbc_CreateLegend(graphPtr)
-    Graph *graphPtr;
+Rbc_CreateLegend(
+    Graph *graphPtr)
 {
     Legend *legendPtr;
 
@@ -1480,8 +1481,8 @@ Rbc_LegendOp(
  *----------------------------------------------------------------------
  */
 int
-Rbc_LegendSite(legendPtr)
-    Legend *legendPtr;
+Rbc_LegendSite(
+    Legend *legendPtr)
 {
     return legendPtr->site;
 }
@@ -1502,8 +1503,8 @@ Rbc_LegendSite(legendPtr)
  *----------------------------------------------------------------------
  */
 int
-Rbc_LegendWidth(legendPtr)
-    Legend *legendPtr;
+Rbc_LegendWidth(
+    Legend *legendPtr)
 {
     return legendPtr->width;
 }
@@ -1524,8 +1525,8 @@ Rbc_LegendWidth(legendPtr)
  *----------------------------------------------------------------------
  */
 int
-Rbc_LegendHeight(legendPtr)
-    Legend *legendPtr;
+Rbc_LegendHeight(
+    Legend *legendPtr)
 {
     return legendPtr->height;
 }
@@ -1546,8 +1547,8 @@ Rbc_LegendHeight(legendPtr)
  *----------------------------------------------------------------------
  */
 int
-Rbc_LegendIsHidden(legendPtr)
-    Legend *legendPtr;
+Rbc_LegendIsHidden(
+    Legend *legendPtr)
 {
     return legendPtr->hidden;
 }
@@ -1568,8 +1569,8 @@ Rbc_LegendIsHidden(legendPtr)
  *----------------------------------------------------------------------
  */
 int
-Rbc_LegendIsRaised(legendPtr)
-    Legend *legendPtr;
+Rbc_LegendIsRaised(
+    Legend *legendPtr)
 {
     return legendPtr->raised;
 }
@@ -1590,8 +1591,8 @@ Rbc_LegendIsRaised(legendPtr)
  *----------------------------------------------------------------------
  */
 int
-Rbc_LegendX(legendPtr)
-    Legend *legendPtr;
+Rbc_LegendX(
+    Legend *legendPtr)
 {
     return legendPtr->x;
 }
@@ -1612,8 +1613,8 @@ Rbc_LegendX(legendPtr)
  *----------------------------------------------------------------------
  */
 int
-Rbc_LegendY(legendPtr)
-    Legend *legendPtr;
+Rbc_LegendY(
+    Legend *legendPtr)
 {
     return legendPtr->y;
 }
@@ -1634,9 +1635,9 @@ Rbc_LegendY(legendPtr)
  *----------------------------------------------------------------------
  */
 void
-Rbc_LegendRemoveElement(legendPtr, elemPtr)
-    Legend *legendPtr;
-    Element *elemPtr;
+Rbc_LegendRemoveElement(
+    Legend *legendPtr,
+    Element *elemPtr)
 {
     Rbc_DeleteBindings(legendPtr->bindTable, elemPtr);
 }

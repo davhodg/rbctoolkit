@@ -28,7 +28,7 @@
  *--------------------------------------------------------------
  */
 int
-Rbc_GetPlatformId()
+Rbc_GetPlatformId (void)
 {
     static int platformId = 0;
 
@@ -59,7 +59,7 @@ Rbc_GetPlatformId()
  *--------------------------------------------------------------
  */
 char *
-Rbc_LastError()
+Rbc_LastError (void)
 {
     static char buffer[1024];
     int length;

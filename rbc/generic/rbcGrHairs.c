@@ -90,9 +90,9 @@ static Graph_Op ToggleOp;
  *----------------------------------------------------------------------
  */
 static void
-TurnOffHairs(tkwin, chPtr)
-    Tk_Window tkwin;
-    Crosshairs *chPtr;
+TurnOffHairs(
+    Tk_Window tkwin,
+    Crosshairs *chPtr)
 {
     if (Tk_IsMapped(tkwin) && (chPtr->visible)) {
         XDrawSegments(Tk_Display(tkwin), Tk_WindowId(tkwin), chPtr->gc,
@@ -118,9 +118,9 @@ TurnOffHairs(tkwin, chPtr)
  *----------------------------------------------------------------------
  */
 static void
-TurnOnHairs(graphPtr, chPtr)
-    Graph *graphPtr;
-    Crosshairs *chPtr;
+TurnOnHairs(
+    Graph *graphPtr,
+    Crosshairs *chPtr)
 {
     if (Tk_IsMapped(graphPtr->tkwin) && (!chPtr->visible)) {
         if (!PointInGraph(graphPtr, chPtr->hotSpot.x, chPtr->hotSpot.y)) {
@@ -150,8 +150,8 @@ TurnOnHairs(graphPtr, chPtr)
  *----------------------------------------------------------------------
  */
 void
-Rbc_ConfigureCrosshairs(graphPtr)
-    Graph *graphPtr;
+Rbc_ConfigureCrosshairs(
+    Graph *graphPtr)
 {
     XGCValues gcValues;
     unsigned long gcMask;
@@ -222,8 +222,8 @@ Rbc_ConfigureCrosshairs(graphPtr)
  *----------------------------------------------------------------------
  */
 void
-Rbc_EnableCrosshairs(graphPtr)
-    Graph *graphPtr;
+Rbc_EnableCrosshairs(
+    Graph *graphPtr)
 {
     if (!graphPtr->crosshairs->hidden) {
         TurnOnHairs(graphPtr, graphPtr->crosshairs);
@@ -246,8 +246,8 @@ Rbc_EnableCrosshairs(graphPtr)
  *----------------------------------------------------------------------
  */
 void
-Rbc_DisableCrosshairs(graphPtr)
-    Graph *graphPtr;
+Rbc_DisableCrosshairs(
+    Graph *graphPtr)
 {
     if (!graphPtr->crosshairs->hidden) {
         TurnOffHairs(graphPtr->tkwin, graphPtr->crosshairs);
@@ -270,8 +270,8 @@ Rbc_DisableCrosshairs(graphPtr)
  *----------------------------------------------------------------------
  */
 void
-Rbc_UpdateCrosshairs(graphPtr)
-    Graph *graphPtr;
+Rbc_UpdateCrosshairs(
+    Graph *graphPtr)
 {
     Crosshairs *chPtr = graphPtr->crosshairs;
 
@@ -297,8 +297,8 @@ Rbc_UpdateCrosshairs(graphPtr)
  *----------------------------------------------------------------------
  */
 void
-Rbc_DestroyCrosshairs(graphPtr)
-    Graph *graphPtr;
+Rbc_DestroyCrosshairs(
+    Graph *graphPtr)
 {
     Crosshairs *chPtr = graphPtr->crosshairs;
 
@@ -326,8 +326,8 @@ Rbc_DestroyCrosshairs(graphPtr)
  *----------------------------------------------------------------------
  */
 int
-Rbc_CreateCrosshairs(graphPtr)
-    Graph *graphPtr;
+Rbc_CreateCrosshairs(
+    Graph *graphPtr)
 {
     Crosshairs *chPtr;
 

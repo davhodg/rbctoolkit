@@ -96,8 +96,9 @@ ResampleFilter *rbcBoxFilterPtr; /* The ubiquitous box filter */
  *----------------------------------------------------------------------
  */
 Rbc_ColorImage
-Rbc_CreateColorImage(width, height)
-    int width, height; /* Dimensions of new image */
+Rbc_CreateColorImage(
+    int width, 
+    int height) /* Dimensions of new image */
 {
     struct ColorImage *imagePtr;
     size_t size;
@@ -129,8 +130,8 @@ Rbc_CreateColorImage(width, height)
  *----------------------------------------------------------------------
  */
 void
-Rbc_FreeColorImage(imagePtr)
-    struct ColorImage *imagePtr;
+Rbc_FreeColorImage(
+    struct ColorImage *imagePtr)
 {
     ckfree((char *)imagePtr->bits);
     ckfree((char *)imagePtr);
@@ -152,9 +153,9 @@ Rbc_FreeColorImage(imagePtr)
  *--------------------------------------------------------------
  */
 void
-Rbc_GammaCorrectColorImage(src, newGamma)
-    Rbc_ColorImage src;
-    double newGamma;
+Rbc_GammaCorrectColorImage(
+    Rbc_ColorImage src,
+    double newGamma)
 {
     unsigned int nPixels;
     register Pix32 *srcPtr, *endPtr;
@@ -202,8 +203,8 @@ Rbc_GammaCorrectColorImage(src, newGamma)
  *----------------------------------------------------------------------
  */
 void
-Rbc_ColorImageToGreyscale(image)
-    Rbc_ColorImage image;
+Rbc_ColorImageToGreyscale(
+    Rbc_ColorImage image)
 {
     register Pix32 *srcPtr, *endPtr;
     double Y;
@@ -238,10 +239,10 @@ Rbc_ColorImageToGreyscale(image)
  *----------------------------------------------------------------------
  */
 void
-Rbc_ColorImageToPhoto(interp, src, photo)
-    Tcl_Interp *interp;
-    Rbc_ColorImage src; /* Image to use as source */
-    Tk_PhotoHandle photo; /* Photo to write color image into */
+Rbc_ColorImageToPhoto(
+    Tcl_Interp *interp,
+    Rbc_ColorImage src,     /* Image to use as source */
+    Tk_PhotoHandle photo)   /* Photo to write color image into */
 {
     Tk_PhotoImageBlock dest;
     int width, height;
@@ -279,10 +280,12 @@ Rbc_ColorImageToPhoto(interp, src, photo)
  *----------------------------------------------------------------------
  */
 Rbc_ColorImage
-Rbc_PhotoRegionToColorImage(photo, x, y, width, height)
-    Tk_PhotoHandle photo; /* Source photo image to scale */
-    int x, y;
-    int width, height;
+Rbc_PhotoRegionToColorImage(
+    Tk_PhotoHandle photo, /* Source photo image to scale */
+    int x,
+    int y,
+    int width,
+    int height)
 {
     Tk_PhotoImageBlock src;
     Rbc_ColorImage image;
@@ -379,8 +382,8 @@ Rbc_PhotoRegionToColorImage(photo, x, y, width, height)
  *----------------------------------------------------------------------
  */
 Rbc_ColorImage
-Rbc_PhotoToColorImage(photo)
-    Tk_PhotoHandle photo; /* Source photo image to scale */
+Rbc_PhotoToColorImage(
+    Tk_PhotoHandle photo) /* Source photo image to scale */
 {
     Rbc_ColorImage image;
     Tk_PhotoImageBlock src;
@@ -475,8 +478,7 @@ static Tk_ImageChangedProc TempImageChangedProc;
  *--------------------------------------------------------------
  */
 static double
-DefaultFilter(x)
-    double x;
+DefaultFilter (double x)
 {
     if (x < 0.0) {
         x = -x;
@@ -504,8 +506,7 @@ DefaultFilter(x)
  *--------------------------------------------------------------
  */
 static double
-DummyFilter(x)
-    double x;
+DummyFilter (double x)
 {
     return FABS(x);
 }
@@ -537,8 +538,7 @@ DummyFilter(x)
  *--------------------------------------------------------------
  */
 static double
-BoxFilter(x)
-    double x;
+BoxFilter (double x)
 {
     if ((x < -0.5) || (x > 0.5)) {
         return 0.0;
@@ -562,8 +562,7 @@ BoxFilter(x)
  *--------------------------------------------------------------
  */
 static double
-TriangleFilter(x)
-    double x;
+TriangleFilter (double x)
 {
     if (x < 0.0) {
         x = -x;
@@ -590,8 +589,7 @@ TriangleFilter(x)
  *--------------------------------------------------------------
  */
 static double
-BellFilter(x)
-    double x;
+BellFilter (double x)
 {
     if (x < 0.0) {
         x = -x;
@@ -622,8 +620,7 @@ BellFilter(x)
  *--------------------------------------------------------------
  */
 static double
-BSplineFilter(x)
-    double x;
+BSplineFilter (double x)
 {
     double x2;
 
@@ -666,8 +663,7 @@ BSplineFilter(x)
  *--------------------------------------------------------------
  */
 static double
-SincFilter(x)
-    double x;
+SincFilter (double x)
 {
     x *= M_PI;
     if (x == 0.0) {
@@ -692,8 +688,7 @@ SincFilter(x)
  *--------------------------------------------------------------
  */
 static double
-BesselFilter(x)
-    double x;
+BesselFilter (double x)
 {
 #ifdef NEED_DECL_J1
     double j1 (double value);
@@ -728,8 +723,7 @@ BesselFilter(x)
  *--------------------------------------------------------------
  */
 static double
-GaussianFilter(x)
-    double x;
+GaussianFilter (double x)
 {
     return exp(-2.0 * x * x) * SQRT_2PI;
 }
@@ -750,8 +744,7 @@ GaussianFilter(x)
  *--------------------------------------------------------------
  */
 static double
-Lanczos3Filter(x)
-    double x;
+Lanczos3Filter (double x)
 {
     if (x < 0) {
         x = -x;
@@ -781,8 +774,7 @@ Lanczos3Filter(x)
  *--------------------------------------------------------------
  */
 static double
-MitchellFilter(x)
-    double x;
+MitchellFilter (double x)
 {
     double x2;
 
@@ -818,8 +810,7 @@ MitchellFilter(x)
  *--------------------------------------------------------------
  */
 static double
-CatRomFilter(x)
-    double x;
+CatRomFilter (double x)
 {
     if (x < -2.) {
         return 0.0;
@@ -855,8 +846,7 @@ CatRomFilter(x)
  *--------------------------------------------------------------
  */
 static double
-GiFilter(x)
-    double x;
+GiFilter (double x)
 {
     if (x > 1.5) {
         return 0.0;
@@ -924,10 +914,10 @@ ResampleFilter *rbcBoxFilterPtr = &(filterTable[1]);
  *----------------------------------------------------------------------
  */
 int
-Rbc_GetResampleFilter(interp, name, filterPtrPtr)
-    Tcl_Interp *interp;
-    char *name;
-    ResampleFilter **filterPtrPtr;
+Rbc_GetResampleFilter(
+    Tcl_Interp *interp,
+    char *name,
+    ResampleFilter **filterPtrPtr)
 {
     ResampleFilter *filterPtr, *endPtr;
 
@@ -1010,10 +1000,11 @@ typedef struct {
  *--------------------------------------------------------------
  */
 static size_t
-ComputeWeights(srcWidth, destWidth, filterPtr, samplePtrPtr)
-    int srcWidth, destWidth;
-    ResampleFilter *filterPtr;
-    Sample **samplePtrPtr;
+ComputeWeights(
+    int srcWidth,
+    int destWidth,
+    ResampleFilter *filterPtr,
+    Sample **samplePtrPtr)
 {
     Sample *samples;
     double scale;
@@ -1136,9 +1127,10 @@ ComputeWeights(srcWidth, destWidth, filterPtr, samplePtrPtr)
  *--------------------------------------------------------------
  */
 static void
-ZoomImageVertically(src, dest, filterPtr)
-    Rbc_ColorImage src, dest;
-    ResampleFilter *filterPtr;
+ZoomImageVertically(
+    Rbc_ColorImage src,
+    Rbc_ColorImage dest,
+    ResampleFilter *filterPtr)
 {
     Sample *samples, *s, *endPtr;
     int destWidth, destHeight;
@@ -1201,9 +1193,10 @@ ZoomImageVertically(src, dest, filterPtr)
  *--------------------------------------------------------------
  */
 static void
-ZoomImageHorizontally(src, dest, filterPtr)
-    Rbc_ColorImage src, dest;
-    ResampleFilter *filterPtr;
+ZoomImageHorizontally(
+    Rbc_ColorImage src, 
+    Rbc_ColorImage dest,
+    ResampleFilter *filterPtr)
 {
     Sample *samples, *s, *endPtr;
     Weight *weight;
@@ -1267,10 +1260,12 @@ ZoomImageHorizontally(src, dest, filterPtr)
  *----------------------------------------------------------------------
  */
 Rbc_ColorImage
-Rbc_ResampleColorImage(src, width, height, horzFilterPtr, vertFilterPtr)
-    Rbc_ColorImage src;
-    int width, height;
-    ResampleFilter *horzFilterPtr, *vertFilterPtr;
+Rbc_ResampleColorImage(
+    Rbc_ColorImage src,
+    int width,
+    int height,
+    ResampleFilter *horzFilterPtr,
+    ResampleFilter *vertFilterPtr)
 {
     Rbc_ColorImage tmp, dest;
 
@@ -1306,13 +1301,16 @@ Rbc_ResampleColorImage(src, width, height, horzFilterPtr, vertFilterPtr)
  *----------------------------------------------------------------------
  */
 void
-Rbc_ResamplePhoto(interp, srcPhoto, x, y, width, height, destPhoto, horzFilterPtr, vertFilterPtr)
-    Tcl_Interp *interp;
-    Tk_PhotoHandle srcPhoto; /* Source photo image to scale */
-    int x, y;
-    int width, height;
-    Tk_PhotoHandle destPhoto; /* Resulting scaled photo image */
-    ResampleFilter *horzFilterPtr, *vertFilterPtr;
+Rbc_ResamplePhoto(
+    Tcl_Interp *interp,
+    Tk_PhotoHandle srcPhoto, /* Source photo image to scale */
+    int x,
+    int y,
+    int width,
+    int height,
+    Tk_PhotoHandle destPhoto, /* Resulting scaled photo image */
+    ResampleFilter *horzFilterPtr,
+    ResampleFilter *vertFilterPtr)
 {
     Rbc_ColorImage srcImage, destImage;
     Tk_PhotoImageBlock dest;
@@ -1347,13 +1345,14 @@ Rbc_ResamplePhoto(interp, srcPhoto, x, y, width, height, destPhoto, horzFilterPt
  *----------------------------------------------------------------------
  */
 void
-Rbc_ResizePhoto(interp, srcPhoto, x, y, width, height, destPhoto)
-    Tcl_Interp *interp;
-    Tk_PhotoHandle srcPhoto; /* Source photo image to scaled. */
-    register int x, y; /* Region of source photo to be
-                        * scaled. */
-    int width, height;
-    Tk_PhotoHandle destPhoto; /* (out) Resulting scaled photo image.
+Rbc_ResizePhoto(
+    Tcl_Interp *interp,
+    Tk_PhotoHandle srcPhoto, /* Source photo image to scaled. */
+    register int x, /* Region of source photo to be scaled. */
+    register int y, /* Region of source photo to be scaled. */
+    int width,
+    int height,
+    Tk_PhotoHandle destPhoto) /* (out) Resulting scaled photo image.
                                * Scaling factors are derived from
                                * the destination photo's
                                * dimensions. */
@@ -1453,12 +1452,14 @@ Rbc_ResizePhoto(interp, srcPhoto, x, y, width, height, destPhoto)
  *----------------------------------------------------------------------
  */
 Rbc_ColorImage
-Rbc_ResizeColorImage(src, x, y, width, height, destWidth, destHeight)
-    Rbc_ColorImage src; /* Source color image to be scaled. */
-    register int x, y; /* Region of source image to scaled. */
-    int width, height;
-    int destWidth, destHeight; /* Requested dimensions of the scaled
-                                * image. */
+Rbc_ResizeColorImage(
+    Rbc_ColorImage src, /* Source color image to be scaled. */
+    register int x,     /* Region of source image to scaled. */
+    register int y,     /* Region of source image to scaled. */
+    int width,
+    int height,
+    int destWidth,
+    int destHeight)     /* Requested dimensions of the scaled image. */
 {
     register int sx, sy;
     double xScale, yScale;
@@ -1524,14 +1525,14 @@ Rbc_ResizeColorImage(src, x, y, width, height, destWidth, destHeight)
  *----------------------------------------------------------------------
  */
 Rbc_ColorImage
-Rbc_ResizeColorSubimage(src, regionX, regionY, regionWidth,
-		regionHeight, destWidth, destHeight)
-    Rbc_ColorImage src; /* Source color image to be scaled. */
-    int regionX;
-    int regionY; /* Offset of subimage in destination. */
-    int regionWidth, regionHeight;  /* Dimension of subimage. */
-    int destWidth, destHeight; /* Dimensions of the entire scaled
-                                * image. */
+Rbc_ResizeColorSubimage(
+    Rbc_ColorImage src, /* Source color image to be scaled. */
+    int regionX,
+    int regionY,        /* Offset of subimage in destination. */
+    int regionWidth,    /* Dimension of subimage. */
+    int regionHeight,   /* Dimension of subimage. */
+    int destWidth,      /* Dimensions of the entire scaled image. */
+    int destHeight)     /* Dimensions of the entire scaled image. */
 {
     Rbc_ColorImage dest;
     Pix32 *srcPtr, *srcRowPtr, *destPtr;
@@ -1599,9 +1600,9 @@ Rbc_ResizeColorSubimage(src, regionX, regionY, regionWidth,
  *--------------------------------------------------------------
  */
 Rbc_ColorImage
-Rbc_ConvolveColorImage(src, filterPtr)
-    Rbc_ColorImage src;
-    Filter2D *filterPtr;
+Rbc_ConvolveColorImage(
+    Rbc_ColorImage src,
+    Filter2D *filterPtr)
 {
     Rbc_ColorImage dest;
     register Pix32 *srcPtr, *destPtr;
@@ -1682,16 +1683,18 @@ Rbc_ConvolveColorImage(src, filterPtr)
  *----------------------------------------------------------------------
  */
 int
-Rbc_SnapPhoto(interp, tkwin, drawable, x, y, width, height, destWidth,
-              destHeight, photoName, inputGamma)
-    Tcl_Interp *interp; /* Interpreter to report errors back to */
-    Tk_Window tkwin;
-    Drawable drawable; /* Window or pixmap to be snapped */
-    int x, y; /* Offset of image from drawable origin. */
-    int width, height; /* Dimension of the drawable */
-    int destWidth, destHeight; /* Desired size of the Tk photo */
-    char *photoName; /* Name of an existing Tk photo image. */
-    double inputGamma;
+Rbc_SnapPhoto(
+    Tcl_Interp *interp, /* Interpreter to report errors back to */
+    Tk_Window tkwin,
+    Drawable drawable,  /* Window or pixmap to be snapped */
+    int x,              /* Offset of image from drawable origin. */
+    int y,              /* Offset of image from drawable origin. */
+    int width,          /* Dimension of the drawable */
+    int height,         /* Dimension of the drawable */
+    int destWidth,      /* Desired size of the Tk photo */
+    int destHeight,     /* Desired size of the Tk photo */
+    char *photoName,    /* Name of an existing Tk photo image. */
+    double inputGamma)
 {
     Tk_PhotoHandle photo;	/* The photo image to write into. */
     Rbc_ColorImage image;
@@ -1747,10 +1750,10 @@ Rbc_SnapPhoto(interp, tkwin, drawable, x, y, width, height, destWidth,
  *----------------------------------------------------------------------
  */
 int
-Rbc_JPEGToPhoto(interp, fileName, photo)
-    Tcl_Interp *interp;
-    char *fileName;
-    Tk_PhotoHandle photo; /* The photo image to write into. */
+Rbc_JPEGToPhoto(
+    Tcl_Interp *interp,
+    char *fileName,
+    Tk_PhotoHandle photo) /* The photo image to write into. */
 {
     Rbc_ColorImage image;
 
@@ -1782,12 +1785,13 @@ Rbc_JPEGToPhoto(interp, fileName, photo)
  * --------------------------------------------------------------------------
  */
 static void
-ShearY(src, dest, y, offset, frac, bgColor)
-    Rbc_ColorImage src, dest;
-    int y; /* Designates the row to be sheared */
-    int offset; /* Difference between  of  */
-    double frac;
-    Pix32 bgColor;
+ShearY(
+    Rbc_ColorImage src,
+    Rbc_ColorImage dest,
+    int y,      /* Designates the row to be sheared */
+    int offset, /* Difference between  of  */
+    double frac,
+    Pix32 bgColor)
 {
     Pix32 *srcPtr, *destPtr;
     Pix32 *srcRowPtr, *destRowPtr;
@@ -1881,12 +1885,13 @@ ShearY(src, dest, y, offset, frac, bgColor)
  * --------------------------------------------------------------------------
  */
 static void
-ShearX(src, dest, x, offset, frac, bgColor)
-    Rbc_ColorImage src, dest;
-    int x; /* Column in source image to be sheared. */
-    int offset; /* Offset of */
-    double frac; /* Fraction of subpixel. */
-    Pix32 bgColor;
+ShearX(
+    Rbc_ColorImage src,
+    Rbc_ColorImage dest,
+    int x,          /* Column in source image to be sheared. */
+    int offset,     /* Offset of */
+    double frac,    /* Fraction of subpixel. */
+    Pix32 bgColor)
 {
     Pix32 *srcPtr, *destPtr;
     register int y, dy;
@@ -2011,10 +2016,10 @@ ShearX(src, dest, x, offset, frac, bgColor)
  * ---------------------------------------------------------------------------
  */
 static Rbc_ColorImage
-Rotate45(src, theta, bgColor)
-    Rbc_ColorImage src;
-    double theta;
-    Pix32 bgColor;
+Rotate45(
+    Rbc_ColorImage src,
+    double theta,
+    Pix32 bgColor)
 {
     int tmpWidth, tmpHeight;
     int srcWidth, srcHeight;
@@ -2109,8 +2114,8 @@ Rotate45(src, theta, bgColor)
  * ---------------------------------------------------------------------------
  */
 static Rbc_ColorImage
-CopyColorImage(src)
-    Rbc_ColorImage src;
+CopyColorImage(
+    Rbc_ColorImage src)
 {
     unsigned int width, height;
     Pix32 *srcPtr, *destPtr;
@@ -2143,8 +2148,8 @@ CopyColorImage(src)
  * ---------------------------------------------------------------------------
  */
 static Rbc_ColorImage
-Rotate90(src)
-    Rbc_ColorImage src;
+Rotate90(
+    Rbc_ColorImage src)
 {
     int width, height, offset;
     Pix32 *srcPtr, *destPtr;
@@ -2186,8 +2191,8 @@ Rotate90(src)
  * ---------------------------------------------------------------------------
  */
 static Rbc_ColorImage
-Rotate180(src)
-    Rbc_ColorImage src;
+Rotate180(
+    Rbc_ColorImage src)
 {
     int width, height, offset;
     Pix32 *srcPtr, *destPtr;
@@ -2228,8 +2233,8 @@ Rotate180(src)
  * ---------------------------------------------------------------------------
  */
 static Rbc_ColorImage
-Rotate270(src)
-    Rbc_ColorImage src;
+Rotate270(
+    Rbc_ColorImage src)
 {
     int width, height;
     Pix32 *srcPtr, *destPtr;
@@ -2267,9 +2272,9 @@ Rotate270(src)
  *----------------------------------------------------------------------
  */
 Rbc_ColorImage
-Rbc_RotateColorImage(src, angle)
-    Rbc_ColorImage src;
-    double angle;
+Rbc_RotateColorImage(
+    Rbc_ColorImage src,
+    double angle)
 {
     Rbc_ColorImage dest, tmp;
     int quadrant;
@@ -2357,8 +2362,8 @@ Rbc_RotateColorImage(src, angle)
  *--------------------------------------------------------------
  */
 static ColorImageStatistics *
-GetColorImageStatistics(image)
-    Rbc_ColorImage image;
+GetColorImageStatistics(
+    Rbc_ColorImage image)
 {
     register int r, g, b;
 #define MAX_INTENSITIES	256
@@ -2428,8 +2433,8 @@ GetColorImageStatistics(image)
  *--------------------------------------------------------------
  */
 static void
-M3d(s)
-    ColorImageStatistics *s;
+M3d(
+    ColorImageStatistics *s)
 {
     register unsigned char i, r, g, b, r0;
     long int line, rLine, gLine, bLine;
@@ -2484,9 +2489,9 @@ M3d(s)
  *--------------------------------------------------------------
  */
 static INLINE long int
-Volume(cubePtr, m)
-    Cube *cubePtr;
-    long int m[33][33][33];
+Volume(
+    Cube *cubePtr,
+    long int m[33][33][33])
 {
     return (m[R1][G1][B1] - m[R1][G1][B0] - m[R1][G0][B1] + m[R1][G0][B0] -
             m[R0][G1][B1] + m[R0][G1][B0] + m[R0][G0][B1] - m[R0][G0][B0]);
@@ -2521,10 +2526,10 @@ Volume(cubePtr, m)
  *--------------------------------------------------------------
  */
 static long int
-Bottom(cubePtr, dir, m)
-    Cube *cubePtr;
-    unsigned char dir;
-    long int m[33][33][33];	/* Moment */
+Bottom(
+    Cube *cubePtr,
+    unsigned char dir,
+    long int m[33][33][33])	/* Moment */
 {
     switch (dir) {
         case RED:
@@ -2554,11 +2559,11 @@ Bottom(cubePtr, dir, m)
  *--------------------------------------------------------------
  */
 static long int
-Top(cubePtr, dir, pos, m)
-    Cube *cubePtr;
-    unsigned char dir;
-    int pos;
-    long int m[33][33][33];
+Top(
+    Cube *cubePtr,
+    unsigned char dir,
+    int pos,
+    long int m[33][33][33])
 {
     switch (dir) {
         case RED:
@@ -2593,9 +2598,9 @@ Top(cubePtr, dir, pos, m)
  *--------------------------------------------------------------
  */
 static double
-Variance(cubePtr, s)
-    Cube *cubePtr;
-    ColorImageStatistics *s;
+Variance(
+    Cube *cubePtr,
+    ColorImageStatistics *s)
 {
     double dR, dG, dB, xx;
 
@@ -2631,12 +2636,17 @@ Variance(cubePtr, s)
  *--------------------------------------------------------------
  */
 static double
-Maximize(cubePtr, dir, first, last, cut, rWhole, gWhole, bWhole, wWhole, s)
-    Cube *cubePtr;
-    unsigned char dir;
-    int first, last, *cut;
-    long int rWhole, gWhole, bWhole, wWhole;
-    ColorImageStatistics *s;
+Maximize(
+    Cube *cubePtr,
+    unsigned char dir,
+    int first,
+    int last,
+    int *cut,
+    long int rWhole,
+    long int gWhole,
+    long int bWhole,
+    long int wWhole,
+    ColorImageStatistics *s)
 {
     register long int rHalf, gHalf, bHalf, wHalf;
     long int rBase, gBase, bBase, wBase;
@@ -2696,9 +2706,10 @@ Maximize(cubePtr, dir, first, last, cut, rWhole, gWhole, bWhole, wWhole, s)
  *--------------------------------------------------------------
  */
 static int
-Cut(set1, set2, s)
-    Cube *set1, *set2;
-    ColorImageStatistics *s;
+Cut(
+    Cube *set1,
+    Cube *set2,
+    ColorImageStatistics *s)
 {
     unsigned char dir;
     int rCut, gCut, bCut;
@@ -2771,10 +2782,10 @@ Cut(set1, set2, s)
  *--------------------------------------------------------------
  */
 static int
-SplitColorSpace(s, cubes, nColors)
-    ColorImageStatistics *s;
-    Cube *cubes;
-    int nColors;
+SplitColorSpace(
+    ColorImageStatistics *s,
+    Cube *cubes,
+    int nColors)
 {
     double *vv, temp;
     register int i;
@@ -2836,10 +2847,10 @@ SplitColorSpace(s, cubes, nColors)
  *--------------------------------------------------------------
  */
 static void
-Mark(cubePtr, label, tag)
-    Cube *cubePtr;
-    int label;
-    unsigned int tag[33][33][33];
+Mark(
+    Cube *cubePtr,
+    int label,
+    unsigned int tag[33][33][33])
 {
     register int r, g, b;
 
@@ -2868,10 +2879,10 @@ Mark(cubePtr, label, tag)
  *--------------------------------------------------------------
  */
 static unsigned int *
-CreateColorLookupTable(s, cubes, nColors)
-    ColorImageStatistics *s;
-    Cube *cubes;
-    int nColors;
+CreateColorLookupTable(
+    ColorImageStatistics *s,
+    Cube *cubes,
+    int nColors)
 {
     unsigned int *lut;
     Pix32 color;
@@ -2918,9 +2929,10 @@ CreateColorLookupTable(s, cubes, nColors)
  *--------------------------------------------------------------
  */
 static void
-MapColors(src, dest, lut)
-    Rbc_ColorImage src, dest;
-    unsigned int lut[33][33][33];
+MapColors(
+    Rbc_ColorImage src, 
+    Rbc_ColorImage dest,
+    unsigned int lut[33][33][33])
 {
     /* Apply the color lookup table against the original image */
     int width, height;
@@ -2976,9 +2988,10 @@ MapColors(src, dest, lut)
  *--------------------------------------------------------------
  */
 int
-Rbc_QuantizeColorImage(src, dest, reduceColors)
-    Rbc_ColorImage src, dest; /* Source and destination images. */
-    int reduceColors; /* Reduced number of colors. */
+Rbc_QuantizeColorImage(
+    Rbc_ColorImage src,  /* Source images. */
+    Rbc_ColorImage dest, /* Destination images. */
+    int reduceColors)    /* Reduced number of colors. */
 {
     Cube *cubes;
     ColorImageStatistics *statistics;
@@ -3021,9 +3034,12 @@ Rbc_QuantizeColorImage(src, dest, reduceColors)
  *--------------------------------------------------------------
  */
 Region2D *
-Rbc_SetRegion(x, y, width, height, regionPtr)
-    int x, y, width, height;
-    Region2D *regionPtr;
+Rbc_SetRegion(
+    int x,
+    int y,
+    int width,
+    int height,
+    Region2D *regionPtr)
 {
     regionPtr->left = x;
     regionPtr->top = y;
@@ -3132,8 +3148,8 @@ typedef struct TkPhotoInstanceStruct {
  * ----------------------------------------------------------------------
  */
 int
-Tk_ImageIsDeleted(tkImage)
-    Tk_Image tkImage; /* Token for image. */
+Tk_ImageIsDeleted(
+    Tk_Image tkImage) /* Token for image. */
 {
     TkImage *imagePtr = (TkImage *) tkImage;
 
@@ -3159,8 +3175,8 @@ Tk_ImageIsDeleted(tkImage)
  *--------------------------------------------------------------
  */
 Tk_ImageMaster
-Tk_ImageGetMaster(tkImage)
-    Tk_Image tkImage; /* Token for image. */
+Tk_ImageGetMaster(
+    Tk_Image tkImage) /* Token for image. */
 {
     TkImage *imagePtr = (TkImage *)tkImage;
 
@@ -3183,8 +3199,8 @@ Tk_ImageGetMaster(tkImage)
  *--------------------------------------------------------------
  */
 Tk_ImageType *
-Tk_ImageGetType(tkImage)
-    Tk_Image tkImage; /* Token for image. */
+Tk_ImageGetType(
+    Tk_Image tkImage) /* Token for image. */
 {
     TkImage *imagePtr = (TkImage *)tkImage;
 
@@ -3207,8 +3223,8 @@ Tk_ImageGetType(tkImage)
  *--------------------------------------------------------------
  */
 Pixmap
-Tk_ImageGetPhotoPixmap(tkImage)
-    Tk_Image tkImage; /* Token for image. */
+Tk_ImageGetPhotoPixmap(
+    Tk_Image tkImage) /* Token for image. */
 {
     TkImage *imagePtr = (TkImage *)tkImage;
 
@@ -3235,8 +3251,8 @@ Tk_ImageGetPhotoPixmap(tkImage)
  *--------------------------------------------------------------
  */
 GC
-Tk_ImageGetPhotoGC(photoImage)
-    Tk_Image photoImage; /* Token for image. */
+Tk_ImageGetPhotoGC(
+    Tk_Image photoImage) /* Token for image. */
 {
     TkImage *imagePtr = (TkImage *) photoImage;
     if (strcmp(imagePtr->masterPtr->typePtr->name, "photo") == 0) {
@@ -3265,10 +3281,14 @@ Tk_ImageGetPhotoGC(photoImage)
  *----------------------------------------------------------------------
  */
 static void
-TempImageChangedProc(clientData, x, y, width, height, imageWidth, imageHeight)
-    ClientData clientData;
-    int x, y, width, height; /* Not used. */
-    int imageWidth, imageHeight; /* Not used. */
+TempImageChangedProc(
+    ClientData clientData,
+    int x,              /* Not used. */
+    int y,              /* Not used. */
+    int width,          /* Not used. */
+    int height,         /* Not used. */
+    int imageWidth,     /* Not used. */
+    int imageHeight)    /* Not used. */
 {
 #ifdef notdef
     fprintf(stderr, "should be redrawing temp image\n");
@@ -3291,10 +3311,10 @@ TempImageChangedProc(clientData, x, y, width, height, imageWidth, imageHeight)
  *--------------------------------------------------------------
  */
 Tk_Image
-Rbc_CreateTemporaryImage(interp, tkwin, clientData)
-    Tcl_Interp *interp;
-    Tk_Window tkwin;
-    ClientData clientData;
+Rbc_CreateTemporaryImage(
+    Tcl_Interp *interp,
+    Tk_Window tkwin,
+    ClientData clientData)
 {
     Tk_Image token;
     char *name;			/* Contains image name. */
@@ -3326,9 +3346,9 @@ Rbc_CreateTemporaryImage(interp, tkwin, clientData)
  *--------------------------------------------------------------
  */
 int
-Rbc_DestroyTemporaryImage(interp, tkImage)
-    Tcl_Interp *interp;
-    Tk_Image tkImage;
+Rbc_DestroyTemporaryImage(
+    Tcl_Interp *interp,
+    Tk_Image tkImage)
 {
     if (tkImage != NULL) {
         if (Tcl_VarEval(interp, "image delete ", Rbc_NameOfImage(tkImage),
@@ -3356,8 +3376,8 @@ Rbc_DestroyTemporaryImage(interp, tkImage)
  *--------------------------------------------------------------
  */
 char *
-Rbc_NameOfImage(tkImage)
-    Tk_Image tkImage;
+Rbc_NameOfImage(
+    Tk_Image tkImage)
 {
     Tk_ImageMaster master;
 

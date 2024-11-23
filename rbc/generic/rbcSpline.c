@@ -75,14 +75,14 @@ static void CatromCoeffs (Point2D *p, Point2D *a, Point2D *b, Point2D *c, Point2
  * -----------------------------------------------------------------------
  */
 static int
-Search(points, nPoints, key, foundPtr)
-    Point2D points[]; /* Contains the abscissas of the data
+Search(
+    Point2D points[], /* Contains the abscissas of the data
                        * points of interpolation. */
-    int nPoints; /* Dimension of x. */
-    double key; /* Value whose relative position in
-                 * x is to be located. */
-    int *foundPtr; /* (out) Returns 1 if s is found in
-                    * x and 0 otherwise. */
+    int nPoints,      /* Dimension of x. */
+    double key,       /* Value whose relative position in
+                       * x is to be located. */
+    int *foundPtr)    /* (out) Returns 1 if s is found in
+                       * x and 0 otherwise. */
 {
     int high, low, mid;
 
@@ -122,14 +122,14 @@ Search(points, nPoints, key, foundPtr)
  *-----------------------------------------------------------------------
  */
 static int
-QuadChoose(p, q, m1, m2, epsilon)
-    Point2D *p; /* Coordinates of one of the points of
+QuadChoose(
+    Point2D *p, /* Coordinates of one of the points of
                  * interpolation */
-    Point2D *q; /* Coordinates of one of the points of
+    Point2D *q, /* Coordinates of one of the points of
                  * interpolation */
-    double m1; /* Derivative condition at point P */
-    double m2; /* Derivative condition at point Q */
-    double epsilon; /* Error tolerance used to distinguish
+    double m1,  /* Derivative condition at point P */
+    double m2,  /* Derivative condition at point Q */
+    double epsilon) /* Error tolerance used to distinguish
                      * cases when m1 or m2 is relatively
                      * close to the slope or twice the
                      * slope of the line segment joining
@@ -264,11 +264,13 @@ QuadChoose(p, q, m1, m2, epsilon)
  * -----------------------------------------------------------------------
  */
 static void
-QuadCases(p, q, m1, m2, param, which)
-    Point2D *p, *q;
-    double m1, m2;
-    double param[];
-    int which;
+QuadCases(
+    Point2D *p,
+    Point2D *q,
+    double m1,
+    double m2,
+    double param[],
+    int which)
 {
     if ((which == 3) || (which == 4)) {	/* Parameters used in both 3 and 4 */
         double mbar1, mbar2, mbar3, c1, d1, h1, j1, k1;
@@ -341,11 +343,13 @@ QuadCases(p, q, m1, m2, param, which)
  *--------------------------------------------------------------
  */
 static int
-QuadSelect(p, q, m1, m2, epsilon, param)
-    Point2D *p, *q;
-    double m1, m2;
-    double epsilon;
-    double param[];
+QuadSelect(
+    Point2D *p,
+    Point2D *q,
+    double m1,
+    double m2,
+    double epsilon,
+    double param[])
 {
     int ncase;
 
@@ -370,9 +374,13 @@ QuadSelect(p, q, m1, m2, epsilon, param)
  *--------------------------------------------------------------
  */
 INLINE static double
-QuadGetImage(p1, p2, p3, x1, x2, x3)
-    double p1, p2, p3;
-    double x1, x2, x3;
+QuadGetImage(
+    double p1,
+    double p2,
+    double p3,
+    double x1,
+    double x2,
+    double x3)
 {
     double A, B, C;
     double y;
@@ -418,14 +426,14 @@ QuadGetImage(p1, p2, p3, x1, x2, x3)
  * -----------------------------------------------------------------------
  */
 static void
-QuadSpline(intp, left, right, param, ncase)
-    Point2D *intp; /* Value at which spline is evaluated */
-    Point2D *left; /* Point to the left of the data point to
+QuadSpline(
+    Point2D *intp, /* Value at which spline is evaluated */
+    Point2D *left, /* Point to the left of the data point to
                     * be evaluated */
-    Point2D *right; /* Point to the right of the data point to
+    Point2D *right, /* Point to the right of the data point to
                      * be evaluated */
-    double param[]; /* Parameters of the spline */
-    int ncase; /* Controls the evaluation of the
+    double param[], /* Parameters of the spline */
+    int ncase) /* Controls the evaluation of the
                 * spline by indicating whether one or
                 * two knots were placed in the
                 * interval (leftX,rightX) */
@@ -498,11 +506,11 @@ QuadSpline(intp, left, right, param, ncase)
  * -----------------------------------------------------------------------
  */
 static void
-QuadSlopes(points, m, nPoints)
-    Point2D points[];
-    double *m; /* (out) To be filled with the first
-                * derivative at each data point. */
-    int nPoints; /* Number of data points (dimension of
+QuadSlopes(
+    Point2D points[],
+    double *m,  /* (out) To be filled with the first
+                 * derivative at each data point. */
+    int nPoints) /* Number of data points (dimension of
                   * x, y, and m). */
 {
     double xbar, xmid, xhat, ydif1, ydif2;
@@ -647,14 +655,14 @@ QuadSlopes(points, m, nPoints)
  *--------------------------------------------------------------
  */
 static int
-QuadEval(origPts, nOrigPts, intpPts, nIntpPts, m, epsilon)
-    Point2D origPts[];
-    int nOrigPts;
-    Point2D intpPts[];
-    int nIntpPts;
-    double *m; /* Slope of the spline at each point
-                * of interpolation. */
-    double epsilon; /* Relative error tolerance (see choose) */
+QuadEval(
+    Point2D origPts[],
+    int nOrigPts,
+    Point2D intpPts[],
+    int nIntpPts,
+    double *m,      /* Slope of the spline at each point
+                     * of interpolation. */
+    double epsilon) /* Relative error tolerance (see choose) */
 {
     int error;
     register int i, j;
@@ -865,11 +873,11 @@ noExtrapolation:
  *--------------------------------------------------------------
  */
 int
-Rbc_QuadraticSpline(origPts, nOrigPts, intpPts, nIntpPts)
-    Point2D origPts[];
-    int nOrigPts;
-    Point2D intpPts[];
-    int nIntpPts;
+Rbc_QuadraticSpline(
+    Point2D origPts[],
+    int nOrigPts,
+    Point2D intpPts[],
+    int nIntpPts)
 {
     double epsilon;
     double *work;
@@ -915,11 +923,11 @@ Rbc_QuadraticSpline(origPts, nOrigPts, intpPts, nIntpPts)
  *--------------------------------------------------------------
  */
 int
-Rbc_NaturalSpline(origPts, nOrigPts, intpPts, nIntpPts)
-    Point2D origPts[];
-    int nOrigPts;
-    Point2D intpPts[];
-    int nIntpPts;
+Rbc_NaturalSpline(
+    Point2D origPts[],
+    int nOrigPts,
+    Point2D intpPts[],
+    int nIntpPts)
 {
     Cubic2D *eq;
     Point2D *iPtr, *endPtr;
@@ -1148,8 +1156,8 @@ SplineObjCmd(
  *--------------------------------------------------------------
  */
 int
-Rbc_SplineInit(interp)
-    Tcl_Interp *interp;
+Rbc_SplineInit(
+    Tcl_Interp *interp)
 {
     Tcl_CreateObjCommand (interp, "spline", SplineObjCmd, (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
     return TCL_OK;
@@ -1194,9 +1202,9 @@ Rbc_SplineInit(interp)
  *--------------------------------------------------------------
  */
 static int
-SolveCubic1(A, n)
-    TriDiagonalMatrix A[];
-    int n;
+SolveCubic1(
+    TriDiagonalMatrix A[],
+    int n)
 {
     int i;
     double m_ij, m_n, m_nn, d;
@@ -1273,10 +1281,10 @@ SolveCubic1(A, n)
  *--------------------------------------------------------------
  */
 static void
-SolveCubic2(A, spline, nIntervals)
-    TriDiagonalMatrix A[];
-    CubicSpline spline[];
-    int nIntervals;
+SolveCubic2(
+    TriDiagonalMatrix A[],
+    CubicSpline spline[],
+    int nIntervals)
 {
     int i;
     double x, y;
@@ -1342,11 +1350,12 @@ SolveCubic2(A, spline, nIntervals)
  *--------------------------------------------------------------
  */
 static CubicSpline *
-CubicSlopes(points, nPoints, isClosed, unitX, unitY)
-    Point2D points[];
-    int nPoints; /* Number of points (nPoints>=3) */
-    int isClosed; /* CLOSED_CONTOUR or OPEN_CONTOUR  */
-    double unitX, unitY; /* Unit length in x and y (norm=1) */
+CubicSlopes(
+    Point2D points[],
+    int nPoints,    /* Number of points (nPoints>=3) */
+    int isClosed,   /* CLOSED_CONTOUR or OPEN_CONTOUR  */
+    double unitX,   /* Unit length in x and y (norm=1) */
+    double unitY)   /* Unit length in x and y (norm=1) */
 {
     CubicSpline *spline;
     register CubicSpline *s1, *s2;
@@ -1485,12 +1494,12 @@ CubicSlopes(points, nPoints, isClosed, unitX, unitY)
  *--------------------------------------------------------------
  */
 static int
-CubicEval(origPts, nOrigPts, intpPts, nIntpPts, spline)
-    Point2D origPts[];
-    int nOrigPts;
-    Point2D intpPts[];
-    int nIntpPts;
-    CubicSpline spline[];
+CubicEval(
+    Point2D origPts[],
+    int nOrigPts,
+    Point2D intpPts[],
+    int nIntpPts,
+    CubicSpline spline[])
 {
     double t, tSkip, tMax;
     Point2D p, q;
@@ -1559,14 +1568,13 @@ CubicEval(origPts, nOrigPts, intpPts, nIntpPts, spline)
  *--------------------------------------------------------------
  */
 int
-Rbc_NaturalParametricSpline(origPts, nOrigPts, extsPtr, isClosed,
-                            intpPts, nIntpPts)
-    Point2D origPts[];
-    int nOrigPts;
-    Extents2D *extsPtr;
-    int isClosed;
-    Point2D *intpPts;
-    int nIntpPts;
+Rbc_NaturalParametricSpline(
+    Point2D origPts[],
+    int nOrigPts,
+    Extents2D *extsPtr,
+    int isClosed,
+    Point2D *intpPts,
+    int nIntpPts)
 {
     double unitX, unitY;	/* To define norm (x,y)-plane */
     CubicSpline *spline;
@@ -1620,9 +1628,12 @@ Rbc_NaturalParametricSpline(origPts, nOrigPts, extsPtr, isClosed,
  *--------------------------------------------------------------
  */
 static void
-CatromCoeffs(p, a, b, c, d)
-    Point2D *p;
-    Point2D *a, *b, *c, *d;
+CatromCoeffs(
+    Point2D *p,
+    Point2D *a,
+    Point2D *b,
+    Point2D *c,
+    Point2D *d)
 {
     a->x = -p[0].x + 3.0 * p[1].x - 3.0 * p[2].x + p[3].x;
     b->x = 2.0 * p[0].x - 5.0 * p[1].x + 4.0 * p[2].x - p[3].x;
@@ -1651,11 +1662,11 @@ CatromCoeffs(p, a, b, c, d)
  *----------------------------------------------------------------------
  */
 int
-Rbc_CatromParametricSpline(points, nPoints, intpPts, nIntpPts)
-    Point2D *points;
-    int nPoints;
-    Point2D *intpPts;
-    int nIntpPts;
+Rbc_CatromParametricSpline(
+    Point2D *points,
+    int nPoints,
+    Point2D *intpPts,
+    int nIntpPts)
 {
     register int i;
     Point2D *origPts;

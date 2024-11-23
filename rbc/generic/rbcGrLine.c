@@ -900,8 +900,8 @@ MODULE_SCOPE const int tkpWinRopModes[];
  *----------------------------------------------------------------------
  */
 INLINE static int
-Round(x)
-    register double x;
+Round(
+    register double x)
 {
     return (int) (x + ((x < 0.0) ? -0.5 : 0.5));
 }
@@ -928,11 +928,11 @@ Round(x)
  *----------------------------------------------------------------------
  */
 static int
-StringToBitmap(interp, tkwin, symbolPtr, string)
-    Tcl_Interp *interp;
-    Tk_Window tkwin;
-    Symbol *symbolPtr;
-    char *string;
+StringToBitmap(
+    Tcl_Interp *interp,
+    Tk_Window tkwin,
+    Symbol *symbolPtr,
+    char *string)
 {
     Pixmap bitmap, mask;
     char **elemArr;
@@ -995,12 +995,12 @@ error:
  *----------------------------------------------------------------------
  */
 static CONST86 char *
-PatternToString(clientData, tkwin, widgRec, offset, freeProcPtr)
-    ClientData clientData; /* Not used. */
-    Tk_Window tkwin;
-    char *widgRec; /* Element information record */
-    Tcl_Size offset; /* Offset of field in record */
-    Tcl_FreeProc **freeProcPtr; /* Not used. */
+PatternToString(
+    ClientData clientData, /* Not used. */
+    Tk_Window tkwin,
+    char *widgRec,          /* Element information record */
+    Tcl_Size offset,        /* Offset of field in record */
+    Tcl_FreeProc **freeProcPtr) /* Not used. */
 {
     Pixmap stipple = *(Pixmap *)(widgRec + offset);
 
@@ -1029,13 +1029,13 @@ PatternToString(clientData, tkwin, widgRec, offset, freeProcPtr)
  *----------------------------------------------------------------------
  */
 static int
-StringToPattern(clientData, interp, tkwin, string, widgRec, offset)
-    ClientData clientData; /* Not used. */
-    Tcl_Interp *interp; /* Interpreter to send results back to */
-    Tk_Window tkwin; /* Not used. */
-    CONST86 char *string; /* String representing field */
-    char *widgRec; /* Element information record */
-    Tcl_Size offset; /* Offset of field in record */
+StringToPattern(
+    ClientData clientData,  /* Not used. */
+    Tcl_Interp *interp,     /* Interpreter to send results back to */
+    Tk_Window tkwin,        /* Not used. */
+    CONST86 char *string,   /* String representing field */
+    char *widgRec,          /* Element information record */
+    Tcl_Size offset)        /* Offset of field in record */
 {
     Pixmap *stipplePtr = (Pixmap *)(widgRec + offset);
     Pixmap stipple;
@@ -1074,8 +1074,8 @@ StringToPattern(clientData, interp, tkwin, string, widgRec, offset)
  *----------------------------------------------------------------------
  */
 static char *
-NameOfSymbol(symbolPtr)
-    Symbol *symbolPtr;
+NameOfSymbol(
+    Symbol *symbolPtr)
 {
     switch (symbolPtr->type) {
         case SYMBOL_NONE:
@@ -1122,13 +1122,13 @@ NameOfSymbol(symbolPtr)
  *----------------------------------------------------------------------
  */
 static int
-StringToSymbol(clientData, interp, tkwin, string, widgRec, offset)
-    ClientData clientData; /* Not used. */
-    Tcl_Interp *interp; /* Interpreter to send results back to */
-    Tk_Window tkwin; /* Not used. */
-    CONST86 char *string; /* String representing symbol type */
-    char *widgRec; /* Element information record */
-    Tcl_Size offset; /* Offset of symbol type field in record */
+StringToSymbol(
+    ClientData clientData,  /* Not used. */
+    Tcl_Interp *interp,     /* Interpreter to send results back to */
+    Tk_Window tkwin,        /* Not used. */
+    CONST86 char *string,   /* String representing symbol type */
+    char *widgRec,          /* Element information record */
+    Tcl_Size offset)        /* Offset of symbol type field in record */
 {
     Symbol *symbolPtr = (Symbol *)(widgRec + offset);
     unsigned int length;
@@ -1197,12 +1197,12 @@ or the name of a bitmap", (char *)NULL);
  *----------------------------------------------------------------------
  */
 static CONST86 char *
-SymbolToString(clientData, tkwin, widgRec, offset, freeProcPtr)
-    ClientData clientData; /* Not used. */
-    Tk_Window tkwin;
-    char *widgRec; /* Element information record */
-    Tcl_Size offset; /* Offset of symbol type field in record */
-    Tcl_FreeProc **freeProcPtr; /* Not used. */
+SymbolToString(
+    ClientData clientData, /* Not used. */
+    Tk_Window tkwin,
+    char *widgRec,          /* Element information record */
+    Tcl_Size offset,        /* Offset of symbol type field in record */
+    Tcl_FreeProc **freeProcPtr) /* Not used. */
 {
     Symbol *symbolPtr = (Symbol *)(widgRec + offset);
     char *result;
@@ -1240,8 +1240,8 @@ SymbolToString(clientData, tkwin, widgRec, offset, freeProcPtr)
  *----------------------------------------------------------------------
  */
 static char *
-NameOfSmooth(value)
-    Smoothing value;
+NameOfSmooth(
+    Smoothing value)
 {
     if ((value < 0) || (value >= PEN_SMOOTH_LAST)) {
         return "unknown smooth value";
@@ -1267,13 +1267,13 @@ NameOfSmooth(value)
  *----------------------------------------------------------------------
  */
 static int
-StringToSmooth(clientData, interp, tkwin, string, widgRec, offset)
-    ClientData clientData; /* Not used. */
-    Tcl_Interp *interp; /* Interpreter to send results back to */
-    Tk_Window tkwin; /* Not used. */
-    CONST86 char *string; /* String representing smooth type */
-    char *widgRec; /* Element information record */
-    Tcl_Size offset; /* Offset of smooth type field in record */
+StringToSmooth(
+    ClientData clientData,  /* Not used. */
+    Tcl_Interp *interp,     /* Interpreter to send results back to */
+    Tk_Window tkwin,        /* Not used. */
+    CONST86 char *string,   /* String representing smooth type */
+    char *widgRec,          /* Element information record */
+    Tcl_Size offset)        /* Offset of smooth type field in record */
 {
     Smoothing *valuePtr = (Smoothing *)(widgRec + offset);
     register SmoothingInfo *siPtr;
@@ -1305,12 +1305,12 @@ linear, step, natural, or quadratic", (char *)NULL);
  *----------------------------------------------------------------------
  */
 static CONST86 char *
-SmoothToString(clientData, tkwin, widgRec, offset, freeProcPtr)
-    ClientData clientData; /* Not used. */
-    Tk_Window tkwin; /* Not used. */
-    char *widgRec; /* Element information record */
-    Tcl_Size offset; /* Offset of smooth type field in record */
-    Tcl_FreeProc **freeProcPtr; /* Not used. */
+SmoothToString(
+    ClientData clientData,  /* Not used. */
+    Tk_Window tkwin,        /* Not used. */
+    char *widgRec,          /* Element information record */
+    Tcl_Size offset,        /* Offset of smooth type field in record */
+    Tcl_FreeProc **freeProcPtr) /* Not used. */
 {
     int smooth = *(int *)(widgRec + offset);
 
@@ -1335,13 +1335,13 @@ SmoothToString(clientData, tkwin, widgRec, offset, freeProcPtr)
  *----------------------------------------------------------------------
  */
 static int
-StringToPenDir(clientData, interp, tkwin, string, widgRec, offset)
-    ClientData clientData; /* Not used. */
-    Tcl_Interp *interp; /* Interpreter to send results back to */
-    Tk_Window tkwin; /* Not used. */
-    CONST86 char *string; /* String representing pen direction */
-    char *widgRec; /* Element information record */
-    Tcl_Size offset; /* Offset of pen direction field in record */
+StringToPenDir(
+    ClientData clientData,  /* Not used. */
+    Tcl_Interp *interp,     /* Interpreter to send results back to */
+    Tk_Window tkwin,        /* Not used. */
+    CONST86 char *string,   /* String representing pen direction */
+    char *widgRec,          /* Element information record */
+    Tcl_Size offset)        /* Offset of pen direction field in record */
 {
     int *penDirPtr = (int *)(widgRec + offset);
     unsigned int length;
@@ -1380,8 +1380,8 @@ StringToPenDir(clientData, interp, tkwin, string, widgRec, offset)
  *----------------------------------------------------------------------
  */
 static char *
-NameOfPenDir(penDir)
-    int penDir; /* Direction for pen drawing between points */
+NameOfPenDir(
+    int penDir) /* Direction for pen drawing between points */
 {
     switch (penDir) {
         case PEN_INCREASING:
@@ -1411,12 +1411,12 @@ NameOfPenDir(penDir)
  *----------------------------------------------------------------------
  */
 static CONST86 char *
-PenDirToString(clientData, tkwin, widgRec, offset, freeProcPtr)
-    ClientData clientData; /* Not used. */
-    Tk_Window tkwin; /* Not used. */
-    char *widgRec; /* Element information record */
-    Tcl_Size offset; /* Offset of pen direction field in record */
-    Tcl_FreeProc **freeProcPtr; /* Not used. */
+PenDirToString(
+    ClientData clientData,      /* Not used. */
+    Tk_Window tkwin,            /* Not used. */
+    char *widgRec,              /* Element information record */
+    Tcl_Size offset,            /* Offset of pen direction field in record */
+    Tcl_FreeProc **freeProcPtr) /* Not used. */
 {
     int penDir = *(int *)(widgRec + offset);
 
@@ -1440,8 +1440,8 @@ PenDirToString(clientData, tkwin, widgRec, offset, freeProcPtr)
  *----------------------------------------------------------------------
  */
 static void
-ClearPalette(palette)
-    Rbc_Chain *palette;
+ClearPalette(
+    Rbc_Chain *palette)
 {
     register LinePenStyle *stylePtr;
     Rbc_ChainLink *linkPtr;
@@ -1475,9 +1475,9 @@ ClearPalette(palette)
  *----------------------------------------------------------------------
  */
 static int
-ConfigurePen(graphPtr, penPtr)
-    Graph *graphPtr;
-    Pen *penPtr;
+ConfigurePen(
+    Graph *graphPtr,
+    Pen *penPtr)
 {
     LinePen *lpPtr = (LinePen *)penPtr;
     unsigned long gcMask;
@@ -1612,9 +1612,9 @@ ConfigurePen(graphPtr, penPtr)
  *----------------------------------------------------------------------
  */
 static void
-DestroyPen(graphPtr, penPtr)
-    Graph *graphPtr;
-    Pen *penPtr;
+DestroyPen(
+    Graph *graphPtr,
+    Pen *penPtr)
 {
     LinePen *lpPtr = (LinePen *)penPtr;
 
@@ -1657,8 +1657,8 @@ DestroyPen(graphPtr, penPtr)
  *----------------------------------------------------------------------
  */
 static void
-InitPen(penPtr)
-    LinePen *penPtr;
+InitPen(
+    LinePen *penPtr)
 {
     Rbc_InitTextStyle(&penPtr->valueStyle);
     penPtr->configProc = ConfigurePen;
@@ -1691,8 +1691,8 @@ InitPen(penPtr)
  *----------------------------------------------------------------------
  */
 Pen *
-Rbc_LinePen(penName)
-    char *penName;
+Rbc_LinePen(
+    char *penName)
 {
     LinePen *penPtr;
 
@@ -1737,9 +1737,9 @@ Rbc_LinePen(penName)
  *----------------------------------------------------------------------
  */
 static int
-ScaleSymbol(elemPtr, normalSize)
-    Element *elemPtr;
-    int normalSize;
+ScaleSymbol(
+    Element *elemPtr,
+    int normalSize)
 {
     int maxSize;
     double scale;
@@ -1798,10 +1798,10 @@ ScaleSymbol(elemPtr, normalSize)
  *----------------------------------------------------------------------
  */
 static void
-GetScreenPoints(graphPtr, linePtr, mapPtr)
-    Graph *graphPtr;
-    Line *linePtr;
-    MapInfo *mapPtr;
+GetScreenPoints(
+    Graph *graphPtr,
+    Line *linePtr,
+    MapInfo *mapPtr)
 {
     double *x, *y;
     register int i, n;
@@ -1859,9 +1859,9 @@ GetScreenPoints(graphPtr, linePtr, mapPtr)
  *----------------------------------------------------------------------
  */
 static void
-ReducePoints(mapPtr, tolerance)
-    MapInfo *mapPtr;
-    double tolerance;
+ReducePoints(
+    MapInfo *mapPtr,
+    double tolerance)
 {
     register int i, k, n;
     Point2D *screenPts;
@@ -1908,8 +1908,8 @@ ReducePoints(mapPtr, tolerance)
  *----------------------------------------------------------------------
  */
 static void
-GenerateSteps(mapPtr)
-    MapInfo *mapPtr;
+GenerateSteps(
+    MapInfo *mapPtr)
 {
     int newSize;
     register int i, count;
@@ -1966,10 +1966,10 @@ GenerateSteps(mapPtr)
  *----------------------------------------------------------------------
  */
 static void
-GenerateSpline(graphPtr, linePtr, mapPtr)
-    Graph *graphPtr;
-    Line *linePtr;
-    MapInfo *mapPtr;
+GenerateSpline(
+    Graph *graphPtr,
+    Line *linePtr,
+    MapInfo *mapPtr)
 {
     int extra;
     register int i, j, count;
@@ -2097,10 +2097,10 @@ GenerateSpline(graphPtr, linePtr, mapPtr)
  *----------------------------------------------------------------------
  */
 static void
-GenerateParametricSpline(graphPtr, linePtr, mapPtr)
-    Graph *graphPtr;
-    Line *linePtr;
-    MapInfo *mapPtr;
+GenerateParametricSpline(
+    Graph *graphPtr,
+    Line *linePtr,
+    MapInfo *mapPtr)
 {
     Extents2D exts;
     Point2D *origPts, *intpPts;
@@ -2228,10 +2228,10 @@ GenerateParametricSpline(graphPtr, linePtr, mapPtr)
  *----------------------------------------------------------------------
  */
 static void
-MapSymbols(graphPtr, linePtr, mapPtr)
-    Graph *graphPtr;
-    Line *linePtr;
-    MapInfo *mapPtr;
+MapSymbols(
+    Graph *graphPtr,
+    Line *linePtr,
+    MapInfo *mapPtr)
 {
     Extents2D exts;
     Point2D *symbolPts;
@@ -2277,9 +2277,9 @@ MapSymbols(graphPtr, linePtr, mapPtr)
  *----------------------------------------------------------------------
  */
 static void
-MapActiveSymbols(graphPtr, linePtr)
-    Graph *graphPtr;
-    Line *linePtr;
+MapActiveSymbols(
+    Graph *graphPtr,
+    Line *linePtr)
 {
     Extents2D exts;
     double x, y;
@@ -2345,10 +2345,10 @@ MapActiveSymbols(graphPtr, linePtr)
  *----------------------------------------------------------------------
  */
 static void
-MapStrip(graphPtr, linePtr, mapPtr)
-    Graph *graphPtr;
-    Line *linePtr;
-    MapInfo *mapPtr;
+MapStrip(
+    Graph *graphPtr,
+    Line *linePtr,
+    MapInfo *mapPtr)
 {
     Extents2D exts;
     Segment2D *strips;
@@ -2403,9 +2403,9 @@ MapStrip(graphPtr, linePtr, mapPtr)
  *----------------------------------------------------------------------
  */
 static void
-MergePens(linePtr, dataToStyle)
-    Line *linePtr;
-    PenStyle **dataToStyle;
+MergePens(
+    Line *linePtr,
+    PenStyle **dataToStyle)
 {
     LinePenStyle *stylePtr;
     register int i;
@@ -2563,9 +2563,9 @@ MergePens(linePtr, dataToStyle)
  *----------------------------------------------------------------------
  */
 INLINE static int
-OutCode(extsPtr, p)
-    Extents2D *extsPtr;
-    Point2D *p;
+OutCode(
+    Extents2D *extsPtr,
+    Point2D *p)
 {
     int code;
 
@@ -2599,10 +2599,12 @@ OutCode(extsPtr, p)
  *----------------------------------------------------------------------
  */
 static int
-ClipSegment(extsPtr, code1, code2, p, q)
-    Extents2D *extsPtr;
-    register int code1, code2;
-    register Point2D *p, *q;
+ClipSegment(
+    Extents2D *extsPtr,
+    register int code1,
+    register int code2,
+    register Point2D *p,
+    register Point2D *q)
 {
     int inside, outside;
 
@@ -2664,12 +2666,12 @@ ClipSegment(extsPtr, code1, code2, p, q)
  *----------------------------------------------------------------------
  */
 static void
-SaveTrace(linePtr, start, length, mapPtr)
-    Line *linePtr;
-    int start; /* Starting index of the trace in data point
+SaveTrace(
+    Line *linePtr,
+    int start, /* Starting index of the trace in data point
                 * array.  Used to figure out closest point */
-    int length; /* Number of points forming the trace */
-    MapInfo *mapPtr;
+    int length, /* Number of points forming the trace */
+    MapInfo *mapPtr)
 {
     LineTrace *tracePtr;
     Point2D *screenPts;
@@ -2724,8 +2726,8 @@ SaveTrace(linePtr, start, length, mapPtr)
  *----------------------------------------------------------------------
  */
 static void
-FreeTraces(linePtr)
-    Line *linePtr;
+FreeTraces(
+    Line *linePtr)
 {
     Rbc_ChainLink *linkPtr;
     LineTrace *tracePtr;
@@ -2757,10 +2759,10 @@ FreeTraces(linePtr)
  *----------------------------------------------------------------------
  */
 static void
-MapTraces(graphPtr, linePtr, mapPtr)
-    Graph *graphPtr;
-    Line *linePtr;
-    MapInfo *mapPtr;
+MapTraces(
+    Graph *graphPtr,
+    Line *linePtr,
+    MapInfo *mapPtr)
 {
     int start, count;
     int code1, code2;
@@ -2838,10 +2840,10 @@ MapTraces(graphPtr, linePtr, mapPtr)
  *----------------------------------------------------------------------
  */
 static void
-MapFillArea(graphPtr, linePtr, mapPtr)
-    Graph *graphPtr;
-    Line *linePtr;
-    MapInfo *mapPtr;
+MapFillArea(
+    Graph *graphPtr,
+    Line *linePtr,
+    MapInfo *mapPtr)
 {
     Point2D *origPts, *clipPts;
     Extents2D exts;
@@ -2907,8 +2909,8 @@ MapFillArea(graphPtr, linePtr, mapPtr)
  *----------------------------------------------------------------------
  */
 static void
-ResetLine(linePtr)
-    Line *linePtr;
+ResetLine(
+    Line *linePtr)
 {
     FreeTraces(linePtr);
     ClearPalette(linePtr->palette);
@@ -2967,9 +2969,9 @@ ResetLine(linePtr)
  *----------------------------------------------------------------------
  */
 static void
-MapLine(graphPtr, elemPtr)
-    Graph *graphPtr; /* Graph widget record */
-    Element *elemPtr; /* Element component record */
+MapLine(
+    Graph *graphPtr,  /* Graph widget record */
+    Element *elemPtr) /* Element component record */
 {
     Line *linePtr = (Line *)elemPtr;
     MapInfo mapInfo;
@@ -3079,10 +3081,12 @@ MapLine(graphPtr, elemPtr)
  *----------------------------------------------------------------------
  */
 static double
-DistanceToLine(x, y, p, q, t)
-    int x, y; /* Sample X-Y coordinate. */
-    Point2D *p, *q; /* End points of the line segment. */
-    Point2D *t; /* (out) Point on line segment. */
+DistanceToLine(
+    int x,      /* Sample X-Y coordinate. */
+    int y,      /* Sample X-Y coordinate. */
+    Point2D *p, /* End points of the line segment. */
+    Point2D *q, /* End points of the line segment. */
+    Point2D *t) /* (out) Point on line segment. */
 {
     double right, left, top, bottom;
 
@@ -3126,10 +3130,12 @@ DistanceToLine(x, y, p, q, t)
  *----------------------------------------------------------------------
  */
 static double
-DistanceToX(x, y, p, q, t)
-    int x, y; /* Search X-Y coordinate. */
-    Point2D *p, *q; /* End points of the line segment. */
-    Point2D *t; /* (out) Point on line segment. */
+DistanceToX(
+    int x,      /* Search X-Y coordinate. */
+    int y,      /* Search X-Y coordinate. */
+    Point2D *p, /* End points of the line segment. */
+    Point2D *q, /* End points of the line segment. */
+    Point2D *t) /* (out) Point on line segment. */
 {
     double dx, dy;
     double dist;
@@ -3187,10 +3193,12 @@ DistanceToX(x, y, p, q, t)
  *----------------------------------------------------------------------
  */
 static double
-DistanceToY(x, y, p, q, t)
-    int x, y; /* Search X-Y coordinate. */
-    Point2D *p, *q; /* End points of the line segment. */
-    Point2D *t; /* (out) Point on line segment. */
+DistanceToY(
+    int x,      /* Search X-Y coordinate. */
+    int y,      /* Search X-Y coordinate. */
+    Point2D *p, /* End points of the line segment. */
+    Point2D *q, /* End points of the line segment. */
+    Point2D *t) /* (out) Point on line segment. */
 {
     double dx, dy;
     double dist;
@@ -3251,11 +3259,11 @@ DistanceToY(x, y, p, q, t)
  *----------------------------------------------------------------------
  */
 static int
-ClosestTrace(graphPtr, linePtr, searchPtr, distProc)
-    Graph *graphPtr; /* Graph widget record */
-    Line *linePtr; /* Line element record */
-    ClosestSearch *searchPtr; /* Info about closest point in element */
-    DistanceProc *distProc;
+ClosestTrace(
+    Graph *graphPtr,    /* Graph widget record */
+    Line *linePtr,      /* Line element record */
+    ClosestSearch *searchPtr, /* Info about closest point in element */
+    DistanceProc *distProc)
 {
     Rbc_ChainLink *linkPtr;
     Point2D closest, b;
@@ -3309,11 +3317,11 @@ ClosestTrace(graphPtr, linePtr, searchPtr, distProc)
  *----------------------------------------------------------------------
  */
 static int
-ClosestStrip(graphPtr, linePtr, searchPtr, distProc)
-    Graph *graphPtr; /* Graph widget record */
-    Line *linePtr; /* Line element record */
-    ClosestSearch *searchPtr; /* Info about closest point in element */
-    DistanceProc *distProc;
+ClosestStrip(
+    Graph *graphPtr,    /* Graph widget record */
+    Line *linePtr,      /* Line element record */
+    ClosestSearch *searchPtr, /* Info about closest point in element */
+    DistanceProc *distProc)
 {
     Point2D closest, b;
     double dist, minDist;
@@ -3360,9 +3368,9 @@ ClosestStrip(graphPtr, linePtr, searchPtr, distProc)
  *----------------------------------------------------------------------
  */
 static void
-ClosestPoint(linePtr, searchPtr)
-    Line *linePtr; /* Line element that we are looking at */
-    ClosestSearch *searchPtr; /* Assorted information related to searching
+ClosestPoint(
+    Line *linePtr, /* Line element that we are looking at */
+    ClosestSearch *searchPtr) /* Assorted information related to searching
                                * for the closest point */
 {
     double dist, minDist;
@@ -3423,9 +3431,9 @@ ClosestPoint(linePtr, searchPtr)
  *----------------------------------------------------------------------
  */
 static void
-GetLineExtents(elemPtr, extsPtr)
-    Element *elemPtr;
-    Extents2D *extsPtr;
+GetLineExtents(
+    Element *elemPtr,
+    Extents2D *extsPtr)
 {
     int nPoints;
 
@@ -3554,9 +3562,9 @@ GetLineExtents(elemPtr, extsPtr)
  *----------------------------------------------------------------------
  */
 static void
-TileChangedProc(clientData, tile)
-    ClientData clientData;
-    Rbc_Tile tile; /* Not used. */
+TileChangedProc(
+    ClientData clientData,
+    Rbc_Tile tile) /* Not used. */
 {
     Line *linePtr = clientData;
     Graph *graphPtr;
@@ -3588,9 +3596,9 @@ TileChangedProc(clientData, tile)
  *----------------------------------------------------------------------
  */
 static int
-ConfigureLine(graphPtr, elemPtr)
-    Graph *graphPtr;
-    Element *elemPtr;
+ConfigureLine(
+    Graph *graphPtr,
+    Element *elemPtr)
 {
     Line *linePtr = (Line *)elemPtr;
     unsigned long gcMask;
@@ -3674,10 +3682,10 @@ ConfigureLine(graphPtr, elemPtr)
  *----------------------------------------------------------------------
  */
 static void
-ClosestLine(graphPtr, elemPtr, searchPtr)
-    Graph *graphPtr; /* Graph widget record */
-    Element *elemPtr; /* Element to examine */
-    ClosestSearch *searchPtr; /* Info about closest point in element */
+ClosestLine(
+    Graph *graphPtr,    /* Graph widget record */
+    Element *elemPtr,   /* Element to examine */
+    ClosestSearch *searchPtr) /* Info about closest point in element */
 {
     Line *linePtr = (Line *)elemPtr;
     int mode;
@@ -3812,14 +3820,14 @@ DrawCircles(
  *----------------------------------------------------------------------
  */
 static void
-DrawCircles(display, drawable, linePtr, penPtr, nSymbolPts, symbolPts, radius)
-    Display *display;
-    Drawable drawable;
-    Line *linePtr;
-    LinePen *penPtr;
-    int nSymbolPts;
-    Point2D *symbolPts;
-    int radius;
+DrawCircles(
+    Display *display,
+    Drawable drawable,
+    Line *linePtr,
+    LinePen *penPtr,
+    int nSymbolPts,
+    Point2D *symbolPts,
+    int radius)
 {
     register int i;
     XArc *arcArr;		/* Array of arcs (circle) */
@@ -3892,14 +3900,14 @@ DrawCircles(display, drawable, linePtr, penPtr, nSymbolPts, symbolPts, radius)
  *----------------------------------------------------------------------
  */
 static void
-DrawSquares(display, drawable, linePtr, penPtr, nSymbolPts, symbolPts, r)
-    Display *display;
-    Drawable drawable;
-    Line *linePtr;
-    LinePen *penPtr;
-    int nSymbolPts;
-    register Point2D *symbolPts;
-    int r;
+DrawSquares(
+    Display *display,
+    Drawable drawable,
+    Line *linePtr,
+    LinePen *penPtr,
+    int nSymbolPts,
+    register Point2D *symbolPts,
+    int r)
 {
     XRectangle *rectArr;
     register Point2D *pointPtr, *endPtr;
@@ -3968,14 +3976,14 @@ DrawSquares(display, drawable, linePtr, penPtr, nSymbolPts, symbolPts, r)
  * -----------------------------------------------------------------
  */
 static void
-DrawSymbols(graphPtr, drawable, linePtr, penPtr, size, nSymbolPts, symbolPts)
-    Graph *graphPtr; /* Graph widget record */
-    Drawable drawable; /* Pixmap or window to draw into */
-    Line *linePtr;
-    LinePen *penPtr;
-    int size; /* Size of element */
-    int nSymbolPts; /* Number of coordinates in array */
-    Point2D *symbolPts; /* Array of x,y coordinates for line */
+DrawSymbols(
+    Graph *graphPtr,    /* Graph widget record */
+    Drawable drawable,  /* Pixmap or window to draw into */
+    Line *linePtr,
+    LinePen *penPtr,
+    int size,           /* Size of element */
+    int nSymbolPts,     /* Number of coordinates in array */
+    Point2D *symbolPts) /* Array of x,y coordinates for line */
 {
     XPoint pattern[13];		/* Template for polygon symbols */
     int r1, r2;
@@ -4398,12 +4406,13 @@ DrawSymbols(graphPtr, drawable, linePtr, penPtr, size, nSymbolPts, symbolPts)
  * -----------------------------------------------------------------
  */
 static void
-DrawSymbol(graphPtr, drawable, elemPtr, x, y, size)
-    Graph *graphPtr; /* Graph widget record */
-    Drawable drawable; /* Pixmap or window to draw into */
-    Element *elemPtr; /* Line element information */
-    int x, y; /* Center position of symbol */
-    int size; /* Size of symbol. */
+DrawSymbol(
+    Graph *graphPtr,    /* Graph widget record */
+    Drawable drawable,  /* Pixmap or window to draw into */
+    Element *elemPtr,   /* Line element information */
+    int x,      /* Center position of symbol */
+    int y,      /* Center position of symbol */
+    int size)   /* Size of symbol. */
 {
     Line *linePtr = (Line *)elemPtr;
     LinePen *penPtr = linePtr->normalPenPtr;
@@ -4559,11 +4568,11 @@ DrawTraces(
  *----------------------------------------------------------------------
  */
 static void
-DrawTraces(graphPtr, drawable, linePtr, penPtr)
-    Graph *graphPtr;
-    Drawable drawable; /* Pixmap or window to draw into */
-    Line *linePtr;
-    LinePen *penPtr;
+DrawTraces(
+    Graph *graphPtr,
+    Drawable drawable, /* Pixmap or window to draw into */
+    Line *linePtr,
+    LinePen *penPtr)
 {
     Rbc_ChainLink *linkPtr;
     LineTrace *tracePtr;
@@ -4648,15 +4657,14 @@ DrawTraces(graphPtr, drawable, linePtr, penPtr)
  *----------------------------------------------------------------------
  */
 static void
-DrawValues(graphPtr, drawable, linePtr, penPtr, nSymbolPts, symbolPts,
-           pointToData)
-    Graph *graphPtr;
-    Drawable drawable;
-    Line *linePtr;
-    LinePen *penPtr;
-    int nSymbolPts;
-    Point2D *symbolPts;
-    int *pointToData;
+DrawValues(
+    Graph *graphPtr,
+    Drawable drawable,
+    Line *linePtr,
+    LinePen *penPtr,
+    int nSymbolPts,
+    Point2D *symbolPts,
+    int *pointToData)
 {
     Point2D *pointPtr, *endPtr;
     int count;
@@ -4709,10 +4717,10 @@ DrawValues(graphPtr, drawable, linePtr, penPtr, nSymbolPts, symbolPts,
  *----------------------------------------------------------------------
  */
 static void
-DrawActiveLine(graphPtr, drawable, elemPtr)
-    Graph *graphPtr; /* Graph widget record */
-    Drawable drawable; /* Pixmap or window to draw into */
-    Element *elemPtr; /* Element to be drawn */
+DrawActiveLine(
+    Graph *graphPtr,    /* Graph widget record */
+    Drawable drawable,  /* Pixmap or window to draw into */
+    Element *elemPtr)   /* Element to be drawn */
 {
     Line *linePtr = (Line *)elemPtr;
     LinePen *penPtr = linePtr->activePenPtr;
@@ -4783,10 +4791,10 @@ DrawActiveLine(graphPtr, drawable, elemPtr)
  *----------------------------------------------------------------------
  */
 static void
-DrawNormalLine(graphPtr, drawable, elemPtr)
-    Graph *graphPtr; /* Graph widget record */
-    Drawable drawable; /* Pixmap or window to draw into */
-    Element *elemPtr; /* Element to be drawn */
+DrawNormalLine(
+    Graph *graphPtr,    /* Graph widget record */
+    Drawable drawable,  /* Pixmap or window to draw into */
+    Element *elemPtr)   /* Element to be drawn */
 {
     Line *linePtr = (Line *)elemPtr;
     LinePen *penPtr;
@@ -4897,11 +4905,11 @@ DrawNormalLine(graphPtr, drawable, elemPtr)
  * -----------------------------------------------------------------
  */
 static void
-GetSymbolPostScriptInfo(graphPtr, psToken, penPtr, size)
-    Graph *graphPtr;
-    PsToken psToken;
-    LinePen *penPtr;
-    int size;
+GetSymbolPostScriptInfo(
+    Graph *graphPtr,
+    PsToken psToken,
+    LinePen *penPtr,
+    int size)
 {
     XColor *outlineColor, *fillColor, *defaultColor;
 
@@ -5003,13 +5011,13 @@ GetSymbolPostScriptInfo(graphPtr, psToken, penPtr, size)
  * -----------------------------------------------------------------
  */
 static void
-SymbolsToPostScript(graphPtr, psToken, penPtr, size, nSymbolPts, symbolPts)
-    Graph *graphPtr;
-    PsToken psToken;
-    LinePen *penPtr;
-    int size;
-    int nSymbolPts;
-    Point2D *symbolPts;
+SymbolsToPostScript(
+    Graph *graphPtr,
+    PsToken psToken,
+    LinePen *penPtr,
+    int size,
+    int nSymbolPts,
+    Point2D *symbolPts)
 {
     double symbolSize;
     register Point2D *pointPtr, *endPtr;
@@ -5062,12 +5070,13 @@ SymbolsToPostScript(graphPtr, psToken, penPtr, size, nSymbolPts, symbolPts)
  * -----------------------------------------------------------------
  */
 static void
-SymbolToPostScript(graphPtr, psToken, elemPtr, x, y, size)
-    Graph *graphPtr; /* Graph widget record */
-    PsToken psToken;
-    Element *elemPtr; /* Line element information */
-    double x, y; /* Center position of symbol */
-    int size; /* Size of element */
+SymbolToPostScript(
+    Graph *graphPtr, /* Graph widget record */
+    PsToken psToken,
+    Element *elemPtr, /* Line element information */
+    double x,   /* Center position of symbol */
+    double y,   /* Center position of symbol */
+    int size)   /* Size of element */
 {
     Line *linePtr = (Line *)elemPtr;
     LinePen *penPtr = linePtr->normalPenPtr;
@@ -5107,9 +5116,9 @@ SymbolToPostScript(graphPtr, psToken, elemPtr, x, y, size)
  *----------------------------------------------------------------------
  */
 static void
-SetLineAttributes(psToken, penPtr)
-    PsToken psToken;
-    LinePen *penPtr;
+SetLineAttributes(
+    PsToken psToken,
+    LinePen *penPtr)
 {
     /* Set the attributes of the line (color, dashes, linewidth) */
     Rbc_LineAttributesToPostScript(psToken, penPtr->traceColor,
@@ -5144,10 +5153,10 @@ SetLineAttributes(psToken, penPtr)
  *----------------------------------------------------------------------
  */
 static void
-TracesToPostScript(psToken, linePtr, penPtr)
-    PsToken psToken;
-    Line *linePtr;
-    LinePen *penPtr;
+TracesToPostScript(
+    PsToken psToken,
+    Line *linePtr,
+    LinePen *penPtr)
 {
     Rbc_ChainLink *linkPtr;
     LineTrace *tracePtr;
@@ -5206,13 +5215,13 @@ TracesToPostScript(psToken, linePtr, penPtr)
  *----------------------------------------------------------------------
  */
 static void
-ValuesToPostScript(psToken, linePtr, penPtr, nSymbolPts, symbolPts, pointToData)
-    PsToken psToken;
-    Line *linePtr;
-    LinePen *penPtr;
-    int nSymbolPts;
-    Point2D *symbolPts;
-    int *pointToData;
+ValuesToPostScript(
+    PsToken psToken,
+    Line *linePtr,
+    LinePen *penPtr,
+    int nSymbolPts,
+    Point2D *symbolPts,
+    int *pointToData)
 {
     Point2D *pointPtr, *endPtr;
     int count;
@@ -5263,10 +5272,10 @@ ValuesToPostScript(psToken, linePtr, penPtr, nSymbolPts, symbolPts, pointToData)
  *----------------------------------------------------------------------
  */
 static void
-ActiveLineToPostScript(graphPtr, psToken, elemPtr)
-    Graph *graphPtr;
-    PsToken psToken;
-    Element *elemPtr;
+ActiveLineToPostScript(
+    Graph *graphPtr,
+    PsToken psToken,
+    Element *elemPtr)
 {
     Line *linePtr = (Line *)elemPtr;
     LinePen *penPtr = linePtr->activePenPtr;
@@ -5327,10 +5336,10 @@ ActiveLineToPostScript(graphPtr, psToken, elemPtr)
  *----------------------------------------------------------------------
  */
 static void
-NormalLineToPostScript(graphPtr, psToken, elemPtr)
-    Graph *graphPtr;
-    PsToken psToken;
-    Element *elemPtr;
+NormalLineToPostScript(
+    Graph *graphPtr,
+    PsToken psToken,
+    Element *elemPtr)
 {
     Line *linePtr = (Line *)elemPtr;
     register LinePenStyle *stylePtr;
@@ -5441,9 +5450,9 @@ NormalLineToPostScript(graphPtr, psToken, elemPtr)
  *----------------------------------------------------------------------
  */
 static void
-DestroyLine(graphPtr, elemPtr)
-    Graph *graphPtr;
-    Element *elemPtr;
+DestroyLine(
+    Graph *graphPtr,
+    Element *elemPtr)
 {
     Line *linePtr = (Line *)elemPtr;
 
@@ -5521,10 +5530,10 @@ static ElementProcs lineProcs = {
  *----------------------------------------------------------------------
  */
 Element *
-Rbc_LineElement(graphPtr, name, classUid)
-    Graph *graphPtr;
-    char *name;
-    Rbc_Uid classUid;
+Rbc_LineElement(
+    Graph *graphPtr,
+    char *name,
+    Rbc_Uid classUid)
 {
     register Line *linePtr;
 

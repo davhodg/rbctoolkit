@@ -927,9 +927,9 @@ static MarkerClass ovalMarkerClass = {
  * ----------------------------------------------------------------------
  */
 static int
-BoxesDontOverlap(graphPtr, extsPtr)
-    Graph *graphPtr;
-    Extents2D *extsPtr;
+BoxesDontOverlap(
+    Graph *graphPtr,
+    Extents2D *extsPtr)
 {
     assert(extsPtr->right >= extsPtr->left);
     assert(extsPtr->bottom >= extsPtr->top);
@@ -963,10 +963,10 @@ BoxesDontOverlap(graphPtr, extsPtr)
  * ----------------------------------------------------------------------
  */
 static int
-GetCoordinate(interp, expr, valuePtr)
-    Tcl_Interp *interp; /* Interpreter to send results back to */
-    char *expr; /* Numeric expression string to parse */
-    double *valuePtr; /* Real-valued result of expression */
+GetCoordinate(
+    Tcl_Interp *interp, /* Interpreter to send results back to */
+    char *expr,         /* Numeric expression string to parse */
+    double *valuePtr)   /* Real-valued result of expression */
 {
     char c;
 
@@ -1004,9 +1004,9 @@ GetCoordinate(interp, expr, valuePtr)
  *
  * ---------------------------------------------------------------------- */
 static char *
-PrintCoordinate(interp, x)
-    Tcl_Interp *interp;
-    double x; /* Numeric value */
+PrintCoordinate(
+    Tcl_Interp *interp,
+    double x) /* Numeric value */
 {
     if (x == DBL_MAX) {
         return "+Inf";
@@ -1041,11 +1041,11 @@ PrintCoordinate(interp, x)
  * ----------------------------------------------------------------------
  */
 static int
-ParseCoordinates(interp, markerPtr, nExprs, exprArr)
-    Tcl_Interp *interp;
-    Marker *markerPtr;
-    Tcl_Size nExprs;
-    char **exprArr;
+ParseCoordinates(
+    Tcl_Interp *interp,
+    Marker *markerPtr,
+    Tcl_Size nExprs,
+    char **exprArr)
 {
     int nWorldPts;
     Tcl_Size minArgs, maxArgs;
@@ -1138,13 +1138,13 @@ ParseCoordinates(interp, markerPtr, nExprs, exprArr)
  * ----------------------------------------------------------------------
  */
 static int
-StringToCoordinates(clientData, interp, tkwin, string, widgRec, offset)
-    ClientData clientData; /* Not used. */
-    Tcl_Interp *interp; /* Interpreter to send results back to */
-    Tk_Window tkwin; /* Not used. */
-    CONST86 char *string; /* Tcl list of numeric expressions */
-    char *widgRec; /* Marker record */
-    Tcl_Size offset; /* Not used. */
+StringToCoordinates(
+    ClientData clientData,  /* Not used. */
+    Tcl_Interp *interp,     /* Interpreter to send results back to */
+    Tk_Window tkwin,        /* Not used. */
+    CONST86 char *string,   /* Tcl list of numeric expressions */
+    char *widgRec,          /* Marker record */
+    Tcl_Size offset)        /* Not used. */
 {
     Marker *markerPtr = (Marker *)widgRec;
     Tcl_Size nExprs;
@@ -1185,12 +1185,12 @@ StringToCoordinates(clientData, interp, tkwin, string, widgRec, offset)
  * ----------------------------------------------------------------------
  */
 static CONST86 char *
-CoordinatesToString(clientData, tkwin, widgRec, offset, freeProcPtr)
-    ClientData clientData; /* Not used. */
-    Tk_Window tkwin; /* Not used. */
-    char *widgRec; /* Marker record */
-    Tcl_Size offset; /* Not used. */
-    Tcl_FreeProc **freeProcPtr; /* Memory deallocation scheme to use */
+CoordinatesToString(
+    ClientData clientData,  /* Not used. */
+    Tk_Window tkwin,        /* Not used. */
+    char *widgRec,          /* Marker record */
+    Tcl_Size offset,        /* Not used. */
+    Tcl_FreeProc **freeProcPtr) /* Memory deallocation scheme to use */
 {
     Marker *markerPtr = (Marker *)widgRec;
     Tcl_Interp *interp;
@@ -1242,10 +1242,10 @@ CoordinatesToString(clientData, tkwin, widgRec, offset, freeProcPtr)
  * ----------------------------------------------------------------------
  */
 static double
-HMap(graphPtr, axisPtr, x)
-    Graph *graphPtr;
-    Axis *axisPtr;
-    double x;
+HMap(
+    Graph *graphPtr,
+    Axis *axisPtr,
+    double x)
 {
     register double norm;
 
@@ -1288,10 +1288,10 @@ HMap(graphPtr, axisPtr, x)
  * ----------------------------------------------------------------------
  */
 static double
-VMap(graphPtr, axisPtr, y)
-    Graph *graphPtr;
-    Axis *axisPtr;
-    double y;
+VMap(
+    Graph *graphPtr,
+    Axis *axisPtr,
+    double y)
 {
     register double norm;
 
@@ -1333,10 +1333,10 @@ VMap(graphPtr, axisPtr, y)
  * ----------------------------------------------------------------------
  */
 static Point2D
-MapPoint(graphPtr, pointPtr, axesPtr)
-    Graph *graphPtr;
-    Point2D *pointPtr; /* Graph X-Y coordinate. */
-    Axis2D *axesPtr; /* Specifies which axes to use */
+MapPoint(
+    Graph *graphPtr,
+    Point2D *pointPtr,  /* Graph X-Y coordinate. */
+    Axis2D *axesPtr)    /* Specifies which axes to use */
 {
     Point2D result;
 
@@ -1366,10 +1366,10 @@ MapPoint(graphPtr, pointPtr, axesPtr)
  *----------------------------------------------------------------------
  */
 static Marker *
-CreateMarker(graphPtr, name, classUid)
-    Graph *graphPtr;
-    char *name;
-    Rbc_Uid classUid;
+CreateMarker(
+    Graph *graphPtr,
+    char *name,
+    Rbc_Uid classUid)
 {
     Marker *markerPtr;
 
@@ -1414,8 +1414,8 @@ CreateMarker(graphPtr, name, classUid)
  *----------------------------------------------------------------------
  */
 static void
-DestroyMarker(markerPtr)
-    Marker *markerPtr;
+DestroyMarker(
+    Marker *markerPtr)
 {
     Graph *graphPtr = markerPtr->graphPtr;
 
@@ -1469,8 +1469,8 @@ DestroyMarker(markerPtr)
  * ----------------------------------------------------------------------
  */
 static int
-ConfigureBitmapMarker(markerPtr)
-    Marker *markerPtr;
+ConfigureBitmapMarker(
+    Marker *markerPtr)
 {
     Graph *graphPtr = markerPtr->graphPtr;
     BitmapMarker *bmPtr = (BitmapMarker *)markerPtr;
@@ -1553,8 +1553,8 @@ ConfigureBitmapMarker(markerPtr)
  * ----------------------------------------------------------------------
  */
 static void
-MapBitmapMarker(markerPtr)
-    Marker *markerPtr;
+MapBitmapMarker(
+    Marker *markerPtr)
 {
     BitmapMarker *bmPtr = (BitmapMarker *)markerPtr;
     Extents2D exts;
@@ -1729,9 +1729,9 @@ MapBitmapMarker(markerPtr)
  * ----------------------------------------------------------------------
  */
 static int
-PointInBitmapMarker(markerPtr, samplePtr)
-    Marker *markerPtr;
-    Point2D *samplePtr;
+PointInBitmapMarker(
+    Marker *markerPtr,
+    Point2D *samplePtr)
 {
     BitmapMarker *bmPtr = (BitmapMarker *)markerPtr;
 
@@ -1775,10 +1775,10 @@ PointInBitmapMarker(markerPtr, samplePtr)
  *----------------------------------------------------------------------
  */
 static int
-RegionInBitmapMarker(markerPtr, extsPtr, enclosed)
-    Marker *markerPtr;
-    Extents2D *extsPtr;
-    int enclosed;
+RegionInBitmapMarker(
+    Marker *markerPtr,
+    Extents2D *extsPtr,
+    int enclosed)
 {
     BitmapMarker *bmPtr = (BitmapMarker *)markerPtr;
 
@@ -1831,9 +1831,9 @@ RegionInBitmapMarker(markerPtr, extsPtr, enclosed)
  * ----------------------------------------------------------------------
  */
 static void
-DrawBitmapMarker(markerPtr, drawable)
-    Marker *markerPtr;
-    Drawable drawable; /* Pixmap or window to draw into */
+DrawBitmapMarker(
+    Marker *markerPtr,
+    Drawable drawable) /* Pixmap or window to draw into */
 {
     Graph *graphPtr = markerPtr->graphPtr;
     BitmapMarker *bmPtr = (BitmapMarker *)markerPtr;
@@ -1891,9 +1891,9 @@ DrawBitmapMarker(markerPtr, drawable)
  * ----------------------------------------------------------------------
  */
 static void
-BitmapMarkerToPostScript(markerPtr, psToken)
-    Marker *markerPtr; /* Marker to be printed */
-    PsToken psToken;
+BitmapMarkerToPostScript(
+    Marker *markerPtr, /* Marker to be printed */
+    PsToken psToken)
 {
     Graph *graphPtr = markerPtr->graphPtr;
     BitmapMarker *bmPtr = (BitmapMarker *)markerPtr;
@@ -1938,9 +1938,9 @@ BitmapMarkerToPostScript(markerPtr, psToken)
  * ----------------------------------------------------------------------
  */
 static void
-FreeBitmapMarker(graphPtr, markerPtr)
-    Graph *graphPtr;
-    Marker *markerPtr;
+FreeBitmapMarker(
+    Graph *graphPtr,
+    Marker *markerPtr)
 {
     BitmapMarker *bmPtr = (BitmapMarker *)markerPtr;
 
@@ -1971,7 +1971,7 @@ FreeBitmapMarker(graphPtr, markerPtr)
  * ----------------------------------------------------------------------
  */
 static Marker *
-CreateBitmapMarker()
+CreateBitmapMarker (void)
 {
     BitmapMarker *bmPtr;
 
@@ -1998,10 +1998,14 @@ CreateBitmapMarker()
  *----------------------------------------------------------------------
  */
 static void
-ImageChangedProc(clientData, x, y, width, height, imageWidth, imageHeight)
-    ClientData clientData;
-    int x, y, width, height; /* Not used. */
-    int imageWidth, imageHeight; /* Not used. */
+ImageChangedProc(
+    ClientData clientData,
+    int x,           /* Not used. */
+    int y,           /* Not used. */
+    int width,       /* Not used. */
+    int height,      /* Not used. */
+    int imageWidth,  /* Not used. */
+    int imageHeight) /* Not used. */
 {
     ImageMarker *imPtr = clientData;
     Tk_PhotoHandle photo;
@@ -2041,8 +2045,8 @@ ImageChangedProc(clientData, x, y, width, height, imageWidth, imageHeight)
  * ----------------------------------------------------------------------
  */
 static int
-ConfigureImageMarker(markerPtr)
-    Marker *markerPtr;
+ConfigureImageMarker(
+    Marker *markerPtr)
 {
     ImageMarker *imPtr = (ImageMarker *)markerPtr;
     Graph *graphPtr = markerPtr->graphPtr;
@@ -2115,8 +2119,8 @@ ConfigureImageMarker(markerPtr)
  * ----------------------------------------------------------------------
  */
 static void
-MapImageMarker(markerPtr)
-    Marker *markerPtr;
+MapImageMarker(
+    Marker *markerPtr)
 {
     Extents2D exts;
     Graph *graphPtr;
@@ -2272,9 +2276,9 @@ MapImageMarker(markerPtr)
  * ----------------------------------------------------------------------
  */
 static int
-PointInImageMarker(markerPtr, samplePtr)
-    Marker *markerPtr;
-    Point2D *samplePtr;
+PointInImageMarker(
+    Marker *markerPtr,
+    Point2D *samplePtr)
 {
     ImageMarker *imPtr = (ImageMarker *)markerPtr;
 
@@ -2300,10 +2304,10 @@ PointInImageMarker(markerPtr, samplePtr)
  *----------------------------------------------------------------------
  */
 static int
-RegionInImageMarker(markerPtr, extsPtr, enclosed)
-    Marker *markerPtr;
-    Extents2D *extsPtr;
-    int enclosed;
+RegionInImageMarker(
+    Marker *markerPtr,
+    Extents2D *extsPtr,
+    int enclosed)
 {
     ImageMarker *imPtr = (ImageMarker *)markerPtr;
 
@@ -2339,9 +2343,9 @@ RegionInImageMarker(markerPtr, extsPtr, enclosed)
  * ----------------------------------------------------------------------
  */
 static void
-DrawImageMarker(markerPtr, drawable)
-    Marker *markerPtr;
-    Drawable drawable;		/* Pixmap or window to draw into */
+DrawImageMarker(
+    Marker *markerPtr,
+    Drawable drawable)		/* Pixmap or window to draw into */
 {
     ImageMarker *imPtr = (ImageMarker *)markerPtr;
     int width, height;
@@ -2388,9 +2392,9 @@ DrawImageMarker(markerPtr, drawable)
  * ----------------------------------------------------------------------
  */
 static void
-ImageMarkerToPostScript(markerPtr, psToken)
-    Marker *markerPtr;		/* Marker to be printed */
-    PsToken psToken;
+ImageMarkerToPostScript(
+    Marker *markerPtr,		/* Marker to be printed */
+    PsToken psToken)
 {
     ImageMarker *imPtr = (ImageMarker *)markerPtr;
     char *imageName;
@@ -2428,9 +2432,9 @@ ImageMarkerToPostScript(markerPtr, psToken)
  * ----------------------------------------------------------------------
  */
 static void
-FreeImageMarker(graphPtr, markerPtr)
-    Graph *graphPtr;
-    Marker *markerPtr;
+FreeImageMarker(
+    Graph *graphPtr,
+    Marker *markerPtr)
 {
     ImageMarker *imPtr = (ImageMarker *)markerPtr;
 
@@ -2464,7 +2468,7 @@ FreeImageMarker(graphPtr, markerPtr)
  * ----------------------------------------------------------------------
  */
 static Marker *
-CreateImageMarker()
+CreateImageMarker (void)
 {
     ImageMarker *imPtr;
 
@@ -2496,8 +2500,8 @@ CreateImageMarker()
  * ----------------------------------------------------------------------
  */
 static int
-ConfigureTextMarker(markerPtr)
-    Marker *markerPtr;
+ConfigureTextMarker(
+    Marker *markerPtr)
 {
     Graph *graphPtr = markerPtr->graphPtr;
     TextMarker *tmPtr = (TextMarker *)markerPtr;
@@ -2574,8 +2578,8 @@ ConfigureTextMarker(markerPtr)
  * ----------------------------------------------------------------------
  */
 static void
-MapTextMarker(markerPtr)
-    Marker *markerPtr;
+MapTextMarker(
+    Marker *markerPtr)
 {
     Graph *graphPtr = markerPtr->graphPtr;
     TextMarker *tmPtr = (TextMarker *)markerPtr;
@@ -2619,9 +2623,9 @@ MapTextMarker(markerPtr)
  *----------------------------------------------------------------------
  */
 static int
-PointInTextMarker(markerPtr, samplePtr)
-    Marker *markerPtr;
-    Point2D *samplePtr;
+PointInTextMarker(
+    Marker *markerPtr,
+    Point2D *samplePtr)
 {
     TextMarker *tmPtr = (TextMarker *)markerPtr;
 
@@ -2665,10 +2669,10 @@ PointInTextMarker(markerPtr, samplePtr)
  *----------------------------------------------------------------------
  */
 static int
-RegionInTextMarker(markerPtr, extsPtr, enclosed)
-    Marker *markerPtr;
-    Extents2D *extsPtr;
-    int enclosed;
+RegionInTextMarker(
+    Marker *markerPtr,
+    Extents2D *extsPtr,
+    int enclosed)
 {
     TextMarker *tmPtr = (TextMarker *)markerPtr;
 
@@ -2718,9 +2722,9 @@ RegionInTextMarker(markerPtr, extsPtr, enclosed)
  * ----------------------------------------------------------------------
  */
 static void
-DrawTextMarker(markerPtr, drawable)
-    Marker *markerPtr;
-    Drawable drawable; /* Pixmap or window to draw into */
+DrawTextMarker(
+    Marker *markerPtr,
+    Drawable drawable) /* Pixmap or window to draw into */
 {
     TextMarker *tmPtr = (TextMarker *)markerPtr;
     Graph *graphPtr = markerPtr->graphPtr;
@@ -2768,9 +2772,9 @@ DrawTextMarker(markerPtr, drawable)
  * ----------------------------------------------------------------------
  */
 static void
-TextMarkerToPostScript(markerPtr, psToken)
-    Marker *markerPtr;
-    PsToken psToken;
+TextMarkerToPostScript(
+    Marker *markerPtr,
+    PsToken psToken)
 {
     TextMarker *tmPtr = (TextMarker *)markerPtr;
 
@@ -2815,9 +2819,9 @@ TextMarkerToPostScript(markerPtr, psToken)
  * ----------------------------------------------------------------------
  */
 static void
-FreeTextMarker(graphPtr, markerPtr)
-    Graph *graphPtr;
-    Marker *markerPtr;
+FreeTextMarker(
+    Graph *graphPtr,
+    Marker *markerPtr)
 {
     TextMarker *tmPtr = (TextMarker *)markerPtr;
 
@@ -2843,7 +2847,7 @@ FreeTextMarker(graphPtr, markerPtr)
  * ----------------------------------------------------------------------
  */
 static Marker *
-CreateTextMarker()
+CreateTextMarker (void)
 {
     TextMarker *tmPtr;
 
@@ -2886,8 +2890,8 @@ static Tk_GeomMgr winMarkerMgrInfo = {
  * ----------------------------------------------------------------------
  */
 static int
-ConfigureWindowMarker(markerPtr)
-    Marker *markerPtr;
+ConfigureWindowMarker(
+    Marker *markerPtr)
 {
     Graph *graphPtr = markerPtr->graphPtr;
     WindowMarker *wmPtr = (WindowMarker *)markerPtr;
@@ -2959,8 +2963,8 @@ ConfigureWindowMarker(markerPtr)
  * ----------------------------------------------------------------------
  */
 static void
-MapWindowMarker(markerPtr)
-    Marker *markerPtr;
+MapWindowMarker(
+    Marker *markerPtr)
 {
     WindowMarker *wmPtr = (WindowMarker *)markerPtr;
     Graph *graphPtr = markerPtr->graphPtr;
@@ -3017,9 +3021,9 @@ MapWindowMarker(markerPtr)
  *----------------------------------------------------------------------
  */
 static int
-PointInWindowMarker(markerPtr, samplePtr)
-    Marker *markerPtr;
-    Point2D *samplePtr;
+PointInWindowMarker(
+    Marker *markerPtr,
+    Point2D *samplePtr)
 {
     WindowMarker *wmPtr = (WindowMarker *)markerPtr;
 
@@ -3045,10 +3049,10 @@ PointInWindowMarker(markerPtr, samplePtr)
  *----------------------------------------------------------------------
  */
 static int
-RegionInWindowMarker(markerPtr, extsPtr, enclosed)
-    Marker *markerPtr;
-    Extents2D *extsPtr;
-    int enclosed;
+RegionInWindowMarker(
+    Marker *markerPtr,
+    Extents2D *extsPtr,
+    int enclosed)
 {
     WindowMarker *wmPtr = (WindowMarker *)markerPtr;
 
@@ -3083,9 +3087,9 @@ RegionInWindowMarker(markerPtr, extsPtr, enclosed)
  *----------------------------------------------------------------------
  */
 static void
-DrawWindowMarker(markerPtr, drawable)
-    Marker *markerPtr;
-    Drawable drawable; /* Pixmap or window to draw into */
+DrawWindowMarker(
+    Marker *markerPtr,
+    Drawable drawable) /* Pixmap or window to draw into */
 {
     WindowMarker *wmPtr = (WindowMarker *)markerPtr;
 
@@ -3120,9 +3124,9 @@ DrawWindowMarker(markerPtr, drawable)
  *----------------------------------------------------------------------
  */
 static void
-WindowMarkerToPostScript(markerPtr, psToken)
-    Marker *markerPtr;
-    PsToken psToken;
+WindowMarkerToPostScript(
+    Marker *markerPtr,
+    PsToken psToken)
 {
     WindowMarker *wmPtr = (WindowMarker *)markerPtr;
 
@@ -3152,9 +3156,9 @@ WindowMarkerToPostScript(markerPtr, psToken)
  * ----------------------------------------------------------------------
  */
 static void
-FreeWindowMarker(graphPtr, markerPtr)
-    Graph *graphPtr;
-    Marker *markerPtr;
+FreeWindowMarker(
+    Graph *graphPtr,
+    Marker *markerPtr)
 {
     WindowMarker *wmPtr = (WindowMarker *)markerPtr;
 
@@ -3182,7 +3186,7 @@ FreeWindowMarker(graphPtr, markerPtr)
  * ----------------------------------------------------------------------
  */
 static Marker *
-CreateWindowMarker()
+CreateWindowMarker (void)
 {
     WindowMarker *wmPtr;
 
@@ -3213,9 +3217,9 @@ CreateWindowMarker()
  * ----------------------------------------------------------------------
  */
 static void
-ChildEventProc(clientData, eventPtr)
-    ClientData clientData; /* Pointer to record describing window item. */
-    XEvent *eventPtr; /* Describes what just happened. */
+ChildEventProc (
+    ClientData clientData,  /* Pointer to record describing window item. */
+    XEvent *eventPtr)       /* Describes what just happened. */
 {
     WindowMarker *wmPtr = clientData;
 
@@ -3242,9 +3246,9 @@ ChildEventProc(clientData, eventPtr)
  * ----------------------------------------------------------------------
  */
 static void
-ChildGeometryProc(clientData, tkwin)
-    ClientData clientData; /* Pointer to record for window item. */
-    Tk_Window tkwin; /* Window that changed its desired size. */
+ChildGeometryProc(
+    ClientData clientData,  /* Pointer to record for window item. */
+    Tk_Window tkwin)        /* Window that changed its desired size. */
 {
     WindowMarker *wmPtr = clientData;
 
@@ -3275,9 +3279,9 @@ ChildGeometryProc(clientData, tkwin)
  * ----------------------------------------------------------------------
  */
 static void
-ChildCustodyProc(clientData, tkwin)
-    ClientData clientData; /* Window marker to be destroyed. */
-    Tk_Window tkwin; /* Not used. */
+ChildCustodyProc(
+    ClientData clientData,  /* Window marker to be destroyed. */
+    Tk_Window tkwin)        /* Not used. */
 {
     Marker *markerPtr = clientData;
     Graph *graphPtr;
@@ -3309,8 +3313,8 @@ ChildCustodyProc(clientData, tkwin)
  * ----------------------------------------------------------------------
  */
 static void
-MapLineMarker(markerPtr)
-    Marker *markerPtr;
+MapLineMarker(
+    Marker *markerPtr)
 {
     Graph *graphPtr = markerPtr->graphPtr;
     LineMarker *lmPtr = (LineMarker *)markerPtr;
@@ -3375,9 +3379,9 @@ MapLineMarker(markerPtr)
  *----------------------------------------------------------------------
  */
 static int
-PointInLineMarker(markerPtr, samplePtr)
-    Marker *markerPtr;
-    Point2D *samplePtr;
+PointInLineMarker(
+    Marker *markerPtr,
+    Point2D *samplePtr)
 {
     LineMarker *lmPtr = (LineMarker *)markerPtr;
 
@@ -3401,10 +3405,10 @@ PointInLineMarker(markerPtr, samplePtr)
  *----------------------------------------------------------------------
  */
 static int
-RegionInLineMarker(markerPtr, extsPtr, enclosed)
-    Marker *markerPtr;
-    Extents2D *extsPtr;
-    int enclosed;
+RegionInLineMarker(
+    Marker *markerPtr,
+    Extents2D *extsPtr,
+    int enclosed)
 {
     LineMarker *lmPtr = (LineMarker *)markerPtr;
 
@@ -3460,9 +3464,9 @@ RegionInLineMarker(markerPtr, extsPtr, enclosed)
  *----------------------------------------------------------------------
  */
 static void
-DrawLineMarker(markerPtr, drawable)
-    Marker *markerPtr;
-    Drawable drawable; /* Pixmap or window to draw into */
+DrawLineMarker(
+    Marker *markerPtr,
+    Drawable drawable) /* Pixmap or window to draw into */
 {
     LineMarker *lmPtr = (LineMarker *)markerPtr;
 
@@ -3498,8 +3502,8 @@ DrawLineMarker(markerPtr, drawable)
  * ----------------------------------------------------------------------
  */
 static int
-ConfigureLineMarker(markerPtr)
-    Marker *markerPtr;
+ConfigureLineMarker(
+    Marker *markerPtr)
 {
     Graph *graphPtr = markerPtr->graphPtr;
     LineMarker *lmPtr = (LineMarker *)markerPtr;
@@ -3586,9 +3590,9 @@ ConfigureLineMarker(markerPtr)
  * ----------------------------------------------------------------------
  */
 static void
-LineMarkerToPostScript(markerPtr, psToken)
-    Marker *markerPtr;
-    PsToken psToken;
+LineMarkerToPostScript(
+    Marker *markerPtr,
+    PsToken psToken)
 {
     LineMarker *lmPtr = (LineMarker *)markerPtr;
 
@@ -3631,9 +3635,9 @@ LineMarkerToPostScript(markerPtr, psToken)
  * ----------------------------------------------------------------------
  */
 static void
-FreeLineMarker(graphPtr, markerPtr)
-    Graph *graphPtr;
-    Marker *markerPtr;
+FreeLineMarker(
+    Graph *graphPtr,
+    Marker *markerPtr)
 {
     LineMarker *lmPtr = (LineMarker *)markerPtr;
 
@@ -3662,7 +3666,7 @@ FreeLineMarker(graphPtr, markerPtr)
  * ----------------------------------------------------------------------
  */
 static Marker *
-CreateLineMarker()
+CreateLineMarker (void)
 {
     LineMarker *lmPtr;
 
@@ -3694,8 +3698,8 @@ CreateLineMarker()
  * ----------------------------------------------------------------------
  */
 static void
-MapPolygonMarker(markerPtr)
-    Marker *markerPtr;
+MapPolygonMarker(
+    Marker *markerPtr)
 {
     Graph *graphPtr = markerPtr->graphPtr;
     PolygonMarker *pmPtr = (PolygonMarker *)markerPtr;
@@ -3805,9 +3809,9 @@ MapPolygonMarker(markerPtr)
  *----------------------------------------------------------------------
  */
 static int
-PointInPolygonMarker(markerPtr, samplePtr)
-    Marker *markerPtr;
-    Point2D *samplePtr;
+PointInPolygonMarker(
+    Marker *markerPtr,
+    Point2D *samplePtr)
 {
     PolygonMarker *pmPtr = (PolygonMarker *)markerPtr;
 
@@ -3834,10 +3838,10 @@ PointInPolygonMarker(markerPtr, samplePtr)
  *----------------------------------------------------------------------
  */
 static int
-RegionInPolygonMarker(markerPtr, extsPtr, enclosed)
-    Marker *markerPtr;
-    Extents2D *extsPtr;
-    int enclosed;
+RegionInPolygonMarker(
+    Marker *markerPtr,
+    Extents2D *extsPtr,
+    int enclosed)
 {
     PolygonMarker *pmPtr = (PolygonMarker *)markerPtr;
 
@@ -3864,9 +3868,9 @@ RegionInPolygonMarker(markerPtr, extsPtr, enclosed)
  *----------------------------------------------------------------------
  */
 static void
-DrawPolygonMarker(markerPtr, drawable)
-    Marker *markerPtr;
-    Drawable drawable; /* Pixmap or window to draw into */
+DrawPolygonMarker(
+    Marker *markerPtr,
+    Drawable drawable) /* Pixmap or window to draw into */
 {
     Graph *graphPtr = markerPtr->graphPtr;
     PolygonMarker *pmPtr = (PolygonMarker *)markerPtr;
@@ -3916,9 +3920,9 @@ DrawPolygonMarker(markerPtr, drawable)
  *----------------------------------------------------------------------
  */
 static void
-PolygonMarkerToPostScript(markerPtr, psToken)
-    Marker *markerPtr;
-    PsToken psToken;
+PolygonMarkerToPostScript(
+    Marker *markerPtr,
+    PsToken psToken)
 {
     Graph *graphPtr = markerPtr->graphPtr;
     PolygonMarker *pmPtr = (PolygonMarker *)markerPtr;
@@ -4008,8 +4012,8 @@ PolygonMarkerToPostScript(markerPtr, psToken)
  * ----------------------------------------------------------------------
  */
 static int
-ConfigurePolygonMarker(markerPtr)
-    Marker *markerPtr;
+ConfigurePolygonMarker(
+    Marker *markerPtr)
 {
     Graph *graphPtr = markerPtr->graphPtr;
     PolygonMarker *pmPtr = (PolygonMarker *)markerPtr;
@@ -4118,9 +4122,9 @@ ConfigurePolygonMarker(markerPtr)
  * ----------------------------------------------------------------------
  */
 static void
-FreePolygonMarker(graphPtr, markerPtr)
-    Graph *graphPtr;
-    Marker *markerPtr;
+FreePolygonMarker(
+    Graph *graphPtr,
+    Marker *markerPtr)
 {
     PolygonMarker *pmPtr = (PolygonMarker *)markerPtr;
 
@@ -4158,7 +4162,7 @@ FreePolygonMarker(graphPtr, markerPtr)
  * ----------------------------------------------------------------------
  */
 static Marker *
-CreatePolygonMarker()
+CreatePolygonMarker (void)
 {
     PolygonMarker *pmPtr;
 
@@ -4188,10 +4192,10 @@ CreatePolygonMarker()
  *----------------------------------------------------------------------
  */
 static int
-NameToMarker(graphPtr, name, markerPtrPtr)
-    Graph *graphPtr;
-    char *name;
-    Marker **markerPtrPtr;
+NameToMarker(
+    Graph *graphPtr,
+    char *name,
+    Marker **markerPtrPtr)
 {
     Tcl_HashEntry *hPtr;
 
@@ -4221,10 +4225,11 @@ NameToMarker(graphPtr, name, markerPtrPtr)
  *----------------------------------------------------------------------
  */
 static int
-RenameMarker(graphPtr, markerPtr, oldName, newName)
-    Graph *graphPtr;
-    Marker *markerPtr;
-    char *oldName, *newName;
+RenameMarker(
+    Graph *graphPtr,
+    Marker *markerPtr,
+    char *oldName, 
+    char *newName)
 {
     int isNew;
     Tcl_HashEntry *hPtr;
@@ -4309,9 +4314,9 @@ NamesOp(
  *----------------------------------------------------------------------
  */
 ClientData
-Rbc_MakeMarkerTag(graphPtr, tagName)
-    Graph *graphPtr;
-    char *tagName;
+Rbc_MakeMarkerTag(
+    Graph *graphPtr,
+    char *tagName)
 {
     Tcl_HashEntry *hPtr;
     int isNew;
@@ -4944,10 +4949,10 @@ Rbc_MarkerOp(
  *----------------------------------------------------------------------
  */
 void
-Rbc_MarkersToPostScript(graphPtr, psToken, under)
-    Graph *graphPtr;
-    PsToken psToken;
-    int under;
+Rbc_MarkersToPostScript(
+    Graph *graphPtr,
+    PsToken psToken,
+    int under)
 {
     Rbc_ChainLink *linkPtr;
     register Marker *markerPtr;
@@ -5018,10 +5023,10 @@ Rbc_MarkersToPostScript(graphPtr, psToken, under)
  * -------------------------------------------------------------------------
  */
 void
-Rbc_DrawMarkers(graphPtr, drawable, under)
-    Graph *graphPtr;
-    Drawable drawable; /* Pixmap or window to draw into */
-    int under;
+Rbc_DrawMarkers(
+    Graph *graphPtr,
+    Drawable drawable, /* Pixmap or window to draw into */
+    int under)
 {
     Rbc_ChainLink *linkPtr;
     Marker *markerPtr;
@@ -5072,8 +5077,8 @@ Rbc_DrawMarkers(graphPtr, drawable, under)
  *----------------------------------------------------------------------
  */
 void
-Rbc_MapMarkers(graphPtr)
-    Graph *graphPtr;
+Rbc_MapMarkers(
+    Graph *graphPtr)
 {
     Rbc_ChainLink *linkPtr;
     Marker *markerPtr;
@@ -5107,8 +5112,8 @@ Rbc_MapMarkers(graphPtr)
  *----------------------------------------------------------------------
  */
 void
-Rbc_DestroyMarkers(graphPtr)
-    Graph *graphPtr;
+Rbc_DestroyMarkers(
+    Graph *graphPtr)
 {
     Tcl_HashEntry *hPtr;
     Tcl_HashSearch cursor;
@@ -5145,10 +5150,11 @@ Rbc_DestroyMarkers(graphPtr)
  *----------------------------------------------------------------------
  */
 Marker *
-Rbc_NearestMarker(graphPtr, x, y, under)
-    Graph *graphPtr;
-    int x, y; /* Screen coordinates */
-    int under;
+Rbc_NearestMarker(
+    Graph *graphPtr,
+    int x, /* Screen coordinates */
+    int y, /* Screen coordinates */
+    int under)
 {
     Rbc_ChainLink *linkPtr;
     Marker *markerPtr;

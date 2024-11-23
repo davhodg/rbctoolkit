@@ -27,9 +27,9 @@
  *----------------------------------------------------------------------
  */
 void *
-RbcCalloc(nElems, sizeOfElem)
-    unsigned int nElems;
-    size_t sizeOfElem;
+RbcCalloc(
+    unsigned int nElems,
+    size_t sizeOfElem)
 {
     char *allocPtr;
     size_t size;
@@ -58,8 +58,8 @@ RbcCalloc(nElems, sizeOfElem)
  *----------------------------------------------------------------------
  */
 char *
-RbcStrdup(string)
-    const char *string;
+RbcStrdup(
+    const char *string)
 {
     size_t size;
     char *allocPtr;

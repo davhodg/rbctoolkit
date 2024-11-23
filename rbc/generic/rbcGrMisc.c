@@ -63,11 +63,12 @@ static double FindSplit (Point2D points[], int i, int j, int *split);
  *----------------------------------------------------------------------
  */
 int
-Rbc_GetXY(interp, tkwin, string, xPtr, yPtr)
-    Tcl_Interp *interp;
-    Tk_Window tkwin;
-    char *string;
-    int *xPtr, *yPtr;
+Rbc_GetXY(
+    Tcl_Interp *interp,
+    Tk_Window tkwin,
+    char *string,
+    int *xPtr,
+    int *yPtr)
 {
     char *comma;
     int result;
@@ -121,13 +122,13 @@ badFormat:
  *----------------------------------------------------------------------
  */
 static int
-StringToPoint(clientData, interp, tkwin, string, widgRec, offset)
-    ClientData clientData; /* Not used. */
-    Tcl_Interp *interp; /* Interpreter to send results back to */
-    Tk_Window tkwin; /* Not used. */
-    CONST86 char *string; /* New legend position string */
-    char *widgRec; /* Widget record */
-    Tcl_Size offset; /* offset to XPoint structure */
+StringToPoint(
+    ClientData clientData,  /* Not used. */
+    Tcl_Interp *interp,     /* Interpreter to send results back to */
+    Tk_Window tkwin,        /* Not used. */
+    CONST86 char *string,   /* New legend position string */
+    char *widgRec,          /* Widget record */
+    Tcl_Size offset)        /* offset to XPoint structure */
 {
     XPoint *pointPtr = (XPoint *)(widgRec + offset);
     int x, y;
@@ -155,12 +156,12 @@ StringToPoint(clientData, interp, tkwin, string, widgRec, offset)
  *----------------------------------------------------------------------
  */
 static CONST86 char *
-PointToString(clientData, tkwin, widgRec, offset, freeProcPtr)
-    ClientData clientData; /* Not used. */
-    Tk_Window tkwin; /* Not used. */
-    char *widgRec; /* Widget record */
-    Tcl_Size offset; /* offset of XPoint in record */
-    Tcl_FreeProc **freeProcPtr; /* Memory deallocation scheme to use */
+PointToString(
+    ClientData clientData,  /* Not used. */
+    Tk_Window tkwin,        /* Not used. */
+    char *widgRec,          /* Widget record */
+    Tcl_Size offset,        /* offset of XPoint in record */
+    Tcl_FreeProc **freeProcPtr) /* Memory deallocation scheme to use */
 {
     char *result;
     XPoint *pointPtr = (XPoint *)(widgRec + offset);
@@ -193,12 +194,13 @@ PointToString(clientData, tkwin, widgRec, offset, freeProcPtr)
  *----------------------------------------------------------------------
  */
 static int
-GetColorPair(interp, tkwin, fgStr, bgStr, pairPtr, allowDefault)
-    Tcl_Interp *interp;
-    Tk_Window tkwin;
-    char *fgStr, *bgStr;
-    ColorPair *pairPtr;
-    int allowDefault;
+GetColorPair(
+    Tcl_Interp *interp,
+    Tk_Window tkwin,
+    char *fgStr, 
+    char *bgStr,
+    ColorPair *pairPtr,
+    int allowDefault)
 {
     unsigned int length;
     XColor *fgColor, *bgColor;
@@ -248,8 +250,8 @@ GetColorPair(interp, tkwin, fgStr, bgStr, pairPtr, allowDefault)
  *----------------------------------------------------------------------
  */
 void
-Rbc_FreeColorPair(pairPtr)
-    ColorPair *pairPtr;
+Rbc_FreeColorPair(
+    ColorPair *pairPtr)
 {
     if ((pairPtr->bgColor != NULL) && (pairPtr->bgColor != COLOR_DEFAULT)) {
         Tk_FreeColor(pairPtr->bgColor);
@@ -277,13 +279,13 @@ Rbc_FreeColorPair(pairPtr)
  *----------------------------------------------------------------------
  */
 static int
-StringToColorPair(clientData, interp, tkwin, string, widgRec, offset)
-    ClientData clientData; /* Not used. */
-    Tcl_Interp *interp; /* Interpreter to send results back to */
-    Tk_Window tkwin; /* Not used. */
-    CONST86 char *string; /* String representing color */
-    char *widgRec; /* Widget record */
-    Tcl_Size offset; /* Offset of color field in record */
+StringToColorPair(
+    ClientData clientData,  /* Not used. */
+    Tcl_Interp *interp,     /* Interpreter to send results back to */
+    Tk_Window tkwin,        /* Not used. */
+    CONST86 char *string,   /* String representing color */
+    char *widgRec,          /* Widget record */
+    Tcl_Size offset)        /* Offset of color field in record */
 {
     ColorPair *pairPtr = (ColorPair *)(widgRec + offset);
     ColorPair sample;
@@ -341,8 +343,8 @@ StringToColorPair(clientData, interp, tkwin, string, widgRec, offset)
  *----------------------------------------------------------------------
  */
 static char *
-NameOfColor(colorPtr)
-    XColor *colorPtr;
+NameOfColor(
+    XColor *colorPtr)
 {
     if (colorPtr == NULL) {
         return "";
@@ -369,12 +371,12 @@ NameOfColor(colorPtr)
  *----------------------------------------------------------------------
  */
 static CONST86 char *
-ColorPairToString(clientData, tkwin, widgRec, offset, freeProcPtr)
-    ClientData clientData; /* Not used. */
-    Tk_Window tkwin; /* Not used. */
-    char *widgRec; /* Element information record */
-    Tcl_Size offset; /* Offset of symbol type field in record */
-    Tcl_FreeProc **freeProcPtr; /* Not used. */
+ColorPairToString(
+    ClientData clientData,      /* Not used. */
+    Tk_Window tkwin,            /* Not used. */
+    char *widgRec,              /* Element information record */
+    Tcl_Size offset,            /* Offset of symbol type field in record */
+    Tcl_FreeProc **freeProcPtr) /* Not used. */
 {
     ColorPair *pairPtr = (ColorPair *)(widgRec + offset);
     Tcl_DString dString;
@@ -407,11 +409,11 @@ ColorPairToString(clientData, tkwin, widgRec, offset, freeProcPtr)
  *----------------------------------------------------------------------
  */
 int
-Rbc_PointInSegments(samplePtr, segments, nSegments, halo)
-    Point2D *samplePtr;
-    Segment2D *segments;
-    int nSegments;
-    double halo;
+Rbc_PointInSegments(
+    Point2D *samplePtr,
+    Segment2D *segments,
+    int nSegments,
+    double halo)
 {
     register Segment2D *segPtr, *endPtr;
     double left, right, top, bottom;
@@ -458,10 +460,10 @@ Rbc_PointInSegments(samplePtr, segments, nSegments, halo)
  *----------------------------------------------------------------------
  */
 int
-Rbc_PointInPolygon(samplePtr, points, nPoints)
-    Point2D *samplePtr;
-    Point2D *points;
-    int nPoints;
+Rbc_PointInPolygon(
+    Point2D *samplePtr,
+    Point2D *points,
+    int nPoints)
 {
     double b;
     register Point2D *p, *q, *endPtr;
@@ -496,11 +498,11 @@ Rbc_PointInPolygon(samplePtr, points, nPoints)
  *----------------------------------------------------------------------
  */
 int
-Rbc_RegionInPolygon(extsPtr, points, nPoints, enclosed)
-    Extents2D *extsPtr;
-    Point2D *points;
-    int nPoints;
-    int enclosed;
+Rbc_RegionInPolygon(
+    Extents2D *extsPtr,
+    Point2D *points,
+    int nPoints,
+    int enclosed)
 {
     register Point2D *pointPtr, *endPtr;
 
@@ -569,9 +571,9 @@ Rbc_RegionInPolygon(extsPtr, points, nPoints, enclosed)
  *----------------------------------------------------------------------
  */
 void
-Rbc_GraphExtents(graphPtr, extsPtr)
-    Graph *graphPtr;
-    Extents2D *extsPtr;
+Rbc_GraphExtents(
+    Graph *graphPtr,
+    Extents2D *extsPtr)
 {
     extsPtr->left = (double)(graphPtr->hOffset - graphPtr->padX.side1);
     extsPtr->top = (double)(graphPtr->vOffset - graphPtr->padY.side1);
@@ -597,11 +599,11 @@ Rbc_GraphExtents(graphPtr, extsPtr)
  *----------------------------------------------------------------------
  */
 static int
-ClipTest (ds, dr, t1, t2)
-    double ds;
-    double dr;
-    double *t1;
-    double *t2;
+ClipTest (
+    double ds,
+    double dr,
+    double *t1,
+    double *t2)
 {
     double t;
 
@@ -652,9 +654,10 @@ ClipTest (ds, dr, t1, t2)
  *----------------------------------------------------------------------
  */
 int
-Rbc_LineRectClip(extsPtr, p, q)
-    Extents2D *extsPtr; /* Rectangular region to clip. */
-    Point2D *p, *q; /* (in/out) Coordinates of original
+Rbc_LineRectClip(
+    Extents2D *extsPtr, /* Rectangular region to clip. */
+    Point2D *p, 
+    Point2D *q)     /* (in/out) Coordinates of original
                      * and clipped line segment. */
 {
     double t1, t2;
@@ -709,11 +712,11 @@ Rbc_LineRectClip(extsPtr, p, q)
  *----------------------------------------------------------------------
  */
 int
-Rbc_PolyRectClip(extsPtr, points, nPoints, clipPts)
-    Extents2D *extsPtr;
-    Point2D *points;
-    int nPoints;
-    Point2D *clipPts;
+Rbc_PolyRectClip(
+    Extents2D *extsPtr,
+    Point2D *points,
+    int nPoints,
+    Point2D *clipPts)
 {
     Point2D *endPtr;
     double dx, dy;
@@ -836,9 +839,11 @@ Rbc_PolyRectClip(extsPtr, points, nPoints, clipPts)
  *----------------------------------------------------------------------
  */
 Point2D
-Rbc_GetProjection(x, y, p, q)
-    int x, y; /* Screen coordinates of the sample point. */
-    Point2D *p, *q; /* Line segment to project point onto */
+Rbc_GetProjection(
+    int x, 
+    int y,      /* Screen coordinates of the sample point. */
+    Point2D *p, 
+    Point2D *q) /* Line segment to project point onto */
 {
     double dx, dy;
     Point2D t;
@@ -919,9 +924,9 @@ Rbc_GetProjection(x, y, p, q)
  *----------------------------------------------------------------------
  */
 static void
-XColorToHSV(colorPtr, hsvPtr)
-    XColor *colorPtr;
-    HSV *hsvPtr;
+XColorToHSV(
+    XColor *colorPtr,
+    HSV *hsvPtr)
 {
     unsigned short max, min;
     double range;
@@ -979,9 +984,9 @@ XColorToHSV(colorPtr, hsvPtr)
  *----------------------------------------------------------------------
  */
 static void
-HSVToXColor(hsvPtr, colorPtr)
-    HSV *hsvPtr;
-    XColor *colorPtr;
+HSVToXColor(
+    HSV *hsvPtr,
+    XColor *colorPtr)
 {
     double hue, p, q, t;
     double frac;
@@ -1055,10 +1060,12 @@ HSVToXColor(hsvPtr, colorPtr)
  *----------------------------------------------------------------------
  */
 int
-Rbc_AdjustViewport(offset, worldSize, windowSize, scrollUnits, scrollMode)
-    int offset, worldSize, windowSize;
-    int scrollUnits;
-    int scrollMode;
+Rbc_AdjustViewport(
+    int offset,
+    int worldSize,
+    int windowSize,
+    int scrollUnits,
+    int scrollMode)
 {
     switch (scrollMode) {
         case RBC_SCROLL_MODE_CANVAS:
@@ -1128,15 +1135,15 @@ Rbc_AdjustViewport(offset, worldSize, windowSize, scrollUnits, scrollMode)
  *----------------------------------------------------------------------
  */
 int
-Rbc_GetScrollInfoFromObj(interp, objc, objv, offsetPtr, worldSize, windowSize,
-                         scrollUnits, scrollMode)
-    Tcl_Interp *interp;
-    int objc;
-    Tcl_Obj *const *objv;
-    int *offsetPtr;
-    int worldSize, windowSize;
-    int scrollUnits;
-    int scrollMode;
+Rbc_GetScrollInfoFromObj(
+    Tcl_Interp *interp,
+    int objc,
+    Tcl_Obj *const *objv,
+    int *offsetPtr,
+    int worldSize,
+    int windowSize,
+    int scrollUnits,
+    int scrollMode)
 {
     char c;
     unsigned int length;
@@ -1213,10 +1220,11 @@ Rbc_GetScrollInfoFromObj(interp, objc, objv, offsetPtr, worldSize, windowSize,
  * ----------------------------------------------------------------------
  */
 void
-Rbc_UpdateScrollbar(interp, scrollCmd, firstFract, lastFract)
-    Tcl_Interp *interp;
-    char *scrollCmd; /* scrollbar command */
-    double firstFract, lastFract;
+Rbc_UpdateScrollbar(
+    Tcl_Interp *interp,
+    char *scrollCmd, /* scrollbar command */
+    double firstFract,
+    double lastFract)
 {
     char string[200];
     Tcl_DString dString;
@@ -1250,11 +1258,11 @@ Rbc_UpdateScrollbar(interp, scrollCmd, firstFract, lastFract)
  *----------------------------------------------------------------------
  */
 GC
-Rbc_GetPrivateGCFromDrawable(display, drawable, gcMask, valuePtr)
-    Display *display;
-    Drawable drawable;
-    unsigned long gcMask;
-    XGCValues *valuePtr;
+Rbc_GetPrivateGCFromDrawable(
+    Display *display,
+    Drawable drawable,
+    unsigned long gcMask,
+    XGCValues *valuePtr)
 {
     GC newGC;
 
@@ -1285,10 +1293,10 @@ Rbc_GetPrivateGCFromDrawable(display, drawable, gcMask, valuePtr)
  *----------------------------------------------------------------------
  */
 GC
-Rbc_GetPrivateGC(tkwin, gcMask, valuePtr)
-    Tk_Window tkwin;
-    unsigned long gcMask;
-    XGCValues *valuePtr;
+Rbc_GetPrivateGC(
+    Tk_Window tkwin,
+    unsigned long gcMask,
+    XGCValues *valuePtr)
 {
     GC gc;
     Pixmap pixmap;
@@ -1336,9 +1344,9 @@ Rbc_GetPrivateGC(tkwin, gcMask, valuePtr)
  *----------------------------------------------------------------------
  */
 void
-Rbc_FreePrivateGC(display, gc)
-    Display *display;
-    GC gc;
+Rbc_FreePrivateGC(
+    Display *display,
+    GC gc)
 {
     /* removed call to Tk_FreeXId for Tcl 9.0 */
 
@@ -1362,10 +1370,10 @@ Rbc_FreePrivateGC(display, gc)
  *----------------------------------------------------------------------
  */
 void
-Rbc_SetDashes(display, gc, dashesPtr)
-    Display *display;
-    GC gc;
-    Rbc_Dashes *dashesPtr;
+Rbc_SetDashes(
+    Display *display,
+    GC gc,
+    Rbc_Dashes *dashesPtr)
 {
     XSetDashes(display, gc, dashesPtr->offset,
                (const char *)dashesPtr->values, strlen((char *)dashesPtr->values));
@@ -1388,10 +1396,11 @@ Rbc_SetDashes(display, gc, dashesPtr)
  *----------------------------------------------------------------------
  */
 static double
-FindSplit(points, i, j, split)
-    Point2D points[];
-    int i, j; /* Indices specifying the range of points. */
-    int *split; /* (out) Index of next split. */
+FindSplit(
+    Point2D points[],
+    int i,      /* Indices specifying the range of points. */
+    int j,      /* Indices specifying the range of points. */
+    int *split) /* (out) Index of next split. */
 {
     double maxDist;
 
@@ -1446,11 +1455,12 @@ FindSplit(points, i, j, split)
  *----------------------------------------------------------------------
  */
 int
-Rbc_SimplifyLine(inputPts, low, high, tolerance, indices)
-    Point2D inputPts[];
-    int low, high;
-    double tolerance;
-    int indices[];
+Rbc_SimplifyLine(
+    Point2D inputPts[],
+    int low,
+    int high,
+    double tolerance,
+    int indices[])
 {
 #define StackPush(a)	s++, stack[s] = (a)
 #define StackPop(a)	(a) = stack[s], s--
@@ -1496,12 +1506,12 @@ Rbc_SimplifyLine(inputPts, low, high, tolerance, indices)
  *----------------------------------------------------------------------
  */
 void
-Rbc_Draw2DSegments(display, drawable, gc, segPtr, nSegments)
-    Display *display;
-    Drawable drawable;
-    GC gc;
-    register Segment2D *segPtr;
-    int nSegments;
+Rbc_Draw2DSegments(
+    Display *display,
+    Drawable drawable,
+    GC gc,
+    register Segment2D *segPtr,
+    int nSegments)
 {
     XSegment *xSegPtr, *xSegArr;
     Segment2D *endPtr;
@@ -1538,13 +1548,14 @@ Rbc_Draw2DSegments(display, drawable, gc, segPtr, nSegments)
  *----------------------------------------------------------------------
  */
 void
-Rbc_DrawArrow(display, drawable, gc, x, y, arrowHeight, orientation)
-    Display *display;
-    Drawable drawable;
-    GC gc;
-    int x, y;
-    int arrowHeight;
-    int orientation;
+Rbc_DrawArrow(
+    Display *display,
+    Drawable drawable,
+    GC gc,
+    int x,
+    int y,
+    int arrowHeight,
+    int orientation)
 {
     XPoint arrow[5];
     int a, b;
@@ -1673,7 +1684,7 @@ Rbc_DrawArrow(display, drawable, gc, x, y, arrowHeight, orientation)
  *----------------------------------------------------------------------
  */
 int
-Rbc_MaxRequestSize(Display *display, unsigned int elemSize)
+Rbc_MaxRequestSize (Display *display, unsigned int elemSize)
 {
     long size;
 
@@ -1706,14 +1717,17 @@ Rbc_MaxRequestSize(Display *display, unsigned int elemSize)
  *----------------------------------------------------------------------
  */
 void
-Rbc_Fill3DRectangle(tkwin, drawable, border, x, y, width, height, borderWidth, relief)
-    Tk_Window tkwin; /* Window for which border was allocated. */
-    Drawable drawable; /* X window or pixmap in which to draw. */
-    Tk_3DBorder border; /* Token for border to draw. */
-    int x, y, width, height; /* Outside area of rectangular region. */
-    int borderWidth; /* Desired width for border, in
+Rbc_Fill3DRectangle(
+    Tk_Window tkwin,    /* Window for which border was allocated. */
+    Drawable drawable,  /* X window or pixmap in which to draw. */
+    Tk_3DBorder border, /* Token for border to draw. */
+    int x,              /* Outside area of rectangular region. */
+    int y,              /* Outside area of rectangular region. */
+    int width,          /* Outside area of rectangular region. */
+    int height,         /* Outside area of rectangular region. */
+    int borderWidth, /* Desired width for border, in
                       * pixels. Border will be *inside* region. */
-    int relief; /* Indicates 3D effect: TK_RELIEF_FLAT,
+    int relief) /* Indicates 3D effect: TK_RELIEF_FLAT,
                  * TK_RELIEF_RAISED, or TK_RELIEF_SUNKEN. */
 {
 #ifndef notdef
@@ -1770,14 +1784,17 @@ Rbc_Fill3DRectangle(tkwin, drawable, border, x, y, width, height, borderWidth, r
  *----------------------------------------------------------------------
  */
 void
-Rbc_Draw3DRectangle(tkwin, drawable, border, x, y, width, height, borderWidth, relief)
-    Tk_Window tkwin; /* Window for which border was allocated. */
-    Drawable drawable; /* X window or pixmap in which to draw. */
-    Tk_3DBorder border; /* Token for border to draw. */
-    int x, y, width, height; /* Outside area of rectangular region. */
-    int borderWidth; /* Desired width for border, in
+Rbc_Draw3DRectangle(
+    Tk_Window tkwin,    /* Window for which border was allocated. */
+    Drawable drawable,  /* X window or pixmap in which to draw. */
+    Tk_3DBorder border, /* Token for border to draw. */
+    int x,              /* Outside area of rectangular region. */
+    int y,              /* Outside area of rectangular region. */
+    int width,          /* Outside area of rectangular region. */
+    int height,         /* Outside area of rectangular region. */
+    int borderWidth, /* Desired width for border, in
                       * pixels. Border will be *inside* region. */
-    int relief; /* Indicates 3D effect: TK_RELIEF_FLAT,
+    int relief) /* Indicates 3D effect: TK_RELIEF_FLAT,
                  * TK_RELIEF_RAISED, or TK_RELIEF_SUNKEN. */
 {
 #ifndef notdef
@@ -1875,14 +1892,17 @@ typedef struct {
  *----------------------------------------------------------------------
  */
 void
-Rbc_Draw3DRectangle(tkwin, drawable, border, x, y, width, height, borderWidth, relief)
-    Tk_Window tkwin; /* Window for which border was allocated. */
-    Drawable drawable; /* X window or pixmap in which to draw. */
-    Rbc_3DBorder *borderPtr; /* Border to draw. */
-    int x, y, width, height; /* Outside area of rectangular region. */
-    int borderWidth; /* Desired width for border, in
+Rbc_Draw3DRectangle(
+    Tk_Window tkwin,         /* Window for which border was allocated. */
+    Drawable drawable,       /* X window or pixmap in which to draw. */
+    Rbc_3DBorder *borderPtr, /* Border to draw. */
+    int x,                   /* Outside area of rectangular region. */
+    int y,                   /* Outside area of rectangular region. */
+    int width,               /* Outside area of rectangular region. */
+    int height,              /* Outside area of rectangular region. */
+    int borderWidth, /* Desired width for border, in
                       * pixels. Border will be *inside* region. */
-    int relief; /* Indicates 3D effect: TK_RELIEF_FLAT,
+    int relief) /* Indicates 3D effect: TK_RELIEF_FLAT,
                  * TK_RELIEF_RAISED, or TK_RELIEF_SUNKEN. */
 {
     if ((width > (2 * borderWidth)) && (height > (2 * borderWidth))) {
@@ -1944,14 +1964,17 @@ Rbc_Draw3DRectangle(tkwin, drawable, border, x, y, width, height, borderWidth, r
  *----------------------------------------------------------------------
  */
 void
-Rbc_Fill3DRectangle(tkwin, drawable, border, x, y, width, height, borderWidth, relief)
-    Tk_Window tkwin; /* Window for which border was allocated. */
-    Drawable drawable; /* X window or pixmap in which to draw. */
-    Tk_3DBorder border; /* Token for border to draw. */
-    int x, y, width, height; /* Outside area of rectangular region. */
-    int borderWidth; /* Desired width for border, in
+Rbc_Fill3DRectangle(
+    Tk_Window tkwin,    /* Window for which border was allocated. */
+    Drawable drawable,  /* X window or pixmap in which to draw. */
+    Tk_3DBorder border, /* Token for border to draw. */
+    int x,              /* Outside area of rectangular region. */
+    int y,              /* Outside area of rectangular region. */
+    int width,          /* Outside area of rectangular region. */
+    int height,         /* Outside area of rectangular region. */
+    int borderWidth, /* Desired width for border, in
                       * pixels. Border will be *inside* region. */
-    int relief; /* Indicates 3D effect: TK_RELIEF_FLAT,
+    int relief) /* Indicates 3D effect: TK_RELIEF_FLAT,
                  * TK_RELIEF_RAISED, or TK_RELIEF_SUNKEN. */
 {
     Rbc_3DBorder *borderPtr;
@@ -1981,9 +2004,9 @@ Rbc_Fill3DRectangle(tkwin, drawable, border, x, y, width, height, borderWidth, r
  *----------------------------------------------------------------------
  */
 void
-FreeBorder(display, borderPtr)
-    Display *display;
-    Border *borderPtr;
+FreeBorder(
+    Display *display,
+    Border *borderPtr)
 {
     int i;
 
@@ -2024,9 +2047,9 @@ FreeBorder(display, borderPtr)
  *----------------------------------------------------------------------
  */
 void
-Rbc_Free3DBorder(display, border)
-    Display *display;
-    Rbc_3DBorder border;
+Rbc_Free3DBorder(
+    Display *display,
+    Rbc_3DBorder border)
 {
     Border *borderPtr = (Border *)border;
 
@@ -2068,10 +2091,10 @@ Rbc_Free3DBorder(display, border)
  *----------------------------------------------------------------------
  */
 Rbc_3DBorder *
-Rbc_Get3DBorder(interp, tkwin, borderName)
-    Tcl_Interp *interp;
-    Tk_Window tkwin;
-    char *borderName;
+Rbc_Get3DBorder(
+    Tcl_Interp *interp,
+    Tk_Window tkwin,
+    char *borderName)
 {
     Rbc_3DBorder *borderPtr, *lastBorderPtr;
     Tcl_HashEntry *hPtr;

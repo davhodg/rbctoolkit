@@ -101,9 +101,9 @@ static void TileRegion (HDC srcDC, HDC destDC, HDC maskDC, TileClient *clientPtr
  *--------------------------------------------------------------
  */
 static void
-RedrawTile(tkwin, tilePtr)
-    Tk_Window tkwin;
-    Tile *tilePtr;
+RedrawTile(
+    Tk_Window tkwin,
+    Tile *tilePtr)
 {
     GC newGC;
     Tk_PhotoHandle photo;
@@ -181,8 +181,8 @@ RedrawTile(tkwin, tilePtr)
  *----------------------------------------------------------------------
  */
 static void
-UpdateTile(clientData)
-    ClientData clientData;
+UpdateTile(
+    ClientData clientData)
 {
     Tile *tilePtr = (Tile *)clientData;
     TileClient *clientPtr;
@@ -235,10 +235,14 @@ UpdateTile(clientData)
  *----------------------------------------------------------------------
  */
 static void
-ImageChangedProc(clientData, x, y, width, height, imageWidth, imageHeight)
-    ClientData clientData;
-    int x, y, width, height;	/* Not used. */
-    int imageWidth, imageHeight; /* Not used. */
+ImageChangedProc(
+    ClientData clientData,
+    int x,           /* Not used. */
+    int y,           /* Not used. */
+    int width,       /* Not used. */
+    int height,	     /* Not used. */
+    int imageWidth,  /* Not used. */
+    int imageHeight) /* Not used. */
 {
     Tile *tilePtr = (Tile *) clientData;
 
@@ -265,8 +269,8 @@ ImageChangedProc(clientData, x, y, width, height, imageWidth, imageHeight)
  *----------------------------------------------------------------------
  */
 static void
-DestroyTile(tilePtr)
-    Tile *tilePtr;
+DestroyTile(
+    Tile *tilePtr)
 {
     Rbc_ChainLink *linkPtr;
     TileClient *clientPtr;
@@ -321,10 +325,10 @@ DestroyTile(tilePtr)
  *----------------------------------------------------------------------
  */
 static Tile *
-CreateTile(interp, tkwin, imageName)
-    Tcl_Interp *interp;
-    Tk_Window tkwin;
-    char *imageName;
+CreateTile(
+    Tcl_Interp *interp,
+    Tk_Window tkwin,
+    char *imageName)
 {
     Tile *tilePtr;
     Tk_Image tkImage;
@@ -371,8 +375,8 @@ CreateTile(interp, tkwin, imageName)
  *----------------------------------------------------------------------
  */
 static void
-DestroyClient(clientPtr)
-    TileClient *clientPtr;
+DestroyClient(
+    TileClient *clientPtr)
 {
     Tile *tilePtr;
     tilePtr = clientPtr->tilePtr;
@@ -413,10 +417,10 @@ DestroyClient(clientPtr)
  *----------------------------------------------------------------------
  */
 static TileClient *
-CreateClient(interp, tkwin, name)
-    Tcl_Interp *interp;
-    Tk_Window tkwin;
-    char *name;
+CreateClient(
+    Tcl_Interp *interp,
+    Tk_Window tkwin,
+    char *name)
 {
     TileClient *clientPtr;
     Tile *tilePtr;
@@ -471,9 +475,9 @@ CreateClient(interp, tkwin, name)
  * ------------------------------------------------------------------------
  */
 static void
-TileInterpDeleteProc(clientData, interp)
-    ClientData clientData; /* Thread-specific data. */
-    Tcl_Interp *interp;
+TileInterpDeleteProc(
+    ClientData clientData, /* Thread-specific data. */
+    Tcl_Interp *interp)
 {
     TileInterpData *dataPtr = clientData;
     Tcl_HashEntry *hPtr;
@@ -507,8 +511,8 @@ TileInterpDeleteProc(clientData, interp)
  *--------------------------------------------------------------
  */
 static TileInterpData *
-GetTileInterpData(interp)
-    Tcl_Interp *interp;
+GetTileInterpData(
+    Tcl_Interp *interp)
 {
     TileInterpData *dataPtr;
     Tcl_InterpDeleteProc *proc;
@@ -547,11 +551,11 @@ GetTileInterpData(interp)
  *----------------------------------------------------------------------
  */
 int
-Rbc_GetTile(interp, tkwin, imageName, tokenPtr)
-    Tcl_Interp *interp; /* Interpreter to report results back to */
-    Tk_Window tkwin; /* Window on the same display as tile */
-    char *imageName; /* Name of image */
-    Rbc_Tile *tokenPtr; /* (out) Returns the allocated tile token. */
+Rbc_GetTile(
+    Tcl_Interp *interp, /* Interpreter to report results back to */
+    Tk_Window tkwin,    /* Window on the same display as tile */
+    char *imageName,    /* Name of image */
+    Rbc_Tile *tokenPtr) /* (out) Returns the allocated tile token. */
 {
     TileClient *clientPtr;
 
@@ -580,8 +584,8 @@ Rbc_GetTile(interp, tkwin, imageName, tokenPtr)
  *----------------------------------------------------------------------
  */
 void
-Rbc_FreeTile(clientPtr)
-    TileClient *clientPtr; /* Tile to be deleted */
+Rbc_FreeTile(
+    TileClient *clientPtr) /* Tile to be deleted */
 {
     if ((clientPtr == NULL) || (clientPtr->magic != TILE_MAGIC)) {
         return;			/* No tile */
@@ -607,8 +611,8 @@ Rbc_FreeTile(clientPtr)
  *----------------------------------------------------------------------
  */
 char *
-Rbc_NameOfTile(clientPtr)
-    TileClient *clientPtr; /* Tile to query */
+Rbc_NameOfTile(
+    TileClient *clientPtr) /* Tile to query */
 {
     if (clientPtr == NULL) {
         return "";
@@ -635,8 +639,8 @@ Rbc_NameOfTile(clientPtr)
  *----------------------------------------------------------------------
  */
 Pixmap
-Rbc_PixmapOfTile(clientPtr)
-    TileClient *clientPtr; /* Tile to query */
+Rbc_PixmapOfTile(
+    TileClient *clientPtr) /* Tile to query */
 {
     if ((clientPtr == NULL) || (clientPtr->magic != TILE_MAGIC)) {
         return None;
@@ -660,10 +664,10 @@ Rbc_PixmapOfTile(clientPtr)
  *----------------------------------------------------------------------
  */
 void
-Rbc_SizeOfTile(clientPtr, widthPtr, heightPtr)
-    TileClient *clientPtr; /* Tile to query */
-    int *widthPtr;
-    int *heightPtr; /* Returned dimensions of the tile (out) */
+Rbc_SizeOfTile(
+    TileClient *clientPtr,  /* Tile to query */
+    int *widthPtr,
+    int *heightPtr)         /* Returned dimensions of the tile (out) */
 {
     if ((clientPtr == NULL) || (clientPtr->magic != TILE_MAGIC)) {
         *widthPtr = *heightPtr = 0;
@@ -690,10 +694,10 @@ Rbc_SizeOfTile(clientPtr, widthPtr, heightPtr)
  *----------------------------------------------------------------------
  */
 void
-Rbc_SetTileChangedProc(clientPtr, notifyProc, clientData)
-    TileClient *clientPtr; /* Tile to query */
-    Rbc_TileChangedProc *notifyProc;
-    ClientData clientData;
+Rbc_SetTileChangedProc(
+    TileClient *clientPtr, /* Tile to query */
+    Rbc_TileChangedProc *notifyProc,
+    ClientData clientData)
 {
     if ((clientPtr != NULL) && (clientPtr->magic == TILE_MAGIC)) {
         clientPtr->notifyProc = notifyProc;
@@ -722,11 +726,11 @@ Rbc_SetTileChangedProc(clientPtr, notifyProc, clientData)
  *----------------------------------------------------------------------
  */
 void
-Rbc_SetTileOrigin(tkwin, clientPtr, x, y)
-    Tk_Window tkwin;
-    TileClient *clientPtr;
-    int x;
-    int y;
+Rbc_SetTileOrigin(
+    Tk_Window tkwin,
+    TileClient *clientPtr,
+    int x,
+    int y)
 {
     while (!Tk_IsTopLevel(tkwin)) {
         x += Tk_X(tkwin) + Tk_Changes(tkwin)->border_width;
@@ -754,11 +758,11 @@ Rbc_SetTileOrigin(tkwin, clientPtr, x, y)
  *--------------------------------------------------------------
  */
 void
-Rbc_SetTSOrigin(tkwin, clientPtr, x, y)
-    Tk_Window tkwin;
-    TileClient *clientPtr;
-    int x;
-    int y;
+Rbc_SetTSOrigin(
+    Tk_Window tkwin,
+    TileClient *clientPtr,
+    int x,
+    int y)
 {
     XSetTSOrigin(Tk_Display(tkwin), clientPtr->tilePtr->gc, x, y);
     clientPtr->xOrigin = x;
@@ -787,16 +791,16 @@ MODULE_SCOPE const int tkpWinRopModes[];
  *--------------------------------------------------------------
  */
 static void
-TileRegion(srcDC, destDC, maskDC, clientPtr, x, y, width, height)
-    HDC srcDC; /* Source device context. */
-    HDC destDC; /* Destination device context. */
-    HDC maskDC; /* If non-NULL, device context of the
+TileRegion(
+    HDC srcDC,  /* Source device context. */
+    HDC destDC, /* Destination device context. */
+    HDC maskDC, /* If non-NULL, device context of the
                  * mask tile mask. */
-    TileClient *clientPtr;
-    int x;
-    int y;
-    int width;
-    int height;
+    TileClient *clientPtr,
+    int x,
+    int y,
+    int width,
+    int height)
 {
     Tile *tilePtr = clientPtr->tilePtr;
     int destX, destY;
@@ -1149,15 +1153,16 @@ Rbc_TileRectangles(
  *----------------------------------------------------------------------
  */
 static Pixmap
-RectangleMask(display, drawable, x, y, width, height, mask, xOrigin, yOrigin)
-    Display *display;
-    Drawable drawable;
-    int x;
-    int y;
-    unsigned int width, height;
-    Pixmap mask;
-    int xOrigin;
-    int yOrigin;
+RectangleMask(
+    Display *display,
+    Drawable drawable,
+    int x,
+    int y,
+    unsigned int width, 
+    unsigned int height,
+    Pixmap mask,
+    int xOrigin,
+    int yOrigin)
 {
     GC gc;
     Pixmap bitmap;
@@ -1201,7 +1206,8 @@ Rbc_TileRectangle(
     Tk_Window tkwin,
     Drawable drawable,
     TileClient *clientPtr,
-    int x, int y,
+    int x,
+    int y,
     unsigned int width,
     unsigned int height)
 {
@@ -1286,14 +1292,14 @@ Rbc_TileRectangles(
  *----------------------------------------------------------------------
  */
 static Pixmap
-PolygonMask(display, pointArr, nPoints, regionPtr, mask, xOrigin, yOrigin)
-    Display *display;
-    XPoint *pointArr;
-    int nPoints;
-    Region2D *regionPtr;
-    Pixmap mask;
-    int xOrigin;
-    int yOrigin;
+PolygonMask(
+    Display *display,
+    XPoint *pointArr,
+    int nPoints,
+    Region2D *regionPtr,
+    Pixmap mask,
+    int xOrigin,
+    int yOrigin)
 {
     unsigned int width, height;
     Pixmap bitmap;

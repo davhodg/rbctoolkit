@@ -126,8 +126,8 @@ static Tcl_InterpDeleteProc BusyInterpDeleteProc;
  *----------------------------------------------------------------------
  */
 static void
-ShowBusyWindow(busyPtr)
-    Busy *busyPtr;
+ShowBusyWindow(
+    Busy *busyPtr)
 {
     if (busyPtr->tkBusy != NULL) {
         Tk_MapWindow(busyPtr->tkBusy);
@@ -174,8 +174,8 @@ ShowBusyWindow(busyPtr)
  *----------------------------------------------------------------------
  */
 static void
-HideBusyWindow(busyPtr)
-    Busy *busyPtr;
+HideBusyWindow(
+    Busy *busyPtr)
 {
     if (busyPtr->tkBusy != NULL) {
         Tk_UnmapWindow(busyPtr->tkBusy);
@@ -221,9 +221,9 @@ HideBusyWindow(busyPtr)
  *----------------------------------------------------------------------
  */
 static void
-BusyEventProc(clientData, eventPtr)
-    ClientData clientData; /* Busy window record */
-    XEvent *eventPtr; /* Event which triggered call to routine */
+BusyEventProc(
+    ClientData clientData,  /* Busy window record */
+    XEvent *eventPtr)       /* Event which triggered call to routine */
 {
     Busy *busyPtr = clientData;
 
@@ -254,9 +254,9 @@ BusyEventProc(clientData, eventPtr)
  * ----------------------------------------------------------------------------
  */
 static void
-BusyCustodyProc(clientData, tkwin)
-    ClientData clientData; /* Information about the busy window. */
-    Tk_Window tkwin; /* Not used. */
+BusyCustodyProc(
+    ClientData clientData,  /* Information about the busy window. */
+    Tk_Window tkwin)        /* Not used. */
 {
     Busy *busyPtr = clientData;
 
@@ -287,10 +287,10 @@ BusyCustodyProc(clientData, tkwin)
  * ----------------------------------------------------------------------------
  */
 static void
-BusyGeometryProc(clientData, tkwin)
-    ClientData clientData; /* Information about window that got new
+BusyGeometryProc(
+    ClientData clientData, /* Information about window that got new
                             * preferred geometry.  */
-    Tk_Window tkwin; /* Other Tk-related information about the
+    Tk_Window tkwin) /* Other Tk-related information about the
                       * window. */
 {
     /* Should never get here */
@@ -333,9 +333,9 @@ BusyGeometryProc(clientData, tkwin)
  * -------------------------------------------------------------------
  */
 static void
-RefWinEventProc(clientData, eventPtr)
-    ClientData clientData; /* Busy window record */
-    register XEvent *eventPtr; /* Event which triggered call to routine */
+RefWinEventProc(
+    ClientData clientData,      /* Busy window record */
+    register XEvent *eventPtr)  /* Event which triggered call to routine */
 {
     register Busy *busyPtr = clientData;
 
@@ -481,9 +481,9 @@ ConfigureBusy(
  * -------------------------------------------------------------------
  */
 static Busy *
-CreateBusy(interp, tkRef)
-    Tcl_Interp *interp; /* Interpreter to report error to */
-    Tk_Window tkRef; /* Window hosting the busy window */
+CreateBusy(
+    Tcl_Interp *interp, /* Interpreter to report error to */
+    Tk_Window tkRef)    /* Window hosting the busy window */
 {
     Busy *busyPtr;
     int length;
@@ -622,8 +622,8 @@ CreateBusy(interp, tkRef)
  * -------------------------------------------------------------------
  */
 static void
-DestroyBusy(data)
-    DestroyData data; /* Busy window structure record */
+DestroyBusy(
+    DestroyData data) /* Busy window structure record */
 {
     Busy *busyPtr = (Busy *)data;
 
@@ -663,12 +663,12 @@ DestroyBusy(data)
  * -------------------------------------------------------------------
  */
 static int
-GetBusy(dataPtr, interp, pathName, busyPtrPtr)
-    BusyInterpData *dataPtr; /* Interpreter-specific data. */
-    Tcl_Interp *interp; /* Interpreter to report errors to */
-    char *pathName; /* Path name of parent window */
-    Busy **busyPtrPtr; /* Will contain address of busy window if
-                        * found. */
+GetBusy(
+    BusyInterpData *dataPtr,/* Interpreter-specific data. */
+    Tcl_Interp *interp,     /* Interpreter to report errors to */
+    char *pathName,         /* Path name of parent window */
+    Busy **busyPtrPtr)      /* Will contain address of busy window if
+                             * found. */
 {
     Tcl_HashEntry *hPtr;
     Tk_Window tkwin;
@@ -1119,9 +1119,9 @@ ConfigureOp(
  * ------------------------------------------------------------------------
  */
 static void
-BusyInterpDeleteProc(clientData, interp)
-    ClientData clientData; /* Interpreter-specific data. */
-    Tcl_Interp *interp;
+BusyInterpDeleteProc(
+    ClientData clientData, /* Interpreter-specific data. */
+    Tcl_Interp *interp)
 {
     BusyInterpData *dataPtr = clientData;
     Tcl_HashEntry *hPtr;
@@ -1219,8 +1219,8 @@ BusyObjCmd(
  *----------------------------------------------------------------------
  */
 static BusyInterpData *
-GetBusyInterpData(interp)
-    Tcl_Interp *interp;
+GetBusyInterpData(
+    Tcl_Interp *interp)
 {
     BusyInterpData *dataPtr;
     Tcl_InterpDeleteProc *proc;
@@ -1253,8 +1253,8 @@ GetBusyInterpData(interp)
  *----------------------------------------------------------------------
  */
 int
-Rbc_BusyInit(interp)
-    Tcl_Interp *interp;
+Rbc_BusyInit(
+    Tcl_Interp *interp)
 {
     BusyInterpData *dataPtr;
 

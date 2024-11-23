@@ -36,13 +36,14 @@ static void DrawTextLayout (Display *display, Drawable drawable, GC gc, Tk_Font 
  *--------------------------------------------------------------
  */
 static void
-DrawTextLayout(display, drawable, gc, font, x, y, textPtr)
-    Display *display;
-    Drawable drawable;
-    GC gc;
-    Tk_Font font;
-    register int x, y; /* Origin of text */
-    TextLayout *textPtr;
+DrawTextLayout(
+    Display *display,
+    Drawable drawable,
+    GC gc,
+    Tk_Font font,
+    register int x, /* Origin of text */
+    register int y, /* Origin of text */
+    TextLayout *textPtr)
 {
     register TextFragment *fragPtr;
     register int i;
@@ -74,9 +75,9 @@ DrawTextLayout(display, drawable, gc, font, x, y, textPtr)
  * -----------------------------------------------------------------
  */
 TextLayout *
-Rbc_GetTextLayout(string, tsPtr)
-    char string[];
-    TextStyle *tsPtr;
+Rbc_GetTextLayout(
+    char string[],
+    TextStyle *tsPtr)
 {
     int maxHeight, maxWidth;
     int count;			/* Count # of characters on each line */
@@ -183,10 +184,11 @@ Rbc_GetTextLayout(string, tsPtr)
  * -----------------------------------------------------------------
  */
 void
-Rbc_GetTextExtents(tsPtr, string, widthPtr, heightPtr)
-    TextStyle *tsPtr;
-    char *string;
-    int *widthPtr, *heightPtr;
+Rbc_GetTextExtents(
+    TextStyle *tsPtr,
+    char *string,
+    int *widthPtr,
+    int *heightPtr)
 {
     int count;			/* Count # of characters on each line */
     int width, height;
@@ -261,13 +263,13 @@ Rbc_GetTextExtents(tsPtr, string, widthPtr, heightPtr)
  * -----------------------------------------------------------------
  */
 void
-Rbc_GetBoundingBox(width, height, theta, rotWidthPtr, rotHeightPtr, bbox)
-    int width; /* Unrotated region */
-    int height; /* Unrotated region */
-    double theta; /* Rotation of box */
-    double *rotWidthPtr; /* (out) Bounding box region */
-    double *rotHeightPtr; /* (out) Bounding box region */
-    Point2D *bbox; /* (out) Points of the rotated box */
+Rbc_GetBoundingBox(
+    int width,              /* Unrotated region */
+    int height,             /* Unrotated region */
+    double theta,           /* Rotation of box */
+    double *rotWidthPtr,    /* (out) Bounding box region */
+    double *rotHeightPtr,   /* (out) Bounding box region */
+    Point2D *bbox)          /* (out) Points of the rotated box */
 {
     register int i;
     double sinTheta, cosTheta;
@@ -382,11 +384,14 @@ Rbc_GetBoundingBox(width, height, theta, rotWidthPtr, rotHeightPtr, bbox)
  * -----------------------------------------------------------------
  */
 void
-Rbc_TranslateAnchor(x, y, width, height, anchor, transXPtr, transYPtr)
-    int x, y;                  /* Window coordinates of anchor */
-    int width, height;            /* Extents of the bounding box */
-    Tk_Anchor anchor;            /* Direction of the anchor */
-    int *transXPtr, *transYPtr;
+Rbc_TranslateAnchor(
+    int x,              /* Window coordinates of anchor */
+    int y,              /* Window coordinates of anchor */
+    int width,          /* Extents of the bounding box */
+    int height,         /* Extents of the bounding box */
+    Tk_Anchor anchor,   /* Direction of the anchor */
+    int *transXPtr,
+    int *transYPtr)
 {
     switch (anchor) {
         case TK_ANCHOR_NW:		/* Upper left corner */
@@ -451,10 +456,11 @@ Rbc_TranslateAnchor(x, y, width, height, anchor, transXPtr, transYPtr)
  * -----------------------------------------------------------------
  */
 Point2D
-Rbc_TranslatePoint(pointPtr, width, height, anchor)
-    Point2D *pointPtr; /* Window coordinates of anchor */
-    int width, height; /* Extents of the bounding box */
-    Tk_Anchor anchor; /* Direction of the anchor */
+Rbc_TranslatePoint(
+    Point2D *pointPtr,  /* Window coordinates of anchor */
+    int width,          /* Extents of the bounding box */
+    int height,         /* Extents of the bounding box */
+    Tk_Anchor anchor)   /* Direction of the anchor */
 {
     Point2D trans;
 
@@ -512,13 +518,13 @@ Rbc_TranslatePoint(pointPtr, width, height, anchor)
  * -----------------------------------------------------------------
  */
 Pixmap
-Rbc_CreateTextBitmap(tkwin, textPtr, tsPtr, bmWidthPtr, bmHeightPtr)
-    Tk_Window tkwin;
-    TextLayout *textPtr; /* Text string to draw */
-    TextStyle *tsPtr; /* Text attributes: rotation, color, font,
-                       * linespacing, justification, etc. */
-    int *bmWidthPtr;
-    int *bmHeightPtr; /* Extents of rotated text string */
+Rbc_CreateTextBitmap(
+    Tk_Window tkwin,
+    TextLayout *textPtr, /* Text string to draw */
+    TextStyle *tsPtr,    /* Text attributes: rotation, color, font,
+                          * linespacing, justification, etc. */
+    int *bmWidthPtr,
+    int *bmHeightPtr)    /* Extents of rotated text string */
 {
     int width, height;
     Pixmap bitmap;
@@ -598,8 +604,8 @@ Rbc_CreateTextBitmap(tkwin, textPtr, tsPtr, bmWidthPtr, bmHeightPtr)
  *--------------------------------------------------------------
  */
 void
-Rbc_InitTextStyle(tsPtr)
-    TextStyle *tsPtr;
+Rbc_InitTextStyle(
+    TextStyle *tsPtr)
 {
     /* Initialize these attributes to zero */
     tsPtr->activeColor = (XColor *)NULL;
@@ -632,16 +638,18 @@ Rbc_InitTextStyle(tsPtr)
  *--------------------------------------------------------------
  */
 void
-Rbc_SetDrawTextStyle(tsPtr, font, gc, normalColor, activeColor, shadowColor,
-                     theta, anchor, justify, leader, shadowOffset)
-    TextStyle *tsPtr;
-    Tk_Font font;
-    GC gc;
-    XColor *normalColor, *activeColor, *shadowColor;
-    double theta;
-    Tk_Anchor anchor;
-    Tk_Justify justify;
-    int leader, shadowOffset;
+Rbc_SetDrawTextStyle(
+    TextStyle *tsPtr,
+    Tk_Font font,
+    GC gc,
+    XColor *normalColor,
+    XColor *activeColor,
+    XColor *shadowColor,
+    double theta,
+    Tk_Anchor anchor,
+    Tk_Justify justify,
+    int leader,
+    int shadowOffset)
 {
     Rbc_InitTextStyle(tsPtr);
     tsPtr->activeColor = activeColor;
@@ -672,15 +680,17 @@ Rbc_SetDrawTextStyle(tsPtr, font, gc, normalColor, activeColor, shadowColor,
  *--------------------------------------------------------------
  */
 void
-Rbc_SetPrintTextStyle(tsPtr, font, fgColor, activeColor, shadowColor, theta,
-                      anchor, justify, leader, shadowOffset)
-    TextStyle *tsPtr;
-    Tk_Font font;
-    XColor *fgColor, *activeColor, *shadowColor;
-    double theta;
-    Tk_Anchor anchor;
-    Tk_Justify justify;
-    int leader, shadowOffset;
+Rbc_SetPrintTextStyle(
+    TextStyle *tsPtr,
+    Tk_Font font,
+    XColor *fgColor,
+    XColor *activeColor,
+    XColor *shadowColor,
+    double theta,
+    Tk_Anchor anchor,
+    Tk_Justify justify,
+    int leader,
+    int shadowOffset)
 {
     Rbc_InitTextStyle(tsPtr);
     tsPtr->color = fgColor;
@@ -718,12 +728,13 @@ Rbc_SetPrintTextStyle(tsPtr, font, fgColor, activeColor, shadowColor, theta,
  * -----------------------------------------------------------------
  */
 void
-Rbc_DrawTextLayout(tkwin, drawable, textPtr, tsPtr, x, y)
-    Tk_Window tkwin;
-    Drawable drawable;
-    TextLayout *textPtr;
-    TextStyle *tsPtr; /* Text attribute information */
-    int x, y; /* Window coordinates to draw text */
+Rbc_DrawTextLayout(
+    Tk_Window tkwin,
+    Drawable drawable,
+    TextLayout *textPtr,
+    TextStyle *tsPtr,   /* Text attribute information */
+    int x,              /* Window coordinates to draw text */
+    int y)              /* Window coordinates to draw text */
 {
     int width, height;
     double theta;
@@ -872,13 +883,14 @@ Rbc_DrawTextLayout(tkwin, drawable, textPtr, tsPtr, x, y)
  *--------------------------------------------------------------
  */
 void
-Rbc_DrawText2(tkwin, drawable, string, tsPtr, x, y, areaPtr)
-    Tk_Window tkwin;
-    Drawable drawable;
-    char string[];
-    TextStyle *tsPtr; /* Text attribute information */
-    int x, y; /* Window coordinates to draw text */
-    Dim2D *areaPtr;
+Rbc_DrawText2(
+    Tk_Window tkwin,
+    Drawable drawable,
+    char string[],
+    TextStyle *tsPtr,   /* Text attribute information */
+    int x,              /* Window coordinates to draw text */
+    int y,              /* Window coordinates to draw text */
+    Dim2D *areaPtr)
 {
     TextLayout *textPtr;
     int width, height;
@@ -924,12 +936,13 @@ Rbc_DrawText2(tkwin, drawable, string, tsPtr, x, y, areaPtr)
  *--------------------------------------------------------------
  */
 void
-Rbc_DrawText(tkwin, drawable, string, tsPtr, x, y)
-    Tk_Window tkwin;
-    Drawable drawable;
-    char string[];
-    TextStyle *tsPtr; /* Text attribute information */
-    int x, y; /* Window coordinates to draw text */
+Rbc_DrawText(
+    Tk_Window tkwin,
+    Drawable drawable,
+    char string[],
+    TextStyle *tsPtr,   /* Text attribute information */
+    int x,              /* Window coordinates to draw text */
+    int y)              /* Window coordinates to draw text */
 {
     TextLayout *textPtr;
 
@@ -957,8 +970,8 @@ Rbc_DrawText(tkwin, drawable, string, tsPtr, x, y)
  *--------------------------------------------------------------
  */
 GC
-Rbc_GetBitmapGC(tkwin)
-    Tk_Window tkwin;
+Rbc_GetBitmapGC(
+    Tk_Window tkwin)
 {
     int isNew;
     GC gc;
@@ -1006,9 +1019,9 @@ Rbc_GetBitmapGC(tkwin)
  *--------------------------------------------------------------
  */
 void
-Rbc_ResetTextStyle(tkwin, tsPtr)
-    Tk_Window tkwin;
-    TextStyle *tsPtr;
+Rbc_ResetTextStyle(
+    Tk_Window tkwin,
+    TextStyle *tsPtr)
 {
     GC newGC;
     XGCValues gcValues;
@@ -1043,9 +1056,9 @@ Rbc_ResetTextStyle(tkwin, tsPtr)
  *--------------------------------------------------------------
  */
 void
-Rbc_FreeTextStyle(display, tsPtr)
-    Display *display;
-    TextStyle *tsPtr;
+Rbc_FreeTextStyle(
+    Display *display,
+    TextStyle *tsPtr)
 {
     if (tsPtr->gc != NULL) {
         Tk_FreeGC(display, tsPtr->gc);

@@ -19,8 +19,7 @@ static int LinearOpSearch (Rbc_OpSpec specArr[], int nSpecs, char *string);
 
 #ifndef HAVE_STRTOLOWER
 void
-strtolower(s)
-register char *s;
+strtolower (register char *s)
 {
     while (*s != '\0') {
         *s = tolower(UCHAR(*s));
@@ -182,9 +181,9 @@ static unsigned char caseTable[] = {
  *----------------------------------------------------------------------
  */
 int
-strcasecmp(s1, s2)
-    const char *s1;
-    const char *s2;
+strcasecmp(
+    const char *s1,
+    const char *s2)
 {
     unsigned char *s = (unsigned char *)s1;
     unsigned char *t = (unsigned char *)s2;
@@ -217,10 +216,10 @@ strcasecmp(s1, s2)
  *----------------------------------------------------------------------
  */
 int
-strncasecmp(s1, s2, length)
-    const char *s1;
-    const char *s2;
-    size_t length;
+strncasecmp(
+    const char *s1,
+    const char *s2,
+    size_t length)
 {
     register unsigned char *s = (unsigned char *)s1;
     register unsigned char *t = (unsigned char *)s2;
@@ -263,9 +262,9 @@ strncasecmp(s1, s2, length)
  *----------------------------------------------------------------------
  */
 int
-Rbc_DictionaryCompare(left, right)
-    char *left;
-    char *right;
+Rbc_DictionaryCompare(
+    char *left,
+    char *right)
 {
     Tcl_UniChar uniLeft, uniRight, uniLeftLower, uniRightLower;
     int diff, zeros;
@@ -396,9 +395,9 @@ Rbc_DictionaryCompare(left, right)
  *--------------------------------------------------------------
  */
 int
-Rbc_DictionaryCompare(left, right)
-    char *left; /* Left string of the comparison */
-    char *right; /* Right string of the comparison */
+Rbc_DictionaryCompare(
+    char *left,     /* Left string of the comparison */
+    char *right)    /* Right string of the comparison */
 {
     int diff, zeros;
     int secondaryDiff = 0;
@@ -517,10 +516,10 @@ Rbc_DictionaryCompare(left, right)
  *--------------------------------------------------------------
  */
 void
-Rbc_Assert(testExpr, fileName, lineNumber)
-    char *testExpr;
-    char *fileName;
-    int lineNumber;
+Rbc_Assert(
+    char *testExpr,
+    char *fileName,
+    int lineNumber)
 {
 #ifdef WINDEBUG
     PurifyPrintf("line %d of %s: Assert \"%s\" failed\n", lineNumber,
@@ -612,8 +611,7 @@ static char stringRep[200];
  *--------------------------------------------------------------
  */
 char *
-Rbc_Itoa(value)
-    int value;
+Rbc_Itoa (int value)
 {
     sprintf(stringRep, "%d", value);
     return stringRep;
@@ -635,8 +633,7 @@ Rbc_Itoa(value)
  *--------------------------------------------------------------
  */
 char *
-Rbc_Utoa(value)
-    unsigned int value;
+Rbc_Utoa (unsigned int value)
 {
     sprintf(stringRep, "%u", value);
     return stringRep;
@@ -658,9 +655,9 @@ Rbc_Utoa(value)
  *--------------------------------------------------------------
  */
 char *
-Rbc_Dtoa(interp, value)
-    Tcl_Interp *interp;
-    double value;
+Rbc_Dtoa(
+    Tcl_Interp *interp,
+    double value)
 {
     Tcl_PrintDouble(interp, value, stringRep);
     return stringRep;
@@ -685,9 +682,9 @@ Rbc_Dtoa(interp, value)
  *--------------------------------------------------------------
  */
 FILE *
-Rbc_OpenUtfFile(fileName, mode)
-    char *fileName;
-    char *mode;
+Rbc_OpenUtfFile(
+    char *fileName,
+    char *mode)
 {
     Tcl_DString dString;
     FILE *f;
@@ -725,8 +722,7 @@ Rbc_OpenUtfFile(fileName, mode)
  *--------------------------------------------------------------
  */
 void
-Rbc_InitHexTable(hexTable)
-    char hexTable[];
+Rbc_InitHexTable (char hexTable[])
 {
     hexTable['0'] = 0;
     hexTable['1'] = 1;
@@ -770,13 +766,13 @@ Rbc_InitHexTable(hexTable)
  *--------------------------------------------------------------
  */
 int
-Rbc_GetPosition(interp, string, indexPtr)
-    Tcl_Interp *interp; /* Interpreter to report results back
+Rbc_GetPosition(
+    Tcl_Interp *interp, /* Interpreter to report results back
                          * to. */
-    char *string; /* String representation of the index.
+    char *string, /* String representation of the index.
                    * Can be an integer or "end" to refer
                    * to the last index. */
-    int *indexPtr; /* Holds the converted index. */
+    int *indexPtr) /* Holds the converted index. */
 {
     if ((string[0] == 'e') && (strcmp(string, "end") == 0)) {
         *indexPtr = -1;      	/* Indicates last position in hierarchy. */
@@ -828,8 +824,7 @@ static int uidInitialized = 0;
  *----------------------------------------------------------------------
  */
 Rbc_Uid
-Rbc_GetUid(string)
-    char *string; /* String to convert. */
+Rbc_GetUid (char *string) /* String to convert. */
 {
     int isNew;
     Tcl_HashEntry *hPtr;
@@ -867,8 +862,7 @@ Rbc_GetUid(string)
  *----------------------------------------------------------------------
  */
 void
-Rbc_FreeUid(uid)
-    Rbc_Uid uid; /* Identifier to release. */
+Rbc_FreeUid (Rbc_Uid uid) /* Identifier to release. */
 {
     Tcl_HashEntry *hPtr;
 
@@ -909,8 +903,7 @@ Rbc_FreeUid(uid)
  *----------------------------------------------------------------------
  */
 Rbc_Uid
-Rbc_FindUid(string)
-    char *string; /* String to find. */
+Rbc_FindUid (char *string) /* String to find. */
 {
     Tcl_HashEntry *hPtr;
 
@@ -947,10 +940,10 @@ Rbc_FindUid(string)
  *----------------------------------------------------------------------
  */
 static int
-BinaryOpSearch(specArr, nSpecs, string)
-    Rbc_OpSpec specArr[];
-    int nSpecs;
-    char *string; /* Name of minor operation to search for */
+BinaryOpSearch(
+    Rbc_OpSpec specArr[],
+    int nSpecs,
+    char *string) /* Name of minor operation to search for */
 {
     Rbc_OpSpec *specPtr;
     char c;
@@ -1009,10 +1002,10 @@ BinaryOpSearch(specArr, nSpecs, string)
  *----------------------------------------------------------------------
  */
 static int
-LinearOpSearch(specArr, nSpecs, string)
-    Rbc_OpSpec specArr[];
-    int nSpecs;
-    char *string; /* Name of minor operation to search for */
+LinearOpSearch(
+    Rbc_OpSpec specArr[],
+    int nSpecs,
+    char *string) /* Name of minor operation to search for */
 {
     Rbc_OpSpec *specPtr;
     char c;
@@ -1063,15 +1056,15 @@ LinearOpSearch(specArr, nSpecs, string)
  *----------------------------------------------------------------------
  */
 Rbc_Op *
-Rbc_GetOpFromObj(interp, nSpecs, specArr, operPos, objc, objv, flags)
-    Tcl_Interp *interp; /* Interpreter to report errors to */
-    int nSpecs; /* Number of specifications in array */
-    Rbc_OpSpec specArr[]; /* Op specification array */
-    int operPos; /* Position of operation in argument list. */
-    int objc; /* Number of arguments in the argument vector.
-               * This includes any prefixed arguments */
-    Tcl_Obj *const objv[]; /* Argument vector */
-    int flags;
+Rbc_GetOpFromObj(
+    Tcl_Interp *interp,     /* Interpreter to report errors to */
+    int nSpecs,             /* Number of specifications in array */
+    Rbc_OpSpec specArr[],   /* Op specification array */
+    int operPos,            /* Position of operation in argument list. */
+    int objc,               /* Number of arguments in the argument vector.
+                             * This includes any prefixed arguments */
+    Tcl_Obj *const objv[],  /* Argument vector */
+    int flags)
 {
     Rbc_OpSpec *specPtr;
     char *string;

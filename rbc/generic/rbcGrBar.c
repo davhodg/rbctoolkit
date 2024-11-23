@@ -370,8 +370,8 @@ static void BarValuesToPostScript (Graph *graphPtr, PsToken psToken, Bar *barPtr
  *----------------------------------------------------------------------
  */
 static int
-Round(x)
-    register double x;
+Round(
+    register double x)
 {
     return (int) (x + ((x < 0.0) ? -0.5 : 0.5));
 }
@@ -398,8 +398,8 @@ Round(x)
  * ----------------------------------------------------------------------
  */
 static char *
-NameOfBarMode(mode)
-    BarMode mode;
+NameOfBarMode(
+    BarMode mode)
 {
     switch (mode) {
         case MODE_INFRONT:
@@ -444,13 +444,13 @@ NameOfBarMode(mode)
  * ----------------------------------------------------------------------
  */
 static int
-StringToBarMode(clientData, interp, tkwin, string, widgRec, offset)
-    ClientData clientData; /* Not used. */
-    Tcl_Interp *interp; /* Interpreter to send results back to */
-    Tk_Window tkwin; /* Not used. */
-    CONST86 char *string; /* Mode style string */
-    char *widgRec; /* Cubicle structure record */
-    Tcl_Size offset; /* Offset of style in record */
+StringToBarMode(
+    ClientData clientData,  /* Not used. */
+    Tcl_Interp *interp,     /* Interpreter to send results back to */
+    Tk_Window tkwin,        /* Not used. */
+    CONST86 char *string,   /* Mode style string */
+    char *widgRec,          /* Cubicle structure record */
+    Tcl_Size offset)        /* Offset of style in record */
 {
     BarMode *modePtr = (BarMode *)(widgRec + offset);
     unsigned int length;
@@ -493,12 +493,12 @@ StringToBarMode(clientData, interp, tkwin, string, widgRec, offset)
  * ----------------------------------------------------------------------
  */
 static CONST86 char *
-BarModeToString(clientData, tkwin, widgRec, offset, freeProcPtr)
-    ClientData clientData; /* Not used. */
-    Tk_Window tkwin; /* Not used. */
-    char *widgRec; /* Row/column structure record */
-    Tcl_Size offset; /* Offset of mode in Partition record */
-    Tcl_FreeProc **freeProcPtr; /* Not used. */
+BarModeToString(
+    ClientData clientData,  /* Not used. */
+    Tk_Window tkwin,        /* Not used. */
+    char *widgRec,          /* Row/column structure record */
+    Tcl_Size offset,        /* Offset of mode in Partition record */
+    Tcl_FreeProc **freeProcPtr) /* Not used. */
 {
     BarMode mode = *(BarMode *)(widgRec + offset);
 
@@ -522,8 +522,8 @@ BarModeToString(clientData, tkwin, widgRec, offset, freeProcPtr)
  *----------------------------------------------------------------------
  */
 static void
-ClearPalette(palette)
-    Rbc_Chain *palette;
+ClearPalette(
+    Rbc_Chain *palette)
 {
     register BarPenStyle *stylePtr;
     Rbc_ChainLink *linkPtr;
@@ -551,9 +551,9 @@ ClearPalette(palette)
  *----------------------------------------------------------------------
  */
 static int
-ConfigurePen(graphPtr, penPtr)
-    Graph *graphPtr;
-    Pen *penPtr;
+ConfigurePen(
+    Graph *graphPtr,
+    Pen *penPtr)
 {
     BarPen *bpPtr = (BarPen *)penPtr;
     XGCValues gcValues;
@@ -624,9 +624,9 @@ ConfigurePen(graphPtr, penPtr)
  *----------------------------------------------------------------------
  */
 static void
-DestroyPen(graphPtr, penPtr)
-    Graph *graphPtr;
-    Pen *penPtr;
+DestroyPen(
+    Graph *graphPtr,
+    Pen *penPtr)
 {
     BarPen *bpPtr = (BarPen *)penPtr;
 
@@ -655,8 +655,8 @@ DestroyPen(graphPtr, penPtr)
  *----------------------------------------------------------------------
  */
 static void
-InitPen(penPtr)
-    BarPen *penPtr;
+InitPen(
+    BarPen *penPtr)
 {
     Rbc_InitTextStyle(&(penPtr->valueStyle));
     penPtr->specsPtr = barPenConfigSpecs;
@@ -685,8 +685,8 @@ InitPen(penPtr)
  *----------------------------------------------------------------------
  */
 Pen *
-Rbc_BarPen(penName)
-    char *penName;
+Rbc_BarPen(
+    char *penName)
 {
     BarPen *penPtr;
 
@@ -719,10 +719,11 @@ Rbc_BarPen(penName)
  * ----------------------------------------------------------------------
  */
 static void
-CheckStacks(graphPtr, pairPtr, minPtr, maxPtr)
-    Graph *graphPtr;
-    Axis2D *pairPtr;
-    double *minPtr, *maxPtr; /* Current minimum maximum for y-axis */
+CheckStacks(
+    Graph *graphPtr,
+    Axis2D *pairPtr,
+    double *minPtr, 
+    double *maxPtr) /* Current minimum maximum for y-axis */
 {
     FreqInfo *infoPtr;
     register int i;
@@ -773,9 +774,9 @@ CheckStacks(graphPtr, pairPtr, minPtr, maxPtr)
  * ----------------------------------------------------------------------
  */
 static int
-ConfigureBar(graphPtr, elemPtr)
-    Graph *graphPtr;
-    register Element *elemPtr;
+ConfigureBar(
+    Graph *graphPtr,
+    register Element *elemPtr)
 {
     Bar *barPtr = (Bar *)elemPtr;
     Rbc_ChainLink *linkPtr;
@@ -820,9 +821,9 @@ ConfigureBar(graphPtr, elemPtr)
  *----------------------------------------------------------------------
  */
 static void
-GetBarExtents(elemPtr, extsPtr)
-    Element *elemPtr;
-    Extents2D *extsPtr;
+GetBarExtents(
+    Element *elemPtr,
+    Extents2D *extsPtr)
 {
     Graph *graphPtr = elemPtr->graphPtr;
     Bar *barPtr = (Bar *)elemPtr;
@@ -982,10 +983,10 @@ GetBarExtents(elemPtr, extsPtr)
  * ----------------------------------------------------------------------
  */
 static void
-ClosestBar(graphPtr, elemPtr, searchPtr)
-    Graph *graphPtr; /* Graph widget record */
-    Element *elemPtr; /* Bar element */
-    ClosestSearch *searchPtr; /* Info of closest point in element */
+ClosestBar(
+    Graph *graphPtr,  /* Graph widget record */
+    Element *elemPtr, /* Bar element */
+    ClosestSearch *searchPtr) /* Info of closest point in element */
 {
     Bar *barPtr = (Bar *)elemPtr;
     Point2D *pointPtr, *endPtr;
@@ -1062,9 +1063,9 @@ ClosestBar(graphPtr, elemPtr, searchPtr)
  *----------------------------------------------------------------------
  */
 static void
-MergePens(barPtr, dataToStyle)
-    Bar *barPtr;
-    PenStyle **dataToStyle;
+MergePens(
+    Bar *barPtr,
+    PenStyle **dataToStyle)
 {
     BarPenStyle *stylePtr;
     Rbc_ChainLink *linkPtr;
@@ -1190,8 +1191,8 @@ MergePens(barPtr, dataToStyle)
  *----------------------------------------------------------------------
  */
 static void
-MapActiveBars(barPtr)
-    Bar *barPtr;
+MapActiveBars(
+    Bar *barPtr)
 {
     if (barPtr->activeRects != NULL) {
         ckfree((char *)barPtr->activeRects);
@@ -1246,8 +1247,8 @@ MapActiveBars(barPtr)
  *----------------------------------------------------------------------
  */
 static void
-ResetBar(barPtr)
-    Bar *barPtr;
+ResetBar(
+    Bar *barPtr)
 {
     /* Release any storage associated with the display of the bar */
     ClearPalette(barPtr->palette);
@@ -1309,9 +1310,9 @@ ResetBar(barPtr)
  * ----------------------------------------------------------------------
  */
 static void
-MapBar(graphPtr, elemPtr)
-    Graph *graphPtr;
-    Element *elemPtr;
+MapBar(
+    Graph *graphPtr,
+    Element *elemPtr)
 {
     Bar *barPtr = (Bar *)elemPtr;
     FreqKey key;
@@ -1504,12 +1505,13 @@ MapBar(graphPtr, elemPtr)
  * -----------------------------------------------------------------
  */
 static void
-DrawSymbol(graphPtr, drawable, elemPtr, x, y, size)
-    Graph *graphPtr;
-    Drawable drawable; /* Pixmap or window to draw into */
-    Element *elemPtr;
-    int x, y;
-    int size;
+DrawSymbol(
+    Graph *graphPtr,
+    Drawable drawable, /* Pixmap or window to draw into */
+    Element *elemPtr,
+    int x,
+    int y,
+    int size)
 {
     BarPen *penPtr = ((Bar *)elemPtr)->normalPenPtr;
     int radius;
@@ -1544,12 +1546,12 @@ DrawSymbol(graphPtr, drawable, elemPtr, x, y, size)
  * -----------------------------------------------------------------
  */
 static void
-DrawBarSegments(graphPtr, drawable, penPtr, rectangles, nRects)
-    Graph *graphPtr;
-    Drawable drawable; /* Pixmap or window to draw into */
-    BarPen *penPtr;
-    XRectangle *rectangles;
-    int nRects;
+DrawBarSegments(
+    Graph *graphPtr,
+    Drawable drawable, /* Pixmap or window to draw into */
+    BarPen *penPtr,
+    XRectangle *rectangles,
+    int nRects)
 {
     register XRectangle *rectPtr;
 
@@ -1587,14 +1589,14 @@ DrawBarSegments(graphPtr, drawable, penPtr, rectangles, nRects)
  * -----------------------------------------------------------------
  */
 static void
-DrawBarValues(graphPtr, drawable, barPtr, penPtr, rectangles, nRects, rectToData)
-    Graph *graphPtr;
-    Drawable drawable;
-    Bar *barPtr;
-    BarPen *penPtr;
-    XRectangle *rectangles;
-    int nRects;
-    int *rectToData;
+DrawBarValues(
+    Graph *graphPtr,
+    Drawable drawable,
+    Bar *barPtr,
+    BarPen *penPtr,
+    XRectangle *rectangles,
+    int nRects,
+    int *rectToData)
 {
     XRectangle *rectPtr, *endPtr;
     int count;
@@ -1663,10 +1665,10 @@ DrawBarValues(graphPtr, drawable, barPtr, penPtr, rectangles, nRects, rectToData
  * ----------------------------------------------------------------------
  */
 static void
-DrawNormalBar(graphPtr, drawable, elemPtr)
-    Graph *graphPtr;
-    Drawable drawable;
-    Element *elemPtr;
+DrawNormalBar(
+    Graph *graphPtr,
+    Drawable drawable,
+    Element *elemPtr)
 {
     Bar *barPtr = (Bar *)elemPtr;
     int count;
@@ -1719,10 +1721,10 @@ DrawNormalBar(graphPtr, drawable, elemPtr)
  * ----------------------------------------------------------------------
  */
 static void
-DrawActiveBar(graphPtr, drawable, elemPtr)
-    Graph *graphPtr;
-    Drawable drawable;
-    Element *elemPtr;
+DrawActiveBar(
+    Graph *graphPtr,
+    Drawable drawable,
+    Element *elemPtr)
 {
     Bar *barPtr = (Bar *)elemPtr;
 
@@ -1771,12 +1773,13 @@ DrawActiveBar(graphPtr, drawable, elemPtr)
  * -----------------------------------------------------------------
  */
 static void
-SymbolToPostScript(graphPtr, psToken, elemPtr, x, y, size)
-    Graph *graphPtr;
-    PsToken psToken;
-    Element *elemPtr;
-    int size;
-    double x, y;
+SymbolToPostScript(
+    Graph *graphPtr,
+    PsToken psToken,
+    Element *elemPtr,
+    double x,
+    double y,
+    int size)
 {
     Bar *barPtr = (Bar *)elemPtr;
     BarPen *bpPtr = barPtr->normalPenPtr;
@@ -1827,12 +1830,12 @@ SymbolToPostScript(graphPtr, psToken, elemPtr, x, y, size)
  *----------------------------------------------------------------------
  */
 static void
-SegmentsToPostScript(graphPtr, psToken, penPtr, rectPtr, nRects)
-    Graph *graphPtr;
-    PsToken psToken;
-    BarPen *penPtr;
-    register XRectangle *rectPtr;
-    int nRects;
+SegmentsToPostScript(
+    Graph *graphPtr,
+    PsToken psToken,
+    BarPen *penPtr,
+    register XRectangle *rectPtr,
+    int nRects)
 {
     XRectangle *endPtr;
 
@@ -1892,14 +1895,14 @@ SegmentsToPostScript(graphPtr, psToken, penPtr, rectPtr, nRects)
  *----------------------------------------------------------------------
  */
 static void
-BarValuesToPostScript(graphPtr, psToken, barPtr, penPtr, rectangles, nRects, rectToData)
-    Graph *graphPtr;
-    PsToken psToken;
-    Bar *barPtr;
-    BarPen *penPtr;
-    XRectangle *rectangles;
-    int nRects;
-    int *rectToData;
+BarValuesToPostScript(
+    Graph *graphPtr,
+    PsToken psToken,
+    Bar *barPtr,
+    BarPen *penPtr,
+    XRectangle *rectangles,
+    int nRects,
+    int *rectToData)
 {
     XRectangle *rectPtr, *endPtr;
     int count;
@@ -1963,10 +1966,10 @@ BarValuesToPostScript(graphPtr, psToken, barPtr, penPtr, rectangles, nRects, rec
  * ----------------------------------------------------------------------
  */
 static void
-ActiveBarToPostScript(graphPtr, psToken, elemPtr)
-    Graph *graphPtr;
-    PsToken psToken;
-    Element *elemPtr;
+ActiveBarToPostScript(
+    Graph *graphPtr,
+    PsToken psToken,
+    Element *elemPtr)
 {
     Bar *barPtr = (Bar *)elemPtr;
 
@@ -2011,10 +2014,10 @@ ActiveBarToPostScript(graphPtr, psToken, elemPtr)
  * ----------------------------------------------------------------------
  */
 static void
-NormalBarToPostScript(graphPtr, psToken, elemPtr)
-    Graph *graphPtr;
-    PsToken psToken;
-    Element *elemPtr;
+NormalBarToPostScript(
+    Graph *graphPtr,
+    PsToken psToken,
+    Element *elemPtr)
 {
     Bar *barPtr = (Bar *)elemPtr;
     Rbc_ChainLink *linkPtr;
@@ -2073,9 +2076,9 @@ NormalBarToPostScript(graphPtr, psToken, elemPtr)
  * ----------------------------------------------------------------------
  */
 static void
-DestroyBar(graphPtr, elemPtr)
-    Graph *graphPtr;
-    Element *elemPtr;
+DestroyBar(
+    Graph *graphPtr,
+    Element *elemPtr)
 {
     Bar *barPtr = (Bar *)elemPtr;
 
@@ -2139,10 +2142,10 @@ static ElementProcs barProcs = {
  * ----------------------------------------------------------------------
  */
 Element *
-Rbc_BarElement(graphPtr, name, type)
-    Graph *graphPtr;
-    char *name;
-    Rbc_Uid type;
+Rbc_BarElement(
+    Graph *graphPtr,
+    char *name,
+    Rbc_Uid type)
 {
     register Bar *barPtr;
 
@@ -2185,8 +2188,8 @@ Rbc_BarElement(graphPtr, name, type)
  * ----------------------------------------------------------------------
  */
 void
-Rbc_InitFreqTable(graphPtr)
-    Graph *graphPtr;
+Rbc_InitFreqTable(
+    Graph *graphPtr)
 {
     register Element *elemPtr;
     Rbc_ChainLink *linkPtr;
@@ -2305,8 +2308,8 @@ Rbc_InitFreqTable(graphPtr)
  * ----------------------------------------------------------------------
  */
 void
-Rbc_ComputeStacks(graphPtr)
-    Graph *graphPtr;
+Rbc_ComputeStacks(
+    Graph *graphPtr)
 {
     Element *elemPtr;
     Bar *barPtr;
@@ -2370,8 +2373,8 @@ Rbc_ComputeStacks(graphPtr)
  *----------------------------------------------------------------------
  */
 void
-Rbc_ResetStacks(graphPtr)
-    Graph *graphPtr;
+Rbc_ResetStacks(
+    Graph *graphPtr)
 {
     register FreqInfo *infoPtr, *endPtr;
 

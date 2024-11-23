@@ -34,7 +34,7 @@
  *----------------------------------------------------------------------
  */
 Rbc_Chain *
-Rbc_ChainCreate()
+Rbc_ChainCreate (void)
 {
     Rbc_Chain *chainPtr;
 
@@ -61,8 +61,8 @@ Rbc_ChainCreate()
  *----------------------------------------------------------------------
  */
 void
-Rbc_ChainInit(chainPtr)
-    Rbc_Chain *chainPtr; /* The chain to initialize */
+Rbc_ChainInit (
+    Rbc_Chain *chainPtr) /* The chain to initialize */
 {
     chainPtr->nLinks = 0;
     chainPtr->headPtr = chainPtr->tailPtr = NULL;
@@ -84,9 +84,10 @@ Rbc_ChainInit(chainPtr)
  *----------------------------------------------------------------------
  */
 void
-Rbc_ChainLinkAfter(chainPtr, linkPtr, afterPtr)
-    Rbc_Chain *chainPtr;
-    Rbc_ChainLink *linkPtr, *afterPtr;
+Rbc_ChainLinkAfter(
+    Rbc_Chain *chainPtr,
+    Rbc_ChainLink *linkPtr,
+    Rbc_ChainLink *afterPtr)
 {
     if (chainPtr->headPtr == NULL) {
         chainPtr->tailPtr = chainPtr->headPtr = linkPtr;
@@ -126,10 +127,10 @@ Rbc_ChainLinkAfter(chainPtr, linkPtr, afterPtr)
  *----------------------------------------------------------------------
  */
 void
-Rbc_ChainLinkBefore(chainPtr, linkPtr, beforePtr)
-    Rbc_Chain *chainPtr;    /* Chain to contain new entry */
-    Rbc_ChainLink *linkPtr;    /* New entry to be inserted */
-    Rbc_ChainLink *beforePtr;    /* Entry to link before */
+Rbc_ChainLinkBefore(
+    Rbc_Chain *chainPtr,        /* Chain to contain new entry */
+    Rbc_ChainLink *linkPtr,     /* New entry to be inserted */
+    Rbc_ChainLink *beforePtr)   /* Entry to link before */
 {
     if (chainPtr->headPtr == NULL) {
         chainPtr->tailPtr = chainPtr->headPtr = linkPtr;
@@ -170,7 +171,7 @@ Rbc_ChainLinkBefore(chainPtr, linkPtr, beforePtr)
  *----------------------------------------------------------------------
  */
 Rbc_ChainLink *
-Rbc_ChainNewLink()
+Rbc_ChainNewLink (void)
 {
     Rbc_ChainLink *linkPtr;
 
@@ -199,8 +200,8 @@ Rbc_ChainNewLink()
  *----------------------------------------------------------------------
  */
 void
-Rbc_ChainReset(chainPtr)
-    Rbc_Chain *chainPtr;/* Chain to clear */
+Rbc_ChainReset(
+    Rbc_Chain *chainPtr)    /* Chain to clear */
 {
     if (chainPtr != NULL) {
         Rbc_ChainLink *oldPtr;
@@ -233,8 +234,8 @@ Rbc_ChainReset(chainPtr)
  *----------------------------------------------------------------------
  */
 void
-Rbc_ChainDestroy(chainPtr)
-    Rbc_Chain *chainPtr; /* The chain to destroy. */
+Rbc_ChainDestroy(
+    Rbc_Chain *chainPtr)    /* The chain to destroy. */
 {
     if (chainPtr != NULL) {
         Rbc_ChainReset(chainPtr);
@@ -259,9 +260,9 @@ Rbc_ChainDestroy(chainPtr)
  *----------------------------------------------------------------------
  */
 void
-Rbc_ChainUnlinkLink(chainPtr, linkPtr)
-    Rbc_Chain *chainPtr;
-    Rbc_ChainLink *linkPtr;
+Rbc_ChainUnlinkLink(
+    Rbc_Chain *chainPtr,
+    Rbc_ChainLink *linkPtr)
 {
     /* Indicates if the link is actually removed from the chain. */
     int unlinked;
@@ -305,9 +306,9 @@ Rbc_ChainUnlinkLink(chainPtr, linkPtr)
  *----------------------------------------------------------------------
  */
 void
-Rbc_ChainDeleteLink(chainPtr, linkPtr)
-    Rbc_Chain *chainPtr;
-    Rbc_ChainLink *linkPtr;
+Rbc_ChainDeleteLink(
+    Rbc_Chain *chainPtr,
+    Rbc_ChainLink *linkPtr)
 {
     Rbc_ChainUnlinkLink(chainPtr, linkPtr);
     ckfree((char *)linkPtr);
@@ -329,9 +330,9 @@ Rbc_ChainDeleteLink(chainPtr, linkPtr)
  *----------------------------------------------------------------------
  */
 Rbc_ChainLink *
-Rbc_ChainAppend(chainPtr, clientData)
-    Rbc_Chain *chainPtr;
-    ClientData clientData;
+Rbc_ChainAppend(
+    Rbc_Chain *chainPtr,
+    ClientData clientData)
 {
     Rbc_ChainLink *linkPtr;
 
@@ -357,9 +358,9 @@ Rbc_ChainAppend(chainPtr, clientData)
  *----------------------------------------------------------------------
  */
 Rbc_ChainLink *
-Rbc_ChainPrepend(chainPtr, clientData)
-    Rbc_Chain *chainPtr;
-    ClientData clientData;
+Rbc_ChainPrepend(
+    Rbc_Chain *chainPtr,
+    ClientData clientData)
 {
     Rbc_ChainLink *linkPtr;
 
@@ -386,8 +387,8 @@ Rbc_ChainPrepend(chainPtr, clientData)
  *----------------------------------------------------------------------
  */
 Rbc_ChainLink *
-Rbc_ChainAllocLink(extraSize)
-    unsigned int extraSize;
+Rbc_ChainAllocLink(
+    unsigned int extraSize)
 {
     Rbc_ChainLink *linkPtr;
     unsigned int linkSize;

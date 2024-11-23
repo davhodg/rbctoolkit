@@ -82,11 +82,11 @@ static Graph_Op TypeOp;
  *----------------------------------------------------------------------
  */
 static int
-GetPenStyle(graphPtr, string, type, stylePtr)
-    Graph *graphPtr;
-    char *string;
-    Rbc_Uid type;
-    PenStyle *stylePtr;
+GetPenStyle(
+    Graph *graphPtr,
+    char *string,
+    Rbc_Uid type,
+    PenStyle *stylePtr)
 {
     Pen *penPtr;
     Tcl_Interp *interp = graphPtr->interp;
@@ -140,8 +140,8 @@ GetPenStyle(graphPtr, string, type, stylePtr)
  *----------------------------------------------------------------------
  */
 static void
-SyncElemVector(vPtr)
-    ElemVector *vPtr;
+SyncElemVector(
+    ElemVector *vPtr)
 {
     vPtr->nValues = Rbc_VecLength(vPtr->vecPtr);
     vPtr->valueArr = Rbc_VecData(vPtr->vecPtr);
@@ -167,8 +167,8 @@ SyncElemVector(vPtr)
  *----------------------------------------------------------------------
  */
 static void
-FindRange(vPtr)
-    ElemVector *vPtr;
+FindRange(
+    ElemVector *vPtr)
 {
     register int i;
     register double *x;
@@ -217,9 +217,9 @@ FindRange(vPtr)
  *----------------------------------------------------------------------
  */
 double
-Rbc_FindElemVectorMinimum(vPtr, minLimit)
-    ElemVector *vPtr;
-    double minLimit;
+Rbc_FindElemVectorMinimum(
+    ElemVector *vPtr,
+    double minLimit)
 {
     register int i;
     register double *arr;
@@ -260,8 +260,8 @@ Rbc_FindElemVectorMinimum(vPtr, minLimit)
  *----------------------------------------------------------------------
  */
 static void
-FreeDataVector(vPtr)
-    ElemVector *vPtr;
+FreeDataVector(
+    ElemVector *vPtr)
 {
     if (vPtr->clientId != NULL) {
         Rbc_FreeVectorId(vPtr->clientId);	/* Free the old vector */
@@ -289,10 +289,10 @@ FreeDataVector(vPtr)
  *----------------------------------------------------------------------
  */
 static void
-VectorChangedProc(interp, clientData, notify)
-    Tcl_Interp *interp;
-    ClientData clientData;
-    Rbc_VectorNotify notify;
+VectorChangedProc(
+    Tcl_Interp *interp,
+    ClientData clientData,
+    Rbc_VectorNotify notify)
 {
     ElemVector *vPtr = clientData;
     Element *elemPtr = vPtr->elemPtr;
@@ -335,11 +335,11 @@ VectorChangedProc(interp, clientData, notify)
  *----------------------------------------------------------------------
  */
 static int
-EvalExprList(interp, list, nElemPtr, arrayPtr)
-    Tcl_Interp *interp;
-    char *list;
-    int *nElemPtr;
-    double **arrayPtr;
+EvalExprList(
+    Tcl_Interp *interp,
+    char *list,
+    int *nElemPtr,
+    double **arrayPtr)
 {
     Tcl_Size nElem;
     char **elemArr;
@@ -405,13 +405,13 @@ badList:
  *----------------------------------------------------------------------
  */
 static int
-StringToData(clientData, interp, tkwin, string, widgRec, offset)
-    ClientData clientData; /* Type of axis vector to fill */
-    Tcl_Interp *interp; /* Interpreter to send results back to */
-    Tk_Window tkwin; /* Not used. */
-    CONST86 char *string; /* Tcl list of expressions */
-    char *widgRec; /* Element record */
-    Tcl_Size offset; /* Offset of vector in Element record */
+StringToData(
+    ClientData clientData,  /* Type of axis vector to fill */
+    Tcl_Interp *interp,     /* Interpreter to send results back to */
+    Tk_Window tkwin,        /* Not used. */
+    CONST86 char *string,   /* Tcl list of expressions */
+    char *widgRec,          /* Element record */
+    Tcl_Size offset)        /* Offset of vector in Element record */
 {
     Element *elemPtr = (Element *)(widgRec);
     ElemVector *vPtr = (ElemVector *)(widgRec + offset);
@@ -461,12 +461,12 @@ StringToData(clientData, interp, tkwin, string, widgRec, offset)
  *----------------------------------------------------------------------
  */
 static CONST86 char *
-DataToString(clientData, tkwin, widgRec, offset, freeProcPtr)
-    ClientData clientData; /* Type of axis vector to print */
-    Tk_Window tkwin; /* Not used. */
-    char *widgRec; /* Element record */
-    Tcl_Size offset; /* Offset of vector in Element record */
-    Tcl_FreeProc **freeProcPtr; /* Memory deallocation scheme to use */
+DataToString(
+    ClientData clientData,  /* Type of axis vector to print */
+    Tk_Window tkwin,        /* Not used. */
+    char *widgRec,          /* Element record */
+    Tcl_Size offset,        /* Offset of vector in Element record */
+    Tcl_FreeProc **freeProcPtr) /* Memory deallocation scheme to use */
 {
     ElemVector *vPtr = (ElemVector *)(widgRec + offset);
     Element *elemPtr = (Element *)(widgRec);
@@ -520,13 +520,13 @@ DataToString(clientData, tkwin, widgRec, offset, freeProcPtr)
  *----------------------------------------------------------------------
  */
 static int
-StringToDataPairs(clientData, interp, tkwin, string, widgRec, offset)
-    ClientData clientData; /* Not used. */
-    Tcl_Interp *interp; /* Interpreter to send results back to */
-    Tk_Window tkwin; /* Not used. */
-    CONST86 char *string; /* Tcl list of numeric expressions */
-    char *widgRec; /* Element record */
-    Tcl_Size offset; /* Not used. */
+StringToDataPairs(
+    ClientData clientData,  /* Not used. */
+    Tcl_Interp *interp,     /* Interpreter to send results back to */
+    Tk_Window tkwin,        /* Not used. */
+    CONST86 char *string,   /* Tcl list of numeric expressions */
+    char *widgRec,          /* Element record */
+    Tcl_Size offset)        /* Not used. */
 {
     Element *elemPtr = (Element *)widgRec;
     int nElem;
@@ -584,12 +584,12 @@ StringToDataPairs(clientData, interp, tkwin, string, widgRec, offset)
  *----------------------------------------------------------------------
  */
 static CONST86 char *
-DataPairsToString(clientData, tkwin, widgRec, offset, freeProcPtr)
-    ClientData clientData; /* Not used. */
-    Tk_Window tkwin; /* Not used. */
-    char *widgRec; /* Element information record */
-    Tcl_Size offset; /* Not used. */
-    Tcl_FreeProc **freeProcPtr; /* Memory deallocation scheme to use */
+DataPairsToString(
+    ClientData clientData,  /* Not used. */
+    Tk_Window tkwin,        /* Not used. */
+    char *widgRec,          /* Element information record */
+    Tcl_Size offset,        /* Not used. */
+    Tcl_FreeProc **freeProcPtr) /* Memory deallocation scheme to use */
 {
     Element *elemPtr = (Element *)widgRec;
     Tcl_Interp *interp = elemPtr->graphPtr->interp;
@@ -646,13 +646,13 @@ DataPairsToString(clientData, tkwin, widgRec, offset, freeProcPtr)
  *----------------------------------------------------------------------
  */
 static int
-StringToAlong(clientData, interp, tkwin, string, widgRec, offset)
-    ClientData clientData; /* Not used. */
-    Tcl_Interp *interp; /* Interpreter to send results back to */
-    Tk_Window tkwin; /* Not used. */
-    CONST86 char *string; /* String representation of value. */
-    char *widgRec; /* Widget record. */
-    Tcl_Size offset; /* Offset of field in widget record. */
+StringToAlong(
+    ClientData clientData,  /* Not used. */
+    Tcl_Interp *interp,     /* Interpreter to send results back to */
+    Tk_Window tkwin,        /* Not used. */
+    CONST86 char *string,   /* String representation of value. */
+    char *widgRec,          /* Widget record. */
+    Tcl_Size offset)        /* Offset of field in widget record. */
 {
     int *intPtr = (int *)(widgRec + offset);
 
@@ -686,12 +686,12 @@ StringToAlong(clientData, interp, tkwin, string, widgRec, offset)
  *----------------------------------------------------------------------
  */
 static CONST86 char *
-AlongToString(clientData, tkwin, widgRec, offset, freeProcPtr)
-    ClientData clientData; /* Not used. */
-    Tk_Window tkwin; /* Not used. */
-    char *widgRec; /* Widget record */
-    Tcl_Size offset; /* Offset of field in widget record */
-    Tcl_FreeProc **freeProcPtr; /* Memory deallocation scheme to use */
+AlongToString(
+    ClientData clientData,  /* Not used. */
+    Tk_Window tkwin,        /* Not used. */
+    char *widgRec,          /* Widget record */
+    Tcl_Size offset,        /* Offset of field in widget record */
+    Tcl_FreeProc **freeProcPtr) /* Memory deallocation scheme to use */
 {
     int along = *(int *)(widgRec + offset);
 
@@ -723,9 +723,9 @@ AlongToString(clientData, tkwin, widgRec, offset, freeProcPtr)
  *----------------------------------------------------------------------
  */
 void
-Rbc_FreePalette(graphPtr, palette)
-    Graph *graphPtr;
-    Rbc_Chain *palette;
+Rbc_FreePalette(
+    Graph *graphPtr,
+    Rbc_Chain *palette)
 {
     Rbc_ChainLink *linkPtr;
 
@@ -762,13 +762,13 @@ Rbc_FreePalette(graphPtr, palette)
  *----------------------------------------------------------------------
  */
 int
-Rbc_StringToStyles(clientData, interp, tkwin, string, widgRec, offset)
-    ClientData clientData; /* Not used. */
-    Tcl_Interp *interp; /* Interpreter to send results back to */
-    Tk_Window tkwin; /* Not used. */
-    CONST86 char *string; /* String representing style list */
-    char *widgRec; /* Element information record */
-    Tcl_Size offset; /* Offset of symbol type field in record */
+Rbc_StringToStyles(
+    ClientData clientData,  /* Not used. */
+    Tcl_Interp *interp,     /* Interpreter to send results back to */
+    Tk_Window tkwin,        /* Not used. */
+    CONST86 char *string,   /* String representing style list */
+    char *widgRec,          /* Element information record */
+    Tcl_Size offset)        /* Offset of symbol type field in record */
 {
     Rbc_Chain *palette = *(Rbc_Chain **)(widgRec + offset);
     Rbc_ChainLink *linkPtr;
@@ -832,12 +832,12 @@ Rbc_StringToStyles(clientData, interp, tkwin, string, widgRec, offset)
  *----------------------------------------------------------------------
  */
 CONST86 char *
-Rbc_StylesToString(clientData, tkwin, widgRec, offset, freeProcPtr)
-    ClientData clientData; /* Not used. */
-    Tk_Window tkwin; /* Not used. */
-    char *widgRec; /* Element information record */
-    Tcl_Size offset; /* Not used. */
-    Tcl_FreeProc **freeProcPtr; /* Not used. */
+Rbc_StylesToString(
+    ClientData clientData,  /* Not used. */
+    Tk_Window tkwin,        /* Not used. */
+    char *widgRec,          /* Element information record */
+    Tcl_Size offset,        /* Not used. */
+    Tcl_FreeProc **freeProcPtr) /* Not used. */
 {
     Rbc_Chain *palette = *(Rbc_Chain **)(widgRec + offset);
     Tcl_DString dString;
@@ -887,8 +887,8 @@ Rbc_StylesToString(clientData, tkwin, widgRec, offset, freeProcPtr)
  *----------------------------------------------------------------------
  */
 PenStyle **
-Rbc_StyleMap(elemPtr)
-    Element *elemPtr;
+Rbc_StyleMap(
+    Element *elemPtr)
 {
     register int i;
     int nWeights;		/* Number of weights to be examined.
@@ -958,10 +958,10 @@ Rbc_StyleMap(elemPtr)
  *----------------------------------------------------------------------
  */
 void
-Rbc_MapErrorBars(graphPtr, elemPtr, dataToStyle)
-    Graph *graphPtr;
-    Element *elemPtr;
-    PenStyle **dataToStyle;
+Rbc_MapErrorBars(
+    Graph *graphPtr,
+    Element *elemPtr,
+    PenStyle **dataToStyle)
 {
     int n, nPoints;
     Extents2D exts;
@@ -1113,11 +1113,11 @@ Rbc_MapErrorBars(graphPtr, elemPtr, dataToStyle)
  *----------------------------------------------------------------------
  */
 static int
-GetIndex(interp, elemPtr, string, indexPtr)
-    Tcl_Interp *interp;
-    Element *elemPtr;
-    char *string;
-    int *indexPtr;
+GetIndex(
+    Tcl_Interp *interp,
+    Element *elemPtr,
+    char *string,
+    int *indexPtr)
 {
     long ielem;
     int last;
@@ -1149,10 +1149,10 @@ GetIndex(interp, elemPtr, string, indexPtr)
  *----------------------------------------------------------------------
  */
 static int
-NameToElement(graphPtr, name, elemPtrPtr)
-    Graph *graphPtr;
-    char *name;
-    Element **elemPtrPtr;
+NameToElement(
+    Graph *graphPtr,
+    char *name,
+    Element **elemPtrPtr)
 {
     Tcl_HashEntry *hPtr;
 
@@ -1185,9 +1185,9 @@ NameToElement(graphPtr, name, elemPtrPtr)
  *----------------------------------------------------------------------
  */
 static void
-DestroyElement(graphPtr, elemPtr)
-    Graph *graphPtr;
-    Element *elemPtr;
+DestroyElement(
+    Graph *graphPtr,
+    Element *elemPtr)
 {
     Rbc_ChainLink *linkPtr;
 
@@ -1313,9 +1313,9 @@ CreateElement(
  *----------------------------------------------------------------------
  */
 static int
-RebuildDisplayList(graphPtr, newList)
-    Graph *graphPtr; /* Graph widget record */
-    char *newList; /* Tcl list of element names */
+RebuildDisplayList(
+    Graph *graphPtr, /* Graph widget record */
+    char *newList)   /* Tcl list of element names */
 {
     Tcl_Size nNames;    /* Number of names found in Tcl name list */
     char **nameArr;     /* Broken out array of element names */
@@ -1369,8 +1369,8 @@ RebuildDisplayList(graphPtr, newList)
  *----------------------------------------------------------------------
  */
 void
-Rbc_DestroyElements(graphPtr)
-    Graph *graphPtr;
+Rbc_DestroyElements(
+    Graph *graphPtr)
 {
     Tcl_HashEntry *hPtr;
     Tcl_HashSearch cursor;
@@ -1403,8 +1403,8 @@ Rbc_DestroyElements(graphPtr)
  *----------------------------------------------------------------------
  */
 void
-Rbc_MapElements(graphPtr)
-    Graph *graphPtr;
+Rbc_MapElements(
+    Graph *graphPtr)
 {
     Element *elemPtr;
     Rbc_ChainLink *linkPtr;
@@ -1443,9 +1443,9 @@ Rbc_MapElements(graphPtr)
  * -----------------------------------------------------------------
  */
 void
-Rbc_DrawElements(graphPtr, drawable)
-    Graph *graphPtr;
-    Drawable drawable; /* Pixmap or window to draw into */
+Rbc_DrawElements(
+    Graph *graphPtr,
+    Drawable drawable) /* Pixmap or window to draw into */
 {
     Rbc_ChainLink *linkPtr;
     Element *elemPtr;
@@ -1477,9 +1477,9 @@ Rbc_DrawElements(graphPtr, drawable)
  * -----------------------------------------------------------------
  */
 void
-Rbc_DrawActiveElements(graphPtr, drawable)
-    Graph *graphPtr;
-    Drawable drawable; /* Pixmap or window to draw into */
+Rbc_DrawActiveElements(
+    Graph *graphPtr,
+    Drawable drawable) /* Pixmap or window to draw into */
 {
     Rbc_ChainLink *linkPtr;
     Element *elemPtr;
@@ -1510,9 +1510,9 @@ Rbc_DrawActiveElements(graphPtr, drawable)
  * -----------------------------------------------------------------
  */
 void
-Rbc_ElementsToPostScript(graphPtr, psToken)
-    Graph *graphPtr;
-    PsToken psToken;
+Rbc_ElementsToPostScript(
+    Graph *graphPtr,
+    PsToken psToken)
 {
     Rbc_ChainLink *linkPtr;
     Element *elemPtr;
@@ -1546,9 +1546,9 @@ Rbc_ElementsToPostScript(graphPtr, psToken)
  *----------------------------------------------------------------------
  */
 void
-Rbc_ActiveElementsToPostScript(graphPtr, psToken)
-    Graph *graphPtr;
-    PsToken psToken;
+Rbc_ActiveElementsToPostScript(
+    Graph *graphPtr,
+    PsToken psToken)
 {
     Rbc_ChainLink *linkPtr;
     Element *elemPtr;
@@ -1581,8 +1581,8 @@ Rbc_ActiveElementsToPostScript(graphPtr, psToken)
  *----------------------------------------------------------------------
  */
 int
-Rbc_GraphUpdateNeeded(graphPtr)
-    Graph *graphPtr;
+Rbc_GraphUpdateNeeded(
+    Graph *graphPtr)
 {
     Rbc_ChainLink *linkPtr;
     Element *elemPtr;
@@ -1689,9 +1689,9 @@ ActivateOp(
  *----------------------------------------------------------------------
  */
 ClientData
-Rbc_MakeElementTag(graphPtr, tagName)
-    Graph *graphPtr;
-    char *tagName;
+Rbc_MakeElementTag(
+    Graph *graphPtr,
+    char *tagName)
 {
     Tcl_HashEntry *hPtr;
     int isNew;

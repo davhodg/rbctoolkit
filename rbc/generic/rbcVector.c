@@ -82,8 +82,7 @@ double rbcNaN;
  * ------------------------------------------------------------------------
  */
 int
-Rbc_VectorInit(interp)
-    Tcl_Interp *interp;
+Rbc_VectorInit (Tcl_Interp *interp)
 {
     VectorInterpData *dataPtr; /* Interpreter-specific data. */
     rbcNaN = MakeNaN();
@@ -111,11 +110,11 @@ Rbc_VectorInit(interp)
  * ------------------------------------------------------------------------
  */
 static int
-VectorObjCmd(clientData, interp, objc, objv)
-    ClientData clientData;
-    Tcl_Interp *interp;
-    int objc;
-    Tcl_Obj * const objv[];
+VectorObjCmd(
+    ClientData clientData,
+    Tcl_Interp *interp,
+    int objc,
+    Tcl_Obj * const objv[])
 {
     int index;
     CONST86 char *subCmds[] = { "create", "destroy", "expr", "names", NULL};
@@ -170,11 +169,11 @@ VectorObjCmd(clientData, interp, objc, objv)
  * ----------------------------------------------------------------------
  */
 static int
-VectorInstanceCmd(clientData, interp, objc, objv)
-    ClientData clientData;
-    Tcl_Interp *interp;
-    int objc;
-    Tcl_Obj * const objv[];
+VectorInstanceCmd(
+    ClientData clientData,
+    Tcl_Interp *interp,
+    int objc,
+    Tcl_Obj * const objv[])
 {
     VectorObject *vPtr = clientData;
     int index;
@@ -410,11 +409,11 @@ VectorInstanceCmd(clientData, interp, objc, objv)
  *----------------------------------------------------------------------
  */
 static int
-VectorCreateObjCmd(clientData, interp, objc, objv)
-    ClientData clientData; /* Vector interp data */
-    Tcl_Interp *interp; /* Interp to return results to */
-    int objc; /* argument count */
-    Tcl_Obj * const objv[]; /* arguments to the command */
+VectorCreateObjCmd(
+    ClientData clientData,  /* Vector interp data */
+    Tcl_Interp *interp,     /* Interp to return results to */
+    int objc,               /* argument count */
+    Tcl_Obj * const objv[]) /* arguments to the command */
 {
     VectorInterpData *dataPtr = clientData;
     VectorObject *vPtr;
@@ -657,11 +656,11 @@ error:
  *----------------------------------------------------------------------
  */
 static int
-VectorDestroyObjCmd(clientData, interp, objc, objv)
-    ClientData clientData; /* Interpreter-specific data. */
-    Tcl_Interp *interp;
-    int objc;
-    Tcl_Obj * const objv[];
+VectorDestroyObjCmd(
+    ClientData clientData, /* Interpreter-specific data. */
+    Tcl_Interp *interp,
+    int objc,
+    Tcl_Obj * const objv[])
 {
     /* Not Implemented Correctly */
 
@@ -695,11 +694,11 @@ VectorDestroyObjCmd(clientData, interp, objc, objv)
  *----------------------------------------------------------------------
  */
 static int
-VectorExprObjCmd(clientData, interp, objc, objv)
-    ClientData clientData;
-    Tcl_Interp *interp;
-    int objc;
-    Tcl_Obj * const objv[];
+VectorExprObjCmd(
+    ClientData clientData,
+    Tcl_Interp *interp,
+    int objc,
+    Tcl_Obj * const objv[])
 {
     return Rbc_ExprVector(interp, Tcl_GetString(objv[2]), (Rbc_Vector *) NULL);
 }
@@ -722,11 +721,11 @@ VectorExprObjCmd(clientData, interp, objc, objv)
  *----------------------------------------------------------------------
  */
 static int
-VectorNamesObjCmd(clientData, interp, objc, objv)
-    ClientData clientData;
-    Tcl_Interp *interp;
-    int objc;
-    Tcl_Obj * const objv[];
+VectorNamesObjCmd(
+    ClientData clientData,
+    Tcl_Interp *interp,
+    int objc,
+    Tcl_Obj * const objv[])
 {
     VectorInterpData *dataPtr = clientData;
     Tcl_HashEntry *hPtr;
@@ -764,8 +763,7 @@ VectorNamesObjCmd(clientData, interp, objc, objv)
  */
 
 VectorInterpData *
-Rbc_VectorGetInterpData(interp)
-    Tcl_Interp *interp; /* Base interpreter to wrap. */
+Rbc_VectorGetInterpData (Tcl_Interp *interp) /* Base interpreter to wrap. */
 {
     VectorInterpData *dataPtr;
     Tcl_InterpDeleteProc *proc;
@@ -807,9 +805,9 @@ Rbc_VectorGetInterpData(interp)
  * ------------------------------------------------------------------------
  */
 static void
-VectorInterpDeleteProc(clientData, interp)
-    ClientData clientData; /* Interpreter Specific */
-    Tcl_Interp *interp;
+VectorInterpDeleteProc(
+    ClientData clientData, /* Interpreter Specific */
+    Tcl_Interp *interp)
 {
     VectorInterpData *dataPtr = clientData;
     Tcl_HashEntry *hPtr;
@@ -846,8 +844,7 @@ VectorInterpDeleteProc(clientData, interp)
  *
  * ---------------------------------------------------------------------- */
 VectorObject *
-Rbc_VectorNew(dataPtr)
-    VectorInterpData *dataPtr; /* Interpreter-specific data. */
+Rbc_VectorNew (VectorInterpData *dataPtr) /* Interpreter-specific data. */
 {
     VectorObject *vPtr;
 
@@ -888,12 +885,12 @@ Rbc_VectorNew(dataPtr)
  *
  * ---------------------------------------------------------------------- */
 VectorObject *
-Rbc_VectorCreate(dataPtr, vecName, cmdName, varName, newPtr)
-    VectorInterpData *dataPtr; /* Interpreter-specific data (clientData). */
-    const char *vecName; /* Name of the vector */
-    const char *cmdName; /* Name of the Tcl command mapped to the vector; if NULL (actually '\0') then do not create a command */
-    const char *varName; /* Name of the Tcl array mapped to the vector; if NULL (actually '\0') then do not create a variable */
-    int *newPtr; /* pointer to the vector created */
+Rbc_VectorCreate(
+    VectorInterpData *dataPtr,  /* Interpreter-specific data (clientData). */
+    const char *vecName,        /* Name of the vector */
+    const char *cmdName,        /* Name of the Tcl command mapped to the vector; if NULL (actually '\0') then do not create a command */
+    const char *varName,        /* Name of the Tcl array mapped to the vector; if NULL (actually '\0') then do not create a variable */
+    int *newPtr)                /* pointer to the vector created */
 {
     Tcl_Obj *resultPtr = Tcl_NewStringObj("", -1);
     VectorObject *vPtr;
@@ -1042,8 +1039,7 @@ error:
  * ----------------------------------------------------------------------
  */
 static void
-VectorInstDeleteProc(clientData)
-    ClientData clientData; /* Vector object to delete */
+VectorInstDeleteProc (ClientData clientData) /* Vector object to delete */
 {
     VectorObject *vPtr = clientData;
 
@@ -1077,8 +1073,7 @@ VectorInstDeleteProc(clientData)
  * ----------------------------------------------------------------------
  */
 void
-Rbc_VectorFree(vPtr)
-    VectorObject *vPtr; /* The vector to free */
+Rbc_VectorFree (VectorObject *vPtr) /* The vector to free */
 {
     Rbc_ChainLink *linkPtr;
     VectorClient *clientPtr;
@@ -1140,9 +1135,9 @@ Rbc_VectorFree(vPtr)
  * ----------------------------------------------------------------------
  */
 int
-Rbc_VectorDuplicate(destPtr, srcPtr)
-    VectorObject *destPtr;
-    VectorObject *srcPtr;
+Rbc_VectorDuplicate(
+    VectorObject *destPtr,
+    VectorObject *srcPtr)
 {
     int nBytes;
     int length;
@@ -1182,8 +1177,7 @@ Rbc_VectorDuplicate(destPtr, srcPtr)
  * ----------------------------------------------------------------------
  */
 void
-Rbc_VectorFlushCache(vPtr)
-    VectorObject *vPtr;
+Rbc_VectorFlushCache (VectorObject *vPtr)
 {
     Tcl_Interp *interp = vPtr->interp;
 
@@ -1230,10 +1224,10 @@ Rbc_VectorFlushCache(vPtr)
  * ----------------------------------------------------------------------
  */
 int
-Rbc_VectorMapVariable(interp, vPtr, name)
-    Tcl_Interp *interp;
-    VectorObject *vPtr;
-    const char *name; /* name of array variable to map to vector */
+Rbc_VectorMapVariable(
+    Tcl_Interp *interp,
+    VectorObject *vPtr,
+    const char *name) /* name of array variable to map to vector */
 {
     const char *result;
     Tcl_Namespace *varNsPtr;
@@ -1299,14 +1293,14 @@ Rbc_VectorMapVariable(interp, vPtr, name)
  * -----------------------------------------------------------------------
  */
 int
-Rbc_VectorReset(vPtr, valueArr, length, size, freeProc)
-    VectorObject *vPtr;
-    double *valueArr; /* Array containing the elements of th
+Rbc_VectorReset(
+    VectorObject *vPtr,
+    double *valueArr, /* Array containing the elements of th
                        * vector. If NULL, indicates to reset the
                        * vector.*/
-    int length; /* The number of elements that the vector currently holds. */
-    int size; /* The maximum number of elements that the  array can hold. */
-    Tcl_FreeProc *freeProc; /* Address of memory deallocation routine
+    int length, /* The number of elements that the vector currently holds. */
+    int size, /* The maximum number of elements that the  array can hold. */
+    Tcl_FreeProc *freeProc) /* Address of memory deallocation routine
                              * for the array of values.  Can also be
                              * TCL_STATIC, TCL_DYNAMIC, or TCL_VOLATILE. */
 {
@@ -1375,8 +1369,7 @@ Rbc_VectorReset(vPtr, valueArr, length, size, freeProc)
  * ----------------------------------------------------------------------
  */
 static void
-VectorNotifyClients(clientData)
-    ClientData clientData;
+VectorNotifyClients (ClientData clientData)
 {
     VectorObject *vPtr = clientData;
     Rbc_ChainLink *linkPtr;
@@ -1425,8 +1418,7 @@ VectorNotifyClients(clientData)
  *--------------------------------------------------------------
  */
 int
-Rbc_VectorNotifyPending(clientId)
-    Rbc_VectorId clientId; /* Client token identifying the vector */
+Rbc_VectorNotifyPending (Rbc_VectorId clientId) /* Client token identifying the vector */
 {
     VectorClient *clientPtr = (VectorClient *)clientId;
 
@@ -1461,8 +1453,7 @@ Rbc_VectorNotifyPending(clientId)
  * ----------------------------------------------------------------------
  */
 static void
-VectorFlushCache(vPtr)
-    VectorObject *vPtr; /* The vector to flush */
+VectorFlushCache (VectorObject *vPtr) /* The vector to flush */
 {
     Tcl_Interp *interp = vPtr->interp;
 
@@ -1513,9 +1504,9 @@ VectorFlushCache(vPtr)
  * ----------------------------------------------------------------------
  */
 int
-Rbc_VectorChangeLength(vPtr, length)
-    VectorObject *vPtr; /* The vector to change lengths */
-    int length; /* The new size of the vector */
+Rbc_VectorChangeLength(
+    VectorObject *vPtr, /* The vector to change lengths */
+    int length)         /* The new size of the vector */
 {
     int newSize; /* Size of array in elements */
     double *newArr;
@@ -1610,10 +1601,10 @@ Rbc_VectorChangeLength(vPtr, length)
  * ----------------------------------------------------------------------
  */
 int
-Rbc_VectorLookupName(dataPtr, vecName, vPtrPtr)
-    VectorInterpData *dataPtr; /* Interpreter-specific data. */
-    char *vecName;
-    VectorObject **vPtrPtr;
+Rbc_VectorLookupName(
+    VectorInterpData *dataPtr, /* Interpreter-specific data. */
+    char *vecName,
+    VectorObject **vPtrPtr)
 {
     VectorObject *vPtr;
     char *endPtr;
@@ -1646,8 +1637,7 @@ Rbc_VectorLookupName(dataPtr, vecName, vPtrPtr)
  * ----------------------------------------------------------------------
  */
 void
-Rbc_VectorUpdateRange(vPtr)
-    VectorObject *vPtr;
+Rbc_VectorUpdateRange (VectorObject *vPtr)
 {
     double min, max;
     register int i;
@@ -1693,13 +1683,13 @@ Rbc_VectorUpdateRange(vPtr)
  * ----------------------------------------------------------------------
  */
 int
-Rbc_VectorGetIndex(interp, vPtr, string, indexPtr, flags, procPtrPtr)
-    Tcl_Interp *interp;
-    VectorObject *vPtr;
-    const char *string;
-    int *indexPtr; /* index to convert */
-    int flags;
-    Rbc_VectorIndexProc **procPtrPtr;
+Rbc_VectorGetIndex(
+    Tcl_Interp *interp,
+    VectorObject *vPtr,
+    const char *string,
+    int *indexPtr, /* index to convert */
+    int flags,
+    Rbc_VectorIndexProc **procPtrPtr)
 {
     char c;
     int value;
@@ -1784,12 +1774,12 @@ Rbc_VectorGetIndex(interp, vPtr, string, indexPtr, flags, procPtrPtr)
  * ----------------------------------------------------------------------
  */
 int
-Rbc_VectorGetIndexRange(interp, vPtr, string, flags, procPtrPtr)
-    Tcl_Interp *interp; /* The interpreter to return results to */
-    VectorObject *vPtr; /* The vector object to get the range from */
-    const char *string; /* The index in the vector to convert */
-    int flags; /* The flags for special cases */
-    Rbc_VectorIndexProc **procPtrPtr; /* The index procedure */
+Rbc_VectorGetIndexRange(
+    Tcl_Interp *interp, /* The interpreter to return results to */
+    VectorObject *vPtr, /* The vector object to get the range from */
+    const char *string, /* The index in the vector to convert */
+    int flags,          /* The flags for special cases */
+    Rbc_VectorIndexProc **procPtrPtr) /* The index procedure */
 {
     int ielem;
     char *colon;
@@ -1854,12 +1844,12 @@ Rbc_VectorGetIndexRange(interp, vPtr, string, flags, procPtrPtr)
  * ----------------------------------------------------------------------
  */
 VectorObject *
-Rbc_VectorParseElement(interp, dataPtr, start, endPtr, flags)
-    Tcl_Interp *interp;
-    VectorInterpData *dataPtr; /* Interpreter-specific data. */
-    const char *start; /* name of the vector */
-    char **endPtr; /* ? */
-    int flags; /* NS_SEARCH_CURRENT nd such ... */
+Rbc_VectorParseElement(
+    Tcl_Interp *interp,
+    VectorInterpData *dataPtr, /* Interpreter-specific data. */
+    const char *start,  /* name of the vector */
+    char **endPtr,      /* ? */
+    int flags)          /* NS_SEARCH_CURRENT nd such ... */
 {
     register char *p;
     char saved;
@@ -1940,8 +1930,7 @@ Rbc_VectorParseElement(interp, dataPtr, start, endPtr, flags)
  * ----------------------------------------------------------------------
  */
 void
-Rbc_VectorUpdateClients(vPtr)
-    VectorObject *vPtr; /* The vector to update clients for */
+Rbc_VectorUpdateClients (VectorObject *vPtr) /* The vector to update clients for */
 {
     vPtr->dirty++;
     vPtr->max = vPtr->min = rbcNaN;
@@ -1976,12 +1965,12 @@ Rbc_VectorUpdateClients(vPtr)
  * ----------------------------------------------------------------------
  */
 static char *
-VectorVarTrace(clientData, interp, part1, part2, flags)
-    ClientData clientData; /* Vector object. */
-    Tcl_Interp *interp; /* Interpreter of the vector */
-    char *part1; /* name of array variable accessed */
-    char *part2; /* name of array element accessed */
-    int flags;
+VectorVarTrace(
+    ClientData clientData, /* Vector object. */
+    Tcl_Interp *interp, /* Interpreter of the vector */
+    char *part1,        /* name of array variable accessed */
+    char *part2,        /* name of array element accessed */
+    int flags)
 {
     Rbc_VectorIndexProc *indexProc;
     VectorObject *vPtr = clientData;
@@ -2121,11 +2110,11 @@ error:
  * ----------------------------------------------------------------------
  */
 static char *
-BuildQualifiedName(interp, name, fullName)
-    Tcl_Interp *interp; /* the interpreter in which to lookup the variable or command */
-    const char *name; /* the name of a variable, or command to build the qualified name for */
-    Tcl_DString *fullName; /* string pointer to save the qualified name into
-                            * (free or uninitialized DString) */
+BuildQualifiedName(
+    Tcl_Interp *interp,     /* the interpreter in which to lookup the variable or command */
+    const char *name,       /* the name of a variable, or command to build the qualified name for */
+    Tcl_DString *fullName)  /* string pointer to save the qualified name into
+                             * (free or uninitialized DString) */
 {
     Tcl_Namespace *nsPtr;
 
@@ -2176,11 +2165,11 @@ BuildQualifiedName(interp, name, fullName)
  * ----------------------------------------------------------------------
  */
 static int
-ParseQualifiedName(interp, qualName, nsPtrPtr, namePtrPtr)
-    Tcl_Interp *interp; /* the interpreter, where the name is found in */
-    const char *qualName; /* the qualified name to parse */
-    Tcl_Namespace **nsPtrPtr; /* pointer to store the namespace part into */
-    const char **namePtrPtr; /* pointer to store the name itself into */
+ParseQualifiedName(
+    Tcl_Interp *interp,         /* the interpreter, where the name is found in */
+    const char *qualName,       /* the qualified name to parse */
+    Tcl_Namespace **nsPtrPtr,   /* pointer to store the namespace part into */
+    const char **namePtrPtr)    /* pointer to store the name itself into */
 {
     register char *p, *colon;
     Tcl_Namespace *nsPtr;
@@ -2234,10 +2223,10 @@ ParseQualifiedName(interp, qualName, nsPtrPtr, namePtrPtr)
  * ----------------------------------------------------------------------
  */
 static char *
-GetQualifiedName(nsPtr, name, resultPtr)
-    Tcl_Namespace *nsPtr;
-    const char *name;
-    Tcl_DString *resultPtr;
+GetQualifiedName(
+    Tcl_Namespace *nsPtr,
+    const char *name,
+    Tcl_DString *resultPtr)
 {
     Tcl_DStringInit(resultPtr);
     if ((nsPtr->fullName[0] != ':') || (nsPtr->fullName[1] != ':')
@@ -2266,10 +2255,10 @@ GetQualifiedName(nsPtr, name, resultPtr)
  * ----------------------------------------------------------------------
  */
 static VectorObject *
-    GetVectorObject(dataPtr, name, flags)
-    VectorInterpData *dataPtr; /* Interpreter-specific data. */
-    const char *name;
-    int flags;
+    GetVectorObject(
+    VectorInterpData *dataPtr, /* Interpreter-specific data. */
+    const char *name,
+    int flags)
 {
     const char *vecName;
     Tcl_Namespace *nsPtr;
@@ -2313,10 +2302,10 @@ static VectorObject *
  * ----------------------------------------------------------------------
  */
 static VectorObject *
-FindVectorInNamespace(dataPtr, nsPtr, vecName)
-    VectorInterpData *dataPtr; /* Interpreter-specific data. */
-    Tcl_Namespace *nsPtr; /* Namespace pointer */
-    const char *vecName; /* Name of the vector to find */
+FindVectorInNamespace(
+    VectorInterpData *dataPtr,  /* Interpreter-specific data. */
+    Tcl_Namespace *nsPtr,       /* Namespace pointer */
+    const char *vecName)        /* Name of the vector to find */
 {
     Tcl_DString dString;
     const char *name;
@@ -2348,10 +2337,10 @@ FindVectorInNamespace(dataPtr, nsPtr, vecName)
  *----------------------------------------------------------------------
  */
 Tcl_Obj *
-Rbc_GetValues(vPtr, first, last)
-    VectorObject *vPtr;
-    int first;
-    int last;
+Rbc_GetValues(
+    VectorObject *vPtr,
+    int first,
+    int last)
 {
     register int i;
     Tcl_Obj *listObjPtr;
@@ -2379,11 +2368,11 @@ Rbc_GetValues(vPtr, first, last)
  * ----------------------------------------------------------------------
  */
 void
-Rbc_ReplicateValue(vPtr, first, last, value)
-    VectorObject *vPtr; /* The vector to replicate values on */
-    int first; /* The start index to replicate into */
-    int last; /* The end index to replicate into */
-    double value; /* The value to replicate */
+Rbc_ReplicateValue(
+    VectorObject *vPtr, /* The vector to replicate values on */
+    int first,          /* The start index to replicate into */
+    int last,           /* The end index to replicate into */
+    double value)       /* The value to replicate */
 {
     register int i;
 
@@ -2410,8 +2399,7 @@ Rbc_ReplicateValue(vPtr, first, last, value)
  * ----------------------------------------------------------------------
  */
 static void
-DeleteCommand(vPtr)
-    VectorObject *vPtr; /* Vector associated with the Tcl command. */
+DeleteCommand (VectorObject *vPtr) /* Vector associated with the Tcl command. */
 {
     Tcl_Interp *interp = vPtr->interp;
     Tcl_CmdInfo cmdInfo;
@@ -2445,8 +2433,7 @@ DeleteCommand(vPtr)
  * ----------------------------------------------------------------------
  */
 static void
-UnmapVariable(vPtr)
-    VectorObject *vPtr; /* Vector to unmap */
+UnmapVariable (VectorObject *vPtr) /* Vector to unmap */
 {
     Tcl_Interp *interp = vPtr->interp;
 
@@ -2481,10 +2468,10 @@ UnmapVariable(vPtr)
  */
 
 int
-Rbc_GetDouble(interp, objPtr, valuePtr)
-    Tcl_Interp *interp; /* Tcl Interp to use for extracting. */
-    Tcl_Obj *objPtr; /* The object holding the double value */
-    double *valuePtr; /* Return value for the double */
+Rbc_GetDouble(
+    Tcl_Interp *interp, /* Tcl Interp to use for extracting. */
+    Tcl_Obj *objPtr,    /* The object holding the double value */
+    double *valuePtr)   /* Return value for the double */
 {
     /* First try to extract the value as a double precision number. */
     if (Tcl_GetDoubleFromObj(interp, objPtr, valuePtr) == TCL_OK) {
@@ -2520,8 +2507,7 @@ Rbc_GetDouble(interp, objPtr, valuePtr)
  *--------------------------------------------------------------
  */
 void
-Rbc_FreeVectorId(clientId)
-    Rbc_VectorId clientId;	/* Client token identifying the vector */
+Rbc_FreeVectorId (Rbc_VectorId clientId)	/* Client token identifying the vector */
 {
     VectorClient *clientPtr = (VectorClient *)clientId;
 
@@ -2554,10 +2540,10 @@ Rbc_FreeVectorId(clientId)
  * -----------------------------------------------------------------------
  */
 int
-Rbc_GetVectorById(interp, clientId, vecPtrPtr)
-    Tcl_Interp *interp;
-    Rbc_VectorId clientId; /* Client token identifying the vector */
-    Rbc_Vector **vecPtrPtr;
+Rbc_GetVectorById(
+    Tcl_Interp *interp,
+    Rbc_VectorId clientId, /* Client token identifying the vector */
+    Rbc_Vector **vecPtrPtr)
 {
     VectorClient *clientPtr = (VectorClient *)clientId;
 
@@ -2591,9 +2577,9 @@ Rbc_GetVectorById(interp, clientId, vecPtrPtr)
  * ----------------------------------------------------------------------
  */
 int
-Rbc_VectorExists2(interp, vecName)
-    Tcl_Interp *interp;
-    char *vecName;
+Rbc_VectorExists2(
+    Tcl_Interp *interp,
+    char *vecName)
 {
     VectorInterpData *dataPtr;	/* Interpreter-specific data. */
 
@@ -2624,9 +2610,9 @@ Rbc_VectorExists2(interp, vecName)
  *--------------------------------------------------------------
  */
 Rbc_VectorId
-Rbc_AllocVectorId(interp, name)
-    Tcl_Interp *interp;
-    char *name;
+Rbc_AllocVectorId(
+    Tcl_Interp *interp,
+    char *name)
 {
     VectorInterpData *dataPtr;	/* Interpreter-specific data. */
     VectorObject *vPtr;
@@ -2680,12 +2666,12 @@ Rbc_AllocVectorId(interp, name)
  * -----------------------------------------------------------------------
  */
 void
-Rbc_SetVectorChangedProc(clientId, proc, clientData)
-    Rbc_VectorId clientId; /* Client token identifying the vector */
-    Rbc_VectorChangedProc *proc; /* Address of routine to call when the contents
+Rbc_SetVectorChangedProc(
+    Rbc_VectorId clientId,       /* Client token identifying the vector */
+    Rbc_VectorChangedProc *proc, /* Address of routine to call when the contents
                                   * of the vector change. If NULL, no routine
                                   * will be called */
-    ClientData clientData; /* One word of information to pass along when
+    ClientData clientData) /* One word of information to pass along when
                             * the above routine is called */
 {
     VectorClient *clientPtr = (VectorClient *)clientId;
@@ -2713,8 +2699,7 @@ Rbc_SetVectorChangedProc(clientId, proc, clientData)
  *--------------------------------------------------------------
  */
 char *
-Rbc_NameOfVectorId(clientId)
-    Rbc_VectorId clientId; /* Client token identifying the vector */
+Rbc_NameOfVectorId (Rbc_VectorId clientId) /* Client token identifying the vector */
 {
     VectorClient *clientPtr = (VectorClient *)clientId;
 
@@ -2742,10 +2727,10 @@ Rbc_NameOfVectorId(clientId)
  * -----------------------------------------------------------------------
  */
 int
-Rbc_GetVector(interp, name, vecPtrPtr)
-    Tcl_Interp *interp;
-    char *name;
-    Rbc_Vector **vecPtrPtr;
+Rbc_GetVector(
+    Tcl_Interp *interp,
+    char *name,
+    Rbc_Vector **vecPtrPtr)
 {
     VectorInterpData *dataPtr;	/* Interpreter-specific data. */
     VectorObject *vPtr;
@@ -2789,12 +2774,13 @@ Rbc_GetVector(interp, name, vecPtrPtr)
  * -----------------------------------------------------------------------
  */
 int
-Rbc_CreateVector2(interp, vecName, cmdName, varName, initialSize, vecPtrPtr)
-    Tcl_Interp *interp;
-    char *vecName;
-    char *cmdName, *varName;
-    int initialSize;
-    Rbc_Vector **vecPtrPtr;
+Rbc_CreateVector2(
+    Tcl_Interp *interp,
+    char *vecName,
+    char *cmdName, 
+    char *varName,
+    int initialSize,
+    Rbc_Vector **vecPtrPtr)
 {
     VectorInterpData *dataPtr;	/* Interpreter-specific data. */
     VectorObject *vPtr;
@@ -2842,11 +2828,11 @@ Rbc_CreateVector2(interp, vecName, cmdName, varName, initialSize, vecPtrPtr)
  *--------------------------------------------------------------
  */
 int
-Rbc_CreateVector(interp, name, size, vecPtrPtr)
-    Tcl_Interp *interp;
-    char *name;
-    int size;
-    Rbc_Vector **vecPtrPtr;
+Rbc_CreateVector(
+    Tcl_Interp *interp,
+    char *name,
+    int size,
+    Rbc_Vector **vecPtrPtr)
 {
     return Rbc_CreateVector2(interp, name, name, name, size, vecPtrPtr);
 }
@@ -2871,9 +2857,9 @@ Rbc_CreateVector(interp, name, size, vecPtrPtr)
  * -----------------------------------------------------------------------
  */
 int
-Rbc_ResizeVector(vecPtr, length)
-    Rbc_Vector *vecPtr;
-    int length;
+Rbc_ResizeVector(
+    Rbc_Vector *vecPtr,
+    int length)
 {
     VectorObject *vPtr = (VectorObject *)vecPtr;
 
@@ -2905,8 +2891,7 @@ Rbc_ResizeVector(vecPtr, length)
  *--------------------------------------------------------------
  */
 char *
-Rbc_NameOfVector(vecPtr)
-    Rbc_Vector *vecPtr; /* Vector to query. */
+Rbc_NameOfVector (Rbc_Vector *vecPtr) /* Vector to query. */
 {
     VectorObject *vPtr = (VectorObject *)vecPtr;
     return vPtr->name;
@@ -2934,16 +2919,16 @@ Rbc_NameOfVector(vecPtr)
  * -----------------------------------------------------------------------
  */
 int
-Rbc_ResetVector(vecPtr, valueArr, length, size, freeProc)
-    Rbc_Vector *vecPtr;
-    double *valueArr; /* Array containing the elements of the
+Rbc_ResetVector(
+    Rbc_Vector *vecPtr,
+    double *valueArr, /* Array containing the elements of the
                        * vector. If NULL, indicates to reset the
                        * vector.*/
-    int length; /* The number of elements that the vector
-                 * currently holds. */
-    int size; /* The maximum number of elements that the
-               * array can hold. */
-    Tcl_FreeProc *freeProc; /* Address of memory deallocation routine
+    int length,       /* The number of elements that the vector
+                       * currently holds. */
+    int size,         /* The maximum number of elements that the
+                       * array can hold. */
+    Tcl_FreeProc *freeProc) /* Address of memory deallocation routine
                              * for the array of values.  Can also be
                              * TCL_STATIC, TCL_DYNAMIC, or TCL_VOLATILE. */
 {
@@ -2956,27 +2941,27 @@ Rbc_ResetVector(vecPtr, valueArr, length, size, freeProc)
     return Rbc_VectorReset(vPtr, valueArr, length, size, freeProc);
 }
 
-void Rbc_FreeVector(Rbc_Vector *v)
+void Rbc_FreeVector (Rbc_Vector *v)
 {
     Rbc_VectorFree((VectorObject *)v);
 }
 
-double *Rbc_VectorData(Rbc_Vector *v)
+double *Rbc_VectorData (Rbc_Vector *v)
 {
     return Rbc_VecData(v);
 }
 
-int Rbc_VectorLength(Rbc_Vector *v)
+int Rbc_VectorLength (Rbc_Vector *v)
 {
     return Rbc_VecLength(v);
 }
 
-int Rbc_VectorSize(Rbc_Vector *v)
+int Rbc_VectorSize (Rbc_Vector *v)
 {
     return Rbc_VecSize(v);
 }
 
-int Rbc_VectorDirty(Rbc_Vector *v)
+int Rbc_VectorDirty (Rbc_Vector *v)
 {
     return Rbc_VecDirty(v);
 }

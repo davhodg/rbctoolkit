@@ -38,11 +38,11 @@
  *----------------------------------------------------------------------
  */
 Pixmap
-Rbc_ColorImageToPixmap(interp, tkwin, image, colorTablePtr)
-    Tcl_Interp *interp;
-    Tk_Window tkwin;
-    Rbc_ColorImage image;
-    ColorTable *colorTablePtr; /* Points to array of colormap indices */
+Rbc_ColorImageToPixmap(
+    Tcl_Interp *interp,
+    Tk_Window tkwin,
+    Rbc_ColorImage image,
+    ColorTable *colorTablePtr) /* Points to array of colormap indices */
 {
     HDC pixmapDC;
     TkWinDCState state;
@@ -91,11 +91,11 @@ Rbc_ColorImageToPixmap(interp, tkwin, image, colorTablePtr)
  *----------------------------------------------------------------------
  */
 Pixmap
-Rbc_ColorImageToPixmap2(display, depth, image, colorTablePtr)
-    Display *display;
-    int depth;
-    Rbc_ColorImage image;
-    ColorTable *colorTablePtr; /* Points to array of colormap indices */
+Rbc_ColorImageToPixmap2(
+    Display *display,
+    int depth,
+    Rbc_ColorImage image,
+    ColorTable *colorTablePtr) /* Points to array of colormap indices */
 {
     BITMAP bm;
     HBITMAP hBitmap;
@@ -166,14 +166,14 @@ Rbc_ColorImageToPixmap2(display, depth, image, colorTablePtr)
  *----------------------------------------------------------------------
  */
 Rbc_ColorImage
-Rbc_DrawableToColorImage(tkwin, drawable, x, y, width, height, inputGamma)
-    Tk_Window tkwin;
-    Drawable drawable;
-    int x;
-    int y;
-    int width;
-    int height; /* Dimension of the drawable. */
-    double inputGamma;
+Rbc_DrawableToColorImage(
+    Tk_Window tkwin,
+    Drawable drawable,
+    int x,
+    int y,
+    int width,
+    int height, /* Dimension of the drawable. */
+    double inputGamma)
 {
     void *data;
     BITMAPINFO info;
@@ -443,14 +443,14 @@ Rbc_ColorImageMask(
  *--------------------------------------------------------------
  */
 Pixmap
-Rbc_RotateBitmap(tkwin, srcBitmap, srcWidth, srcHeight, theta, destWidthPtr, destHeightPtr)
-    Tk_Window tkwin;
-    Pixmap srcBitmap; /* Source bitmap to be rotated */
-    int srcWidth;
-    int srcHeight; /* Width and height of the source bitmap */
-    double theta; /* Right angle rotation to perform */
-    int *destWidthPtr;
-    int *destHeightPtr;
+Rbc_RotateBitmap(
+    Tk_Window tkwin,
+    Pixmap srcBitmap, /* Source bitmap to be rotated */
+    int srcWidth,
+    int srcHeight,  /* Width and height of the source bitmap */
+    double theta,   /* Right angle rotation to perform */
+    int *destWidthPtr,
+    int *destHeightPtr)
 {
     Display *display;		/* X display */
     Window root;		/* Root window drawable */
@@ -656,13 +656,13 @@ Rbc_RotateBitmap(tkwin, srcBitmap, srcWidth, srcHeight, theta, destWidthPtr, des
  * -----------------------------------------------------------------------
  */
 Pixmap
-Rbc_ScaleBitmap(tkwin, srcBitmap, srcWidth, srcHeight, destWidth, destHeight)
-    Tk_Window tkwin;
-    Pixmap srcBitmap;
-    int srcWidth;
-    int srcHeight;
-    int destWidth;
-    int destHeight;
+Rbc_ScaleBitmap(
+    Tk_Window tkwin,
+    Pixmap srcBitmap,
+    int srcWidth,
+    int srcHeight,
+    int destWidth,
+    int destHeight)
 {
     TkWinDCState srcState, destState;
     HDC src, dest;
@@ -716,19 +716,19 @@ Rbc_ScaleBitmap(tkwin, srcBitmap, srcWidth, srcHeight, destWidth, destHeight)
  * -----------------------------------------------------------------------
  */
 Pixmap
-Rbc_ScaleRotateBitmapRegion(tkwin, srcBitmap, srcWidth, srcHeight, regionX, regionY, regionWidth, regionHeight, virtWidth, virtHeight, theta)
-    Tk_Window tkwin;
-    Pixmap srcBitmap; /* Source bitmap. */
-    unsigned int srcWidth;
-    unsigned int srcHeight; /* Size of source bitmap */
-    int regionX;
-    int regionY; /* Offset of region in virtual
+Rbc_ScaleRotateBitmapRegion(
+    Tk_Window tkwin,
+    Pixmap srcBitmap, /* Source bitmap. */
+    unsigned int srcWidth,
+    unsigned int srcHeight, /* Size of source bitmap */
+    int regionX,
+    int regionY, /* Offset of region in virtual
 				  * destination bitmap. */
-    unsigned int regionWidth;
-    unsigned int regionHeight; /* Desire size of bitmap region. */
-    unsigned int virtWidth;
-    unsigned int virtHeight; /* Virtual size of destination bitmap. */
-    double theta; /* Angle to rotate bitmap. */
+    unsigned int regionWidth,
+    unsigned int regionHeight, /* Desire size of bitmap region. */
+    unsigned int virtWidth,
+    unsigned int virtHeight, /* Virtual size of destination bitmap. */
+    double theta) /* Angle to rotate bitmap. */
 {
     Display *display;		/* X display */
     HBITMAP hBitmap;
@@ -1074,9 +1074,9 @@ done:
  *--------------------------------------------------------------
  */
 Rbc_ColorImage
-Rbc_JPEGToColorImage(interp, fileName)
-    Tcl_Interp *interp;
-    char *fileName;
+Rbc_JPEGToColorImage(
+    Tcl_Interp *interp,
+    char *fileName)
 {
     JPEG_CORE_PROPERTIES jpgProps;
     Rbc_ColorImage image;
@@ -1196,8 +1196,7 @@ static void MessageProc (j_common_ptr jpegInfo);
  *--------------------------------------------------------------
  */
 static void
-ErrorProc(jpgPtr)
-    j_common_ptr jpgPtr;
+ErrorProc (j_common_ptr jpgPtr)
 {
     ReaderHandler *handlerPtr = (ReaderHandler *)jpgPtr->err;
 
@@ -1221,8 +1220,7 @@ ErrorProc(jpgPtr)
  *--------------------------------------------------------------
  */
 static void
-    MessageProc(jpgPtr)
-j_common_ptr jpgPtr;
+    MessageProc (j_common_ptr jpgPtr)
 {
     ReaderHandler *handlerPtr = (ReaderHandler *)jpgPtr->err;
     char buffer[JMSG_LENGTH_MAX];
@@ -1250,9 +1248,9 @@ j_common_ptr jpgPtr;
  *----------------------------------------------------------------------
  */
 Rbc_ColorImage
-Rbc_JPEGToColorImage(interp, fileName)
-    Tcl_Interp *interp;
-    char *fileName;
+Rbc_JPEGToColorImage(
+    Tcl_Interp *interp,
+    char *fileName)
 {
     struct jpeg_decompress_struct jpg;
     Rbc_ColorImage image;

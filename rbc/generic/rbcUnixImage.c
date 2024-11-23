@@ -45,8 +45,7 @@ extern int redMaskShift, greenMaskShift, blueMaskShift;
  *----------------------------------------------------------------------
  */
 static int
-ShiftCount(mask)
-    register unsigned int mask;
+ShiftCount (register unsigned int mask)
 {
     register int count;
 
@@ -75,8 +74,7 @@ ShiftCount(mask)
  *----------------------------------------------------------------------
  */
 static int
-CountBits(mask)
-    register unsigned long mask; /* 32  1-bit tallies */
+CountBits (register unsigned long mask) /* 32  1-bit tallies */
 {
     /* 16  2-bit tallies */
     mask = (mask & 0x55555555) + ((mask >> 1) & (0x55555555));
@@ -92,8 +90,7 @@ CountBits(mask)
 }
 
 static void
-ComputeMasks(visualPtr)
-    Visual *visualPtr;
+ComputeMasks (Visual *visualPtr)
 {
     int count;
 
@@ -129,9 +126,9 @@ ComputeMasks(visualPtr)
  *----------------------------------------------------------------------
  */
 static INLINE unsigned int
-TrueColorPixel(visualPtr, pixelPtr)
-    Visual *visualPtr;
-    Pix32 *pixelPtr;
+TrueColorPixel(
+    Visual *visualPtr,
+    Pix32 *pixelPtr)
 {
     unsigned int red, green, blue;
 
@@ -167,9 +164,9 @@ TrueColorPixel(visualPtr, pixelPtr)
  *----------------------------------------------------------------------
  */
 static INLINE unsigned int
-DirectColorPixel(colorTabPtr, pixelPtr)
-    struct ColorTableStruct *colorTabPtr;
-    Pix32 *pixelPtr;
+DirectColorPixel(
+    struct ColorTableStruct *colorTabPtr,
+    Pix32 *pixelPtr)
 {
     unsigned int red, green, blue;
 
@@ -194,9 +191,9 @@ DirectColorPixel(colorTabPtr, pixelPtr)
  *----------------------------------------------------------------------
  */
 static INLINE unsigned int
-PseudoColorPixel(pixelPtr, lut)
-    Pix32 *pixelPtr;
-    unsigned int *lut;
+PseudoColorPixel(
+    Pix32 *pixelPtr,
+    unsigned int *lut)
 {
     int red, green, blue;
     int pixel;
@@ -223,11 +220,11 @@ PseudoColorPixel(pixelPtr, lut)
  *----------------------------------------------------------------------
  */
 Pixmap
-Rbc_ColorImageToPixmap(interp, tkwin, image, colorTablePtr)
-    Tcl_Interp *interp;
-    Tk_Window tkwin;
-    Rbc_ColorImage image;
-    ColorTable *colorTablePtr;	/* Points to array of colormap indices */
+Rbc_ColorImageToPixmap(
+    Tcl_Interp *interp,
+    Tk_Window tkwin,
+    Rbc_ColorImage image,
+    ColorTable *colorTablePtr)	/* Points to array of colormap indices */
 {
     Display *display;
     int width, height;
@@ -392,9 +389,9 @@ Rbc_ColorImageToPixmap(interp, tkwin, image, colorTablePtr)
 
 /* ARGSUSED */
 static int
-XGetImageErrorProc(clientData, errEventPtr)
-    ClientData clientData;
-    XErrorEvent *errEventPtr;
+XGetImageErrorProc(
+    ClientData clientData,
+    XErrorEvent *errEventPtr)
 {
     int *errorPtr = clientData;
 
@@ -429,15 +426,14 @@ XGetImageErrorProc(clientData, errEventPtr)
  *----------------------------------------------------------------------
  */
 Rbc_ColorImage
-Rbc_DrawableToColorImage(tkwin, drawable, x, y, width, height, inputGamma)
-    Tk_Window tkwin;
-    Drawable drawable;
-    register int x, y;		/* Offset of image from the drawable's
-				 * origin. */
-    int width, height;		/* Dimension of the image.  Image must
-				 * be completely contained by the
-				 * drawable. */
-    double inputGamma;
+Rbc_DrawableToColorImage(
+    Tk_Window tkwin,
+    Drawable drawable,
+    register int x,     /* Offset of image from the drawable's origin. */
+    register int y,		/* Offset of image from the drawable's origin. */
+    int width,          /* Dimension of the image. Image must be completely */
+    int height,         /* contained by the drawable. */
+    double inputGamma)
 {
     XImage *imagePtr;
     Rbc_ColorImage image;
@@ -573,9 +569,9 @@ Rbc_DrawableToColorImage(tkwin, drawable, x, y, width, height, inputGamma)
 
 
 Pixmap
-Rbc_PhotoImageMask(tkwin, src)
-    Tk_Window tkwin;
-    Tk_PhotoImageBlock src;
+Rbc_PhotoImageMask(
+    Tk_Window tkwin,
+    Tk_PhotoImageBlock src)
 {
     Pixmap bitmap;
     int arraySize, bytes_per_line;
@@ -628,9 +624,9 @@ Rbc_PhotoImageMask(tkwin, src)
 }
 
 Pixmap
-Rbc_ColorImageMask(tkwin, image)
-    Tk_Window tkwin;
-    Rbc_ColorImage image;
+Rbc_ColorImageMask(
+    Tk_Window tkwin,
+    Rbc_ColorImage image)
 {
     Pixmap bitmap;
     int arraySize, bytes_per_line;
@@ -699,13 +695,14 @@ Rbc_ColorImageMask(tkwin, image)
  * -----------------------------------------------------------------
  */
 Pixmap
-Rbc_RotateBitmap(tkwin, srcBitmap, srcWidth, srcHeight, theta,
-    destWidthPtr, destHeightPtr)
-    Tk_Window tkwin;
-    Pixmap srcBitmap;		/* Source bitmap to be rotated */
-    int srcWidth, srcHeight;	/* Width and height of the source bitmap */
-    double theta;		/* Right angle rotation to perform */
-    int *destWidthPtr, *destHeightPtr;
+Rbc_RotateBitmap(
+    Tk_Window tkwin,
+    Pixmap srcBitmap,   /* Source bitmap to be rotated */
+    int srcWidth,       /* Width of the source bitmap */
+    int srcHeight,	    /* Height of the source bitmap */
+    double theta,		/* Right angle rotation to perform */
+    int *destWidthPtr,
+    int *destHeightPtr)
 {
     Display *display;		/* X display */
     Window root;		/* Root window drawable */
@@ -885,10 +882,13 @@ Rbc_RotateBitmap(tkwin, srcBitmap, srcWidth, srcHeight, theta,
  * -----------------------------------------------------------------------
  */
 Pixmap
-Rbc_ScaleBitmap(tkwin, srcBitmap, srcWidth, srcHeight, destWidth, destHeight)
-    Tk_Window tkwin;
-    Pixmap srcBitmap;
-    int srcWidth, srcHeight, destWidth, destHeight;
+Rbc_ScaleBitmap(
+    Tk_Window tkwin,
+    Pixmap srcBitmap,
+    int srcWidth,
+    int srcHeight, 
+    int destWidth, 
+    int destHeight)
 {
     Display *display;
     GC bitmapGC;
@@ -1168,8 +1168,8 @@ static void MessageProc (j_common_ptr jpegInfo);
  */
 
 static void
-ErrorProc(jpgPtr)
-    j_common_ptr jpgPtr;
+ErrorProc(
+    j_common_ptr jpgPtr)
 {
     ReaderHandler *handlerPtr = (ReaderHandler *)jpgPtr->err;
 
@@ -1178,8 +1178,8 @@ ErrorProc(jpgPtr)
 }
 
 static void
-MessageProc(jpgPtr)
-    j_common_ptr jpgPtr;
+MessageProc(
+    j_common_ptr jpgPtr)
 {
     ReaderHandler *handlerPtr = (ReaderHandler *)jpgPtr->err;
     char buffer[JMSG_LENGTH_MAX];
@@ -1204,9 +1204,9 @@ MessageProc(jpgPtr)
  *----------------------------------------------------------------------
  */
 Rbc_ColorImage
-Rbc_JPEGToColorImage(interp, fileName)
-    Tcl_Interp *interp;
-    char *fileName;
+Rbc_JPEGToColorImage(
+    Tcl_Interp *interp,
+    char *fileName)
 {
     struct jpeg_decompress_struct jpg;
     Rbc_ColorImage image;

@@ -33,13 +33,13 @@
  *--------------------------------------------------------------
  */
 void
-Rbc_ExpandParseValue(parsePtr, needed)
-    ParseValue *parsePtr; /* Information about buffer that
+Rbc_ExpandParseValue(
+    ParseValue *parsePtr, /* Information about buffer that
                            * must be expanded.  If the clientData
                            * in the structure is non-zero, it
                            * means that the current buffer is
                            * dynamically allocated. */
-    int needed; /* Minimum amount of additional space
+    int needed) /* Minimum amount of additional space
                  * to allocate. */
 {
     int size;
@@ -99,14 +99,14 @@ Rbc_ExpandParseValue(parsePtr, needed)
  */
 #ifdef RBC_NESTED_COMMANDS
 int
-Rbc_ParseNestedCmd(interp, string, flags, termPtr, parsePtr)
-    Tcl_Interp *interp; /* Interpreter to use for nested command
+Rbc_ParseNestedCmd(
+    Tcl_Interp *interp, /* Interpreter to use for nested command
                          * evaluations and error messages. */
-    char *string; /* Character just after opening bracket. */
-    int flags; /* Flags to pass to nested Tcl_Eval. */
-    char **termPtr; /* Store address of terminating character
+    char *string,   /* Character just after opening bracket. */
+    int flags,      /* Flags to pass to nested Tcl_Eval. */
+    char **termPtr, /* Store address of terminating character
                      * here. */
-    ParseValue *parsePtr; /* Information about where to place
+    ParseValue *parsePtr) /* Information about where to place
                            * result of command. */
 {
     int result, length, shortfall;
@@ -168,12 +168,12 @@ Rbc_ParseNestedCmd(interp, string, flags, termPtr, parsePtr)
  *--------------------------------------------------------------
  */
 int
-Rbc_ParseBraces(interp, string, termPtr, parsePtr)
-    Tcl_Interp *interp; /* Interpreter to use for nested command
+Rbc_ParseBraces(
+    Tcl_Interp *interp, /* Interpreter to use for nested command
                          * evaluations and error messages. */
-    char *string; /* Character just after opening bracket. */
-    char **termPtr; /* Store address of terminating character here. */
-    ParseValue *parsePtr; /* Information about where to place
+    char *string,   /* Character just after opening bracket. */
+    char **termPtr, /* Store address of terminating character here. */
+    ParseValue *parsePtr) /* Information about where to place
                            * result of command. */
 {
     int level;
@@ -291,18 +291,18 @@ Rbc_ParseBraces(interp, string, termPtr, parsePtr)
  *--------------------------------------------------------------
  */
 int
-Rbc_ParseQuotes(interp, string, termChar, flags, termPtr, parsePtr)
-    Tcl_Interp *interp; /* Interpreter to use for nested command
+Rbc_ParseQuotes(
+    Tcl_Interp *interp, /* Interpreter to use for nested command
                          * evaluations and error messages. */
-    char *string; /* Character just after opening double-
+    char *string, /* Character just after opening double-
                    * quote. */
-    int termChar; /* Character that terminates "quoted" string
+    int termChar, /* Character that terminates "quoted" string
                    * (usually double-quote, but sometimes
                    * right-paren or something else). */
-    int flags; /* Flags to pass to nested Tcl_Eval calls. */
-    char **termPtr; /* Store address of terminating character
+    int flags,      /* Flags to pass to nested Tcl_Eval calls. */
+    char **termPtr, /* Store address of terminating character
                      * here. */
-    ParseValue *parsePtr; /* Information about where to place
+    ParseValue *parsePtr) /* Information about where to place
                            * fully-substituted result of parse. */
 {
     register char *src, *dest, c;

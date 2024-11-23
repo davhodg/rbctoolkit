@@ -226,8 +226,8 @@ static int CreateAPMetaFile (Tcl_Interp *interp, HANDLE hMetaFile, HDC hDC, APMH
  *--------------------------------------------------------------
  */
 void
-Rbc_EventuallyRedrawGraph(graphPtr)
-    Graph *graphPtr; /* Graph widget record */
+Rbc_EventuallyRedrawGraph(
+    Graph *graphPtr) /* Graph widget record */
 {
     if ((graphPtr->tkwin != NULL) && !(graphPtr->flags & REDRAW_PENDING)) {
         Tcl_DoWhenIdle(DisplayGraph, graphPtr);
@@ -254,9 +254,9 @@ Rbc_EventuallyRedrawGraph(graphPtr)
  *--------------------------------------------------------------
  */
 static void
-GraphEventProc(clientData, eventPtr)
-    ClientData clientData; /* Graph widget record */
-    register XEvent *eventPtr; /* Event which triggered call to routine */
+GraphEventProc(
+    ClientData clientData,      /* Graph widget record */
+    register XEvent *eventPtr)  /* Event which triggered call to routine */
 {
     Graph *graphPtr = clientData;
 
@@ -308,8 +308,8 @@ GraphEventProc(clientData, eventPtr)
  *
  *---------------------------------------------------------------------- */
 static void
-GraphInstCmdDeleteProc(clientData)
-    ClientData clientData; /* Pointer to widget record. */
+GraphInstCmdDeleteProc(
+    ClientData clientData) /* Pointer to widget record. */
 {
     Graph *graphPtr = clientData;
 
@@ -343,9 +343,9 @@ GraphInstCmdDeleteProc(clientData)
  *----------------------------------------------------------------------
  */
 static void
-TileChangedProc(clientData, tile)
-    ClientData clientData;
-    Rbc_Tile tile; /* Not used. */
+TileChangedProc(
+    ClientData clientData,
+    Rbc_Tile tile) /* Not used. */
 {
     Graph *graphPtr = clientData;
 
@@ -372,8 +372,8 @@ TileChangedProc(clientData, tile)
  *--------------------------------------------------------------
  */
 static void
-AdjustAxisPointers(graphPtr)
-    Graph *graphPtr; /* Graph widget record */
+AdjustAxisPointers(
+    Graph *graphPtr) /* Graph widget record */
 {
     if (graphPtr->inverted) {
         graphPtr->leftMargin.axes = graphPtr->axisChain[0];
@@ -405,8 +405,8 @@ AdjustAxisPointers(graphPtr)
  *----------------------------------------------------------------------
  */
 static int
-InitPens(graphPtr)
-    Graph *graphPtr;
+InitPens(
+    Graph *graphPtr)
 {
     Tcl_InitHashTable(&graphPtr->penTable, TCL_STRING_KEYS);
     if (Rbc_CreatePen(graphPtr, "activeLine", rbcLineElementUid, 0, NULL) == NULL) {
@@ -451,11 +451,11 @@ InitPens(graphPtr)
  *----------------------------------------------------------------------
  */
 void
-Rbc_GraphTags(table, object, context, list)
-    Rbc_BindTable table;
-    ClientData object;
-    ClientData context; /* Not used. */
-    Rbc_List list;
+Rbc_GraphTags(
+    Rbc_BindTable table,
+    ClientData object,
+    ClientData context, /* Not used. */
+    Rbc_List list)
 {
     Element *elemPtr;
     MakeTagProc *tagProc;
@@ -514,10 +514,11 @@ Rbc_GraphTags(table, object, context, list)
  *----------------------------------------------------------------------
  */
 static ClientData
-PickEntry(clientData, x, y, contextPtr)
-    ClientData clientData;
-    int x, y;
-    ClientData *contextPtr; /* Not used. */
+PickEntry(
+    ClientData clientData,
+    int x,
+    int y,
+    ClientData *contextPtr) /* Not used. */
 {
     Graph *graphPtr = clientData;
     Rbc_ChainLink *linkPtr;
@@ -606,8 +607,8 @@ PickEntry(clientData, x, y, contextPtr)
  *----------------------------------------------------------------------
  */
 static void
-ConfigureGraph(graphPtr)
-    Graph *graphPtr; /* Graph widget record */
+ConfigureGraph(
+    Graph *graphPtr) /* Graph widget record */
 {
     XColor *colorPtr;
     GC newGC;
@@ -743,8 +744,8 @@ ConfigureGraph(graphPtr)
  *----------------------------------------------------------------------
  */
 static void
-DestroyGraph(dataPtr)
-    DestroyData dataPtr;
+DestroyGraph(
+    DestroyData dataPtr)
 {
     Graph *graphPtr = (Graph *)dataPtr;
 
@@ -1418,14 +1419,14 @@ TransformOp(
  *----------------------------------------------------------------------
  */
 static int
-StringToFormat(clientData, interp, switchName, string, record, offset)
-    ClientData clientData; /* Contains a pointer to the tabset containing
+StringToFormat(
+    ClientData clientData, /* Contains a pointer to the tabset containing
                             * this image. */
-    Tcl_Interp *interp; /* Interpreter to send results back to */
-    char *switchName; /* Not used. */
-    char *string; /* String representation */
-    char *record; /* Structure record */
-    int offset; /* Offset to field in structure */
+    Tcl_Interp *interp, /* Interpreter to send results back to */
+    char *switchName,   /* Not used. */
+    char *string,       /* String representation */
+    char *record,       /* Structure record */
+    int offset)         /* Offset to field in structure */
 {
     int *formatPtr = (int *)(record + offset);
     char c;
@@ -1471,7 +1472,8 @@ StringToFormat(clientData, interp, switchName, string, record, offset)
 static int
 InitMetaFileHeader(
     Tk_Window tkwin,
-    int width, int height,
+    int width,
+    int height,
     APMHEADER *mfhPtr)
 {
     unsigned int *p;
@@ -1958,9 +1960,9 @@ StripchartObjCmd(
  * -----------------------------------------------------------------------
  */
 static void
-DrawMargins(graphPtr, drawable)
-    Graph *graphPtr;
-    Drawable drawable; /* Pixmap or window to draw into */
+DrawMargins(
+    Graph *graphPtr,
+    Drawable drawable) /* Pixmap or window to draw into */
 {
     XRectangle rects[4];
     /*
@@ -2032,9 +2034,9 @@ DrawMargins(graphPtr, drawable)
  *----------------------------------------------------------------------
  */
 static void
-DrawPlotRegion(graphPtr, drawable)
-    Graph *graphPtr;
-    Drawable drawable; /* Pixmap or window to draw into */
+DrawPlotRegion(
+    Graph *graphPtr,
+    Drawable drawable) /* Pixmap or window to draw into */
 {
     /* Clear the background of the plotting area. */
     XFillRectangle(graphPtr->display, drawable, graphPtr->plotFillGC,
@@ -2071,8 +2073,8 @@ DrawPlotRegion(graphPtr, drawable)
  *----------------------------------------------------------------------
  */
 void
-Rbc_LayoutGraph(graphPtr)
-    Graph *graphPtr;
+Rbc_LayoutGraph(
+    Graph *graphPtr)
 {
     if (graphPtr->flags & RESET_AXES) {
         Rbc_ResetAxes(graphPtr);
@@ -2109,11 +2111,11 @@ Rbc_LayoutGraph(graphPtr)
  *----------------------------------------------------------------------
  */
 void
-Rbc_DrawGraph(graphPtr, drawable, backingStore)
-    Graph *graphPtr;
-    Drawable drawable; /* Pixmap or window to draw into */
-    int backingStore; /* If non-zero, use backing store for
-                       * plotting area. */
+Rbc_DrawGraph(
+    Graph *graphPtr,
+    Drawable drawable, /* Pixmap or window to draw into */
+    int backingStore)  /* If non-zero, use backing store for
+                        * plotting area. */
 {
     if (backingStore) {
         /*
@@ -2196,8 +2198,8 @@ Rbc_DrawGraph(graphPtr, drawable, backingStore)
  *----------------------------------------------------------------------
  */
 static void
-UpdateMarginTraces(graphPtr)
-    Graph *graphPtr;
+UpdateMarginTraces(
+    Graph *graphPtr)
 {
     Margin *marginPtr;
     int size;
@@ -2235,8 +2237,8 @@ UpdateMarginTraces(graphPtr)
  *----------------------------------------------------------------------
  */
 static void
-DisplayGraph(clientData)
-    ClientData clientData;
+DisplayGraph(
+    ClientData clientData)
 {
     Graph *graphPtr = clientData;
     Pixmap drawable;
@@ -2319,8 +2321,8 @@ DisplayGraph(clientData)
  *----------------------------------------------------------------------
  */
 int
-Rbc_GraphInit(interp)
-    Tcl_Interp *interp;
+Rbc_GraphInit(
+    Tcl_Interp *interp)
 {
     rbcBarElementUid = (Rbc_Uid)Tk_GetUid("BarElement");
     rbcLineElementUid = (Rbc_Uid)Tk_GetUid("LineElement");
@@ -2360,8 +2362,8 @@ Rbc_GraphInit(interp)
  *----------------------------------------------------------------------
  */
 Graph *
-Rbc_GetGraphFromWindowData(tkwin)
-    Tk_Window tkwin;
+Rbc_GetGraphFromWindowData(
+    Tk_Window tkwin)
 {
     Graph *graphPtr;
 
@@ -2391,8 +2393,8 @@ Rbc_GetGraphFromWindowData(tkwin)
  *----------------------------------------------------------------------
  */
 int
-Rbc_GraphType(graphPtr)
-    Graph *graphPtr;
+Rbc_GraphType(
+    Graph *graphPtr)
 {
     if (graphPtr->classUid == rbcLineElementUid) {
         return GRAPH;

@@ -41,9 +41,9 @@ static void TextLayoutToPostScript (struct PsTokenStruct *tokenPtr, int x, int y
  *--------------------------------------------------------------
  */
 PsToken
-Rbc_GetPsToken(interp, tkwin)
-    Tcl_Interp *interp;
-    Tk_Window tkwin;
+Rbc_GetPsToken(
+    Tcl_Interp *interp,
+    Tk_Window tkwin)
 {
     struct PsTokenStruct *tokenPtr;
 
@@ -74,8 +74,8 @@ Rbc_GetPsToken(interp, tkwin)
  *--------------------------------------------------------------
  */
 void
-Rbc_ReleasePsToken(tokenPtr)
-    struct PsTokenStruct *tokenPtr;
+Rbc_ReleasePsToken(
+    struct PsTokenStruct *tokenPtr)
 {
     Tcl_DStringFree(&(tokenPtr->dString));
     ckfree((char *)tokenPtr);
@@ -97,8 +97,8 @@ Rbc_ReleasePsToken(tokenPtr)
  *--------------------------------------------------------------
  */
 char *
-Rbc_PostScriptFromToken(tokenPtr)
-    struct PsTokenStruct *tokenPtr;
+Rbc_PostScriptFromToken(
+    struct PsTokenStruct *tokenPtr)
 {
     return Tcl_DStringValue(&(tokenPtr->dString));
 }
@@ -119,8 +119,8 @@ Rbc_PostScriptFromToken(tokenPtr)
  *--------------------------------------------------------------
  */
 char *
-Rbc_ScratchBufferFromToken(tokenPtr)
-    struct PsTokenStruct *tokenPtr;
+Rbc_ScratchBufferFromToken(
+    struct PsTokenStruct *tokenPtr)
 {
     return tokenPtr->scratchArr;
 }
@@ -206,9 +206,9 @@ Rbc_FormatToPostScript (PsToken arg1, ...)
  *--------------------------------------------------------------
  */
 int
-Rbc_FileToPostScript(tokenPtr, fileName)
-    struct PsTokenStruct *tokenPtr;
-    char *fileName;
+Rbc_FileToPostScript(
+    struct PsTokenStruct *tokenPtr,
+    char *fileName)
 {
     Tcl_Channel channel;
     Tcl_DString dString;
@@ -288,9 +288,9 @@ Rbc_FileToPostScript(tokenPtr, fileName)
  *----------------------------------------------------------------------
  */
 static void
-XColorToPostScript(tokenPtr, colorPtr)
-    struct PsTokenStruct *tokenPtr;
-    XColor *colorPtr; /* Color value to be converted */
+XColorToPostScript(
+    struct PsTokenStruct *tokenPtr,
+    XColor *colorPtr) /* Color value to be converted */
 {
     /*
      * Shift off the lower byte before dividing because some versions
@@ -318,9 +318,9 @@ XColorToPostScript(tokenPtr, colorPtr)
  *--------------------------------------------------------------
  */
 void
-Rbc_BackgroundToPostScript(tokenPtr, colorPtr)
-    struct PsTokenStruct *tokenPtr;
-    XColor *colorPtr;
+Rbc_BackgroundToPostScript(
+    struct PsTokenStruct *tokenPtr,
+    XColor *colorPtr)
 {
     /* If the color name exists in Tcl array variable, use that translation */
     if (tokenPtr->colorVarName != NULL) {
@@ -353,9 +353,9 @@ Rbc_BackgroundToPostScript(tokenPtr, colorPtr)
  *--------------------------------------------------------------
  */
 void
-Rbc_ForegroundToPostScript(tokenPtr, colorPtr)
-    struct PsTokenStruct *tokenPtr;
-    XColor *colorPtr;
+Rbc_ForegroundToPostScript(
+    struct PsTokenStruct *tokenPtr,
+    XColor *colorPtr)
 {
     /* If the color name exists in Tcl array variable, use that translation */
     if (tokenPtr->colorVarName != NULL) {
@@ -390,7 +390,7 @@ Rbc_ForegroundToPostScript(tokenPtr, colorPtr)
  *----------------------------------------------------------------------
  */
 INLINE static unsigned char
-ReverseBits(unsigned char byte)
+ReverseBits (unsigned char byte)
 {
     byte = ((byte >> 1) & 0x55) | ((byte << 1) & 0xaa);
     byte = ((byte >> 2) & 0x33) | ((byte << 2) & 0xcc);
@@ -414,7 +414,7 @@ ReverseBits(unsigned char byte)
  *----------------------------------------------------------------------
  */
 INLINE static void
-ByteToHex(unsigned char byte, char *string)
+ByteToHex (unsigned char byte, char *string)
 {
     static char hexDigits[] = "0123456789ABCDEF";
 
@@ -521,11 +521,11 @@ Rbc_BitmapDataToPostScript(
  * -------------------------------------------------------------------------
  */
 void
-Rbc_BitmapDataToPostScript(tokenPtr, display, bitmap, width, height)
-    struct PsTokenStruct *tokenPtr;
-    Display *display;
-    Pixmap bitmap;
-    int width, height;
+Rbc_BitmapDataToPostScript(
+    struct PsTokenStruct *tokenPtr,
+    Display *display,
+    Pixmap bitmap,
+    int width, int height)
 {
     register unsigned char byte = 0;
     register int x, y, bitPos;
@@ -594,11 +594,11 @@ Rbc_BitmapDataToPostScript(tokenPtr, display, bitmap, width, height)
  *----------------------------------------------------------------------
  */
 int
-Rbc_ColorImageToPsData(image, nComponents, resultPtr, prefix)
-    Rbc_ColorImage image;
-    int nComponents;
-    Tcl_DString *resultPtr;
-    char *prefix;
+Rbc_ColorImageToPsData(
+    Rbc_ColorImage image,
+    int nComponents,
+    Tcl_DString *resultPtr,
+    char *prefix)
 {
     char string[10];
     register int count;
@@ -684,9 +684,9 @@ Rbc_ColorImageToPsData(image, nComponents, resultPtr, prefix)
  *----------------------------------------------------------------------
  */
 static char *
-NameOfAtom(tkwin, atom)
-    Tk_Window tkwin;
-    Atom atom;
+NameOfAtom(
+    Tk_Window tkwin,
+    Atom atom)
 {
     char *result;
 
@@ -746,9 +746,9 @@ static int nFontNames = (sizeof(psFontMap) / sizeof(FontMap));
  * -----------------------------------------------------------------
  */
 static char *
-XFontStructToPostScript(tkwin, fontPtr)
-    Tk_Window tkwin; /* Window to query for atoms */
-    XFontStruct *fontPtr; /* Font structure to map to name */
+XFontStructToPostScript(
+    Tk_Window tkwin,        /* Window to query for atoms */
+    XFontStruct *fontPtr)   /* Font structure to map to name */
 {
     Atom atom;
     char *fullName, *family, *foundry;
@@ -849,8 +849,7 @@ XFontStructToPostScript(tkwin, fontPtr)
  *--------------------------------------------------------------
  */
 void
-Rbc_ClearBackgroundToPostScript(tokenPtr)
-    struct PsTokenStruct *tokenPtr;
+Rbc_ClearBackgroundToPostScript (struct PsTokenStruct *tokenPtr)
 {
     Rbc_AppendToPostScript(tokenPtr,
                            " 1.0 1.0 1.0 SetBgColor\n",
@@ -873,9 +872,9 @@ Rbc_ClearBackgroundToPostScript(tokenPtr)
  *--------------------------------------------------------------
  */
 void
-Rbc_CapStyleToPostScript(tokenPtr, capStyle)
-    struct PsTokenStruct *tokenPtr;
-    int capStyle;
+Rbc_CapStyleToPostScript(
+    struct PsTokenStruct *tokenPtr,
+    int capStyle)
 {
     /*
      * X11:not last = 0, butt = 1, round = 2, projecting = 3
@@ -905,9 +904,9 @@ Rbc_CapStyleToPostScript(tokenPtr, capStyle)
  *--------------------------------------------------------------
  */
 void
-Rbc_JoinStyleToPostScript(tokenPtr, joinStyle)
-    struct PsTokenStruct *tokenPtr;
-    int joinStyle;
+Rbc_JoinStyleToPostScript(
+    struct PsTokenStruct *tokenPtr,
+    int joinStyle)
 {
     /*
      * miter = 0, round = 1, bevel = 2
@@ -933,9 +932,9 @@ Rbc_JoinStyleToPostScript(tokenPtr, joinStyle)
  *--------------------------------------------------------------
  */
 void
-Rbc_LineWidthToPostScript(tokenPtr, lineWidth)
-    struct PsTokenStruct *tokenPtr;
-    int lineWidth;
+Rbc_LineWidthToPostScript(
+    struct PsTokenStruct *tokenPtr,
+    int lineWidth)
 {
     if (lineWidth < 1) {
         lineWidth = 1;
@@ -961,9 +960,9 @@ Rbc_LineWidthToPostScript(tokenPtr, lineWidth)
  *--------------------------------------------------------------
  */
 void
-Rbc_LineDashesToPostScript(tokenPtr, dashesPtr)
-    struct PsTokenStruct *tokenPtr;
-    Rbc_Dashes *dashesPtr;
+Rbc_LineDashesToPostScript(
+    struct PsTokenStruct *tokenPtr,
+    Rbc_Dashes *dashesPtr)
 {
 
     Rbc_AppendToPostScript(tokenPtr, "[ ", (char *)NULL);
@@ -993,13 +992,13 @@ Rbc_LineDashesToPostScript(tokenPtr, dashesPtr)
  *--------------------------------------------------------------
  */
 void
-Rbc_LineAttributesToPostScript(tokenPtr, colorPtr, lineWidth, dashesPtr,
-                               capStyle, joinStyle)
-    struct PsTokenStruct *tokenPtr;
-    XColor *colorPtr;
-    int lineWidth;
-    Rbc_Dashes *dashesPtr;
-    int capStyle, joinStyle;
+Rbc_LineAttributesToPostScript(
+    struct PsTokenStruct *tokenPtr,
+    XColor *colorPtr,
+    int lineWidth,
+    Rbc_Dashes *dashesPtr,
+    int capStyle,
+    int joinStyle)
 {
     Rbc_JoinStyleToPostScript(tokenPtr, joinStyle);
     Rbc_CapStyleToPostScript(tokenPtr, capStyle);
@@ -1025,10 +1024,12 @@ Rbc_LineAttributesToPostScript(tokenPtr, colorPtr, lineWidth, dashesPtr,
  *--------------------------------------------------------------
  */
 void
-Rbc_RectangleToPostScript(tokenPtr, x, y, width, height)
-    struct PsTokenStruct *tokenPtr;
-    double x, y;
-    int width, height;
+Rbc_RectangleToPostScript(
+    struct PsTokenStruct *tokenPtr,
+    double x,
+    double y,
+    int width,
+    int height)
 {
     Rbc_FormatToPostScript(tokenPtr,
                            "%g %g %d %d Box fill\n\n",
@@ -1051,10 +1052,12 @@ Rbc_RectangleToPostScript(tokenPtr, x, y, width, height)
  *--------------------------------------------------------------
  */
 void
-Rbc_RegionToPostScript(tokenPtr, x, y, width, height)
-    struct PsTokenStruct *tokenPtr;
-    double x, y;
-    int width, height;
+Rbc_RegionToPostScript(
+    struct PsTokenStruct *tokenPtr,
+    double x,
+    double y,
+    int width, 
+    int height)
 {
     Rbc_FormatToPostScript(tokenPtr, "%g %g %d %d Box\n\n",
                            x, y, width, height);
@@ -1076,10 +1079,10 @@ Rbc_RegionToPostScript(tokenPtr, x, y, width, height)
  *--------------------------------------------------------------
  */
 void
-Rbc_PathToPostScript(tokenPtr, screenPts, nScreenPts)
-    struct PsTokenStruct *tokenPtr;
-    register Point2D *screenPts;
-    int nScreenPts;
+Rbc_PathToPostScript(
+    struct PsTokenStruct *tokenPtr,
+    register Point2D *screenPts,
+    int nScreenPts)
 {
     register Point2D *pointPtr, *endPtr;
 
@@ -1111,10 +1114,10 @@ Rbc_PathToPostScript(tokenPtr, screenPts, nScreenPts)
  *--------------------------------------------------------------
  */
 void
-Rbc_PolygonToPostScript(tokenPtr, screenPts, nScreenPts)
-    struct PsTokenStruct *tokenPtr;
-    Point2D *screenPts;
-    int nScreenPts;
+Rbc_PolygonToPostScript(
+    struct PsTokenStruct *tokenPtr,
+    Point2D *screenPts,
+    int nScreenPts)
 {
     Rbc_PathToPostScript(tokenPtr, screenPts, nScreenPts);
     Rbc_FormatToPostScript(tokenPtr, "%g %g ", screenPts[0].x, screenPts[0].y);
@@ -1137,10 +1140,10 @@ Rbc_PolygonToPostScript(tokenPtr, screenPts, nScreenPts)
  *--------------------------------------------------------------
  */
 void
-Rbc_SegmentsToPostScript(tokenPtr, segPtr, nSegments)
-    struct PsTokenStruct *tokenPtr;
-    register XSegment *segPtr;
-    int nSegments;
+Rbc_SegmentsToPostScript(
+    struct PsTokenStruct *tokenPtr,
+    register XSegment *segPtr,
+    int nSegments)
 {
     register int i;
 
@@ -1169,10 +1172,10 @@ Rbc_SegmentsToPostScript(tokenPtr, segPtr, nSegments)
  *--------------------------------------------------------------
  */
 void
-Rbc_RectanglesToPostScript(tokenPtr, rectArr, nRects)
-    struct PsTokenStruct *tokenPtr;
-    XRectangle rectArr[];
-    int nRects;
+Rbc_RectanglesToPostScript(
+    struct PsTokenStruct *tokenPtr,
+    XRectangle rectArr[],
+    int nRects)
 {
     register int i;
 
@@ -1203,14 +1206,15 @@ Rbc_RectanglesToPostScript(tokenPtr, rectArr, nRects)
  *--------------------------------------------------------------
  */
 void
-Rbc_Draw3DRectangleToPostScript(tokenPtr, border, x, y, width, height,
-                                borderWidth, relief)
-    struct PsTokenStruct *tokenPtr;
-    Tk_3DBorder border; /* Token for border to draw. */
-    double x, y; /* Coordinates of rectangle */
-    int width, height; /* Region to be drawn. */
-    int borderWidth; /* Desired width for border, in pixels. */
-    int relief; /* Should be either TK_RELIEF_RAISED or
+Rbc_Draw3DRectangleToPostScript(
+    struct PsTokenStruct *tokenPtr,
+    Tk_3DBorder border, /* Token for border to draw. */
+    double x,           /* Coordinates of rectangle */
+    double y,           /* Coordinates of rectangle */
+    int width,          /* Region to be drawn. */
+    int height,         /* Region to be drawn. */
+    int borderWidth,    /* Desired width for border, in pixels. */
+    int relief) /* Should be either TK_RELIEF_RAISED or
                  * TK_RELIEF_SUNKEN;  indicates position of
                  * interior of window relative to exterior. */
 {
@@ -1311,14 +1315,15 @@ Rbc_Draw3DRectangleToPostScript(tokenPtr, border, x, y, width, height,
  *--------------------------------------------------------------
  */
 void
-Rbc_Fill3DRectangleToPostScript(tokenPtr, border, x, y, width, height,
-                                borderWidth, relief)
-    struct PsTokenStruct *tokenPtr;
-    Tk_3DBorder border; /* Token for border to draw. */
-    double x, y; /* Coordinates of top-left of border area */
-    int width, height; /* Dimension of border to be drawn. */
-    int borderWidth; /* Desired width for border, in pixels. */
-    int relief; /* Should be either TK_RELIEF_RAISED or
+Rbc_Fill3DRectangleToPostScript(
+    struct PsTokenStruct *tokenPtr,
+    Tk_3DBorder border, /* Token for border to draw. */
+    double x,           /* Coordinates of top-left of border area */
+    double y,           /* Coordinates of top-left of border area */
+    int width,          /* Dimension of border to be drawn. */
+    int height,         /* Dimension of border to be drawn. */
+    int borderWidth,    /* Desired width for border, in pixels. */
+    int relief) /* Should be either TK_RELIEF_RAISED or
                  * TK_RELIEF_SUNKEN;  indicates position of
                  * interior of window relative to exterior. */
 {
@@ -1351,10 +1356,10 @@ Rbc_Fill3DRectangleToPostScript(tokenPtr, border, x, y, width, height,
  *--------------------------------------------------------------
  */
 void
-Rbc_StippleToPostScript(tokenPtr, display, bitmap)
-    struct PsTokenStruct *tokenPtr;
-    Display *display;
-    Pixmap bitmap;
+Rbc_StippleToPostScript(
+    struct PsTokenStruct *tokenPtr,
+    Display *display,
+    Pixmap bitmap)
 {
     int width, height;
 
@@ -1385,10 +1390,11 @@ Rbc_StippleToPostScript(tokenPtr, display, bitmap)
  *----------------------------------------------------------------------
  */
 void
-Rbc_ColorImageToPostScript(tokenPtr, image, x, y)
-    struct PsTokenStruct *tokenPtr;
-    Rbc_ColorImage image;
-    double x, y;
+Rbc_ColorImageToPostScript(
+    struct PsTokenStruct *tokenPtr,
+    Rbc_ColorImage image,
+    double x,
+    double y)
 {
     int width, height;
     int tmpSize;
@@ -1442,10 +1448,11 @@ Rbc_ColorImageToPostScript(tokenPtr, image, x, y)
  *----------------------------------------------------------------------
  */
 void
-Rbc_WindowToPostScript(tokenPtr, tkwin, x, y)
-    struct PsTokenStruct *tokenPtr;
-    Tk_Window tkwin;
-    double x, y;
+Rbc_WindowToPostScript(
+    struct PsTokenStruct *tokenPtr,
+    Tk_Window tkwin,
+    double x,
+    double y)
 {
     Rbc_ColorImage image;
     int width, height;
@@ -1485,10 +1492,11 @@ Rbc_WindowToPostScript(tokenPtr, tkwin, x, y)
  * -------------------------------------------------------------------------
  */
 void
-Rbc_PhotoToPostScript(tokenPtr, photo, x, y)
-    struct PsTokenStruct *tokenPtr;
-    Tk_PhotoHandle photo;
-    double x, y; /* Origin of photo image */
+Rbc_PhotoToPostScript(
+    struct PsTokenStruct *tokenPtr,
+    Tk_PhotoHandle photo,
+    double x,   /* Origin of photo image */
+    double y)   /* Origin of photo image */
 {
     Rbc_ColorImage image;
 
@@ -1524,9 +1532,9 @@ Rbc_PhotoToPostScript(tokenPtr, photo, x, y)
  * -----------------------------------------------------------------
  */
 void
-Rbc_FontToPostScript(tokenPtr, font)
-    struct PsTokenStruct *tokenPtr;
-    Tk_Font font; /* Tk font to query about */
+Rbc_FontToPostScript(
+    struct PsTokenStruct *tokenPtr,
+    Tk_Font font) /* Tk font to query about */
 {
     XFontStruct *fontPtr = (XFontStruct *)font;
     Tcl_Interp *interp = tokenPtr->interp;
@@ -1640,10 +1648,11 @@ Rbc_FontToPostScript(tokenPtr, font)
  *--------------------------------------------------------------
  */
 static void
-TextLayoutToPostScript(tokenPtr, x, y, textPtr)
-    struct PsTokenStruct *tokenPtr;
-    int x, y;
-    TextLayout *textPtr;
+TextLayoutToPostScript(
+    struct PsTokenStruct *tokenPtr,
+    int x,
+    int y,
+    TextLayout *textPtr)
 {
     char *src, *dst, *end;
     int count;			/* Counts the # of bytes written to
@@ -1737,11 +1746,12 @@ TextLayoutToPostScript(tokenPtr, x, y, textPtr)
  * -----------------------------------------------------------------
  */
 void
-Rbc_TextToPostScript(tokenPtr, string, tsPtr, x, y)
-    struct PsTokenStruct *tokenPtr;
-    char *string; /* String to convert to PostScript */
-    TextStyle *tsPtr; /* Text attribute information */
-    double x, y; /* Window coordinates where to print text */
+Rbc_TextToPostScript(
+    struct PsTokenStruct *tokenPtr,
+    char *string,       /* String to convert to PostScript */
+    TextStyle *tsPtr,   /* Text attribute information */
+    double x,           /* Window coordinates where to print text */
+    double y)           /* Window coordinates where to print text */
 {
     double theta;
     double rotWidth, rotHeight;
@@ -1799,10 +1809,10 @@ Rbc_TextToPostScript(tokenPtr, string, tsPtr, x, y)
  * -----------------------------------------------------------------
  */
 void
-Rbc_LineToPostScript(tokenPtr, pointPtr, nPoints)
-    struct PsTokenStruct *tokenPtr;
-    register XPoint *pointPtr;
-    int nPoints;
+Rbc_LineToPostScript(
+    struct PsTokenStruct *tokenPtr,
+    register XPoint *pointPtr,
+    int nPoints)
 {
     register int i;
 
@@ -1842,11 +1852,12 @@ Rbc_LineToPostScript(tokenPtr, pointPtr, nPoints)
  *--------------------------------------------------------------
  */
 void
-Rbc_BitmapToPostScript(tokenPtr, display, bitmap, scaleX, scaleY)
-    struct PsTokenStruct *tokenPtr;
-    Display *display;
-    Pixmap bitmap; /* Bitmap to be converted to PostScript */
-    double scaleX, scaleY;
+Rbc_BitmapToPostScript(
+    struct PsTokenStruct *tokenPtr,
+    Display *display,
+    Pixmap bitmap, /* Bitmap to be converted to PostScript */
+    double scaleX,
+    double scaleY)
 {
     int width, height;
     double scaledWidth, scaledHeight;
@@ -1882,10 +1893,10 @@ Rbc_BitmapToPostScript(tokenPtr, display, bitmap, scaleX, scaleY)
  *--------------------------------------------------------------
  */
 void
-Rbc_2DSegmentsToPostScript(psToken, segPtr, nSegments)
-    PsToken psToken;
-    register Segment2D *segPtr;
-    int nSegments;
+Rbc_2DSegmentsToPostScript(
+    PsToken psToken,
+    register Segment2D *segPtr,
+    int nSegments)
 {
     register Segment2D *endPtr;
 
