@@ -6,3 +6,4 @@ Changes:
 - Nmake/VC++ build system
 - Added stubs-based C interface for vectors
 - Fix couple of crashes
+- Support for Tcl9 and Tk9
